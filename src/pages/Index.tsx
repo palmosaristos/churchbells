@@ -130,27 +130,31 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 space-y-12">
-        {/* Current Status */}
+        {/* Bell Traditions Selection */}
+        <div className="space-y-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-serif font-bold text-foreground mb-2">
+              Choose Your Bell Tradition
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Each tradition brings its own sacred sound and spiritual significance
+            </p>
+          </div>
+          
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {bellTraditions.map(tradition => <BellTraditionCard key={tradition.id} title={tradition.name} description={tradition.description} tradition={tradition.tradition} isSelected={selectedBellTradition === tradition.id} onSelect={() => setSelectedBellTradition(tradition.id)} onPlay={() => handleBellPlay(tradition.id)} />)}
+          </div>
+        </div>
+
+        {/* Time Display and Time Zone Selection */}
         <Card className="bg-gradient-dawn border-amber/20">
           <CardContent className="pt-6">
             <div className="space-y-4">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
-                  <Clock className="w-8 h-8 text-amber-foreground" />
-                  <div>
-                    <h3 className="text-2xl font-bold text-amber-foreground">{currentTime}</h3>
-                    <p className="text-amber-foreground/80">Current Time</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4">
-                  <Badge variant={isActive ? "default" : "secondary"} className={`px-4 py-2 ${isActive ? 'animate-sacred-glow' : ''}`}>
-                    {isActive ? 'Active' : 'Paused'}
-                  </Badge>
-                  <Button variant={isActive ? "burgundy" : "sacred"} onClick={toggleBellSystem} className="gap-2">
-                    {isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                    {isActive ? 'Pause Bells' : 'Start Bells'}
-                  </Button>
+              <div className="flex items-center gap-4 justify-center md:justify-start">
+                <Clock className="w-8 h-8 text-amber-foreground" />
+                <div>
+                  <h3 className="text-2xl font-bold text-amber-foreground">{currentTime}</h3>
+                  <p className="text-amber-foreground/80">Current Time</p>
                 </div>
               </div>
               
@@ -172,22 +176,6 @@ const Index = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Bell Traditions Selection */}
-        <div className="space-y-6">
-          <div className="text-center">
-            <h2 className="text-3xl font-serif font-bold text-foreground mb-2">
-              Choose Your Bell Tradition
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Each tradition brings its own sacred sound and spiritual significance
-            </p>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {bellTraditions.map(tradition => <BellTraditionCard key={tradition.id} title={tradition.name} description={tradition.description} tradition={tradition.tradition} isSelected={selectedBellTradition === tradition.id} onSelect={() => setSelectedBellTradition(tradition.id)} onPlay={() => handleBellPlay(tradition.id)} />)}
-          </div>
-        </div>
 
         {/* Time Configuration */}
         <div className="grid gap-8 lg:grid-cols-2">
