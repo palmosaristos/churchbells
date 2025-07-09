@@ -33,7 +33,7 @@ const bellTraditions: BellTradition[] = [{
   tradition: "French"
 }, {
   id: "change-ringing",
-  name: "Change Ringing",
+  name: "Changing bells",
   description: "English art of ringing bells in mathematical sequences, creating intricate patterns that tell stories through sound.",
   tradition: "English"
 }, {
