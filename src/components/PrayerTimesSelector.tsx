@@ -38,14 +38,14 @@ const prayerTraditions: PrayerTradition[] = [
     icon: <Star className="w-4 h-4" />,
     color: "primary",
     times: [
-      { name: "Vespers", time: "18:00", description: "Evening prayer at sunset" },
-      { name: "Compline", time: "21:00", description: "Prayer before rest" },
       { name: "Midnight Office", time: "00:00", description: "Nocturnal prayer" },
       { name: "Matins", time: "04:00", description: "Pre-dawn prayer" },
       { name: "Prime", time: "06:00", description: "First hour" },
       { name: "Tierce", time: "09:00", description: "Third hour" },
       { name: "Sexte", time: "12:00", description: "Sixth hour" },
-      { name: "None", time: "15:00", description: "Ninth hour" }
+      { name: "None", time: "15:00", description: "Ninth hour" },
+      { name: "Vespers", time: "18:00", description: "Evening prayer at sunset" },
+      { name: "Compline", time: "21:00", description: "Prayer before rest" }
     ]
   },
   {
