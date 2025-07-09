@@ -5,7 +5,8 @@ import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bell, Clock, Settings, Play, Pause, Volume2 } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Bell, Clock, Settings, Play, Pause, Volume2, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import heroImage from "@/assets/church-bells-hero.jpg";
 interface BellTradition {
@@ -53,22 +54,42 @@ const Index = () => {
   const [endTime, setEndTime] = useState<string>("20:00");
   const [isActive, setIsActive] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<string>("");
+  const [selectedTimeZone, setSelectedTimeZone] = useState<string>("America/New_York");
   const {
     toast
   } = useToast();
+
+  const timeZones = [
+    { value: "America/New_York", label: "Eastern Time (ET)" },
+    { value: "America/Chicago", label: "Central Time (CT)" },
+    { value: "America/Denver", label: "Mountain Time (MT)" },
+    { value: "America/Los_Angeles", label: "Pacific Time (PT)" },
+    { value: "Europe/London", label: "Greenwich Mean Time (GMT)" },
+    { value: "Europe/Paris", label: "Central European Time (CET)" },
+    { value: "Europe/Rome", label: "Central European Time (CET)" },
+    { value: "Europe/Athens", label: "Eastern European Time (EET)" },
+    { value: "Europe/Moscow", label: "Moscow Time (MSK)" },
+    { value: "Asia/Jerusalem", label: "Israel Standard Time (IST)" },
+    { value: "Asia/Dubai", label: "Gulf Standard Time (GST)" },
+    { value: "Asia/Kolkata", label: "India Standard Time (IST)" },
+    { value: "Asia/Shanghai", label: "China Standard Time (CST)" },
+    { value: "Asia/Tokyo", label: "Japan Standard Time (JST)" },
+    { value: "Australia/Sydney", label: "Australian Eastern Time (AET)" },
+  ];
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
       setCurrentTime(now.toLocaleTimeString('en-US', {
         hour12: false,
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
+        timeZone: selectedTimeZone
       }));
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedTimeZone]);
   const handleBellPlay = (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     toast({
@@ -112,23 +133,41 @@ const Index = () => {
         {/* Current Status */}
         <Card className="bg-gradient-dawn border-amber/20">
           <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <Clock className="w-8 h-8 text-amber-foreground" />
-                <div>
-                  <h3 className="text-2xl font-bold text-amber-foreground">{currentTime}</h3>
-                  <p className="text-amber-foreground/80">Current Time</p>
+            <div className="space-y-4">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <Clock className="w-8 h-8 text-amber-foreground" />
+                  <div>
+                    <h3 className="text-2xl font-bold text-amber-foreground">{currentTime}</h3>
+                    <p className="text-amber-foreground/80">Current Time</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <Badge variant={isActive ? "default" : "secondary"} className={`px-4 py-2 ${isActive ? 'animate-sacred-glow' : ''}`}>
+                    {isActive ? 'Active' : 'Paused'}
+                  </Badge>
+                  <Button variant={isActive ? "burgundy" : "sacred"} onClick={toggleBellSystem} className="gap-2">
+                    {isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                    {isActive ? 'Pause Bells' : 'Start Bells'}
+                  </Button>
                 </div>
               </div>
               
-              <div className="flex items-center gap-4">
-                <Badge variant={isActive ? "default" : "secondary"} className={`px-4 py-2 ${isActive ? 'animate-sacred-glow' : ''}`}>
-                  {isActive ? 'Active' : 'Paused'}
-                </Badge>
-                <Button variant={isActive ? "burgundy" : "sacred"} onClick={toggleBellSystem} className="gap-2">
-                  {isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  {isActive ? 'Pause Bells' : 'Start Bells'}
-                </Button>
+              <div className="flex items-center gap-2 justify-center md:justify-start">
+                <Globe className="w-4 h-4 text-amber-foreground" />
+                <Select value={selectedTimeZone} onValueChange={setSelectedTimeZone}>
+                  <SelectTrigger className="w-64 bg-amber-foreground/10 border-amber-foreground/20 text-amber-foreground">
+                    <SelectValue placeholder="Select time zone" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {timeZones.map((tz) => (
+                      <SelectItem key={tz.value} value={tz.value}>
+                        {tz.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardContent>
