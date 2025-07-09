@@ -74,10 +74,10 @@ export const TimeRangeSelector = ({
         </div>
         
         <div className="p-4 rounded-lg bg-gradient-dawn border">
-          <p className="text-sm text-foreground/80 text-center">
+          <p className="text-sm text-primary text-center">
             Bells will chime every hour from{' '}
-            <span className="font-semibold text-amber-foreground">{startTime}</span> to{' '}
-            <span className="font-semibold text-burgundy-foreground">{endTime}</span>
+            <span className="font-semibold text-primary">{startTime}</span> to{' '}
+            <span className="font-semibold text-primary">{endTime}</span>
           </p>
         </div>
       </CardContent>
