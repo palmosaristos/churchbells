@@ -7,9 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Bell, Clock, Settings, Play, Pause, Volume2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
 import heroImage from "@/assets/church-bells-hero.jpg";
-
 interface BellTradition {
   id: string;
   name: string;
@@ -17,46 +15,37 @@ interface BellTradition {
   tradition: string;
   audioSample?: string;
 }
-
 interface PrayerTime {
   name: string;
   time: string;
   description: string;
 }
-
-const bellTraditions: BellTradition[] = [
-  {
-    id: "carillon",
-    name: "Carillon",
-    description: "Melodic sequences played on tuned bells, creating beautiful harmonies that echo through the countryside.",
-    tradition: "European"
-  },
-  {
-    id: "grand-volley",
-    name: "Grand Volleys",
-    description: "French tradition of synchronized bell ringing in powerful, rhythmic patterns that announce sacred moments.",
-    tradition: "French"
-  },
-  {
-    id: "change-ringing",
-    name: "Change Ringing",
-    description: "English art of ringing bells in mathematical sequences, creating intricate patterns that tell stories through sound.",
-    tradition: "English"
-  },
-  {
-    id: "zvon",
-    name: "Zvon",
-    description: "Russian Orthodox technique of rhythmic bell ringing that creates cascading waves of sound for worship.",
-    tradition: "Russian"
-  },
-  {
-    id: "byzantine",
-    name: "Byzantine Bells",
-    description: "Ancient Eastern Christian tradition of solemn, meditative bell sounds that call the faithful to prayer.",
-    tradition: "Byzantine"
-  }
-];
-
+const bellTraditions: BellTradition[] = [{
+  id: "carillon",
+  name: "Carillon",
+  description: "Melodic sequences played on tuned bells, creating beautiful harmonies that echo through the countryside.",
+  tradition: "European"
+}, {
+  id: "grand-volley",
+  name: "Grand Volleys",
+  description: "French tradition of synchronized bell ringing in powerful, rhythmic patterns that announce sacred moments.",
+  tradition: "French"
+}, {
+  id: "change-ringing",
+  name: "Change Ringing",
+  description: "English art of ringing bells in mathematical sequences, creating intricate patterns that tell stories through sound.",
+  tradition: "English"
+}, {
+  id: "zvon",
+  name: "Zvon",
+  description: "Russian Orthodox technique of rhythmic bell ringing that creates cascading waves of sound for worship.",
+  tradition: "Russian"
+}, {
+  id: "byzantine",
+  name: "Byzantine Bells",
+  description: "Ancient Eastern Christian tradition of solemn, meditative bell sounds that call the faithful to prayer.",
+  tradition: "Byzantine"
+}];
 const Index = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>("carillon");
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
@@ -64,66 +53,55 @@ const Index = () => {
   const [endTime, setEndTime] = useState<string>("20:00");
   const [isActive, setIsActive] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<string>("");
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      setCurrentTime(now.toLocaleTimeString('en-US', { 
-        hour12: false, 
-        hour: '2-digit', 
-        minute: '2-digit' 
+      setCurrentTime(now.toLocaleTimeString('en-US', {
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit'
       }));
     };
-    
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
-
   const handleBellPlay = (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     toast({
       title: "Playing Bell Sample",
-      description: `Listening to ${tradition?.name} - ${tradition?.tradition} tradition`,
+      description: `Listening to ${tradition?.name} - ${tradition?.tradition} tradition`
     });
   };
-
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
     toast({
       title: "Prayer Times Applied",
-      description: `${times.length} prayer times have been set for bell chiming`,
+      description: `${times.length} prayer times have been set for bell chiming`
     });
   };
-
   const toggleBellSystem = () => {
     setIsActive(!isActive);
     toast({
       title: isActive ? "Bell System Paused" : "Bell System Activated",
-      description: isActive ? 
-        "Church bells are now silent" : 
-        `Church bells will chime from ${startTime} to ${endTime}`,
+      description: isActive ? "Church bells are now silent" : `Church bells will chime from ${startTime} to ${endTime}`
     });
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-subtle">
+  return <div className="min-h-screen bg-gradient-subtle">
       {/* Hero Section */}
       <div className="relative overflow-hidden">
-        <div 
-          className="h-96 bg-cover bg-center bg-no-repeat relative"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
+        <div className="h-96 bg-cover bg-center bg-no-repeat relative" style={{
+        backgroundImage: `url(${heroImage})`
+      }}>
           <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent" />
           <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
             <div className="animate-fade-in-up">
               <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
                 Sacred Bells
               </h1>
-              <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                Experience the timeless beauty of church bells from different Christian traditions. 
-                Let the sacred sounds of prayer times fill your day with peace and reverence.
-              </p>
+              <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">Let the sacred sound of churchbells accompany you through the day and invite you to connect with God</p>
             </div>
           </div>
         </div>
@@ -144,17 +122,10 @@ const Index = () => {
               </div>
               
               <div className="flex items-center gap-4">
-                <Badge 
-                  variant={isActive ? "default" : "secondary"} 
-                  className={`px-4 py-2 ${isActive ? 'animate-sacred-glow' : ''}`}
-                >
+                <Badge variant={isActive ? "default" : "secondary"} className={`px-4 py-2 ${isActive ? 'animate-sacred-glow' : ''}`}>
                   {isActive ? 'Active' : 'Paused'}
                 </Badge>
-                <Button 
-                  variant={isActive ? "burgundy" : "sacred"} 
-                  onClick={toggleBellSystem}
-                  className="gap-2"
-                >
+                <Button variant={isActive ? "burgundy" : "sacred"} onClick={toggleBellSystem} className="gap-2">
                   {isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   {isActive ? 'Pause Bells' : 'Start Bells'}
                 </Button>
@@ -175,34 +146,15 @@ const Index = () => {
           </div>
           
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {bellTraditions.map((tradition) => (
-              <BellTraditionCard
-                key={tradition.id}
-                title={tradition.name}
-                description={tradition.description}
-                tradition={tradition.tradition}
-                isSelected={selectedBellTradition === tradition.id}
-                onSelect={() => setSelectedBellTradition(tradition.id)}
-                onPlay={() => handleBellPlay(tradition.id)}
-              />
-            ))}
+            {bellTraditions.map(tradition => <BellTraditionCard key={tradition.id} title={tradition.name} description={tradition.description} tradition={tradition.tradition} isSelected={selectedBellTradition === tradition.id} onSelect={() => setSelectedBellTradition(tradition.id)} onPlay={() => handleBellPlay(tradition.id)} />)}
           </div>
         </div>
 
         {/* Time Configuration */}
         <div className="grid gap-8 lg:grid-cols-2">
-          <TimeRangeSelector
-            startTime={startTime}
-            endTime={endTime}
-            onStartTimeChange={setStartTime}
-            onEndTimeChange={setEndTime}
-          />
+          <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} />
           
-          <PrayerTimesSelector
-            selectedTradition={selectedPrayerTradition}
-            onTraditionSelect={setSelectedPrayerTradition}
-            onTimesSelect={handlePrayerTimesSelect}
-          />
+          <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
         </div>
 
         {/* Settings Summary */}
@@ -238,8 +190,6 @@ const Index = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
