@@ -117,7 +117,6 @@ const Index = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent" />
           <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
             <div className="animate-fade-in-up">
-              <Bell className="w-16 h-16 text-primary mx-auto mb-6 animate-bell-ring" />
               <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
                 Sacred Bells
               </h1>
