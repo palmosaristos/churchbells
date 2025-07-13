@@ -131,32 +131,42 @@ const Index = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 space-y-12">
 
-        {/* Time Display and Time Zone Selection */}
-        <Card className="bg-gradient-dawn border-amber/20">
-          <CardContent className="pt-6">
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 justify-center md:justify-start">
-                <Clock className="w-8 h-8 text-amber-foreground" />
-                <div>
-                  <h3 className="text-2xl font-bold text-amber-foreground">{currentTime}</h3>
-                  <p className="text-amber-foreground/80">Current Time</p>
+        {/* Sacred Time Display */}
+        <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
+          <CardContent className="pt-8">
+            <div className="text-center space-y-6">
+              <div className="flex items-center justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 rounded-full blur-xl animate-pulse"></div>
+                  <div className="relative bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-full p-6 border border-amber-200/50 dark:border-amber-700/50">
+                    <Clock className="w-12 h-12 text-amber-700 dark:text-amber-300" />
+                  </div>
                 </div>
               </div>
               
-              <div className="flex items-center gap-2 justify-center md:justify-start">
-                <Globe className="w-4 h-4 text-amber-foreground" />
-                <Select value={selectedTimeZone} onValueChange={setSelectedTimeZone}>
-                  <SelectTrigger className="w-64 bg-amber-foreground/10 border-amber-foreground/20 text-amber-foreground">
-                    <SelectValue placeholder="Select time zone" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {timeZones.map((tz) => (
-                      <SelectItem key={tz.value} value={tz.value}>
-                        {tz.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="space-y-2">
+                <h3 className="text-3xl font-serif font-bold text-amber-800 dark:text-amber-200 tracking-wide">
+                  {currentTime}
+                </h3>
+                <p className="text-amber-600 dark:text-amber-400 font-medium">Sacred Hour</p>
+              </div>
+              
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-black/20 rounded-full border border-amber-200/30 dark:border-amber-700/30">
+                  <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                  <Select value={selectedTimeZone} onValueChange={setSelectedTimeZone}>
+                    <SelectTrigger className="border-0 bg-transparent text-amber-700 dark:text-amber-300 font-medium focus:ring-0 p-0 h-auto">
+                      <SelectValue placeholder="Select time zone" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white/95 dark:bg-black/95 backdrop-blur-md border-amber-200/50 dark:border-amber-800/50">
+                      {timeZones.map((tz) => (
+                        <SelectItem key={tz.value} value={tz.value} className="text-amber-800 dark:text-amber-200">
+                          {tz.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
           </CardContent>
