@@ -130,21 +130,6 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12 space-y-12">
-        {/* Bell Traditions Selection */}
-        <div className="space-y-6">
-          <div className="text-center">
-            <h2 className="text-3xl font-serif font-bold text-foreground mb-2">
-              Choose Your Bell Tradition
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Each tradition brings its own sacred sound and spiritual significance
-            </p>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {bellTraditions.map(tradition => <BellTraditionCard key={tradition.id} title={tradition.name} description={tradition.description} tradition={tradition.tradition} isSelected={selectedBellTradition === tradition.id} onSelect={() => setSelectedBellTradition(tradition.id)} onPlay={() => handleBellPlay(tradition.id)} />)}
-          </div>
-        </div>
 
         {/* Time Display and Time Zone Selection */}
         <Card className="bg-gradient-dawn border-amber/20">
