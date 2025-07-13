@@ -3,8 +3,10 @@ import { BellTraditionCard } from "@/components/BellTraditionCard";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Settings, Bell, Clock, Volume2, Crown } from "lucide-react";
+import { Navigation } from "@/components/Navigation";
+import { Settings, Bell, Clock, Volume2, Crown, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 
 interface BellTradition {
   id: string;
@@ -61,6 +63,8 @@ const Premium = () => {
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
+      <Navigation />
+      
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="bg-gradient-to-br from-primary/20 to-secondary/20 py-24">
@@ -76,6 +80,15 @@ const Premium = () => {
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                 Unlock the full collection of sacred bell traditions from around the world
               </p>
+              
+              <div className="mt-8">
+                <Button variant="outline" asChild className="gap-2">
+                  <Link to="/">
+                    <ArrowLeft className="w-4 h-4" />
+                    Back to Home
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { BellTraditionCard } from "@/components/BellTraditionCard";
 import { PrayerTimesSelector } from "@/components/PrayerTimesSelector";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
+import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Bell, Clock, Settings, Play, Pause, Volume2, Globe } from "lucide-react";
+import { Bell, Clock, Settings, Play, Pause, Volume2, Globe, Crown, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/church-bells-hero.jpg";
 interface BellTradition {
   id: string;
@@ -111,6 +113,8 @@ const Index = () => {
     });
   };
   return <div className="min-h-screen bg-gradient-subtle">
+      <Navigation />
+      
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="h-96 bg-cover bg-center bg-no-repeat relative" style={{
@@ -168,6 +172,30 @@ const Index = () => {
                   </Select>
                 </div>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Premium Promotion */}
+        <Card className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200/50 dark:border-amber-800/30 shadow-lg">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center gap-2">
+                <Crown className="w-6 h-6 text-amber-600" />
+                <Sparkles className="w-5 h-5 text-amber-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-amber-800 dark:text-amber-200">
+                Discover Premium Bell Traditions
+              </h3>
+              <p className="text-amber-700 dark:text-amber-300 max-w-lg mx-auto">
+                Unlock sacred bell traditions from around the world. Experience authentic Carillon melodies, Russian Zvon, Byzantine chants, and more.
+              </p>
+              <Button asChild variant="amber" size="lg" className="font-semibold">
+                <Link to="/premium" className="flex items-center gap-2">
+                  <Crown className="w-4 h-4" />
+                  Explore Premium Traditions
+                </Link>
+              </Button>
             </div>
           </CardContent>
         </Card>
