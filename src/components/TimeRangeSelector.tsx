@@ -40,7 +40,7 @@ export const TimeRangeSelector = ({
   onEndTimeChange 
 }: TimeRangeSelectorProps) => {
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-serif">
           <Sunrise className="w-5 h-5 text-amber" />
