@@ -176,6 +176,13 @@ const Index = () => {
           </CardContent>
         </Card>
 
+        {/* Time Configuration */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} />
+          
+          <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
+        </div>
+
         {/* Premium Promotion */}
         <Card className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200/50 dark:border-amber-800/30 shadow-lg">
           <CardContent className="pt-6">
@@ -199,13 +206,6 @@ const Index = () => {
             </div>
           </CardContent>
         </Card>
-
-        {/* Time Configuration */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} />
-          
-          <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
-        </div>
 
         {/* Settings Summary */}
         <Card className="bg-gradient-vespers border-burgundy/20">
