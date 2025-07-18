@@ -137,25 +137,25 @@ const Index = () => {
 
         {/* Sacred Time Display */}
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
-          <CardContent className="pt-8">
-            <div className="text-center space-y-6">
-              <div className="flex items-center justify-center">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center gap-6">
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 rounded-full blur-xl animate-pulse"></div>
-                  <div className="relative bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-full p-6 border border-amber-200/50 dark:border-amber-700/50">
-                    <Clock className="w-12 h-12 text-amber-700 dark:text-amber-300" />
+                  <div className="relative bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-full p-4 border border-amber-200/50 dark:border-amber-700/50">
+                    <Clock className="w-8 h-8 text-amber-700 dark:text-amber-300" />
                   </div>
+                </div>
+                
+                <div className="space-y-1">
+                  <h3 className="text-4xl font-cinzel font-bold text-amber-800 dark:text-amber-200 tracking-wide">
+                    {currentTime}
+                  </h3>
+                  <p className="text-amber-600 dark:text-amber-400 font-medium">Sacred Hour</p>
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <h3 className="text-3xl font-serif font-bold text-amber-800 dark:text-amber-200 tracking-wide">
-                  {currentTime}
-                </h3>
-                <p className="text-amber-600 dark:text-amber-400 font-medium">Sacred Hour</p>
-              </div>
-              
-              <div className="flex items-center justify-center gap-3 pt-2">
+              <div className="flex items-center justify-center gap-3">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-black/20 rounded-full border border-amber-200/30 dark:border-amber-700/30">
                   <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                   <Select value={selectedTimeZone} onValueChange={setSelectedTimeZone}>
