@@ -126,7 +126,7 @@ const Index = () => {
               <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground mb-4 drop-shadow-lg">
                 Sacred Bells
               </h1>
-              <p className="text-xl text-foreground font-cormorant max-w-2xl leading-relaxed drop-shadow-md">Let the sacred sound of churchbells accompany you through the day and invite you to connect with God</p>
+              <p className="text-2xl text-foreground font-cormorant max-w-2xl leading-relaxed drop-shadow-md">Let the sacred sound of churchbells accompany you through the day and invite you to connect with God</p>
             </div>
           </div>
         </div>
