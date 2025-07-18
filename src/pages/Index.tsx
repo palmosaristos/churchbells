@@ -60,24 +60,52 @@ const Index = () => {
   const {
     toast
   } = useToast();
-
-  const timeZones = [
-    { value: "America/New_York", label: "Eastern Time (ET)" },
-    { value: "America/Chicago", label: "Central Time (CT)" },
-    { value: "America/Denver", label: "Mountain Time (MT)" },
-    { value: "America/Los_Angeles", label: "Pacific Time (PT)" },
-    { value: "Europe/London", label: "Greenwich Mean Time (GMT)" },
-    { value: "Europe/Paris", label: "Central European Time (CET)" },
-    { value: "Europe/Rome", label: "Central European Time (CET)" },
-    { value: "Europe/Athens", label: "Eastern European Time (EET)" },
-    { value: "Europe/Moscow", label: "Moscow Time (MSK)" },
-    { value: "Asia/Jerusalem", label: "Israel Standard Time (IST)" },
-    { value: "Asia/Dubai", label: "Gulf Standard Time (GST)" },
-    { value: "Asia/Kolkata", label: "India Standard Time (IST)" },
-    { value: "Asia/Shanghai", label: "China Standard Time (CST)" },
-    { value: "Asia/Tokyo", label: "Japan Standard Time (JST)" },
-    { value: "Australia/Sydney", label: "Australian Eastern Time (AET)" },
-  ];
+  const timeZones = [{
+    value: "America/New_York",
+    label: "Eastern Time (ET)"
+  }, {
+    value: "America/Chicago",
+    label: "Central Time (CT)"
+  }, {
+    value: "America/Denver",
+    label: "Mountain Time (MT)"
+  }, {
+    value: "America/Los_Angeles",
+    label: "Pacific Time (PT)"
+  }, {
+    value: "Europe/London",
+    label: "Greenwich Mean Time (GMT)"
+  }, {
+    value: "Europe/Paris",
+    label: "Central European Time (CET)"
+  }, {
+    value: "Europe/Rome",
+    label: "Central European Time (CET)"
+  }, {
+    value: "Europe/Athens",
+    label: "Eastern European Time (EET)"
+  }, {
+    value: "Europe/Moscow",
+    label: "Moscow Time (MSK)"
+  }, {
+    value: "Asia/Jerusalem",
+    label: "Israel Standard Time (IST)"
+  }, {
+    value: "Asia/Dubai",
+    label: "Gulf Standard Time (GST)"
+  }, {
+    value: "Asia/Kolkata",
+    label: "India Standard Time (IST)"
+  }, {
+    value: "Asia/Shanghai",
+    label: "China Standard Time (CST)"
+  }, {
+    value: "Asia/Tokyo",
+    label: "Japan Standard Time (JST)"
+  }, {
+    value: "Australia/Sydney",
+    label: "Australian Eastern Time (AET)"
+  }];
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -164,11 +192,9 @@ const Index = () => {
                       <SelectValue placeholder="Select time zone" />
                     </SelectTrigger>
                     <SelectContent className="bg-white/95 dark:bg-black/95 backdrop-blur-md border-amber-200/50 dark:border-amber-800/50">
-                      {timeZones.map((tz) => (
-                        <SelectItem key={tz.value} value={tz.value} className="text-amber-800 dark:text-amber-200">
+                      {timeZones.map(tz => <SelectItem key={tz.value} value={tz.value} className="text-amber-800 dark:text-amber-200">
                           {tz.label}
-                        </SelectItem>
-                      ))}
+                        </SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
@@ -195,9 +221,7 @@ const Index = () => {
               <h3 className="text-2xl font-bold text-amber-800 dark:text-amber-200">
                 Discover Premium Bell Traditions
               </h3>
-              <p className="text-amber-700 dark:text-amber-300 max-w-lg mx-auto">
-                Unlock sacred bell traditions from around the world. Experience authentic Carillon melodies, Russian Zvon, Byzantine chants, and more.
-              </p>
+              <p className="text-amber-700 dark:text-amber-300 max-w-lg mx-auto">Unlock sacred bell traditions from around the world : Carillon melodies, Russian Zvon, Byzantine chants, and more...</p>
               <Button asChild variant="amber" size="lg" className="font-semibold">
                 <Link to="/premium" className="flex items-center gap-2">
                   <Crown className="w-4 h-4" />
