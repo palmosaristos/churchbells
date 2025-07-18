@@ -143,19 +143,30 @@ const Index = () => {
   return <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
       
-      {/* Hero Section */}
+      {/* Hero Image */}
       <div className="relative overflow-hidden">
         <div className="h-96 bg-cover bg-center bg-no-repeat relative" style={{
-        backgroundImage: `url(${heroImage})`
-      }}>
-          <div className="absolute inset-0 bg-gradient-to-t from-background/98 via-background/75 to-background/30" />
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-900/40 via-transparent to-orange-900/30" />
-          <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="animate-fade-in-up bg-background/20 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-2xl">
-              <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground mb-4 drop-shadow-2xl text-shadow-xl">
-                Sacred Bells
-              </h1>
-              <p className="text-2xl text-foreground font-cormorant max-w-2xl leading-relaxed drop-shadow-xl text-shadow-lg">Let the sacred sound of churchbells accompany you through the day and invite you to connect with God</p>
+          backgroundImage: `url(${heroImage})`
+        }}>
+          <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/20 to-transparent" />
+        </div>
+      </div>
+
+      {/* Hero Text Section */}
+      <div className="relative -mt-12 z-10">
+        <div className="container mx-auto px-4">
+          <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-8 md:p-12">
+            <div className="flex items-center justify-center gap-6 md:gap-8">
+              <Bell className="w-8 h-8 md:w-10 md:h-10 text-amber-600 dark:text-amber-400 animate-pulse" />
+              <div className="text-center">
+                <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">
+                  Sacred Bells
+                </h1>
+                <p className="text-lg md:text-xl text-muted-foreground font-cormorant max-w-2xl leading-relaxed">
+                  Let the sacred sound of churchbells accompany you through the day and invite you to connect with God
+                </p>
+              </div>
+              <Bell className="w-8 h-8 md:w-10 md:h-10 text-amber-600 dark:text-amber-400 animate-pulse [animation-delay:0.5s]" />
             </div>
           </div>
         </div>
