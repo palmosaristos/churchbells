@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, Church } from "lucide-react";
+import { Clock } from "lucide-react";
 
 interface PrayerTime {
   name: string;
@@ -22,6 +22,8 @@ const prayerTraditions: PrayerTradition[] = [
     name: "Roman Catholic",
     icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
       <path d="M13.5 2h-3v6.5H4v3h6.5V22h3V11.5H20v-3h-6.5V2z" />
+      <circle cx="12" cy="10" r="1.5" />
+      <path d="M10.5 12v3h3v-3M11 15v2h2v-2" stroke="currentColor" strokeWidth="0.5" fill="none"/>
     </svg>,
     color: "burgundy",
     times: [
@@ -55,7 +57,9 @@ const prayerTraditions: PrayerTradition[] = [
   },
   {
     name: "Anglican",
-    icon: <Church className="w-4 h-4" />,
+    icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.5 2h-3v6.5H4v3h6.5V22h3V11.5H20v-3h-6.5V2z" />
+    </svg>,
     color: "amber",
     times: [
       { name: "Morning Prayer", time: "08:00", description: "Daily morning worship" },
