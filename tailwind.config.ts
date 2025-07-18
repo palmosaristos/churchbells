@@ -116,6 +116,11 @@ export default {
 				'gradient-dawn': 'var(--gradient-dawn)',
 				'gradient-vespers': 'var(--gradient-vespers)',
 				'gradient-subtle': 'var(--gradient-subtle)'
+			},
+			fontFamily: {
+				'cinzel': ['Cinzel', 'serif'],
+				'cormorant': ['Cormorant Garamond', 'serif'],
+				'serif': ['Cinzel', 'serif']
 			}
 		}
 	},
