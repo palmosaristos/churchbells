@@ -120,13 +120,14 @@ const Index = () => {
         <div className="h-96 bg-cover bg-center bg-no-repeat relative" style={{
         backgroundImage: `url(${heroImage})`
       }}>
-          <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/98 via-background/75 to-background/30" />
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-900/40 via-transparent to-orange-900/30" />
           <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-            <div className="animate-fade-in-up">
-              <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground mb-4 drop-shadow-lg">
+            <div className="animate-fade-in-up bg-background/20 backdrop-blur-sm rounded-2xl p-8 border border-white/10 shadow-2xl">
+              <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground mb-4 drop-shadow-2xl text-shadow-xl">
                 Sacred Bells
               </h1>
-              <p className="text-2xl text-foreground font-cormorant max-w-2xl leading-relaxed drop-shadow-md">Let the sacred sound of churchbells accompany you through the day and invite you to connect with God</p>
+              <p className="text-2xl text-foreground font-cormorant max-w-2xl leading-relaxed drop-shadow-xl text-shadow-lg">Let the sacred sound of churchbells accompany you through the day and invite you to connect with God</p>
             </div>
           </div>
         </div>
