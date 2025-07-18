@@ -1,13 +1,16 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sunrise, Sunset } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Sunrise, Sunset, Clock } from "lucide-react";
 
 interface TimeRangeSelectorProps {
   startTime: string;
   endTime: string;
   onStartTimeChange: (time: string) => void;
   onEndTimeChange: (time: string) => void;
+  halfHourChimes?: boolean;
+  onHalfHourChimesChange?: (enabled: boolean) => void;
 }
 
 const timeOptions = [
@@ -57,7 +60,9 @@ export const TimeRangeSelector = ({
   startTime, 
   endTime, 
   onStartTimeChange, 
-  onEndTimeChange 
+  onEndTimeChange,
+  halfHourChimes = false,
+  onHalfHourChimesChange
 }: TimeRangeSelectorProps) => {
   return (
     <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
@@ -111,9 +116,24 @@ export const TimeRangeSelector = ({
           </div>
         </div>
         
+        <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-primary" />
+            <Label htmlFor="half-hour-switch" className="text-sm font-medium">
+              Chime every half hour
+            </Label>
+          </div>
+          <Switch
+            id="half-hour-switch"
+            checked={halfHourChimes}
+            onCheckedChange={onHalfHourChimesChange}
+            disabled={!onHalfHourChimesChange}
+          />
+        </div>
+        
         <div className="p-4 rounded-lg bg-gradient-dawn border">
           <p className="text-sm text-primary text-center">
-            Bells will chime every hour from{' '}
+            Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
             <span className="font-semibold text-primary">{startTime}</span> to{' '}
             <span className="font-semibold text-primary">{endTime}</span>
           </p>
