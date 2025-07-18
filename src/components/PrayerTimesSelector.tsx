@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Clock, Church, Star } from "lucide-react";
+import { Clock, Church } from "lucide-react";
 
 interface PrayerTime {
   name: string;
@@ -37,7 +37,10 @@ const prayerTraditions: PrayerTradition[] = [
   },
   {
     name: "Orthodox",
-    icon: <Star className="w-4 h-4" />,
+    icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2v20M8 6h8M8 12h8M9 18h6" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <path d="M9 18l6-2" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round"/>
+    </svg>,
     color: "primary",
     times: [
       { name: "Midnight Office", time: "00:00", description: "Nocturnal prayer" },
