@@ -21,9 +21,13 @@ const prayerTraditions: PrayerTradition[] = [
   {
     name: "Roman Catholic",
     icon: <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+      {/* Cross structure */}
       <path d="M13.5 2h-3v6.5H4v3h6.5V22h3V11.5H20v-3h-6.5V2z" />
-      <circle cx="12" cy="10" r="1.5" />
-      <path d="M10.5 12v3h3v-3M11 15v2h2v-2" stroke="currentColor" strokeWidth="0.5" fill="none"/>
+      {/* Christ figure */}
+      <circle cx="12" cy="9" r="1.2" fill="currentColor" />
+      <ellipse cx="12" cy="13" rx="1.5" ry="2.5" fill="currentColor" />
+      <path d="M9.5 11.5l2.5 1.5 2.5-1.5" stroke="currentColor" strokeWidth="0.8" fill="none" strokeLinecap="round"/>
+      <path d="M11 16.5v2.5M13 16.5v2.5" stroke="currentColor" strokeWidth="0.8" fill="none" strokeLinecap="round"/>
     </svg>,
     color: "burgundy",
     times: [
