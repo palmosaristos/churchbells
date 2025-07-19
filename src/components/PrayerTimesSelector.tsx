@@ -90,17 +90,17 @@ export const PrayerTimesSelector = ({
         <CardHeader>
           <CardTitle className="flex items-center gap-2 font-serif">
             <Clock className="w-5 h-5 text-primary" />
-            Horaires de Prière Personnalisés
+            Custom Prayer Times
           </CardTitle>
           <CardDescription>
-            Configurez simplement vos heures de prière quotidiennes
+            Set your daily prayer times simply
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <label className="text-sm font-medium">
-                Choisissez l'heure à laquelle les cloches vous appelleront à votre prière du matin
+                Choose the time when the bells will call you to your morning prayer
               </label>
               <input 
                 type="time" 
@@ -110,7 +110,7 @@ export const PrayerTimesSelector = ({
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">
-                Choisissez l'heure à laquelle les cloches vous appelleront à votre prière du soir
+                Choose the time when the bells will call you to your evening prayer
               </label>
               <input 
                 type="time" 
@@ -120,7 +120,7 @@ export const PrayerTimesSelector = ({
             </div>
           </div>
           <Button variant="sacred" className="w-full">
-            Utiliser Ces Horaires
+            Use These Times
           </Button>
         </CardContent>
       </Card>
