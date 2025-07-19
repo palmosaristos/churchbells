@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BellTraditionCard } from "@/components/BellTraditionCard";
+import { PremiumPrayerTimesSelector } from "@/components/PremiumPrayerTimesSelector";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,12 @@ interface BellTradition {
   description: string;
   tradition: string;
   audioSample?: string;
+}
+
+interface PrayerTime {
+  name: string;
+  time: string;
+  description: string;
 }
 
 const bellTraditions: BellTradition[] = [
@@ -51,6 +58,7 @@ const bellTraditions: BellTradition[] = [
 
 const Premium = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>("carillon");
+  const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
   const { toast } = useToast();
 
   const handleBellPlay = (traditionId: string) => {
@@ -58,6 +66,13 @@ const Premium = () => {
     toast({
       title: "Playing Bell Sample",
       description: `Listening to ${tradition?.name} - ${tradition?.tradition} tradition`
+    });
+  };
+
+  const handlePrayerTimesSelect = (times: PrayerTime[]) => {
+    toast({
+      title: "Premium Prayer Times Applied",
+      description: `${times.length} prayer times have been configured for bell chiming`
     });
   };
 
@@ -121,6 +136,13 @@ const Premium = () => {
             ))}
           </div>
         </div>
+
+        {/* Premium Prayer Times Selector */}
+        <PremiumPrayerTimesSelector 
+          selectedTradition={selectedPrayerTradition}
+          onTraditionSelect={setSelectedPrayerTradition}
+          onTimesSelect={handlePrayerTimesSelect}
+        />
 
         {/* Selected Tradition Display */}
         <Card className="bg-gradient-vespers border-burgundy/20">
