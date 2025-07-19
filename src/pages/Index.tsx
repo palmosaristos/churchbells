@@ -243,6 +243,74 @@ const Index = () => {
           </CardContent>
         </Card>
 
+        {/* Premium Prayer Traditions Preview */}
+        <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 font-serif">
+              <Clock className="w-5 h-5 text-primary" />
+              Premium Prayer Traditions
+            </CardTitle>
+            <CardDescription>
+              Experience authentic Catholic and Orthodox prayer schedules with advanced features
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="p-4 rounded-lg border bg-card">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-burgundy"></div>
+                  <span className="font-medium text-sm">Roman Catholic</span>
+                </div>
+                <p className="text-xs text-muted-foreground mb-3">Complete 8-prayer daily cycle including Matins, Lauds, Prime, Tierce, Sexte, None, Vespers, and Compline</p>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span>Matins</span>
+                    <span className="text-muted-foreground">00:00</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span>Lauds</span>
+                    <span className="text-muted-foreground">06:00</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span>Vespers</span>
+                    <span className="text-muted-foreground">18:00</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground">+ 5 more...</div>
+                </div>
+              </div>
+              
+              <div className="p-4 rounded-lg border bg-card">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-primary"></div>
+                  <span className="font-medium text-sm">Orthodox</span>
+                </div>
+                <p className="text-xs text-muted-foreground mb-3">Traditional Byzantine prayer hours with Midnight Office, Matins, and canonical hours</p>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span>Midnight Office</span>
+                    <span className="text-muted-foreground">00:00</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span>Matins</span>
+                    <span className="text-muted-foreground">04:00</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span>Vespers</span>
+                    <span className="text-muted-foreground">18:00</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground">+ 5 more...</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-4 p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-800/30">
+              <p className="text-sm text-center text-amber-800 dark:text-amber-200">
+                Unlock complete schedules and Anglican, Lutheran, Coptic traditions in Premium
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Settings Summary */}
         <Card className="bg-gradient-vespers border-burgundy/20">
           <CardHeader>
