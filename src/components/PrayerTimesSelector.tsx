@@ -84,7 +84,49 @@ export const PrayerTimesSelector = ({
   onTimesSelect 
 }: PrayerTimesSelectorProps) => {
   return (
-    <Card className="w-full">
+    <div className="space-y-6">
+      {/* Simple Prayer Time Selector */}
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 font-serif">
+            <Clock className="w-5 h-5 text-primary" />
+            Horaires de Prière Personnalisés
+          </CardTitle>
+          <CardDescription>
+            Configurez simplement vos heures de prière quotidiennes
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">
+                Choisissez l'heure à laquelle les cloches vous appelleront à votre prière du matin
+              </label>
+              <input 
+                type="time" 
+                className="w-full px-3 py-2 border border-border rounded-md bg-background"
+                defaultValue="06:00"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">
+                Choisissez l'heure à laquelle les cloches vous appelleront à votre prière du soir
+              </label>
+              <input 
+                type="time" 
+                className="w-full px-3 py-2 border border-border rounded-md bg-background"
+                defaultValue="18:00"
+              />
+            </div>
+          </div>
+          <Button variant="sacred" className="w-full">
+            Utiliser Ces Horaires
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Traditional Prayer Times */}
+      <Card className="w-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-serif">
           <Clock className="w-5 h-5 text-primary" />
@@ -144,5 +186,6 @@ export const PrayerTimesSelector = ({
         </Tabs>
       </CardContent>
     </Card>
+    </div>
   );
 };
