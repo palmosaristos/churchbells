@@ -27,44 +27,23 @@ interface PrayerTime {
 
 const bellTraditions: BellTradition[] = [
   {
-    id: "carillon",
-    name: "Carillon",
-    description: "Melodic sequences played on tuned bells, creating beautiful harmonies that echo through the countryside.",
-    tradition: "European",
+    id: "village-bell",
+    name: "Cloche de Village",
+    description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
+    tradition: "Village",
+    audioSample: "/audio/village-bell.mp3"
+  },
+  {
+    id: "cathedral-bell",
+    name: "Cloche de Cathédrale", 
+    description: "La majesté et la profondeur d'une grande cloche de cathédrale, évoquant la grandeur spirituelle et l'appel solennel à la prière.",
+    tradition: "Cathédrale",
     audioSample: "/audio/carillon-bells.mp3"
-  },
-  {
-    id: "grand-volley",
-    name: "Grand Volleys",
-    description: "French tradition of synchronized bell ringing in powerful, rhythmic patterns that announce sacred moments.",
-    tradition: "French",
-    audioSample: "/audio/campanology-bell.mp3"
-  },
-  {
-    id: "change-ringing",
-    name: "Changing bells",
-    description: "English art of ringing bells in mathematical sequences, creating intricate patterns that tell stories through sound.",
-    tradition: "English",
-    audioSample: "/audio/campanology-bell.mp3"
-  },
-  {
-    id: "zvon",
-    name: "Zvon",
-    description: "Russian Orthodox technique of rhythmic bell ringing that creates cascading waves of sound for worship.",
-    tradition: "Russian",
-    audioSample: "/audio/byzantine-bells.mp3"
-  },
-  {
-    id: "byzantine",
-    name: "Byzantine Bells",
-    description: "Ancient Eastern Christian tradition of solemn, meditative bell sounds that call the faithful to prayer.",
-    tradition: "Byzantine",
-    audioSample: "/audio/byzantine-bells.mp3"
   }
 ];
 
 const Premium = () => {
-  const [selectedBellTradition, setSelectedBellTradition] = useState<string>("carillon");
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>("village-bell");
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
   const [morningPrayerTime, setMorningPrayerTime] = useState<string>("06:00");
   const [eveningPrayerTime, setEveningPrayerTime] = useState<string>("18:00");
