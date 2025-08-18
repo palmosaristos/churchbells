@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Bell, Clock, Settings, Play, Pause, Volume2, Globe, Crown, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/spanish-bell-tower-hero.jpg";
+import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
 import churchBell1 from "@/assets/church-bell-1.png";
 import churchBell2 from "@/assets/church-bell-2.png";
 interface BellTradition {
