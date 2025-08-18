@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
 import churchBell1 from "@/assets/church-bell-1.png";
 import churchBell2 from "@/assets/church-bell-2.png";
+
 interface BellTradition {
   id: string;
   name: string;
@@ -20,11 +21,13 @@ interface BellTradition {
   tradition: string;
   audioSample?: string;
 }
+
 interface PrayerTime {
   name: string;
   time: string;
   description: string;
 }
+
 const bellTraditions: BellTradition[] = [{
   id: "carillon",
   name: "Carillon",
@@ -51,6 +54,7 @@ const bellTraditions: BellTradition[] = [{
   description: "Ancient Eastern Christian tradition of solemn, meditative bell sounds that call the faithful to prayer.",
   tradition: "Byzantine"
 }];
+
 const Index = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>("carillon");
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
@@ -62,6 +66,7 @@ const Index = () => {
   const {
     toast
   } = useToast();
+
   const timeZones = [{
     value: "America/New_York",
     label: "Eastern Time (ET)"
@@ -108,6 +113,7 @@ const Index = () => {
     value: "Australia/Sydney",
     label: "Australian Eastern Time (AET)"
   }];
+
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -122,6 +128,7 @@ const Index = () => {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, [selectedTimeZone]);
+
   const handleBellPlay = (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     toast({
@@ -129,12 +136,14 @@ const Index = () => {
       description: `Listening to ${tradition?.name} - ${tradition?.tradition} tradition`
     });
   };
+
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
     toast({
       title: "Prayer Times Applied",
       description: `${times.length} prayer times have been set for bell chiming`
     });
   };
+
   const toggleBellSystem = () => {
     setIsActive(!isActive);
     toast({
@@ -142,12 +151,13 @@ const Index = () => {
       description: isActive ? "Church bells are now silent" : `Church bells will chime from ${startTime} to ${endTime}`
     });
   };
+
   return <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
       
       {/* Hero Image */}
       <div className="relative overflow-hidden">
-        <div className="h-96 bg-cover bg-center bg-no-repeat relative" style={{
+        <div className="h-96 bg-cover bg-bottom bg-no-repeat relative" style={{
           backgroundImage: `url(${heroImage})`
         }}>
           <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/20 to-transparent" />
@@ -348,4 +358,5 @@ const Index = () => {
       </div>
     </div>;
 };
+
 export default Index;
