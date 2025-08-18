@@ -32,27 +32,32 @@ const bellTraditions: BellTradition[] = [{
   id: "carillon",
   name: "Carillon",
   description: "Melodic sequences played on tuned bells, creating beautiful harmonies that echo through the countryside.",
-  tradition: "European"
+  tradition: "European",
+  audioSample: "/audio/carillon-bells.mp3"
 }, {
   id: "grand-volley",
   name: "Grand Volleys",
   description: "French tradition of synchronized bell ringing in powerful, rhythmic patterns that announce sacred moments.",
-  tradition: "French"
+  tradition: "French",
+  audioSample: "/audio/campanology-bell.mp3"
 }, {
   id: "change-ringing",
   name: "Changing bells",
   description: "English art of ringing bells in mathematical sequences, creating intricate patterns that tell stories through sound.",
-  tradition: "English"
+  tradition: "English",
+  audioSample: "/audio/campanology-bell.mp3"
 }, {
   id: "zvon",
   name: "Zvon",
   description: "Russian Orthodox technique of rhythmic bell ringing that creates cascading waves of sound for worship.",
-  tradition: "Russian"
+  tradition: "Russian",
+  audioSample: "/audio/byzantine-bells.mp3"
 }, {
   id: "byzantine",
   name: "Byzantine Bells",
   description: "Ancient Eastern Christian tradition of solemn, meditative bell sounds that call the faithful to prayer.",
-  tradition: "Byzantine"
+  tradition: "Byzantine",
+  audioSample: "/audio/byzantine-bells.mp3"
 }];
 
 const Index = () => {
@@ -131,10 +136,28 @@ const Index = () => {
 
   const handleBellPlay = (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
-    toast({
-      title: "Playing Bell Sample",
-      description: `Listening to ${tradition?.name} - ${tradition?.tradition} tradition`
-    });
+    if (tradition?.audioSample) {
+      const audio = new Audio(tradition.audioSample);
+      audio.play().catch((error) => {
+        console.error("Error playing audio:", error);
+        toast({
+          title: "Erreur de lecture",
+          description: "Impossible de lire l'échantillon audio",
+          variant: "destructive"
+        });
+        return;
+      });
+      toast({
+        title: "Lecture de l'échantillon",
+        description: `Écoute de ${tradition?.name} - tradition ${tradition?.tradition}`
+      });
+    } else {
+      toast({
+        title: "Échantillon non disponible",
+        description: "Aucun fichier audio pour cette tradition",
+        variant: "destructive"
+      });
+    }
   };
 
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
