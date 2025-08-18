@@ -37,8 +37,7 @@ const bellTraditions: BellTradition[] = [
     id: "cathedral-bell",
     name: "Cloche de Cathédrale", 
     description: "La majesté et la profondeur d'une grande cloche de cathédrale, évoquant la grandeur spirituelle et l'appel solennel à la prière.",
-    tradition: "Cathédrale",
-    audioSample: "/audio/carillon-bells.mp3"
+    tradition: "Cathédrale"
   }
 ];
 
