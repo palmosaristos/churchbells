@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
+import churchBell2Transparent from "@/assets/church-bell-2-transparent.png";
 
 interface BellTradition {
   id: string;
@@ -189,7 +190,7 @@ const Index = () => {
                   Let the sacred sound of churchbells accompany you through the day and invite you to connect with God
                 </p>
               </div>
-              <img src={churchBellTransparent} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse [animation-delay:0.5s] drop-shadow-lg" />
+              <img src={churchBell2Transparent} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse [animation-delay:0.5s] drop-shadow-lg" />
             </div>
           </div>
         </div>
