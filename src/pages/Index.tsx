@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Bell, Clock, Settings, Play, Pause, Volume2, Globe, Crown, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
 import churchBell1 from "@/assets/church-bell-1.png";
 import churchBell2 from "@/assets/church-bell-2.png";
@@ -30,15 +31,16 @@ interface PrayerTime {
 
 const bellTraditions: BellTradition[] = [{
   id: "village-bell",
-  name: "Cloche de Village",
+  name: "Cloche de Village (Mi)",
   description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
   tradition: "Village",
-  audioSample: "/audio/village-bell.mp3"
+  audioSample: "cloche village Mi UNIQUE.mp3"
 }, {
   id: "cathedral-bell",
-  name: "Cloche de Cathédrale",
-  description: "La majesté et la profondeur d'une grande cloche de cathédrale, évoquant la grandeur spirituelle et l'appel solennel à la prière.",
-  tradition: "Cathédrale"
+  name: "Cloche Classique (Do)",
+  description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
+  tradition: "Cathédrale",
+  audioSample: "cloche en DO.mp3"
 }];
 
 const Index = () => {
@@ -115,23 +117,28 @@ const Index = () => {
     return () => clearInterval(interval);
   }, [selectedTimeZone]);
 
-  const handleBellPlay = (traditionId: string) => {
+  const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      const audio = new Audio(tradition.audioSample);
-      audio.play().catch((error) => {
+      try {
+        const { data } = supabase.storage
+          .from('CHURCH BELL SOUNDS')
+          .getPublicUrl(tradition.audioSample);
+        
+        const audio = new Audio(data.publicUrl);
+        await audio.play();
+        toast({
+          title: "Lecture de l'échantillon",
+          description: `Écoute de ${tradition?.name} - tradition ${tradition?.tradition}`
+        });
+      } catch (error) {
         console.error("Error playing audio:", error);
         toast({
           title: "Erreur de lecture",
           description: "Impossible de lire l'échantillon audio",
           variant: "destructive"
         });
-        return;
-      });
-      toast({
-        title: "Lecture de l'échantillon",
-        description: `Écoute de ${tradition?.name} - tradition ${tradition?.tradition}`
-      });
+      }
     } else {
       toast({
         title: "Échantillon non disponible",
