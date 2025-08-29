@@ -244,19 +244,16 @@ const Index = () => {
           <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
         </div>
 
-        {/* Bell Traditions Preview */}
+        {/* Bell Sound Selection */}
         <div className="space-y-6">
           <div className="text-center">
             <h2 className="text-3xl font-serif font-bold text-foreground mb-2">
-              Bell Traditions
+              Choisissez le son de votre cloche
             </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Experience the sacred sounds from different traditions around the world
-            </p>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {bellTraditions.slice(0, 3).map(tradition => (
+          <div className="grid gap-6 md:grid-cols-2">
+            {bellTraditions.map(tradition => (
               <BellTraditionCard
                 key={tradition.id}
                 title={tradition.name}
