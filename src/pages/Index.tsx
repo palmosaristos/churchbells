@@ -258,7 +258,7 @@ const Index = () => {
               <BellTraditionCard
                 key={tradition.id}
                 title={tradition.name}
-                image={churchBellTransparent}
+                image={tradition.id === 'village-bell' ? churchBellTransparent : churchBell2Transparent}
                 isSelected={selectedBellTradition === tradition.id}
                 onSelect={() => setSelectedBellTradition(tradition.id)}
                 onPlay={() => handleBellPlay(tradition.id)}
