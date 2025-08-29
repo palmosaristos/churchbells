@@ -255,27 +255,6 @@ const Index = () => {
         {/* Background Removal Tool */}
         <BackgroundRemovalDemo />
 
-        {/* Premium Promotion */}
-        <Card className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200/50 dark:border-amber-800/30 shadow-lg">
-          <CardContent className="pt-6">
-            <div className="text-center space-y-4">
-              <div className="flex items-center justify-center gap-2">
-                <Crown className="w-6 h-6 text-amber-600" />
-                <Sparkles className="w-5 h-5 text-amber-500" />
-              </div>
-              <h3 className="text-2xl font-bold text-amber-800 dark:text-amber-200">
-                Discover All Premium Bell Traditions
-              </h3>
-              <p className="text-amber-700 dark:text-amber-300 max-w-lg mx-auto">Unlock the complete collection of sacred bell traditions : Carillon melodies, Russian Zvon, Byzantine chants, and more...</p>
-              <Button asChild variant="amber" size="lg" className="font-semibold">
-                <Link to="/premium" className="flex items-center gap-2">
-                  <Crown className="w-4 h-4" />
-                  Explore All Premium Traditions
-                </Link>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
 
         {/* Premium Prayer Traditions Preview */}
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
