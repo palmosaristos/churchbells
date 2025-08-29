@@ -258,7 +258,7 @@ const Index = () => {
               <BellTraditionCard
                 key={tradition.id}
                 title={tradition.name}
-                image={tradition.id === 'village-bell' ? '/src/assets/church-bell-1.png' : '/src/assets/church-bell-2.png'}
+                image={tradition.id === 'village-bell' ? churchBell1 : churchBell2}
                 isSelected={selectedBellTradition === tradition.id}
                 onSelect={() => setSelectedBellTradition(tradition.id)}
                 onPlay={() => handleBellPlay(tradition.id)}
