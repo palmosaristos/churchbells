@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { BellTraditionCard } from "@/components/BellTraditionCard";
 import { PrayerTimesSelector } from "@/components/PrayerTimesSelector";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
+import { BackgroundRemovalDemo } from "@/components/BackgroundRemovalDemo";
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -265,6 +266,9 @@ const Index = () => {
             ))}
           </div>
         </div>
+
+        {/* Background Removal Tool */}
+        <BackgroundRemovalDemo />
 
         {/* Premium Promotion */}
         <Card className="bg-gradient-to-br from-amber-50/80 to-orange-50/80 dark:from-amber-950/30 dark:to-orange-950/30 border-amber-200/50 dark:border-amber-800/30 shadow-lg">
