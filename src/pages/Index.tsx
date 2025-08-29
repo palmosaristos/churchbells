@@ -252,6 +252,39 @@ const Index = () => {
           </div>
         </div>
 
+        {/* Current Configuration */}
+        <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
+          <CardHeader className="text-center">
+            <CardTitle className="flex items-center justify-center gap-2 text-amber-800 dark:text-amber-200 font-serif text-lg">
+              <Settings className="w-5 h-5" />
+              Sacred Configuration
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+                <Bell className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
+                <p className="font-medium text-amber-900 dark:text-amber-100">
+                  {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
+                </p>
+                <p className="text-sm text-amber-700 dark:text-amber-300">Bell Tradition</p>
+              </div>
+              
+              <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+                <Clock className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
+                <p className="font-medium text-amber-900 dark:text-amber-100">{startTime} - {endTime}</p>
+                <p className="text-sm text-amber-700 dark:text-amber-300">Daily Schedule</p>
+              </div>
+              
+              <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+                <Volume2 className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
+                <p className="font-medium text-amber-900 dark:text-amber-100">{selectedPrayerTradition}</p>
+                <p className="text-sm text-amber-700 dark:text-amber-300">Prayer Tradition</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Background Removal Tool */}
         <BackgroundRemovalDemo />
 
@@ -324,38 +357,6 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        {/* Settings Summary */}
-        <Card className="bg-gradient-vespers border-burgundy/20">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-burgundy-foreground font-serif">
-              <Settings className="w-5 h-5" />
-              Current Configuration
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="text-center p-4 rounded-lg bg-burgundy-foreground/10">
-                <Bell className="w-6 h-6 text-burgundy-foreground mx-auto mb-2" />
-                <p className="font-medium text-burgundy-foreground">
-                  {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
-                </p>
-                <p className="text-sm text-burgundy-foreground/80">Bell Tradition</p>
-              </div>
-              
-              <div className="text-center p-4 rounded-lg bg-burgundy-foreground/10">
-                <Clock className="w-6 h-6 text-burgundy-foreground mx-auto mb-2" />
-                <p className="font-medium text-burgundy-foreground">{startTime} - {endTime}</p>
-                <p className="text-sm text-burgundy-foreground/80">Daily Schedule</p>
-              </div>
-              
-              <div className="text-center p-4 rounded-lg bg-burgundy-foreground/10">
-                <Volume2 className="w-6 h-6 text-burgundy-foreground mx-auto mb-2" />
-                <p className="font-medium text-burgundy-foreground">{selectedPrayerTradition}</p>
-                <p className="text-sm text-burgundy-foreground/80">Prayer Tradition</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>;
 };
