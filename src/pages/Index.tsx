@@ -13,8 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
-import churchBell1 from "@/assets/church-bell-1.png";
-import churchBell2 from "@/assets/church-bell-2.png";
+import churchBellTransparent from "@/assets/church-bell-transparent.png";
 
 interface BellTradition {
   id: string;
@@ -181,7 +180,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-8 md:p-12">
             <div className="flex items-center justify-center gap-6 md:gap-8">
-              <img src={churchBell1} alt="Beautiful ornate church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse drop-shadow-lg" />
+              <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse drop-shadow-lg" />
               <div className="text-center">
                 <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">
                   Sacred Bells
@@ -190,7 +189,7 @@ const Index = () => {
                   Let the sacred sound of churchbells accompany you through the day and invite you to connect with God
                 </p>
               </div>
-              <img src={churchBell2} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse [animation-delay:0.5s] drop-shadow-lg" />
+              <img src={churchBellTransparent} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse [animation-delay:0.5s] drop-shadow-lg" />
             </div>
           </div>
         </div>
@@ -258,7 +257,7 @@ const Index = () => {
               <BellTraditionCard
                 key={tradition.id}
                 title={tradition.name}
-                image={tradition.id === 'village-bell' ? churchBell1 : churchBell2}
+                image={churchBellTransparent}
                 isSelected={selectedBellTradition === tradition.id}
                 onSelect={() => setSelectedBellTradition(tradition.id)}
                 onPlay={() => handleBellPlay(tradition.id)}
