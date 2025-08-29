@@ -128,24 +128,9 @@ const Index = () => {
         
         const audio = new Audio(data.publicUrl);
         await audio.play();
-        toast({
-          title: "Lecture de l'échantillon",
-          description: `Écoute de ${tradition?.name} - tradition ${tradition?.tradition}`
-        });
       } catch (error) {
         console.error("Error playing audio:", error);
-        toast({
-          title: "Erreur de lecture",
-          description: "Impossible de lire l'échantillon audio",
-          variant: "destructive"
-        });
       }
-    } else {
-      toast({
-        title: "Échantillon non disponible",
-        description: "Aucun fichier audio pour cette tradition",
-        variant: "destructive"
-      });
     }
   };
 
