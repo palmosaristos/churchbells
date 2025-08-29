@@ -248,7 +248,7 @@ const Index = () => {
         <div className="space-y-6">
           <div className="text-center">
             <h2 className="text-3xl font-serif font-bold text-foreground mb-2">
-              Choisissez le son de votre cloche
+              Choose Your Bell Sound
             </h2>
           </div>
           
@@ -257,8 +257,7 @@ const Index = () => {
               <BellTraditionCard
                 key={tradition.id}
                 title={tradition.name}
-                description={tradition.description}
-                tradition={tradition.tradition}
+                image={tradition.id === 'village-bell' ? '/src/assets/church-bell-1.png' : '/src/assets/church-bell-2.png'}
                 isSelected={selectedBellTradition === tradition.id}
                 onSelect={() => setSelectedBellTradition(tradition.id)}
                 onPlay={() => handleBellPlay(tradition.id)}
