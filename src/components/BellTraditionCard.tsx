@@ -27,7 +27,7 @@ export const BellTraditionCard = ({
       onClick={onSelect}
     >
       <CardContent className="p-6 flex flex-col items-center justify-center space-y-4">
-        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/40 flex items-center justify-center border border-amber-200/30 dark:border-amber-700/30">
+        <div className="w-24 h-24 flex items-center justify-center">
           <img 
             src={image} 
             alt={title}
