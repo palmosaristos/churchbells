@@ -167,13 +167,13 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-8 md:p-12">
             <div className="text-center space-y-6">
+              <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">
+                Sacred Bells
+              </h1>
               <div className="flex items-center justify-center gap-8 md:gap-12">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse drop-shadow-lg" />
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 animate-pulse [animation-delay:0.5s] drop-shadow-lg" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">
-                Sacred Bells
-              </h1>
               <p className="text-lg md:text-xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">
                 Let the sacred sound of churchbells accompany you through the day and invite you to connect with God
               </p>
