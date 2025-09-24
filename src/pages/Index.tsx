@@ -257,8 +257,8 @@ const Index = () => {
         <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
           <CardHeader className="text-center">
             <CardTitle className="flex items-center justify-center gap-2 text-amber-800 dark:text-amber-200 font-cinzel text-lg">
-              <Settings className="w-5 h-5" />
-              Sacred Configuration
+              <Bell className="w-5 h-5" />
+              Your Church Bells
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
