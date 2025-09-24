@@ -153,8 +153,7 @@ export const TimeRangeSelector = ({
       {/* Prayer Times Selector */}
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 font-cormorant text-xl text-foreground">
-            <Clock className="w-5 h-5 text-primary" />
+          <CardTitle className="font-cormorant text-xl text-foreground text-center">
             Prayer Times
           </CardTitle>
           <CardDescription className="font-cormorant text-base text-foreground">
