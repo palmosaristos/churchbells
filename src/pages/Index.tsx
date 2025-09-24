@@ -352,11 +352,6 @@ const Index = () => {
               </div>
             </div>
             
-            <div className="mt-4 p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-800/30">
-              <p className="text-sm text-center text-amber-800 dark:text-amber-200">
-                Unlock complete schedules and Anglican, Lutheran, Coptic traditions in Premium
-              </p>
-            </div>
           </CardContent>
         </Card>
 
