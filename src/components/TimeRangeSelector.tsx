@@ -3,9 +3,11 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Sunrise, Sunset, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import sunImage from "@/assets/sun-prayer.png";
 import moonImage from "@/assets/moon-prayer.png";
+import bellStartImage from "@/assets/bell-start.png";
+import bellEndImage from "@/assets/bell-end.png";
 
 interface TimeRangeSelectorProps {
   startTime: string;
@@ -90,7 +92,7 @@ export const TimeRangeSelector = ({
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="start-time" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <Sunrise className="w-4 h-4 text-amber" />
+                <img src={bellStartImage} alt="Start Bell" className="w-4 h-4 object-contain" />
                 Start Time
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
@@ -109,7 +111,7 @@ export const TimeRangeSelector = ({
             
             <div className="space-y-2">
               <Label htmlFor="end-time" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <Sunset className="w-4 h-4 text-burgundy" />
+                <img src={bellEndImage} alt="End Bell" className="w-4 h-4 object-contain" />
                 End Time
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
