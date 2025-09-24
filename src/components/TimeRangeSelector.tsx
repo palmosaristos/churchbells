@@ -3,7 +3,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { Sunrise, Sunset, Clock, Sun, Moon } from "lucide-react";
+import { Sunrise, Sunset, Clock } from "lucide-react";
+import sunImage from "@/assets/sun-prayer.png";
+import moonImage from "@/assets/moon-prayer.png";
 
 interface TimeRangeSelectorProps {
   startTime: string;
@@ -164,7 +166,7 @@ export const TimeRangeSelector = ({
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-3">
               <Label htmlFor="morning-prayer" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <Sun className="w-4 h-4 text-amber-500" />
+                <img src={sunImage} alt="Morning Sun" className="w-4 h-4 object-contain" />
                 Morning Prayer
               </Label>
               <Input
@@ -178,7 +180,7 @@ export const TimeRangeSelector = ({
             
             <div className="space-y-3">
               <Label htmlFor="evening-prayer" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <Moon className="w-4 h-4 text-blue-500" />
+                <img src={moonImage} alt="Evening Moon" className="w-4 h-4 object-contain" />
                 Evening Prayer
               </Label>
               <Input
