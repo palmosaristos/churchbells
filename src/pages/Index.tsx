@@ -51,6 +51,7 @@ const Index = () => {
   const [startTime, setStartTime] = useState<string>("08:00");
   const [endTime, setEndTime] = useState<string>("20:00");
   const [isActive, setIsActive] = useState<boolean>(false);
+  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState<string>("");
   const [selectedTimeZone, setSelectedTimeZone] = useState<string>("America/New_York");
   const {
@@ -229,7 +230,14 @@ const Index = () => {
 
         {/* Time Configuration */}
         <div className="grid gap-8 lg:grid-cols-2">
-          <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} />
+          <TimeRangeSelector 
+            startTime={startTime} 
+            endTime={endTime} 
+            onStartTimeChange={setStartTime} 
+            onEndTimeChange={setEndTime}
+            halfHourChimes={halfHourChimes}
+            onHalfHourChimesChange={setHalfHourChimes}
+          />
           
           <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
         </div>
