@@ -262,25 +262,27 @@ const Index = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2">
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
-                <Bell className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
-                <p className="font-cormorant font-medium text-amber-900 dark:text-amber-100">
+                <img 
+                  src={selectedBellTradition === 'village-bell' ? churchBellTransparent : churchBellNew} 
+                  alt="Selected Bell" 
+                  className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
+                />
+                <p className="font-cinzel font-medium text-amber-900 dark:text-amber-100">
                   {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
                 </p>
-                <p className="text-sm text-amber-700 dark:text-amber-300">Bell Tradition</p>
+                <p className="text-sm text-amber-700 dark:text-amber-300 font-cormorant">Bell Tradition</p>
               </div>
               
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
-                <Clock className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
-                <p className="font-cormorant font-medium text-amber-900 dark:text-amber-100">{startTime} - {endTime}</p>
-                <p className="text-sm text-amber-700 dark:text-amber-300">Daily Schedule</p>
-              </div>
-              
-              <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
-                <Volume2 className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
-                <p className="font-cormorant font-medium text-amber-900 dark:text-amber-100">{selectedPrayerTradition}</p>
-                <p className="text-sm text-amber-700 dark:text-amber-300">Prayer Tradition</p>
+                <img 
+                  src={churchClockImage} 
+                  alt="Church Clock" 
+                  className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
+                />
+                <p className="font-cinzel font-medium text-amber-900 dark:text-amber-100">{startTime} - {endTime}</p>
+                <p className="text-sm text-amber-700 dark:text-amber-300 font-cormorant">Daily Schedule</p>
               </div>
             </div>
           </CardContent>
