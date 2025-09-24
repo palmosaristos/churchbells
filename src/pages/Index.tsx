@@ -234,7 +234,7 @@ const Index = () => {
         {/* Bell Sound Selection */}
         <div className="space-y-6">
           <div className="text-center">
-            <h2 className="text-3xl font-cinzel font-bold text-foreground mb-2">
+            <h2 className="text-3xl font-cormorant font-bold text-foreground mb-2">
               Choose Your Bell Sound
             </h2>
           </div>
