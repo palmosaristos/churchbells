@@ -41,7 +41,7 @@ export const BellTraditionCard = ({
             e.stopPropagation();
             onPlay();
           }}
-          className="w-full justify-center gap-2 hover:bg-primary/10"
+          className="w-full justify-center gap-2 hover:bg-primary/10 font-cormorant"
         >
           <Play className="w-4 h-4" />
           Listen
