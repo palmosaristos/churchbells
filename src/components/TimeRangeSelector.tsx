@@ -167,8 +167,8 @@ export const TimeRangeSelector = ({
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-3">
-              <Label htmlFor="morning-prayer" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <img src={sunImage} alt="Morning Sun" className="w-4 h-4 object-contain" />
+              <Label htmlFor="morning-prayer" className="flex items-center gap-3 text-base font-cormorant text-foreground">
+                <img src={sunImage} alt="Morning Sun" className="w-8 h-8 object-contain relative z-10 drop-shadow-lg" />
                 Morning Prayer
               </Label>
               <Input
@@ -181,8 +181,8 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-3">
-              <Label htmlFor="evening-prayer" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <img src={moonImage} alt="Evening Moon" className="w-4 h-4 object-contain" />
+              <Label htmlFor="evening-prayer" className="flex items-center gap-3 text-base font-cormorant text-foreground">
+                <img src={moonImage} alt="Evening Moon" className="w-8 h-8 object-contain relative z-10 drop-shadow-lg" />
                 Evening Prayer
               </Label>
               <Input
