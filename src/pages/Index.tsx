@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
+import churchClockImage from "@/assets/church-clock.png";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 
@@ -192,7 +193,11 @@ const Index = () => {
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 rounded-full blur-xl animate-pulse"></div>
                   <div className="relative bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-full p-4 border border-amber-200/50 dark:border-amber-700/50">
-                    <Clock className="w-8 h-8 text-amber-700 dark:text-amber-300" />
+                    <img 
+                      src={churchClockImage} 
+                      alt="Church Clock" 
+                      className="w-8 h-8 object-contain filter drop-shadow-sm"
+                    />
                   </div>
                 </div>
                 
@@ -200,7 +205,6 @@ const Index = () => {
                   <h3 className="text-4xl font-cinzel font-bold text-amber-800 dark:text-amber-200 tracking-wide">
                     {currentTime}
                   </h3>
-                  <p className="text-amber-600 dark:text-amber-400 font-medium">Sacred Hour</p>
                 </div>
               </div>
               
