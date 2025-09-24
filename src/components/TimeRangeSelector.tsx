@@ -156,7 +156,7 @@ export const TimeRangeSelector = ({
           <CardTitle className="font-cormorant text-xl text-foreground text-center">
             Prayer Times
           </CardTitle>
-          <CardDescription className="font-cormorant text-base text-foreground">
+          <CardDescription className="font-cormorant text-base text-foreground text-center">
             Set your preferred times for morning and evening prayers
           </CardDescription>
         </CardHeader>
