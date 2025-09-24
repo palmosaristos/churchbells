@@ -77,7 +77,7 @@ export const TimeRangeSelector = ({
     <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 font-serif">
+          <CardTitle className="flex items-center gap-2 font-cinzel">
             <Sunrise className="w-5 h-5 text-amber" />
             Daily Bell Schedule
           </CardTitle>
@@ -154,7 +154,7 @@ export const TimeRangeSelector = ({
       {/* Prayer Times Selector */}
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 font-serif">
+          <CardTitle className="flex items-center gap-2 font-cinzel">
             <Clock className="w-5 h-5 text-primary" />
             Prayer Times
           </CardTitle>

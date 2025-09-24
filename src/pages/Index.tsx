@@ -209,7 +209,7 @@ const Index = () => {
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/50 dark:bg-black/20 rounded-full border border-amber-200/30 dark:border-amber-700/30">
                   <Globe className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                   <Select value={selectedTimeZone} onValueChange={setSelectedTimeZone}>
-                    <SelectTrigger className="border-0 bg-transparent text-amber-700 dark:text-amber-300 font-medium focus:ring-0 p-0 h-auto">
+                    <SelectTrigger className="border-0 bg-transparent text-amber-700 dark:text-amber-300 font-cormorant focus:ring-0 p-0 h-auto">
                       <SelectValue placeholder="Select time zone" />
                     </SelectTrigger>
                     <SelectContent className="bg-white/95 dark:bg-black/95 backdrop-blur-md border-amber-200/50 dark:border-amber-800/50">
@@ -234,7 +234,7 @@ const Index = () => {
         {/* Bell Sound Selection */}
         <div className="space-y-6">
           <div className="text-center">
-            <h2 className="text-3xl font-serif font-bold text-foreground mb-2">
+            <h2 className="text-3xl font-cinzel font-bold text-foreground mb-2">
               Choose Your Bell Sound
             </h2>
           </div>
@@ -256,7 +256,7 @@ const Index = () => {
         {/* Current Configuration */}
         <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
           <CardHeader className="text-center">
-            <CardTitle className="flex items-center justify-center gap-2 text-amber-800 dark:text-amber-200 font-serif text-lg">
+            <CardTitle className="flex items-center justify-center gap-2 text-amber-800 dark:text-amber-200 font-cinzel text-lg">
               <Settings className="w-5 h-5" />
               Sacred Configuration
             </CardTitle>
@@ -265,7 +265,7 @@ const Index = () => {
             <div className="grid gap-4 md:grid-cols-3">
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
                 <Bell className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
-                <p className="font-medium text-amber-900 dark:text-amber-100">
+                <p className="font-cormorant font-medium text-amber-900 dark:text-amber-100">
                   {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
                 </p>
                 <p className="text-sm text-amber-700 dark:text-amber-300">Bell Tradition</p>
@@ -273,13 +273,13 @@ const Index = () => {
               
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
                 <Clock className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
-                <p className="font-medium text-amber-900 dark:text-amber-100">{startTime} - {endTime}</p>
+                <p className="font-cormorant font-medium text-amber-900 dark:text-amber-100">{startTime} - {endTime}</p>
                 <p className="text-sm text-amber-700 dark:text-amber-300">Daily Schedule</p>
               </div>
               
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
                 <Volume2 className="w-6 h-6 text-amber-600 dark:text-amber-400 mx-auto mb-2" />
-                <p className="font-medium text-amber-900 dark:text-amber-100">{selectedPrayerTradition}</p>
+                <p className="font-cormorant font-medium text-amber-900 dark:text-amber-100">{selectedPrayerTradition}</p>
                 <p className="text-sm text-amber-700 dark:text-amber-300">Prayer Tradition</p>
               </div>
             </div>
@@ -293,7 +293,7 @@ const Index = () => {
         {/* Premium Prayer Traditions Preview */}
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-serif">
+            <CardTitle className="flex items-center gap-2 font-cinzel">
               <Clock className="w-5 h-5 text-primary" />
               Premium Prayer Traditions
             </CardTitle>
