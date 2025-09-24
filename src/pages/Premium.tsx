@@ -158,7 +158,7 @@ const Premium = () => {
         {/* Selected Tradition Display */}
         <Card className="bg-gradient-vespers border-burgundy/20">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-burgundy-foreground font-serif">
+            <CardTitle className="flex items-center gap-2 text-burgundy-foreground font-cinzel">
               <Settings className="w-5 h-5" />
               Selected Bell Tradition
             </CardTitle>
@@ -179,11 +179,11 @@ const Premium = () => {
         {/* Custom Prayer Times */}
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-serif">
+            <CardTitle className="flex items-center gap-2 font-cinzel">
               <Clock className="w-5 h-5 text-primary" />
               Custom Prayer Times
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="font-cormorant">
               Set your preferred times for morning and evening prayers
             </CardDescription>
           </CardHeader>

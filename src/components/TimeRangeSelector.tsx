@@ -88,7 +88,7 @@ export const TimeRangeSelector = ({
         <CardContent className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="start-time" className="flex items-center gap-2 text-sm font-medium">
+              <Label htmlFor="start-time" className="flex items-center gap-2 text-sm font-cormorant">
                 <Sunrise className="w-4 h-4 text-amber" />
                 Start Time
               </Label>
@@ -107,7 +107,7 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="end-time" className="flex items-center gap-2 text-sm font-medium">
+              <Label htmlFor="end-time" className="flex items-center gap-2 text-sm font-cormorant">
                 <Sunset className="w-4 h-4 text-burgundy" />
                 End Time
               </Label>
@@ -129,7 +129,7 @@ export const TimeRangeSelector = ({
           <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
-              <Label htmlFor="half-hour-switch" className="text-sm font-medium">
+              <Label htmlFor="half-hour-switch" className="text-sm font-cormorant">
                 Chime every half hour
               </Label>
             </div>
@@ -144,8 +144,8 @@ export const TimeRangeSelector = ({
           <div className="p-4 rounded-lg bg-gradient-dawn border">
             <p className="text-sm text-primary text-center">
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
-              <span className="font-semibold text-primary">{startTime}</span> to{' '}
-              <span className="font-semibold text-primary">{endTime}</span>
+              <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
+              <span className="font-cinzel font-semibold text-primary">{endTime}</span>
             </p>
           </div>
         </CardContent>
@@ -158,14 +158,14 @@ export const TimeRangeSelector = ({
             <Clock className="w-5 h-5 text-primary" />
             Prayer Times
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="font-cormorant">
             Set your preferred times for morning and evening prayers
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-3">
-              <Label htmlFor="morning-prayer" className="flex items-center gap-2 text-sm font-medium">
+              <Label htmlFor="morning-prayer" className="flex items-center gap-2 text-sm font-cormorant">
                 <Sun className="w-4 h-4 text-amber-500" />
                 Morning Prayer
               </Label>
@@ -179,7 +179,7 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-3">
-              <Label htmlFor="evening-prayer" className="flex items-center gap-2 text-sm font-medium">
+              <Label htmlFor="evening-prayer" className="flex items-center gap-2 text-sm font-cormorant">
                 <Moon className="w-4 h-4 text-blue-500" />
                 Evening Prayer
               </Label>

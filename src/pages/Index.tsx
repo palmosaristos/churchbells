@@ -299,7 +299,7 @@ const Index = () => {
               <Clock className="w-5 h-5 text-primary" />
               Premium Prayer Traditions
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="font-cormorant">
               Experience authentic Catholic and Orthodox prayer schedules with advanced features
             </CardDescription>
           </CardHeader>

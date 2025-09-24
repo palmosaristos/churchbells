@@ -122,7 +122,7 @@ export const PremiumPrayerTimesSelector = ({
           <Clock className="w-5 h-5 text-primary" />
           Premium Prayer Times Traditions
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="font-cormorant">
           Explore the complete collection of Christian prayer schedules from around the world
         </CardDescription>
       </CardHeader>
