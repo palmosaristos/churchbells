@@ -81,7 +81,7 @@ export const TimeRangeSelector = ({
             <Sunrise className="w-5 h-5 text-amber" />
             Daily Bell Schedule
           </CardTitle>
-          <CardDescription className="font-cormorant">
+          <CardDescription className="font-cormorant text-base text-foreground">
             Set the hours during which church bells will chime
           </CardDescription>
         </CardHeader>
@@ -158,7 +158,7 @@ export const TimeRangeSelector = ({
             <Clock className="w-5 h-5 text-primary" />
             Prayer Times
           </CardTitle>
-          <CardDescription className="font-cormorant">
+          <CardDescription className="font-cormorant text-base text-foreground">
             Set your preferred times for morning and evening prayers
           </CardDescription>
         </CardHeader>
