@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { Bell, Crown } from "lucide-react";
+import { Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import churchBellImage from "@/assets/church-bell-transparent.png";
 
 export function Navigation() {
   const location = useLocation();
@@ -11,8 +12,12 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
-          <Link to="/" className="flex items-center gap-2 text-xl font-bold text-foreground">
-            <Bell className="w-6 h-6 text-amber-600" />
+          <Link to="/" className="flex items-center gap-3 text-xl font-bold text-foreground font-cinzel">
+            <img 
+              src={churchBellImage} 
+              alt="Sacred Bell" 
+              className="w-8 h-8 object-contain filter drop-shadow-sm"
+            />
             Sacred Bells
           </Link>
 
