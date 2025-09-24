@@ -269,10 +269,10 @@ const Index = () => {
                   alt="Selected Bell" 
                   className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
                 />
-                <p className="font-cinzel font-medium text-amber-900 dark:text-amber-100">
+                <p className="font-cormorant text-base text-foreground">
                   {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
                 </p>
-                <p className="text-sm text-amber-700 dark:text-amber-300 font-cormorant">Bell Tradition</p>
+                <p className="text-base text-foreground font-cormorant">Bell Tradition</p>
               </div>
               
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
@@ -281,8 +281,8 @@ const Index = () => {
                   alt="Church Clock" 
                   className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
                 />
-                <p className="font-cinzel font-medium text-amber-900 dark:text-amber-100">{startTime} - {endTime}</p>
-                <p className="text-sm text-amber-700 dark:text-amber-300 font-cormorant">Daily Schedule</p>
+                <p className="font-cormorant text-base text-foreground">{startTime} - {endTime}</p>
+                <p className="text-base text-foreground font-cormorant">Daily Schedule</p>
               </div>
             </div>
           </CardContent>
@@ -299,7 +299,7 @@ const Index = () => {
               <Clock className="w-5 h-5 text-primary" />
               Premium Prayer Traditions
             </CardTitle>
-            <CardDescription className="font-cormorant">
+            <CardDescription className="font-cormorant text-base text-foreground">
               Experience authentic Catholic and Orthodox prayer schedules with advanced features
             </CardDescription>
           </CardHeader>
@@ -308,7 +308,7 @@ const Index = () => {
               <div className="p-4 rounded-lg border bg-card">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-burgundy"></div>
-                  <span className="font-medium text-sm">Roman Catholic</span>
+                  <span className="font-cormorant text-base text-foreground">Roman Catholic</span>
                 </div>
                 <p className="text-xs text-muted-foreground mb-3">Complete 8-prayer daily cycle including Matins, Lauds, Prime, Tierce, Sexte, None, Vespers, and Compline</p>
                 <div className="space-y-1">
@@ -331,7 +331,7 @@ const Index = () => {
               <div className="p-4 rounded-lg border bg-card">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-primary"></div>
-                  <span className="font-medium text-sm">Orthodox</span>
+                  <span className="font-cormorant text-base text-foreground">Orthodox</span>
                 </div>
                 <p className="text-xs text-muted-foreground mb-3">Traditional Byzantine prayer hours with Midnight Office, Matins, and canonical hours</p>
                 <div className="space-y-1">
