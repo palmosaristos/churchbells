@@ -81,18 +81,18 @@ export const TimeRangeSelector = ({
     <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="font-cormorant text-xl text-foreground text-center">
+          <CardTitle className="font-cormorant text-3xl text-foreground text-center">
             Daily Bell Schedule
           </CardTitle>
-          <CardDescription className="font-cormorant text-base text-foreground">
+          <CardDescription className="font-cormorant text-xl text-foreground">
             Set the hours during which church bells will chime
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="start-time" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <img src={bellStartImage} alt="Start Bell" className="w-4 h-4 object-contain" />
+              <Label htmlFor="start-time" className="flex items-center gap-2 text-xl font-cormorant text-foreground">
+                <img src={bellStartImage} alt="Start Bell" className="w-6 h-6 object-contain" />
                 Start Time
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
@@ -110,8 +110,8 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="end-time" className="flex items-center gap-2 text-base font-cormorant text-foreground">
-                <img src={bellEndImage} alt="End Bell" className="w-4 h-4 object-contain" />
+              <Label htmlFor="end-time" className="flex items-center gap-2 text-xl font-cormorant text-foreground">
+                <img src={bellEndImage} alt="End Bell" className="w-6 h-6 object-contain" />
                 End Time
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
@@ -132,7 +132,7 @@ export const TimeRangeSelector = ({
           <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
-              <Label htmlFor="half-hour-switch" className="text-base font-cormorant text-foreground">
+              <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
                 Chime every half hour
               </Label>
             </div>
@@ -145,7 +145,7 @@ export const TimeRangeSelector = ({
           </div>
           
           <div className="p-4 rounded-lg bg-gradient-dawn border">
-            <p className="text-base text-foreground font-cormorant text-center">
+            <p className="text-xl text-foreground font-cormorant text-center">
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
               <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
               <span className="font-cinzel font-semibold text-primary">{endTime}</span>
@@ -157,18 +157,18 @@ export const TimeRangeSelector = ({
       {/* Prayer Times Selector */}
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="font-cormorant text-xl text-foreground text-center">
+          <CardTitle className="font-cormorant text-3xl text-foreground text-center">
             Prayer Times
           </CardTitle>
-          <CardDescription className="font-cormorant text-base text-foreground text-center">
+          <CardDescription className="font-cormorant text-xl text-foreground text-center">
             Set your preferred times for morning and evening prayers
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-3">
-              <Label htmlFor="morning-prayer" className="flex items-center gap-3 text-base font-cormorant text-foreground">
-                <img src={sunImage} alt="Morning Sun" className="w-8 h-8 object-contain relative z-10 drop-shadow-lg" />
+              <Label htmlFor="morning-prayer" className="flex items-center gap-3 text-xl font-cormorant text-foreground">
+                <img src={sunImage} alt="Morning Sun" className="w-10 h-10 object-contain relative z-10 drop-shadow-lg" />
                 Morning Prayer
               </Label>
               <Input
@@ -181,8 +181,8 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-3">
-              <Label htmlFor="evening-prayer" className="flex items-center gap-3 text-base font-cormorant text-foreground">
-                <img src={moonImage} alt="Evening Moon" className="w-8 h-8 object-contain relative z-10 drop-shadow-lg" />
+              <Label htmlFor="evening-prayer" className="flex items-center gap-3 text-xl font-cormorant text-foreground">
+                <img src={moonImage} alt="Evening Moon" className="w-10 h-10 object-contain relative z-10 drop-shadow-lg" />
                 Evening Prayer
               </Label>
               <Input

@@ -12,11 +12,11 @@ export function Navigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Brand */}
-          <Link to="/" className="flex items-center gap-3 text-xl font-bold text-foreground font-cinzel">
+          <Link to="/" className="flex items-center gap-3 text-3xl font-bold text-foreground font-cinzel">
             <img 
               src={churchBellImage} 
               alt="Sacred Bell" 
-              className="w-8 h-8 object-contain filter drop-shadow-sm"
+              className="w-10 h-10 object-contain filter drop-shadow-sm"
             />
             Sacred Bells
           </Link>

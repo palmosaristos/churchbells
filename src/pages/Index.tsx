@@ -169,14 +169,14 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-8 md:p-12">
             <div className="text-center space-y-6">
-              <h1 className="text-4xl md:text-5xl font-cinzel font-bold text-foreground mb-4">
+              <h1 className="text-6xl md:text-8xl font-cinzel font-bold text-foreground mb-4">
                 Sacred Bells
               </h1>
               <div className="flex items-center justify-center gap-8 md:gap-12">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
               </div>
-              <p className="text-lg md:text-xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">
+              <p className="text-2xl md:text-3xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">
                 Let the sacred sound of churchbells accompany you through the day and invite you to connect with God
               </p>
             </div>
@@ -191,7 +191,7 @@ const Index = () => {
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
           <CardContent className="pt-6">
             <div className="text-center space-y-4">
-              <h2 className="text-xl font-cinzel font-bold text-amber-800 dark:text-amber-200 mb-4">
+              <h2 className="text-3xl font-cinzel font-bold text-amber-800 dark:text-amber-200 mb-4">
                 Your time zone
               </h2>
               <div className="flex items-center justify-center gap-6">
@@ -204,7 +204,7 @@ const Index = () => {
                 </div>
                 
                 <div className="space-y-1">
-                  <h3 className="text-4xl font-cinzel font-bold text-amber-800 dark:text-amber-200 tracking-wide">
+                  <h3 className="text-6xl font-cinzel font-bold text-amber-800 dark:text-amber-200 tracking-wide">
                     {currentTime}
                   </h3>
                 </div>
@@ -246,7 +246,7 @@ const Index = () => {
         {/* Bell Sound Selection */}
         <div className="space-y-6">
           <div className="text-center">
-            <h2 className="text-3xl font-cormorant font-bold text-foreground mb-2">
+            <h2 className="text-5xl font-cormorant font-bold text-foreground mb-2">
               Choose Your Bell Sound
             </h2>
           </div>
@@ -268,7 +268,7 @@ const Index = () => {
         {/* Current Configuration */}
         <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
           <CardHeader className="text-center">
-            <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-xl">
+            <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
               Your Church Bells
             </CardTitle>
           </CardHeader>
@@ -280,10 +280,10 @@ const Index = () => {
                   alt="Selected Bell" 
                   className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
                 />
-                <p className="font-cormorant text-base text-foreground">
+                <p className="font-cormorant text-xl text-foreground">
                   {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
                 </p>
-                <p className="text-base text-foreground font-cormorant">Bell Tradition</p>
+                <p className="text-xl text-foreground font-cormorant">Bell Tradition</p>
               </div>
               
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
@@ -292,8 +292,8 @@ const Index = () => {
                   alt="Church Clock" 
                   className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
                 />
-                <p className="font-cormorant text-base text-foreground">{startTime} - {endTime}</p>
-                <p className="text-base text-foreground font-cormorant">Daily Schedule</p>
+                <p className="font-cormorant text-xl text-foreground">{startTime} - {endTime}</p>
+                <p className="text-xl text-foreground font-cormorant">Daily Schedule</p>
               </div>
             </div>
           </CardContent>
@@ -306,12 +306,12 @@ const Index = () => {
         {/* Premium Prayer Traditions Preview */}
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="flex items-center gap-3 font-cormorant text-xl text-foreground">
-              <img src={monasteryIcon} alt="Monastery" className="w-6 h-6 object-contain" />
+            <CardTitle className="flex items-center gap-3 font-cormorant text-3xl text-foreground">
+              <img src={monasteryIcon} alt="Monastery" className="w-8 h-8 object-contain" />
               Premium Prayer Traditions
-              <span className="text-sm font-cormorant text-muted-foreground italic">(Coming Soon)</span>
+              <span className="text-lg font-cormorant text-muted-foreground italic">(Coming Soon)</span>
             </CardTitle>
-            <CardDescription className="font-cormorant text-base text-foreground">
+            <CardDescription className="font-cormorant text-xl text-foreground">
               Experience authentic Catholic and Orthodox prayer schedules with advanced features
             </CardDescription>
           </CardHeader>
@@ -320,46 +320,46 @@ const Index = () => {
               <div className="p-4 rounded-lg border bg-card">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-burgundy"></div>
-                  <span className="font-cormorant text-base text-foreground">Roman Catholic</span>
+                  <span className="font-cormorant text-xl text-foreground">Roman Catholic</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-3">Complete 8-prayer daily cycle including Matins, Lauds, Prime, Tierce, Sexte, None, Vespers, and Compline</p>
+                <p className="text-lg text-muted-foreground mb-3">Complete 8-prayer daily cycle including Matins, Lauds, Prime, Tierce, Sexte, None, Vespers, and Compline</p>
                 <div className="space-y-1">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-lg">
                     <span>Matins</span>
                     <span className="text-muted-foreground">00:00</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-lg">
                     <span>Lauds</span>
                     <span className="text-muted-foreground">06:00</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-lg">
                     <span>Vespers</span>
                     <span className="text-muted-foreground">18:00</span>
                   </div>
-                  <div className="text-xs text-muted-foreground">+ 5 more...</div>
+                  <div className="text-lg text-muted-foreground">+ 5 more...</div>
                 </div>
               </div>
               
               <div className="p-4 rounded-lg border bg-card">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 rounded-full bg-primary"></div>
-                  <span className="font-cormorant text-base text-foreground">Orthodox</span>
+                  <span className="font-cormorant text-xl text-foreground">Orthodox</span>
                 </div>
-                <p className="text-xs text-muted-foreground mb-3">Traditional Byzantine prayer hours with Midnight Office, Matins, and canonical hours</p>
+                <p className="text-lg text-muted-foreground mb-3">Traditional Byzantine prayer hours with Midnight Office, Matins, and canonical hours</p>
                 <div className="space-y-1">
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-lg">
                     <span>Midnight Office</span>
                     <span className="text-muted-foreground">00:00</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-lg">
                     <span>Matins</span>
                     <span className="text-muted-foreground">04:00</span>
                   </div>
-                  <div className="flex justify-between text-xs">
+                  <div className="flex justify-between text-lg">
                     <span>Vespers</span>
                     <span className="text-muted-foreground">18:00</span>
                   </div>
-                  <div className="text-xs text-muted-foreground">+ 5 more...</div>
+                  <div className="text-lg text-muted-foreground">+ 5 more...</div>
                 </div>
               </div>
             </div>
