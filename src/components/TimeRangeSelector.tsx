@@ -4,7 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Clock } from "lucide-react";
-import sunImage from "@/assets/sun-prayer-premium.png";
+import sunImage from "@/assets/sun-prayer-realistic.png";
 import moonImage from "@/assets/moon-prayer-sacred.png";
 import bellStartImage from "@/assets/bell-start.png";
 import bellEndImage from "@/assets/bell-end.png";
