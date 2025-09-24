@@ -16,6 +16,7 @@ import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png
 import churchClockImage from "@/assets/church-clock.png";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
+import monasteryIcon from "@/assets/monastery-icon.png";
 
 interface BellTradition {
   id: string;
@@ -305,9 +306,10 @@ const Index = () => {
         {/* Premium Prayer Traditions Preview */}
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 font-cinzel">
-              <Clock className="w-5 h-5 text-primary" />
+            <CardTitle className="flex items-center gap-3 font-cormorant text-xl text-foreground">
+              <img src={monasteryIcon} alt="Monastery" className="w-6 h-6 object-contain" />
               Premium Prayer Traditions
+              <span className="text-sm font-cormorant text-muted-foreground italic">(Coming Soon)</span>
             </CardTitle>
             <CardDescription className="font-cormorant text-base text-foreground">
               Experience authentic Catholic and Orthodox prayer schedules with advanced features
