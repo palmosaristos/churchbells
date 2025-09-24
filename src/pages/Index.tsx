@@ -194,7 +194,7 @@ const Index = () => {
                   <img 
                     src={churchClockImage} 
                     alt="Church Clock" 
-                    className="w-12 h-12 object-contain filter drop-shadow-lg"
+                    className="w-20 h-20 object-contain filter drop-shadow-lg"
                   />
                 </div>
                 
