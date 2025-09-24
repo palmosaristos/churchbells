@@ -39,7 +39,7 @@ const bellTraditions: BellTradition[] = [{
   audioSample: "cloche village Mi UNIQUE.mp3"
 }, {
   id: "cathedral-bell",
-  name: "Cloche Classique (C)",
+  name: "Classic Bell (in C)",
   description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
   tradition: "Cathédrale",
   audioSample: "cloche en DO.mp3"
