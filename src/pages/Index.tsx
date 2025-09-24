@@ -33,13 +33,13 @@ interface PrayerTime {
 
 const bellTraditions: BellTradition[] = [{
   id: "village-bell",
-  name: "Cloche de Village (Mi)",
+  name: "Cloche de Village (E)",
   description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
   tradition: "Village",
   audioSample: "cloche village Mi UNIQUE.mp3"
 }, {
   id: "cathedral-bell",
-  name: "Cloche Classique (Do)",
+  name: "Cloche Classique (C)",
   description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
   tradition: "Cathédrale",
   audioSample: "cloche en DO.mp3"
