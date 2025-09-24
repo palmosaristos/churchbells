@@ -191,14 +191,11 @@ const Index = () => {
             <div className="text-center space-y-4">
               <div className="flex items-center justify-center gap-6">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 rounded-full blur-xl animate-pulse"></div>
-                  <div className="relative bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 rounded-full p-4 border border-amber-200/50 dark:border-amber-700/50">
-                    <img 
-                      src={churchClockImage} 
-                      alt="Church Clock" 
-                      className="w-8 h-8 object-contain filter drop-shadow-sm"
-                    />
-                  </div>
+                  <img 
+                    src={churchClockImage} 
+                    alt="Church Clock" 
+                    className="w-12 h-12 object-contain filter drop-shadow-lg"
+                  />
                 </div>
                 
                 <div className="space-y-1">
