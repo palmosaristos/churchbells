@@ -189,7 +189,7 @@ const Index = () => {
         <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
           <CardContent className="pt-6">
             <div className="text-center space-y-4">
-              <h2 className="text-xl font-cinzel text-amber-800 dark:text-amber-200 mb-4">
+              <h2 className="text-xl font-cinzel font-bold text-amber-800 dark:text-amber-200 mb-4">
                 Your time zone
               </h2>
               <div className="flex items-center justify-center gap-6">
