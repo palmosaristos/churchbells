@@ -50,7 +50,7 @@ const bellTraditions: BellTradition[] = [{
   name: "Carillon Bells",
   description: "Un système de trois cloches produisant un carillon harmonieux, créant une mélodie sacrée qui élève l'âme.",
   tradition: "Carillon",
-  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/CARILLON%20fois%20trois%20plus%20lent%20avec%20fondu%20sur%20les%20deux%20tiers.mp3"
+  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/CARILLON%20raccourci%20avec%20fondu.mp3"
 }];
 
 const Index = () => {
