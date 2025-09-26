@@ -171,10 +171,10 @@ export const TimeRangeSelector = ({
       <Card className="w-full bg-gradient-to-br from-red-50/50 to-orange-50/50 dark:from-red-950/20 dark:to-orange-950/20 border-red-200/50 dark:border-red-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="font-cormorant text-3xl text-foreground text-center">
-            Pause Period
+            Période de silence
           </CardTitle>
           <CardDescription className="font-cormorant text-xl text-foreground text-center">
-            Set a quiet period when bells will not chime
+            Définir une période de silence où les cloches ne sonnent pas
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
