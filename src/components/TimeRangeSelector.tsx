@@ -91,7 +91,7 @@ export const TimeRangeSelector = ({
         <CardContent className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="start-time" className="flex items-center gap-2 text-xl font-cormorant text-foreground">
+              <Label htmlFor="start-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
                 <img src={bellStartImage} alt="Start Bell" className="w-6 h-6 object-contain" />
                 Start Time
               </Label>
@@ -110,7 +110,7 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="end-time" className="flex items-center gap-2 text-xl font-cormorant text-foreground">
+              <Label htmlFor="end-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
                 <img src={bellEndImage} alt="End Bell" className="w-6 h-6 object-contain" />
                 End Time
               </Label>
