@@ -8,6 +8,7 @@ import sunImage from "@/assets/sun-prayer-realistic.png";
 import moonImage from "@/assets/moon-prayer-full.png";
 import bellStartImage from "@/assets/bell-start.png";
 import bellEndImage from "@/assets/bell-end.png";
+import simpleBellIcon from "@/assets/simple-bell-icon.png";
 
 interface TimeRangeSelectorProps {
   startTime: string;
@@ -92,7 +93,7 @@ export const TimeRangeSelector = ({
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="start-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
-                <img src={bellStartImage} alt="Start Bell" className="w-6 h-6 object-contain" />
+                <img src={simpleBellIcon} alt="Start Bell" className="w-10 h-10 object-contain" />
                 Start Time
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
@@ -111,7 +112,7 @@ export const TimeRangeSelector = ({
             
             <div className="space-y-2">
               <Label htmlFor="end-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
-                <img src={bellEndImage} alt="End Bell" className="w-6 h-6 object-contain" />
+                <img src={simpleBellIcon} alt="End Bell" className="w-10 h-10 object-contain" />
                 End Time
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
