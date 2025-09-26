@@ -286,7 +286,6 @@ const Index = () => {
                 <p className="font-cormorant text-xl text-foreground">
                   {bellTraditions.find(t => t.id === selectedBellTradition)?.name}
                 </p>
-                <p className="text-xl text-foreground font-cormorant">Bell Tradition</p>
               </div>
               
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
