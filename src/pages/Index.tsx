@@ -34,11 +34,11 @@ interface PrayerTime {
 }
 
 const bellTraditions: BellTradition[] = [{
-  id: "carillon-bell",
-  name: "Carillon Bells",
-  description: "Un système de trois cloches produisant un carillon harmonieux, créant une mélodie sacrée qui élève l'âme.",
-  tradition: "Carillon",
-  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/CARILLON%20fois%20trois%20plus%20lent%20avec%20fondu%20sur%20les%20deux%20tiers.mp3"
+  id: "cathedral-bell",
+  name: "Classic Bell (in C)",
+  description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
+  tradition: "Cathédrale",
+  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/cloche%20en%20DO%20TROIS%20FOIS%20avec%20fondu%20sur%20les%20deux%20tiers%20en%20fermeture.mp3"
 }, {
   id: "village-bell",
   name: "Village Bell (in E)",
@@ -46,15 +46,15 @@ const bellTraditions: BellTradition[] = [{
   tradition: "Village",
   audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/cloche%20village%20Mi%20fois%203%20avec%20fondu%20en%20fermeture.mp3"
 }, {
-  id: "cathedral-bell",
-  name: "Classic Bell (in C)",
-  description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
-  tradition: "Cathédrale",
-  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/cloche%20en%20DO%20TROIS%20FOIS%20avec%20fondu%20sur%20les%20deux%20tiers%20en%20fermeture.mp3"
+  id: "carillon-bell",
+  name: "Carillon Bells",
+  description: "Un système de trois cloches produisant un carillon harmonieux, créant une mélodie sacrée qui élève l'âme.",
+  tradition: "Carillon",
+  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/CARILLON%20fois%20trois%20plus%20lent%20avec%20fondu%20sur%20les%20deux%20tiers.mp3"
 }];
 
 const Index = () => {
-  const [selectedBellTradition, setSelectedBellTradition] = useState<string>("village-bell");
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>("cathedral-bell");
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
   const [startTime, setStartTime] = useState<string>("08:00");
   const [endTime, setEndTime] = useState<string>("20:00");
