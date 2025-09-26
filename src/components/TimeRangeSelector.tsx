@@ -21,6 +21,12 @@ interface TimeRangeSelectorProps {
   eveningPrayerTime?: string;
   onMorningPrayerTimeChange?: (time: string) => void;
   onEveningPrayerTimeChange?: (time: string) => void;
+  pauseEnabled?: boolean;
+  onPauseEnabledChange?: (enabled: boolean) => void;
+  pauseStartTime?: string;
+  pauseEndTime?: string;
+  onPauseStartTimeChange?: (time: string) => void;
+  onPauseEndTimeChange?: (time: string) => void;
 }
 
 const timeOptions = [
@@ -76,7 +82,13 @@ export const TimeRangeSelector = ({
   morningPrayerTime = "06:00",
   eveningPrayerTime = "18:00",
   onMorningPrayerTimeChange,
-  onEveningPrayerTimeChange
+  onEveningPrayerTimeChange,
+  pauseEnabled = false,
+  onPauseEnabledChange,
+  pauseStartTime = "12:00",
+  pauseEndTime = "14:00",
+  onPauseStartTimeChange,
+  onPauseEndTimeChange
 }: TimeRangeSelectorProps) => {
   return (
     <div className="space-y-6">
@@ -152,6 +164,86 @@ export const TimeRangeSelector = ({
               <span className="font-cinzel font-semibold text-primary">{endTime}</span>
             </p>
           </div>
+        </CardContent>
+        </Card>
+
+      {/* Pause Period Selector */}
+      <Card className="w-full bg-gradient-to-br from-red-50/50 to-orange-50/50 dark:from-red-950/20 dark:to-orange-950/20 border-red-200/50 dark:border-red-800/30 shadow-lg backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="font-cormorant text-3xl text-foreground text-center">
+            Pause Period
+          </CardTitle>
+          <CardDescription className="font-cormorant text-xl text-foreground text-center">
+            Set a quiet period when bells will not chime
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-primary" />
+              <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
+                Enable pause period
+              </Label>
+            </div>
+            <Switch
+              id="pause-switch"
+              checked={pauseEnabled}
+              onCheckedChange={onPauseEnabledChange}
+              disabled={!onPauseEnabledChange}
+            />
+          </div>
+          
+          {pauseEnabled && (
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="pause-start-time" className="flex items-center gap-2 text-xl font-cormorant text-foreground">
+                  <Clock className="w-6 h-6 text-red-600" />
+                  Pause Start
+                </Label>
+                <Select value={pauseStartTime} onValueChange={onPauseStartTimeChange}>
+                  <SelectTrigger id="pause-start-time">
+                    <SelectValue placeholder="Select pause start time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {timeOptions.map((time) => (
+                      <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="pause-end-time" className="flex items-center gap-2 text-xl font-cormorant text-foreground">
+                  <Clock className="w-6 h-6 text-green-600" />
+                  Pause End
+                </Label>
+                <Select value={pauseEndTime} onValueChange={onPauseEndTimeChange}>
+                  <SelectTrigger id="pause-end-time">
+                    <SelectValue placeholder="Select pause end time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {timeOptions.map((time) => (
+                      <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
+          
+          {pauseEnabled && (
+            <div className="p-4 rounded-lg bg-gradient-dawn border">
+              <p className="text-xl text-foreground font-cormorant text-center">
+                Bells will be silent from{' '}
+                <span className="font-cinzel font-semibold text-red-600">{pauseStartTime}</span> to{' '}
+                <span className="font-cinzel font-semibold text-green-600">{pauseEndTime}</span>
+              </p>
+            </div>
+          )}
         </CardContent>
       </Card>
 

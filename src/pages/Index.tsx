@@ -60,6 +60,9 @@ const Index = () => {
   const [endTime, setEndTime] = useState<string>("20:00");
   const [isActive, setIsActive] = useState<boolean>(false);
   const [halfHourChimes, setHalfHourChimes] = useState<boolean>(false);
+  const [pauseEnabled, setPauseEnabled] = useState<boolean>(false);
+  const [pauseStartTime, setPauseStartTime] = useState<string>("12:00");
+  const [pauseEndTime, setPauseEndTime] = useState<string>("14:00");
   const [currentTime, setCurrentTime] = useState<string>("");
   const [selectedTimeZone, setSelectedTimeZone] = useState<string>("America/New_York");
   const {
@@ -241,6 +244,12 @@ const Index = () => {
             onEndTimeChange={setEndTime}
             halfHourChimes={halfHourChimes}
             onHalfHourChimesChange={setHalfHourChimes}
+            pauseEnabled={pauseEnabled}
+            onPauseEnabledChange={setPauseEnabled}
+            pauseStartTime={pauseStartTime}
+            pauseEndTime={pauseEndTime}
+            onPauseStartTimeChange={setPauseStartTime}
+            onPauseEndTimeChange={setPauseEndTime}
           />
           
           <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
