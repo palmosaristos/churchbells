@@ -16,6 +16,7 @@ import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png
 import churchClockImage from "@/assets/church-clock.png";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
+import carillonBells from "@/assets/carillon-bells.png";
 import monasteryIcon from "@/assets/monastery-icon.png";
 
 interface BellTradition {
@@ -33,17 +34,23 @@ interface PrayerTime {
 }
 
 const bellTraditions: BellTradition[] = [{
+  id: "carillon-bell",
+  name: "Carillon Bells",
+  description: "Un système de trois cloches produisant un carillon harmonieux, créant une mélodie sacrée qui élève l'âme.",
+  tradition: "Carillon",
+  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/CARILLON%20fois%20trois%20plus%20lent%20avec%20fondu%20sur%20les%20deux%20tiers.mp3"
+}, {
   id: "village-bell",
   name: "Village Bell (in E)",
   description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
   tradition: "Village",
-  audioSample: "cloche village Mi UNIQUE.mp3"
+  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/cloche%20village%20Mi%20fois%203%20avec%20fondu%20en%20fermeture.mp3"
 }, {
   id: "cathedral-bell",
   name: "Classic Bell (in C)",
   description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
   tradition: "Cathédrale",
-  audioSample: "cloche en DO.mp3"
+  audioSample: "https://dtleakeiowgwlunabkrm.supabase.co/storage/v1/object/public/CHURCH%20BELL%20SOUNDS/cloche%20en%20DO%20TROIS%20FOIS%20avec%20fondu%20sur%20les%20deux%20tiers%20en%20fermeture.mp3"
 }];
 
 const Index = () => {
@@ -125,11 +132,7 @@ const Index = () => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
       try {
-        const { data } = supabase.storage
-          .from('CHURCH BELL SOUNDS')
-          .getPublicUrl(tradition.audioSample);
-        
-        const audio = new Audio(data.publicUrl);
+        const audio = new Audio(tradition.audioSample);
         await audio.play();
       } catch (error) {
         console.error("Error playing audio:", error);
@@ -251,12 +254,12 @@ const Index = () => {
             </h2>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-3">
             {bellTraditions.map(tradition => (
               <BellTraditionCard
                 key={tradition.id}
                 title={tradition.name}
-                image={tradition.id === 'village-bell' ? churchBellTransparent : churchBellNew}
+                image={tradition.id === 'carillon-bell' ? carillonBells : tradition.id === 'village-bell' ? churchBellTransparent : churchBellNew}
                 isSelected={selectedBellTradition === tradition.id}
                 onSelect={() => setSelectedBellTradition(tradition.id)}
                 onPlay={() => handleBellPlay(tradition.id)}
@@ -276,7 +279,7 @@ const Index = () => {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
                 <img 
-                  src={selectedBellTradition === 'village-bell' ? churchBellTransparent : churchBellNew} 
+                  src={selectedBellTradition === 'carillon-bell' ? carillonBells : selectedBellTradition === 'village-bell' ? churchBellTransparent : churchBellNew} 
                   alt="Selected Bell" 
                   className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
                 />
