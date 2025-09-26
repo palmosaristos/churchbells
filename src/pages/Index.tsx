@@ -298,6 +298,12 @@ const Index = () => {
                 <p className="text-xl text-foreground font-cormorant">Daily Schedule</p>
               </div>
             </div>
+            
+            <div className="text-center mt-4 p-3 rounded-lg bg-gradient-dawn border">
+              <p className="text-xl text-foreground font-cormorant">
+                Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
+              </p>
+            </div>
           </CardContent>
         </Card>
 
