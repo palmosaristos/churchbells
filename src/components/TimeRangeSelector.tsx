@@ -294,7 +294,7 @@ export const TimeRangeSelector = ({
           </div>
 
           <div className="space-y-3">
-            <Label className="text-xl font-cormorant text-foreground">Prayer Call Type</Label>
+            <Label className="text-xl font-cormorant text-foreground">Summoning Bell</Label>
             <RadioGroup value={prayerCallType} onValueChange={onPrayerCallTypeChange}>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="short" id="short-call" />
