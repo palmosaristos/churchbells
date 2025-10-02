@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Clock } from "lucide-react";
 import sunImage from "@/assets/sun-prayer-realistic.png";
 import moonImage from "@/assets/moon-prayer-full.png";
@@ -27,6 +28,8 @@ interface TimeRangeSelectorProps {
   pauseEndTime?: string;
   onPauseStartTimeChange?: (time: string) => void;
   onPauseEndTimeChange?: (time: string) => void;
+  prayerCallType?: "short" | "long";
+  onPrayerCallTypeChange?: (type: "short" | "long") => void;
 }
 
 const timeOptions = [
@@ -88,7 +91,9 @@ export const TimeRangeSelector = ({
   pauseStartTime = "12:00",
   pauseEndTime = "14:00",
   onPauseStartTimeChange,
-  onPauseEndTimeChange
+  onPauseEndTimeChange,
+  prayerCallType = "short",
+  onPrayerCallTypeChange
 }: TimeRangeSelectorProps) => {
   return (
     <div className="space-y-6">
@@ -257,7 +262,7 @@ export const TimeRangeSelector = ({
             Set your preferred times for morning and evening prayers
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-3">
               <Label htmlFor="morning-prayer" className="flex items-center gap-3 text-xl font-cormorant text-foreground">
@@ -286,6 +291,24 @@ export const TimeRangeSelector = ({
                 className="w-full"
               />
             </div>
+          </div>
+
+          <div className="space-y-3">
+            <Label className="text-xl font-cormorant text-foreground">Prayer Call Type</Label>
+            <RadioGroup value={prayerCallType} onValueChange={onPrayerCallTypeChange}>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="short" id="short-call" />
+                <Label htmlFor="short-call" className="font-cormorant text-lg text-foreground cursor-pointer">
+                  Short Call
+                </Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="long" id="long-call" />
+                <Label htmlFor="long-call" className="font-cormorant text-lg text-foreground cursor-pointer">
+                  Long Call
+                </Label>
+              </div>
+            </RadioGroup>
           </div>
         </CardContent>
       </Card>
