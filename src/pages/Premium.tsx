@@ -65,7 +65,10 @@ const Premium = () => {
           description: `Écoute de ${tradition?.name} - tradition ${tradition?.tradition}`
         });
       } catch (error) {
-        console.error("Error playing audio:", error);
+        // Only log detailed errors in development
+        if (import.meta.env.DEV) {
+          console.error("Error playing audio:", error);
+        }
         toast({
           title: "Erreur de lecture",
           description: "Impossible de lire l'échantillon audio",

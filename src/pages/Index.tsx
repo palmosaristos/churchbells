@@ -138,7 +138,10 @@ const Index = () => {
         const audio = new Audio(tradition.audioSample);
         await audio.play();
       } catch (error) {
-        console.error("Error playing audio:", error);
+        // Only log detailed errors in development
+        if (import.meta.env.DEV) {
+          console.error("Error playing audio:", error);
+        }
       }
     }
   };
