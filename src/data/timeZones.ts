@@ -1,0 +1,17 @@
+export const timeZones = [
+  { value: "America/New_York", label: "Eastern Time (ET)" },
+  { value: "America/Chicago", label: "Central Time (CT)" },
+  { value: "America/Denver", label: "Mountain Time (MT)" },
+  { value: "America/Los_Angeles", label: "Pacific Time (PT)" },
+  { value: "Europe/London", label: "Greenwich Mean Time (GMT)" },
+  { value: "Europe/Paris", label: "Central European Time (CET)" },
+  { value: "Europe/Rome", label: "Central European Time (CET)" },
+  { value: "Europe/Athens", label: "Eastern European Time (EET)" },
+  { value: "Europe/Moscow", label: "Moscow Time (MSK)" },
+  { value: "Asia/Jerusalem", label: "Israel Standard Time (IST)" },
+  { value: "Asia/Dubai", label: "Gulf Standard Time (GST)" },
+  { value: "Asia/Kolkata", label: "India Standard Time (IST)" },
+  { value: "Asia/Shanghai", label: "China Standard Time (CST)" },
+  { value: "Asia/Tokyo", label: "Japan Standard Time (JST)" },
+  { value: "Australia/Sydney", label: "Australian Eastern Time (AET)" },
+];

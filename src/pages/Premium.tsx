@@ -7,8 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Navigation } from "@/components/Navigation";
-import { Settings, Bell, Clock, Volume2, Crown, ArrowLeft, Sun, Moon } from "lucide-react";
+import { Settings, Bell, Clock, Crown, ArrowLeft, Sun, Moon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -49,38 +50,16 @@ const Premium = () => {
   const [morningPrayerTime, setMorningPrayerTime] = useState<string>("06:00");
   const [eveningPrayerTime, setEveningPrayerTime] = useState<string>("18:00");
   const { toast } = useToast();
+  const { playAudio } = useAudioPlayer();
 
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      try {
-        const { data } = supabase.storage
-          .from('CHURCH BELL SOUNDS')
-          .getPublicUrl(tradition.audioSample);
-        
-        const audio = new Audio(data.publicUrl);
-        await audio.play();
-        toast({
-          title: "Lecture de l'échantillon",
-          description: `Écoute de ${tradition?.name} - tradition ${tradition?.tradition}`
-        });
-      } catch (error) {
-        // Only log detailed errors in development
-        if (import.meta.env.DEV) {
-          console.error("Error playing audio:", error);
-        }
-        toast({
-          title: "Erreur de lecture",
-          description: "Impossible de lire l'échantillon audio",
-          variant: "destructive"
-        });
-      }
-    } else {
-      toast({
-        title: "Échantillon non disponible",
-        description: "Aucun fichier audio pour cette tradition",
-        variant: "destructive"
-      });
+      const { data } = supabase.storage
+        .from('CHURCH BELL SOUNDS')
+        .getPublicUrl(tradition.audioSample);
+      
+      await playAudio(data.publicUrl, `${tradition.name} - ${tradition.tradition}`);
     }
   };
 

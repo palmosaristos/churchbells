@@ -1,0 +1,68 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { bellTraditions } from "@/data/bellTraditions";
+import churchClockImage from "@/assets/church-clock.png";
+import churchBellTransparent from "@/assets/church-bell-transparent.png";
+import churchBellNew from "@/assets/church-bell-new.png";
+import carillonBells from "@/assets/carillon-bells.png";
+
+interface CurrentConfigurationProps {
+  selectedBellTradition: string;
+  startTime: string;
+  endTime: string;
+  halfHourChimes: boolean;
+}
+
+export const CurrentConfiguration = ({
+  selectedBellTradition,
+  startTime,
+  endTime,
+  halfHourChimes,
+}: CurrentConfigurationProps) => {
+  const getBellImage = (id: string) => {
+    if (id === 'carillon-bell') return carillonBells;
+    if (id === 'village-bell') return churchBellTransparent;
+    return churchBellNew;
+  };
+
+  const selectedBell = bellTraditions.find(t => t.id === selectedBellTradition);
+
+  return (
+    <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
+      <CardHeader className="text-center">
+        <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
+          Your Church Bells
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+            <img 
+              src={getBellImage(selectedBellTradition)} 
+              alt="Selected Bell" 
+              className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
+            />
+            <p className="font-cormorant text-xl text-foreground">
+              {selectedBell?.name}
+            </p>
+          </div>
+          
+          <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+            <img 
+              src={churchClockImage} 
+              alt="Church Clock" 
+              className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
+            />
+            <p className="font-cormorant text-xl text-foreground">{startTime} - {endTime}</p>
+            <p className="text-xl text-foreground font-cormorant">Daily Schedule</p>
+          </div>
+        </div>
+        
+        <div className="text-center mt-4 p-3 rounded-lg bg-gradient-dawn border">
+          <p className="text-xl text-foreground font-cormorant">
+            Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
