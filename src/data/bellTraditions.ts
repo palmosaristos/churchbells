@@ -26,6 +26,6 @@ export const bellTraditions: BellTradition[] = [
     name: "Carillon Bells",
     description: "Un système de trois cloches produisant un carillon harmonieux, créant une mélodie sacrée qui élève l'âme.",
     tradition: "Carillon",
-    audioSample: "/audio/byzantine-bells.mp3"
+    audioSample: "/audio/carillon-bells.mp3"
   }
 ];
