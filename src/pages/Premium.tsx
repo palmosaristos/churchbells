@@ -11,8 +11,6 @@ import { Settings, Bell, Clock, Crown, ArrowLeft, Sun, Moon } from "lucide-react
 import { useToast } from "@/hooks/use-toast";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
-
 interface BellTradition {
   id: string;
   name: string;
@@ -33,14 +31,14 @@ const bellTraditions: BellTradition[] = [
     name: "Cloche de Village (Mi)",
     description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
     tradition: "Village",
-    audioSample: "cloche village Mi UNIQUE.mp3"
+    audioSample: "/audio/village-bell.mp3"
   },
   {
     id: "cathedral-bell",
     name: "Cloche Classique (Do)", 
     description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
     tradition: "Cathédrale",
-    audioSample: "cloche en DO.mp3"
+    audioSample: "/audio/campanology-bell.mp3"
   }
 ];
 
@@ -55,11 +53,7 @@ const Premium = () => {
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      const { data } = supabase.storage
-        .from('CHURCH BELL SOUNDS')
-        .getPublicUrl(tradition.audioSample);
-      
-      await playAudio(data.publicUrl, `${tradition.name} - ${tradition.tradition}`);
+      await playAudio(tradition.audioSample, `${tradition.name} - ${tradition.tradition}`);
     }
   };
 
