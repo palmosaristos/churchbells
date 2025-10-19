@@ -3,8 +3,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Clock, Volume2 } from "lucide-react";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import sunImage from "@/assets/sun-prayer-realistic.png";
 import moonImage from "@/assets/moon-prayer-full.png";
 import bellStartImage from "@/assets/bell-start.png";
@@ -28,8 +29,6 @@ interface TimeRangeSelectorProps {
   pauseEndTime?: string;
   onPauseStartTimeChange?: (time: string) => void;
   onPauseEndTimeChange?: (time: string) => void;
-  prayerCallType?: "short" | "long";
-  onPrayerCallTypeChange?: (type: "short" | "long") => void;
 }
 
 const timeOptions = [
@@ -91,10 +90,13 @@ export const TimeRangeSelector = ({
   pauseStartTime = "12:00",
   pauseEndTime = "14:00",
   onPauseStartTimeChange,
-  onPauseEndTimeChange,
-  prayerCallType = "short",
-  onPrayerCallTypeChange
+  onPauseEndTimeChange
 }: TimeRangeSelectorProps) => {
+  const { playAudio } = useAudioPlayer();
+
+  const handlePlaySummoningBell = async () => {
+    await playAudio("/audio/summoning-bell.mp3", "Summoning Bell");
+  };
   return (
     <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
@@ -295,20 +297,15 @@ export const TimeRangeSelector = ({
 
           <div className="space-y-3">
             <Label className="text-xl font-cormorant text-foreground">Summoning Bell</Label>
-            <RadioGroup value={prayerCallType} onValueChange={onPrayerCallTypeChange}>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="short" id="short-call" />
-                <Label htmlFor="short-call" className="font-cormorant text-lg text-foreground cursor-pointer">
-                  Short Call
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="long" id="long-call" />
-                <Label htmlFor="long-call" className="font-cormorant text-lg text-foreground cursor-pointer">
-                  Long Call
-                </Label>
-              </div>
-            </RadioGroup>
+            <Button 
+              onClick={handlePlaySummoningBell}
+              className="w-full"
+              variant="outline"
+              data-testid="button-play-summoning-bell"
+            >
+              <Volume2 className="w-4 h-4 mr-2" />
+              Listen to Summoning Bell
+            </Button>
           </div>
         </CardContent>
       </Card>
