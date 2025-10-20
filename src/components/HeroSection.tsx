@@ -30,7 +30,7 @@ export const HeroSection = ({ heroImage }: HeroSectionProps) => {
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
               </div>
               <p className="text-2xl md:text-3xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">
-                Let the sacred sound of churchbells accompany you through the day and invite you to connect with God
+                Let the sacred sound of churchbells accompany you through the day
               </p>
             </div>
           </div>
