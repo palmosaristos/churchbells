@@ -14,6 +14,7 @@ const Settings = () => {
   const [pauseEnabled, setPauseEnabled] = useState<boolean>(false);
   const [pauseStartTime, setPauseStartTime] = useState<string>("12:00");
   const [pauseEndTime, setPauseEndTime] = useState<string>("14:00");
+  const [selectedDays, setSelectedDays] = useState<string[]>(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
   const { playAudio } = useAudioPlayer();
   const { toast } = useToast();
 
@@ -26,8 +27,8 @@ const Settings = () => {
 
   const handleSave = () => {
     toast({
-      title: "Paramètres sauvegardés",
-      description: "Vos préférences ont été enregistrées avec succès"
+      title: "Settings saved",
+      description: "Your preferences have been saved successfully"
     });
   };
 
@@ -38,14 +39,14 @@ const Settings = () => {
       <div className="container mx-auto px-4 py-12 space-y-12">
         <div className="text-center space-y-4">
           <h1 className="text-5xl font-cinzel font-bold text-foreground">
-            Paramètres
+            Settings
           </h1>
           <p className="text-xl text-muted-foreground font-cormorant">
-            Configurez vos préférences de sonnerie
+            Configure your bell chiming preferences
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="max-w-4xl mx-auto">
           <TimeRangeSelector 
             startTime={startTime} 
             endTime={endTime} 
@@ -59,6 +60,8 @@ const Settings = () => {
             pauseEndTime={pauseEndTime}
             onPauseStartTimeChange={setPauseStartTime}
             onPauseEndTimeChange={setPauseEndTime}
+            selectedDays={selectedDays}
+            onSelectedDaysChange={setSelectedDays}
           />
         </div>
 
