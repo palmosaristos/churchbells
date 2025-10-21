@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { bellTraditions } from "@/data/bellTraditions";
-import churchClockImage from "@/assets/church-clock.png";
+import churchClockImage from "@/assets/church-clock.jpg";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import carillonBells from "@/assets/carillon-bells.png";

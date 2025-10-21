@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Globe } from "lucide-react";
 import { timeZones } from "@/data/timeZones";
 import { useCurrentTime } from "@/hooks/useCurrentTime";
-import churchClockImage from "@/assets/church-clock.png";
+import churchClockImage from "@/assets/church-clock.jpg";
 
 interface TimeDisplayProps {
   selectedTimeZone: string;
