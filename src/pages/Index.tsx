@@ -4,7 +4,7 @@ import { CurrentConfiguration } from "@/components/CurrentConfiguration";
 import { HeroSection } from "@/components/HeroSection";
 import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
-import heroImage from "/lovable-uploads/e28b4ae8-b1de-4d7c-8027-4d7157a1625c.png";
+import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const Index = () => {
   const [selectedBellTradition] = useState<string>("cathedral-bell");
