@@ -5,8 +5,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Clock, Sun, Moon, Bell } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Clock, Sun, Moon, Bell, Volume2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
 interface PrayerTime {
   name: string;
@@ -21,7 +23,9 @@ const PrayerTimes = () => {
   const [morningPrayerName, setMorningPrayerName] = useState<string>("Morning Prayer");
   const [eveningPrayerName, setEveningPrayerName] = useState<string>("Evening Prayer");
   const [timeError, setTimeError] = useState<string>("");
+  const [callType, setCallType] = useState<string>("short");
   const { toast } = useToast();
+  const { playAudio } = useAudioPlayer();
 
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
     toast({
@@ -178,6 +182,56 @@ const PrayerTimes = () => {
                 aria-label="Apply custom prayer times"
               >
                 Apply Custom Times
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Bell Sound Selection */}
+          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.1),transparent)] pointer-events-none" />
+            
+            <CardHeader className="space-y-3 relative">
+              <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
+                <Volume2 className="w-6 h-6 text-primary" />
+                Bell Call Sound
+              </CardTitle>
+              <CardDescription className="font-cormorant text-base">
+                Choose the duration of your prayer call bell
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-6 relative">
+              <RadioGroup value={callType} onValueChange={setCallType} className="space-y-4">
+                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="short" id="short-call" />
+                  <Label htmlFor="short-call" className="flex-1 cursor-pointer font-cormorant text-base">
+                    <span className="font-semibold">Short Call</span>
+                    <span className="block text-sm text-muted-foreground">Brief bell chime (~5 seconds)</span>
+                  </Label>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="long" id="long-call" />
+                  <Label htmlFor="long-call" className="flex-1 cursor-pointer font-cormorant text-base">
+                    <span className="font-semibold">Long Call</span>
+                    <span className="block text-sm text-muted-foreground">Extended bell sequence (~15 seconds)</span>
+                  </Label>
+                </div>
+              </RadioGroup>
+              
+              <Button 
+                variant="outline"
+                className="w-full md:w-auto md:mx-auto flex items-center justify-center gap-2 md:px-8 py-5 text-base font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                onClick={() => {
+                  const audioUrl = callType === "short" 
+                    ? "/audio/summoning-bell.mp3" 
+                    : "/audio/cathedral-bell.mp3";
+                  playAudio(audioUrl, `${callType === "short" ? "Short" : "Long"} Call`);
+                }}
+                aria-label="Preview bell call sound"
+              >
+                <Volume2 className="w-5 h-5" />
+                Listen to {callType === "short" ? "Short" : "Long"} Call
               </Button>
             </CardContent>
           </Card>
