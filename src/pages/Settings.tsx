@@ -42,7 +42,7 @@ const Settings = () => {
             Settings
           </h1>
           <p className="text-xl text-muted-foreground font-cormorant">
-            Configure your bell chiming preferences
+            When should your bells ring?
           </p>
         </div>
 
