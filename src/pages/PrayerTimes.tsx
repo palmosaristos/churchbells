@@ -18,6 +18,8 @@ const PrayerTimes = () => {
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
   const [morningPrayerTime, setMorningPrayerTime] = useState<string>("06:00");
   const [eveningPrayerTime, setEveningPrayerTime] = useState<string>("18:00");
+  const [morningPrayerName, setMorningPrayerName] = useState<string>("Morning Prayer");
+  const [eveningPrayerName, setEveningPrayerName] = useState<string>("Evening Prayer");
   const [timeError, setTimeError] = useState<string>("");
   const { toast } = useToast();
 
@@ -49,7 +51,7 @@ const PrayerTimes = () => {
     setTimeError("");
     toast({
       title: "🔔 Prayer Times Configured",
-      description: `Morning: ${morningPrayerTime} • Evening: ${eveningPrayerTime}`,
+      description: `${morningPrayerName}: ${morningPrayerTime} • ${eveningPrayerName}: ${eveningPrayerTime}`,
     });
   };
 
@@ -100,12 +102,21 @@ const PrayerTimes = () => {
             <CardContent className="space-y-8 relative">
               <div className="grid gap-8 md:grid-cols-2">
                 <div className="space-y-4 group">
-                  <Label htmlFor="morning-prayer" className="flex items-center gap-2 text-base font-medium font-cormorant">
+                  <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-base font-medium font-cormorant">
                     <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
                     Morning Prayer
                   </Label>
                   <Input
-                    id="morning-prayer"
+                    id="morning-prayer-name"
+                    type="text"
+                    value={morningPrayerName}
+                    onChange={(e) => setMorningPrayerName(e.target.value)}
+                    placeholder="e.g., Angélus du Matin"
+                    className="w-full font-cormorant border-2 focus:border-amber transition-colors"
+                    aria-label="Name your morning prayer"
+                  />
+                  <Input
+                    id="morning-prayer-time"
                     type="time"
                     value={morningPrayerTime}
                     onChange={(e) => {
@@ -118,12 +129,21 @@ const PrayerTimes = () => {
                 </div>
                 
                 <div className="space-y-4 group">
-                  <Label htmlFor="evening-prayer" className="flex items-center gap-2 text-base font-medium font-cormorant">
+                  <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-base font-medium font-cormorant">
                     <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
                     Evening Prayer
                   </Label>
                   <Input
-                    id="evening-prayer"
+                    id="evening-prayer-name"
+                    type="text"
+                    value={eveningPrayerName}
+                    onChange={(e) => setEveningPrayerName(e.target.value)}
+                    placeholder="e.g., Angélus du Soir"
+                    className="w-full font-cormorant border-2 focus:border-primary transition-colors"
+                    aria-label="Name your evening prayer"
+                  />
+                  <Input
+                    id="evening-prayer-time"
                     type="time"
                     value={eveningPrayerTime}
                     onChange={(e) => {
