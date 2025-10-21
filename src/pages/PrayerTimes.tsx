@@ -115,17 +115,22 @@ const PrayerTimes = () => {
                     className="w-full font-cormorant border-2 focus:border-amber transition-colors"
                     aria-label="Name your morning prayer"
                   />
-                  <Input
-                    id="morning-prayer-time"
-                    type="time"
-                    value={morningPrayerTime}
-                    onChange={(e) => {
-                      setMorningPrayerTime(e.target.value);
-                      setTimeError("");
-                    }}
-                    className="w-full text-lg font-cormorant border-2 focus:border-amber transition-colors"
-                    aria-label="Select morning prayer time"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="morning-prayer-time"
+                      type="time"
+                      step="900"
+                      value={morningPrayerTime}
+                      onChange={(e) => {
+                        setMorningPrayerTime(e.target.value);
+                        setTimeError("");
+                      }}
+                      className="w-full text-lg font-cormorant border-2 focus:border-amber transition-colors cursor-pointer"
+                      aria-label="Select morning prayer time"
+                      required
+                    />
+                    <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                  </div>
                 </div>
                 
                 <div className="space-y-4 group">
@@ -142,17 +147,22 @@ const PrayerTimes = () => {
                     className="w-full font-cormorant border-2 focus:border-primary transition-colors"
                     aria-label="Name your evening prayer"
                   />
-                  <Input
-                    id="evening-prayer-time"
-                    type="time"
-                    value={eveningPrayerTime}
-                    onChange={(e) => {
-                      setEveningPrayerTime(e.target.value);
-                      setTimeError("");
-                    }}
-                    className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors"
-                    aria-label="Select evening prayer time"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="evening-prayer-time"
+                      type="time"
+                      step="900"
+                      value={eveningPrayerTime}
+                      onChange={(e) => {
+                        setEveningPrayerTime(e.target.value);
+                        setTimeError("");
+                      }}
+                      className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors cursor-pointer"
+                      aria-label="Select evening prayer time"
+                      required
+                    />
+                    <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                  </div>
                 </div>
               </div>
               
