@@ -1,7 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MapPin, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 
 interface LocationPermissionProps {
@@ -9,16 +16,21 @@ interface LocationPermissionProps {
 }
 
 export const LocationPermission = ({ onTimeZoneDetected }: LocationPermissionProps) => {
+  const [isOpen, setIsOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
 
   const handleLocationRequest = () => {
     setIsLoading(true);
     
     if (!navigator.geolocation) {
       toast({
-        title: "Géolocalisation non disponible",
-        description: "Votre navigateur ne supporte pas la géolocalisation",
+        title: "Geolocation Not Available",
+        description: "Your browser does not support geolocation",
         variant: "destructive"
       });
       setIsLoading(false);
@@ -29,16 +41,17 @@ export const LocationPermission = ({ onTimeZoneDetected }: LocationPermissionPro
       (position) => {
         const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         onTimeZoneDetected(timeZone);
+        setIsOpen(false);
         toast({
-          title: "Localisation détectée",
-          description: `Fuseau horaire défini : ${timeZone}`
+          title: "Location Detected",
+          description: `Time zone set to: ${timeZone}`
         });
         setIsLoading(false);
       },
       (error) => {
         toast({
-          title: "Erreur de localisation",
-          description: "Impossible de détecter votre position",
+          title: "Location Error",
+          description: "Unable to detect your location",
           variant: "destructive"
         });
         setIsLoading(false);
@@ -47,35 +60,37 @@ export const LocationPermission = ({ onTimeZoneDetected }: LocationPermissionPro
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <MapPin className="w-5 h-5" />
-          Autorisation de localisation
-        </CardTitle>
-        <CardDescription>
-          Nous avons besoin de votre localisation pour déterminer automatiquement votre fuseau horaire et programmer les sonneries aux bons moments.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Button 
-          onClick={handleLocationRequest} 
-          disabled={isLoading}
-          className="w-full"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Détection en cours...
-            </>
-          ) : (
-            <>
-              <MapPin className="mr-2 h-4 w-4" />
-              Autoriser la localisation
-            </>
-          )}
-        </Button>
-      </CardContent>
-    </Card>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <MapPin className="w-5 h-5" />
+            Location Permission Required
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-base">
+            We need your location to automatically determine your time zone and schedule the bells at the correct times.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <Button 
+            onClick={handleLocationRequest} 
+            disabled={isLoading}
+            className="w-full"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Detecting...
+              </>
+            ) : (
+              <>
+                <MapPin className="mr-2 h-4 w-4" />
+                Allow Location Access
+              </>
+            )}
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
