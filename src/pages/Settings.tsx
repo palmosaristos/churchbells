@@ -38,12 +38,12 @@ const Settings = () => {
       
       <div className="container mx-auto px-4 py-12 space-y-12">
         <div className="text-center space-y-4">
-          <h1 className="text-5xl font-cinzel font-bold text-foreground">
+          <p className="text-sm text-muted-foreground font-cormorant uppercase tracking-wide">
             Settings
-          </h1>
-          <p className="text-xl text-muted-foreground font-cormorant">
-            When should your bells ring?
           </p>
+          <h1 className="text-5xl font-cinzel font-bold text-foreground">
+            When should your bells ring ?
+          </h1>
         </div>
 
         <div className="max-w-4xl mx-auto">
