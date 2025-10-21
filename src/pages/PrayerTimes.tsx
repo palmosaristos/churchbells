@@ -15,8 +15,8 @@ const PrayerTimes = () => {
 
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
     toast({
-      title: "Temps de prière appliqués",
-      description: `${times.length} temps de prière ont été configurés pour les sonneries`
+      title: "Prayer times applied",
+      description: `${times.length} prayer times have been configured for the bells`
     });
   };
 
@@ -26,12 +26,12 @@ const PrayerTimes = () => {
       
       <div className="container mx-auto px-4 py-12 space-y-12">
         <div className="text-center space-y-4">
-          <h1 className="text-5xl font-cinzel font-bold text-foreground">
-            Temps de Prière
-          </h1>
-          <p className="text-xl text-muted-foreground font-cormorant">
-            Choisissez vos moments de prière pour les sonneries
+          <p className="text-sm text-muted-foreground font-cormorant uppercase tracking-wide">
+            Prayer Times
           </p>
+          <h1 className="text-5xl font-cinzel font-bold text-foreground">
+            Choose your prayer moments for the bells
+          </h1>
         </div>
 
         <div className="max-w-4xl mx-auto">

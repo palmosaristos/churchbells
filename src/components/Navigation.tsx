@@ -28,7 +28,7 @@ export function Navigation() {
               asChild
               className="font-medium"
             >
-              <Link to="/">Accueil</Link>
+              <Link to="/">Home</Link>
             </Button>
 
             <Button
@@ -38,7 +38,7 @@ export function Navigation() {
             >
               <Link to="/settings" className="flex items-center gap-2">
                 <Settings className="w-4 h-4" />
-                Paramètres
+                Settings
               </Link>
             </Button>
 
@@ -49,7 +49,7 @@ export function Navigation() {
             >
               <Link to="/prayer-times" className="flex items-center gap-2">
                 <Clock className="w-4 h-4" />
-                Prières
+                Prayer Times
               </Link>
             </Button>
             
