@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Crown } from "lucide-react";
+import { Crown, Settings, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
@@ -22,13 +22,35 @@ export function Navigation() {
           </Link>
 
           {/* Navigation Links */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <Button
               variant={currentPath === "/" ? "default" : "ghost"}
               asChild
               className="font-medium"
             >
-              <Link to="/">Home</Link>
+              <Link to="/">Accueil</Link>
+            </Button>
+
+            <Button
+              variant={currentPath === "/settings" ? "default" : "ghost"}
+              asChild
+              className="font-medium"
+            >
+              <Link to="/settings" className="flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Paramètres
+              </Link>
+            </Button>
+
+            <Button
+              variant={currentPath === "/prayer-times" ? "default" : "ghost"}
+              asChild
+              className="font-medium"
+            >
+              <Link to="/prayer-times" className="flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                Prières
+              </Link>
             </Button>
             
             <Button
