@@ -163,7 +163,7 @@ const PrayerTimes = () => {
               )}
               
               <Button 
-                className="w-full md:w-auto md:mx-auto md:block md:px-12 py-6 text-base font-cinzel shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]" 
+                className="w-full md:w-auto md:mx-auto flex items-center justify-center md:px-12 py-6 text-base font-cinzel shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]" 
                 onClick={validateAndApplyTimes}
                 aria-label="Apply custom prayer times"
               >
