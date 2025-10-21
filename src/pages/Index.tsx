@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { CurrentConfiguration } from "@/components/CurrentConfiguration";
 import { HeroSection } from "@/components/HeroSection";
@@ -11,15 +11,21 @@ const Index = () => {
   const [startTime] = useState<string>("08:00");
   const [endTime] = useState<string>("20:00");
   const [halfHourChimes] = useState<boolean>(false);
-  const [selectedTimeZone, setSelectedTimeZone] = useState<string>("");
-  const [audioPermissionGranted, setAudioPermissionGranted] = useState<boolean>(false);
+  const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => {
+    return localStorage.getItem("timeZone") || "";
+  });
+  const [audioPermissionGranted, setAudioPermissionGranted] = useState<boolean>(() => {
+    return localStorage.getItem("audioPermission") === "granted";
+  });
 
   const handleTimeZoneDetected = (timeZone: string) => {
     setSelectedTimeZone(timeZone);
+    localStorage.setItem("timeZone", timeZone);
   };
 
   const handleAudioPermissionGranted = () => {
     setAudioPermissionGranted(true);
+    localStorage.setItem("audioPermission", "granted");
   };
 
   return (
