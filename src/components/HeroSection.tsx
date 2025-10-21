@@ -1,18 +1,17 @@
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
-
 interface HeroSectionProps {
   heroImage: string;
 }
-
-export const HeroSection = ({ heroImage }: HeroSectionProps) => {
-  return (
-    <>
+export const HeroSection = ({
+  heroImage
+}: HeroSectionProps) => {
+  return <>
       {/* Hero Image */}
       <div className="relative overflow-hidden">
         <div className="h-96 bg-cover bg-bottom bg-no-repeat relative" style={{
-          backgroundImage: `url(${heroImage})`
-        }}>
+        backgroundImage: `url(${heroImage})`
+      }}>
           <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/20 to-transparent" />
         </div>
       </div>
@@ -29,13 +28,13 @@ export const HeroSection = ({ heroImage }: HeroSectionProps) => {
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
               </div>
-              <p className="text-2xl md:text-3xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">
-                Let the sacred sound of churchbells accompany you through the day
-              </p>
+              <p className="text-2xl md:text-3xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">Let sacred bells guide your day
+
+
+            </p>
             </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    </>;
 };
