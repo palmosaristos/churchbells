@@ -32,13 +32,16 @@ const PrayerTimes = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-12 space-y-12">
-        <div className="text-center space-y-4">
-          <p className="text-sm text-muted-foreground font-cormorant uppercase tracking-wide">
-            Prayer Times
+        <div className="text-center space-y-3">
+          <p className="text-xs text-muted-foreground/60 font-cormorant uppercase tracking-widest">
+            Daily Prayer Times
           </p>
           <h1 className="text-5xl font-cinzel font-bold text-foreground">
-            Choose your prayer moments for the bells
+            When should the Bells call you to prayer ?
           </h1>
+          <p className="text-sm text-muted-foreground italic font-cormorant">
+            Morning and evening bells
+          </p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-8">
