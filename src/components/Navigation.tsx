@@ -2,9 +2,15 @@ import { Link, useLocation } from "react-router-dom";
 import { Crown, Settings, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AppToggle } from "@/components/AppToggle";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
-export function Navigation() {
+interface NavigationProps {
+  isAppEnabled?: boolean;
+  onAppToggle?: (enabled: boolean) => void;
+}
+
+export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps) {
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -64,6 +70,10 @@ export function Navigation() {
                 Premium
               </Link>
             </Button>
+
+            {onAppToggle && (
+              <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
+            )}
 
             <ThemeToggle />
           </div>
