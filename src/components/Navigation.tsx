@@ -18,35 +18,24 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
 
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className={`flex ${isMobile ? 'flex-col py-3 gap-3' : 'items-center justify-between h-16'}`}>
-          {/* Logo/Brand and Controls */}
-          <div className="flex items-center justify-between">
-            <Link to="/" className={`flex items-center gap-3 ${isMobile ? 'text-2xl' : 'text-3xl'} font-bold text-foreground font-cinzel`}>
-              <img 
-                src={churchBellImage} 
-                alt="Sacred Bell" 
-                className={`${isMobile ? 'w-8 h-8' : 'w-10 h-10'} object-contain filter drop-shadow-sm`}
-              />
-              Sacred Bells
-            </Link>
-
-            {isMobile && (
-              <div className="flex items-center gap-2">
-                {onAppToggle && (
-                  <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
-                )}
-                <ThemeToggle />
-              </div>
-            )}
-          </div>
+      <div className="container mx-auto px-2 sm:px-4">
+        <div className="flex items-center justify-between h-14 sm:h-16 gap-2 overflow-x-auto">
+          {/* Logo/Brand */}
+          <Link to="/" className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel flex-shrink-0`}>
+            <img 
+              src={churchBellImage} 
+              alt="Sacred Bell" 
+              className={`${isMobile ? 'w-7 h-7' : 'w-10 h-10'} object-contain filter drop-shadow-sm`}
+            />
+            {!isMobile && "Sacred Bells"}
+          </Link>
 
           {/* Navigation Links */}
-          <div className={`flex items-center ${isMobile ? 'justify-between w-full flex-wrap' : 'gap-2'}`}>
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
             <Button
               variant={currentPath === "/" ? "default" : "ghost"}
               asChild
-              className={`font-medium ${isMobile ? 'text-xs px-3 py-2 h-9' : ''}`}
+              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
             >
               <Link to="/">Home</Link>
             </Button>
@@ -54,44 +43,41 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             <Button
               variant={currentPath === "/settings" ? "default" : "ghost"}
               asChild
-              className={`font-medium ${isMobile ? 'text-xs px-3 py-2 h-9' : ''}`}
+              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
             >
-              <Link to="/settings" className="flex items-center gap-2">
+              <Link to="/settings" className="flex items-center gap-1">
                 <Settings className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
-                Settings
+                {!isMobile && "Settings"}
               </Link>
             </Button>
 
             <Button
               variant={currentPath === "/prayer-times" ? "default" : "ghost"}
               asChild
-              className={`font-medium ${isMobile ? 'text-xs px-3 py-2 h-9' : ''}`}
+              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
             >
-              <Link to="/prayer-times" className="flex items-center gap-2">
+              <Link to="/prayer-times" className="flex items-center gap-1">
                 <Clock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
-                Prayer Times
+                {!isMobile && "Prayer Times"}
               </Link>
             </Button>
             
             <Button
               variant={currentPath === "/premium" ? "amber" : "outline"}
               asChild
-              className={`font-medium ${isMobile ? 'text-xs px-3 py-2 h-9' : ''}`}
+              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
             >
-              <Link to="/premium" className="flex items-center gap-2">
+              <Link to="/premium" className="flex items-center gap-1">
                 <Crown className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
-                Premium
+                {!isMobile && "Premium"}
               </Link>
             </Button>
 
-            {!isMobile && (
-              <>
-                {onAppToggle && (
-                  <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
-                )}
-                <ThemeToggle />
-              </>
+            {onAppToggle && (
+              <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
             )}
+
+            <ThemeToggle />
           </div>
         </div>
       </div>
