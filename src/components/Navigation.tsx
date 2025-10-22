@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AppToggle } from "@/components/AppToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
 interface NavigationProps {
@@ -15,20 +16,28 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
   const location = useLocation();
   const currentPath = location.pathname;
   const isMobile = useIsMobile();
+  const { playAudio } = useAudioPlayer();
+
+  const handleBellClick = () => {
+    playAudio("/audio/cathedral-bell.mp3", "Sacred Bells");
+  };
 
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex items-center justify-between h-14 sm:h-16 gap-2 overflow-x-auto">
           {/* Logo/Brand */}
-          <Link to="/" className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel flex-shrink-0`}>
+          <button 
+            onClick={handleBellClick}
+            className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel flex-shrink-0 hover:opacity-80 transition-opacity cursor-pointer`}
+          >
             <img 
               src={churchBellImage} 
               alt="Sacred Bell" 
               className={`${isMobile ? 'w-7 h-7' : 'w-10 h-10'} object-contain filter drop-shadow-sm`}
             />
             {!isMobile && "Sacred Bells"}
-          </Link>
+          </button>
 
           {/* Navigation Links */}
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
