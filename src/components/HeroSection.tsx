@@ -8,7 +8,7 @@ export const HeroSection = ({
 }: HeroSectionProps) => {
   return <>
       {/* Hero Image */}
-      <div className="relative overflow-hidden pt-16">
+      <div className="relative overflow-hidden pt-2">
         <div className="h-96 bg-cover bg-bottom bg-no-repeat relative" style={{
         backgroundImage: `url(${heroImage})`
       }}>
