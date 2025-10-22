@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Crown, Settings, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
 export function Navigation() {
@@ -63,6 +64,8 @@ export function Navigation() {
                 Premium
               </Link>
             </Button>
+
+            <ThemeToggle />
           </div>
         </div>
       </div>
