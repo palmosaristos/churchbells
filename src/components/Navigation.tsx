@@ -25,11 +25,19 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
       <div className="container mx-auto px-2 sm:px-4">
-        <div className="flex items-center justify-between h-14 sm:h-16 gap-2 overflow-x-auto">
-          {/* Logo/Brand */}
+        {/* First Row: Toggle ON/OFF, Logo, Theme Toggle */}
+        <div className="flex items-center justify-between h-12 sm:h-14 border-b border-border/30">
+          {/* Left: App Toggle */}
+          <div className="flex-shrink-0">
+            {onAppToggle && (
+              <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
+            )}
+          </div>
+
+          {/* Center: Logo */}
           <button 
             onClick={handleBellClick}
-            className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel flex-shrink-0 hover:opacity-80 transition-opacity cursor-pointer`}
+            className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel hover:opacity-80 transition-opacity cursor-pointer`}
           >
             <img 
               src={churchBellImage} 
@@ -39,55 +47,56 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             {!isMobile && "Sacred Bells"}
           </button>
 
-          {/* Navigation Links */}
-          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-            <Button
-              variant={currentPath === "/" ? "default" : "ghost"}
-              asChild
-              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
-            >
-              <Link to="/">Home</Link>
-            </Button>
-
-            <Button
-              variant={currentPath === "/settings" ? "default" : "ghost"}
-              asChild
-              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
-            >
-              <Link to="/settings" className="flex items-center gap-1">
-                <Settings className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
-                {!isMobile && "Settings"}
-              </Link>
-            </Button>
-
-            <Button
-              variant={currentPath === "/prayer-times" ? "default" : "ghost"}
-              asChild
-              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
-            >
-              <Link to="/prayer-times" className="flex items-center gap-1">
-                <Clock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
-                {!isMobile && "Prayer Times"}
-              </Link>
-            </Button>
-            
-            <Button
-              variant={currentPath === "/premium" ? "amber" : "outline"}
-              asChild
-              className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
-            >
-              <Link to="/premium" className="flex items-center gap-1">
-                <Crown className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
-                {!isMobile && "Premium"}
-              </Link>
-            </Button>
-
-            {onAppToggle && (
-              <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
-            )}
-
+          {/* Right: Theme Toggle */}
+          <div className="flex-shrink-0">
             <ThemeToggle />
           </div>
+        </div>
+
+        {/* Second Row: Navigation Links */}
+        <div className="flex items-center justify-center gap-1 sm:gap-2 h-12 sm:h-14">
+          <Button
+            variant={currentPath === "/" ? "default" : "ghost"}
+            asChild
+            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+          >
+            <Link to="/" className="flex items-center gap-1">
+              <span>Home</span>
+            </Link>
+          </Button>
+
+          <Button
+            variant={currentPath === "/settings" ? "default" : "ghost"}
+            asChild
+            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+          >
+            <Link to="/settings" className="flex items-center gap-1">
+              <Settings className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+              <span>Settings</span>
+            </Link>
+          </Button>
+
+          <Button
+            variant={currentPath === "/prayer-times" ? "default" : "ghost"}
+            asChild
+            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+          >
+            <Link to="/prayer-times" className="flex items-center gap-1">
+              <Clock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+              <span>Prayer Times</span>
+            </Link>
+          </Button>
+          
+          <Button
+            variant={currentPath === "/premium" ? "amber" : "outline"}
+            asChild
+            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+          >
+            <Link to="/premium" className="flex items-center gap-1">
+              <Crown className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+              <span>Premium</span>
+            </Link>
+          </Button>
         </div>
       </div>
     </nav>
