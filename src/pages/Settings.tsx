@@ -101,7 +101,7 @@ const Settings = () => {
         <div className="max-w-md mx-auto">
           <Button 
             onClick={handleSave} 
-            className="w-full"
+            className="w-full text-3xl font-cormorant py-8 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-2 border-amber-400/30"
             size="lg"
             aria-label="Sauvegarder les paramètres"
           >

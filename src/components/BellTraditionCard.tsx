@@ -45,7 +45,7 @@ export const BellTraditionCard = ({
             e.stopPropagation();
             onPlay();
           }}
-          className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-base text-foreground"
+          className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
           aria-label={`Écouter le son de ${title}`}
         >
           <Play className="w-4 h-4" />
