@@ -239,9 +239,58 @@ export const TimeRangeSelector = ({
             </div>
           </div>
 
+          {/* Quick Configurations */}
+          <div className="space-y-3">
+            <Label className="text-3xl font-cormorant text-foreground">Quick Configurations</Label>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  onStartTimeChange("00:00");
+                  onEndTimeChange("23:30");
+                  if (onSelectedDaysChange) {
+                    onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg font-cormorant text-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-all"
+                aria-label="Configuration 24/7"
+              >
+                24/7
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onStartTimeChange("07:00");
+                  onEndTimeChange("22:00");
+                  if (onSelectedDaysChange) {
+                    onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg font-cormorant text-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-all"
+                aria-label="Configuration de 7h à 22h"
+              >
+                From 7 AM to 10 PM
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onStartTimeChange("07:00");
+                  onEndTimeChange("22:00");
+                  if (onSelectedDaysChange) {
+                    onSelectedDaysChange(['saturday', 'sunday']);
+                  }
+                }}
+                className="px-4 py-2 rounded-lg font-cormorant text-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-all"
+                aria-label="Configuration week-end uniquement"
+              >
+                Only the weekend
+              </button>
+            </div>
+          </div>
+
           {/* Days of Week Selector */}
           <div className="space-y-3">
-            <Label className="text-xl font-cormorant text-foreground">Active Days</Label>
+            <Label className="text-3xl font-cormorant text-foreground">Active Days</Label>
             <div className="flex flex-wrap gap-2 justify-center">
               {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`px-4 py-2 rounded-lg font-cormorant text-lg transition-all ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>
                   {day.label}
