@@ -17,15 +17,50 @@ interface PrayerTime {
 }
 
 const PrayerTimes = () => {
-  const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
-  const [morningPrayerTime, setMorningPrayerTime] = useState<string>("06:00");
-  const [eveningPrayerTime, setEveningPrayerTime] = useState<string>("18:00");
-  const [morningPrayerName, setMorningPrayerName] = useState<string>("Morning Prayer");
-  const [eveningPrayerName, setEveningPrayerName] = useState<string>("Evening Prayer");
+  const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>(() => {
+    return localStorage.getItem("prayerTradition") || "Roman Catholic";
+  });
+  const [morningPrayerTime, setMorningPrayerTime] = useState<string>(() => {
+    return localStorage.getItem("morningPrayerTime") || "06:00";
+  });
+  const [eveningPrayerTime, setEveningPrayerTime] = useState<string>(() => {
+    return localStorage.getItem("eveningPrayerTime") || "18:00";
+  });
+  const [morningPrayerName, setMorningPrayerName] = useState<string>(() => {
+    return localStorage.getItem("morningPrayerName") || "Morning Prayer";
+  });
+  const [eveningPrayerName, setEveningPrayerName] = useState<string>(() => {
+    return localStorage.getItem("eveningPrayerName") || "Evening Prayer";
+  });
+  const [morningPrayerEnabled, setMorningPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("morningPrayerEnabled") === "true";
+  });
+  const [eveningPrayerEnabled, setEveningPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("eveningPrayerEnabled") === "true";
+  });
   const [timeError, setTimeError] = useState<string>("");
-  const [callType, setCallType] = useState<string>("short");
+  const [callType, setCallType] = useState<string>(() => {
+    return localStorage.getItem("callType") || "short";
+  });
   const { toast } = useToast();
   const { playAudio } = useAudioPlayer();
+
+  const handleSave = () => {
+    localStorage.setItem("prayerTradition", selectedPrayerTradition);
+    localStorage.setItem("morningPrayerTime", morningPrayerTime);
+    localStorage.setItem("eveningPrayerTime", eveningPrayerTime);
+    localStorage.setItem("morningPrayerName", morningPrayerName);
+    localStorage.setItem("eveningPrayerName", eveningPrayerName);
+    localStorage.setItem("morningPrayerEnabled", String(morningPrayerEnabled));
+    localStorage.setItem("eveningPrayerEnabled", String(eveningPrayerEnabled));
+    localStorage.setItem("callType", callType);
+    localStorage.setItem("prayersConfigured", "true");
+    
+    toast({
+      title: "Prayer settings saved",
+      description: "Your prayer times have been saved successfully"
+    });
+  };
 
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
     toast({
@@ -106,10 +141,21 @@ const PrayerTimes = () => {
             <CardContent className="space-y-8 relative">
               <div className="grid gap-8 md:grid-cols-2">
                 <div className="space-y-4 group">
-                  <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-base font-medium font-cormorant">
-                    <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
-                    Morning Prayer
-                  </Label>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-base font-medium font-cormorant">
+                      <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                      Morning Prayer
+                    </Label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={morningPrayerEnabled}
+                        onChange={(e) => setMorningPrayerEnabled(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
+                    </label>
+                  </div>
                   <Input
                     id="morning-prayer-name"
                     type="text"
@@ -138,10 +184,21 @@ const PrayerTimes = () => {
                 </div>
                 
                 <div className="space-y-4 group">
-                  <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-base font-medium font-cormorant">
-                    <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
-                    Evening Prayer
-                  </Label>
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-base font-medium font-cormorant">
+                      <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
+                      Evening Prayer
+                    </Label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={eveningPrayerEnabled}
+                        onChange={(e) => setEveningPrayerEnabled(e.target.checked)}
+                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
+                      />
+                      <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
+                    </label>
+                  </div>
                   <Input
                     id="evening-prayer-name"
                     type="text"
@@ -235,6 +292,18 @@ const PrayerTimes = () => {
               </Button>
             </CardContent>
           </Card>
+
+          {/* Save Button */}
+          <div className="text-center">
+            <Button 
+              onClick={handleSave}
+              variant="sacred"
+              size="lg"
+              className="gap-2 font-cinzel text-lg px-12 py-6 shadow-xl"
+            >
+              Save Prayer Settings
+            </Button>
+          </div>
         </div>
       </div>
     </div>

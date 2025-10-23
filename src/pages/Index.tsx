@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { CurrentConfiguration } from "@/components/CurrentConfiguration";
+import { PrayerConfiguration } from "@/components/PrayerConfiguration";
 import { HeroSection } from "@/components/HeroSection";
 import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
@@ -28,6 +29,24 @@ const Index = () => {
   const [isAppEnabled, setIsAppEnabled] = useState<boolean>(() => {
     return localStorage.getItem("appEnabled") !== "false";
   });
+  const [morningPrayerEnabled, setMorningPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("morningPrayerEnabled") === "true";
+  });
+  const [eveningPrayerEnabled, setEveningPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("eveningPrayerEnabled") === "true";
+  });
+  const [morningPrayerName, setMorningPrayerName] = useState<string>(() => {
+    return localStorage.getItem("morningPrayerName") || "Morning Prayer";
+  });
+  const [eveningPrayerName, setEveningPrayerName] = useState<string>(() => {
+    return localStorage.getItem("eveningPrayerName") || "Evening Prayer";
+  });
+  const [morningPrayerTime, setMorningPrayerTime] = useState<string>(() => {
+    return localStorage.getItem("morningPrayerTime") || "06:00";
+  });
+  const [eveningPrayerTime, setEveningPrayerTime] = useState<string>(() => {
+    return localStorage.getItem("eveningPrayerTime") || "18:00";
+  });
 
   // Listen for settings changes
   useEffect(() => {
@@ -36,6 +55,12 @@ const Index = () => {
       setStartTime(localStorage.getItem("startTime") || "08:00");
       setEndTime(localStorage.getItem("endTime") || "20:00");
       setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
+      setMorningPrayerEnabled(localStorage.getItem("morningPrayerEnabled") === "true");
+      setEveningPrayerEnabled(localStorage.getItem("eveningPrayerEnabled") === "true");
+      setMorningPrayerName(localStorage.getItem("morningPrayerName") || "Morning Prayer");
+      setEveningPrayerName(localStorage.getItem("eveningPrayerName") || "Evening Prayer");
+      setMorningPrayerTime(localStorage.getItem("morningPrayerTime") || "06:00");
+      setEveningPrayerTime(localStorage.getItem("eveningPrayerTime") || "18:00");
     };
 
     // Listen for storage changes from other tabs
@@ -86,12 +111,23 @@ const Index = () => {
         )}
 
         {isAppEnabled && selectedTimeZone && audioPermissionGranted && (
-          <CurrentConfiguration
-            selectedBellTradition={selectedBellTradition}
-            startTime={startTime}
-            endTime={endTime}
-            halfHourChimes={halfHourChimes}
-          />
+          <>
+            <CurrentConfiguration
+              selectedBellTradition={selectedBellTradition}
+              startTime={startTime}
+              endTime={endTime}
+              halfHourChimes={halfHourChimes}
+            />
+            
+            <PrayerConfiguration
+              morningPrayerEnabled={morningPrayerEnabled}
+              eveningPrayerEnabled={eveningPrayerEnabled}
+              morningPrayerName={morningPrayerName}
+              eveningPrayerName={eveningPrayerName}
+              morningPrayerTime={morningPrayerTime}
+              eveningPrayerTime={eveningPrayerTime}
+            />
+          </>
         )}
       </div>
     </div>
