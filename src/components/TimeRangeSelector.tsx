@@ -247,7 +247,7 @@ export const TimeRangeSelector = ({
             )}
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-md backdrop-blur-sm">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
               <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
@@ -262,7 +262,7 @@ export const TimeRangeSelector = ({
             />
           </div>
           
-          <div className="p-4 rounded-lg bg-gradient-dawn border">
+          <div className="p-4 rounded-lg bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-md backdrop-blur-sm">
             <p className="text-xl text-foreground font-cormorant text-center">
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
               <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
