@@ -100,10 +100,12 @@ const PrayerTimes = () => {
       
       <div className="container mx-auto px-4 py-12 space-y-10">
         {/* Header */}
-        <div className="text-center space-y-4 animate-fade-in-up">
-          <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground leading-tight px-4">
-            When should the Bells<br />call you to prayer?
-          </h1>
+        <div className="max-w-4xl mx-auto animate-fade-in-up">
+          <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-8 md:p-12">
+            <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center leading-tight">
+              When should the Bells<br />call you to prayer?
+            </h1>
+          </div>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
