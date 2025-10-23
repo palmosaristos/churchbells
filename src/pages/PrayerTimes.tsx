@@ -100,7 +100,7 @@ const PrayerTimes = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-50/30 via-background to-amber-50/20 dark:from-sky-950/10 dark:via-background dark:to-amber-950/10">
+    <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
       
       <div className="container mx-auto px-4 py-12 space-y-10">
