@@ -303,7 +303,7 @@ export const TimeRangeSelector = ({
               </div>}
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
               <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
