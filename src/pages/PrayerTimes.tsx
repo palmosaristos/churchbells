@@ -221,34 +221,28 @@ const PrayerTimes = () => {
                 <BellRing className="w-6 h-6 text-primary" />
                 Prayer Reminder
               </CardTitle>
-              <CardDescription className="font-cormorant text-xl">
-                Choose when to be reminded before prayer time
-              </CardDescription>
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
               <RadioGroup value={reminderMinutes} onValueChange={setReminderMinutes} className="space-y-4" aria-label="Choisir quand être rappelé avant la prière">
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
                   <RadioGroupItem value="5" id="reminder-5" aria-label="5 minutes avant" />
-                  <Label htmlFor="reminder-5" className="flex-1 cursor-pointer font-cormorant text-xl">
-                    <span className="font-semibold">5 minutes before</span>
-                    <span className="block text-base text-muted-foreground">Short notice reminder</span>
+                  <Label htmlFor="reminder-5" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
+                    5 minutes before
                   </Label>
                 </div>
                 
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
                   <RadioGroupItem value="10" id="reminder-10" aria-label="10 minutes avant" />
-                  <Label htmlFor="reminder-10" className="flex-1 cursor-pointer font-cormorant text-xl">
-                    <span className="font-semibold">10 minutes before</span>
-                    <span className="block text-base text-muted-foreground">Standard reminder</span>
+                  <Label htmlFor="reminder-10" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
+                    10 minutes before
                   </Label>
                 </div>
                 
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
                   <RadioGroupItem value="15" id="reminder-15" aria-label="15 minutes avant" />
-                  <Label htmlFor="reminder-15" className="flex-1 cursor-pointer font-cormorant text-xl">
-                    <span className="font-semibold">15 minutes before</span>
-                    <span className="block text-base text-muted-foreground">Early preparation time</span>
+                  <Label htmlFor="reminder-15" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
+                    15 minutes before
                   </Label>
                 </div>
               </RadioGroup>
