@@ -39,7 +39,7 @@ export const CurrentConfiguration = ({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex items-center justify-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+          <div className="flex items-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <img 
               src={getBellImage(selectedBellTradition)} 
               alt="Selected Bell" 
@@ -50,7 +50,7 @@ export const CurrentConfiguration = ({
             </p>
           </div>
           
-          <div className="flex items-center gap-3 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+          <div className="flex items-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <img 
               src={churchClockImage} 
               alt="Church Clock" 
