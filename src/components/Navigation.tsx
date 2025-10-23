@@ -91,6 +91,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             </Link>
           </Button>
           
+          {/* Premium page temporarily hidden - uncomment when ready
           <Button
             variant={currentPath === "/premium" ? "amber" : "outline"}
             asChild
@@ -102,6 +103,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
               <span>Premium</span>
             </Link>
           </Button>
+          */}
         </div>
       </div>
     </nav>
