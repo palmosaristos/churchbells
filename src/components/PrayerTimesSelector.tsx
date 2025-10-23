@@ -125,7 +125,7 @@ export const PrayerTimesSelector = ({
   onTraditionSelect,
   onTimesSelect
 }: PrayerTimesSelectorProps) => {
-  return <Card className="w-full">
+  return <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
       
       
     </Card>;
