@@ -44,12 +44,12 @@ const Premium = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>("village-bell");
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
   const { toast } = useToast();
-  const { playAudio } = useAudioPlayer();
+  const { toggleAudio } = useAudioPlayer();
 
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      await playAudio(tradition.audioSample, `${tradition.name} - ${tradition.tradition}`);
+      await toggleAudio(tradition.audioSample, `${tradition.name} - ${tradition.tradition}`);
     }
   };
 

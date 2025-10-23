@@ -33,13 +33,13 @@ const Settings = () => {
     const saved = localStorage.getItem("selectedDays");
     return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   });
-  const { playAudio } = useAudioPlayer();
+  const { toggleAudio } = useAudioPlayer();
   const { toast } = useToast();
 
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      await playAudio(tradition.audioSample);
+      await toggleAudio(tradition.audioSample);
     }
   };
 

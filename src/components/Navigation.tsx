@@ -16,10 +16,10 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
   const location = useLocation();
   const currentPath = location.pathname;
   const isMobile = useIsMobile();
-  const { playAudio } = useAudioPlayer();
+  const { toggleAudio } = useAudioPlayer();
 
   const handleBellClick = () => {
-    playAudio("/audio/cathedral-bell.mp3", "Sacred Bells");
+    toggleAudio("/audio/cathedral-bell.mp3", "Sacred Bells");
   };
 
   return (

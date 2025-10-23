@@ -47,7 +47,7 @@ const PrayerTimes = () => {
     return localStorage.getItem("pushNotificationsEnabled") === "true";
   });
   const { toast } = useToast();
-  const { playAudio } = useAudioPlayer();
+  const { toggleAudio, isPlaying, currentAudioUrl } = useAudioPlayer();
 
   const handleSave = () => {
     localStorage.setItem("prayerTradition", selectedPrayerTradition);
@@ -280,12 +280,14 @@ const PrayerTimes = () => {
                   const audioUrl = callType === "short" 
                     ? "/audio/summoning-bell.mp3" 
                     : "/audio/cathedral-bell.mp3";
-                  playAudio(audioUrl, `${callType === "short" ? "Short" : "Long"} Call`);
+                  toggleAudio(audioUrl, `${callType === "short" ? "Short" : "Long"} Call`);
                 }}
                 aria-label="Preview bell call sound"
               >
                 <Volume2 className="w-5 h-5" />
-                Listen to {callType === "short" ? "Short" : "Long"} Call
+                {isPlaying && currentAudioUrl === (callType === "short" ? "/audio/summoning-bell.mp3" : "/audio/cathedral-bell.mp3")
+                  ? "Stop"
+                  : `Listen to ${callType === "short" ? "Short" : "Long"} Call`}
               </Button>
             </CardContent>
           </Card>
