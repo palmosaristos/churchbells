@@ -132,7 +132,7 @@ const Settings = () => {
                     description: "Share it with your community"
                   });
                 }}
-                className="mt-4 text-xl font-cormorant px-8 py-6 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                className="mt-4 text-xl font-cormorant px-8 py-6 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                 size="lg"
               >
                 Copy Link to Share
