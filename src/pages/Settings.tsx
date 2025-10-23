@@ -116,18 +116,13 @@ const Settings = () => {
 
         {/* Share Banner */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-blue-50/90 via-indigo-50/90 to-purple-50/90 dark:from-blue-950/60 dark:via-indigo-950/60 dark:to-purple-950/60 rounded-2xl shadow-2xl border-2 border-blue-300/50 dark:border-blue-700/50 p-8 md:p-10 backdrop-blur-sm">
+          <div className="bg-gradient-to-r from-red-50/80 via-rose-50/80 to-red-50/80 dark:from-red-950/40 dark:via-rose-950/40 dark:to-red-950/40 rounded-2xl shadow-2xl border-2 border-red-200/40 dark:border-red-800/40 p-8 md:p-10 backdrop-blur-sm">
             <div className="text-center space-y-4">
-              <div className="flex items-center justify-center gap-3">
-                <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                </svg>
-                <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-foreground">
-                  Share the Bells
-                </h3>
-              </div>
+              <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-foreground">
+                Share the Bells
+              </h3>
               <p className="text-xl md:text-2xl font-cormorant text-foreground leading-relaxed max-w-2xl mx-auto">
-                Do you know someone who appreciates living <span className="font-cinzel font-semibold italic text-blue-600 dark:text-blue-400">close to the church</span>? Share this app with them and bring the sound of bells into their daily rhythm.
+                Do you know someone who appreciates living close to the church? Share this app with them and bring the sound of bells into their daily rhythm.
               </p>
               <Button 
                 onClick={() => {
@@ -137,7 +132,7 @@ const Settings = () => {
                     description: "Share it with your community"
                   });
                 }}
-                className="mt-4 text-xl font-cormorant px-8 py-6 bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                className="mt-4 text-xl font-cormorant px-8 py-6 bg-gradient-to-br from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                 size="lg"
               >
                 Copy Link to Share
