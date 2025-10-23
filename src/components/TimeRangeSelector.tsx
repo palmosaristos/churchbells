@@ -254,7 +254,7 @@ export const TimeRangeSelector = ({
 
           {/* Tailor your schedule section */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground">Tailor your schedule</Label>
+            <Label className="text-3xl font-cormorant text-foreground">Or tailor your schedule</Label>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -296,8 +296,8 @@ export const TimeRangeSelector = ({
           {/* Days of Week Selector */}
           <div className="space-y-3">
             <Label className="text-3xl font-cormorant text-foreground">Active Days</Label>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`px-4 py-2 rounded-lg font-cormorant text-lg transition-all ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-16 h-16 rounded-full font-cormorant text-lg transition-all ${selectedDays.includes(day.id) ? 'bg-amber-100 dark:bg-amber-900/40 border-2 border-amber-500 text-amber-900 dark:text-amber-100 shadow-md' : 'bg-white/50 dark:bg-slate-800/50 border-2 border-amber-300/50 dark:border-amber-700/30 text-muted-foreground hover:border-amber-400'}`}>
                   {day.label}
                 </button>)}
             </div>
@@ -336,15 +336,18 @@ export const TimeRangeSelector = ({
             {pauseEnabled && <div className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50">
                 <p className="text-lg text-foreground font-cormorant text-center">
                   Bells will be silent from{' '}
-                  <span className="font-cinzel font-semibold text-red-600">{pauseStartTime}</span> to{' '}
-                  <span className="font-cinzel font-semibold text-green-600">{pauseEndTime}</span>
+                  <span className="font-cinzel font-semibold text-red-600">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
+                  <span className="font-cinzel font-semibold text-green-600">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
                 </p>
               </div>}
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-primary" />
+              <svg className="w-6 h-6 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16.5 16"/>
+              </svg>
               <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
                 Chime every half hour
               </Label>
@@ -355,8 +358,8 @@ export const TimeRangeSelector = ({
           <div className="p-4 rounded-lg bg-gradient-dawn border">
             <p className="text-xl text-foreground font-cormorant text-center">
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
-              <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
-              <span className="font-cinzel font-semibold text-primary">{endTime}</span>
+              <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === startTime)?.label || startTime}</span> to{' '}
+              <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === endTime)?.label || endTime}</span>
             </p>
           </div>
         </CardContent>
