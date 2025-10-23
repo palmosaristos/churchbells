@@ -41,8 +41,8 @@ const PrayerTimes = () => {
   const [callType, setCallType] = useState<string>(() => {
     return localStorage.getItem("callType") || "short";
   });
-  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState<boolean>(() => {
-    return localStorage.getItem("pushNotificationsEnabled") === "true";
+  const [reminderMinutes, setReminderMinutes] = useState<string>(() => {
+    return localStorage.getItem("reminderMinutes") || "5";
   });
   const {
     toast
@@ -61,7 +61,7 @@ const PrayerTimes = () => {
     localStorage.setItem("morningPrayerEnabled", String(morningPrayerEnabled));
     localStorage.setItem("eveningPrayerEnabled", String(eveningPrayerEnabled));
     localStorage.setItem("callType", callType);
-    localStorage.setItem("pushNotificationsEnabled", String(pushNotificationsEnabled));
+    localStorage.setItem("reminderMinutes", reminderMinutes);
     localStorage.setItem("prayersConfigured", "true");
     toast({
       title: "Prayer settings saved",
@@ -228,32 +228,46 @@ const PrayerTimes = () => {
             </CardContent>
           </Card>
 
-          {/* Push Notifications */}
+          {/* Prayer Reminder */}
           <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
               <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
                 <BellRing className="w-6 h-6 text-primary" />
-                Push Notifications
+                Prayer Reminder
               </CardTitle>
-              
+              <CardDescription className="font-cormorant text-base">
+                Choose when to be reminded before prayer time
+              </CardDescription>
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
-              <div className="flex items-center justify-between p-4 rounded-lg border-2 border-border bg-background/50">
-                <div className="space-y-1">
-                  <Label htmlFor="push-notifications" className="text-base font-medium font-cormorant cursor-pointer">
-                    Enable Prayer Reminders
+              <RadioGroup value={reminderMinutes} onValueChange={setReminderMinutes} className="space-y-4">
+                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="5" id="reminder-5" />
+                  <Label htmlFor="reminder-5" className="flex-1 cursor-pointer font-cormorant text-base">
+                    <span className="font-semibold">5 minutes before</span>
+                    <span className="block text-sm text-muted-foreground">Short notice reminder</span>
                   </Label>
-                  <p className="text-sm text-muted-foreground font-cormorant">
-                    "Your bells will ring in 5 minutes"
-                  </p>
                 </div>
-                <Switch id="push-notifications" checked={pushNotificationsEnabled} onCheckedChange={setPushNotificationsEnabled} />
-              </div>
-              
-              
+                
+                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="10" id="reminder-10" />
+                  <Label htmlFor="reminder-10" className="flex-1 cursor-pointer font-cormorant text-base">
+                    <span className="font-semibold">10 minutes before</span>
+                    <span className="block text-sm text-muted-foreground">Standard reminder</span>
+                  </Label>
+                </div>
+                
+                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
+                  <RadioGroupItem value="15" id="reminder-15" />
+                  <Label htmlFor="reminder-15" className="flex-1 cursor-pointer font-cormorant text-base">
+                    <span className="font-semibold">15 minutes before</span>
+                    <span className="block text-sm text-muted-foreground">Early preparation time</span>
+                  </Label>
+                </div>
+              </RadioGroup>
             </CardContent>
           </Card>
         </div>
