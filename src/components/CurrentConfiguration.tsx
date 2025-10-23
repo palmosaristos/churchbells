@@ -33,7 +33,7 @@ export const CurrentConfiguration = ({
   return (
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
       <CardHeader className="text-center">
-        <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
+        <CardTitle className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center leading-tight">
           {!settingsConfigured ? "Set your sacred bells schedule" : "Your Sacred Bells schedule"}
         </CardTitle>
       </CardHeader>
@@ -45,7 +45,7 @@ export const CurrentConfiguration = ({
               alt="Selected Bell" 
               className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
             />
-            <p className="font-cormorant text-xl text-foreground">
+            <p className="font-cinzel text-2xl text-foreground">
               {selectedBell?.name}
             </p>
           </div>
@@ -57,22 +57,22 @@ export const CurrentConfiguration = ({
               className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
             />
             <div className="flex flex-col items-start">
-              <p className="text-sm font-medium text-foreground">Daily schedule</p>
-              <p className="font-cormorant text-lg text-foreground">{startTime} - {endTime}</p>
+              <p className="text-lg font-cinzel text-foreground">Daily schedule</p>
+              <p className="font-cinzel text-2xl text-foreground">{startTime} - {endTime}</p>
             </div>
           </div>
         </div>
         
         <div className="text-center mt-4 p-3 rounded-lg bg-gradient-dawn border">
-          <p className="text-xl text-foreground font-cormorant">
+          <p className="text-2xl text-foreground font-cinzel">
             Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
           </p>
         </div>
 
         <div className="text-center mt-6">
           <Link to="/settings">
-            <Button variant="outline" className="gap-2">
-              <Settings className="w-4 h-4" />
+            <Button variant="outline" className="gap-2 text-xl font-cinzel py-6">
+              <Settings className="w-5 h-5" />
               Customize your bells
             </Button>
           </Link>
