@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
 import { useToast } from "@/hooks/use-toast";
-import { Settings as SettingsIcon } from "lucide-react";
+import churchBellNew from "@/assets/church-bell-new.png";
 
 const Settings = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
@@ -70,7 +70,7 @@ const Settings = () => {
         <div className="text-center space-y-4 animate-fade-in-up">
           <div className="flex justify-center mb-4">
             <div className="p-4 rounded-full bg-primary/5 border-2 border-primary/10">
-              <SettingsIcon className="w-12 h-12 text-primary" strokeWidth={1.5} />
+              <img src={churchBellNew} alt="Bell settings" className="w-12 h-12 object-contain drop-shadow-lg" />
             </div>
           </div>
           <p className="text-xs text-muted-foreground/60 font-cormorant uppercase tracking-widest">
