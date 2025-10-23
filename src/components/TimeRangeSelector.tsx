@@ -219,7 +219,7 @@ export const TimeRangeSelector = ({
                 className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
                 aria-label="Configuration 24/7"
               >
-                ✨ 24/7
+                24/7
               </button>
               <button
                 type="button"
@@ -233,7 +233,7 @@ export const TimeRangeSelector = ({
                 className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
                 aria-label="Configuration de 7h à 22h"
               >
-                ☀️ From 7 AM to 10 PM
+                From 7 AM to 10 PM
               </button>
               <button
                 type="button"
@@ -247,14 +247,19 @@ export const TimeRangeSelector = ({
                 className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
                 aria-label="Configuration week-end uniquement"
               >
-                🌙 Only the weekend
+                Only the weekend
               </button>
             </div>
           </div>
 
+          {/* Tailor your schedule section */}
+          <div className="space-y-3">
+            <Label className="text-3xl font-cormorant text-foreground">Tailor your schedule</Label>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="start-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
+              <Label htmlFor="start-time" className="flex items-center gap-2 text-2xl font-cormorant text-foreground">
                 <img src={ultraRealisticBellIcon} alt="Start Bell" className="w-10 h-10 object-contain" />
                 Start Time
               </Label>
@@ -271,7 +276,7 @@ export const TimeRangeSelector = ({
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="end-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
+              <Label htmlFor="end-time" className="flex items-center gap-2 text-2xl font-cormorant text-foreground">
                 <img src={ultraRealisticBellIcon} alt="End Bell" className="w-10 h-10 object-contain" />
                 End Time
               </Label>
