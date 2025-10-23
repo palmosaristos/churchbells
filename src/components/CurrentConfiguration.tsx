@@ -34,7 +34,7 @@ export const CurrentConfiguration = ({
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
       <CardHeader className="text-center">
         <CardTitle className="font-cormorant text-3xl text-foreground text-center">
-          {!settingsConfigured ? "Set your sacred bells schedule" : "Your Sacred Bells schedule"}
+          Your Sacred Bells schedule
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
