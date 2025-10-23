@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
 import { useToast } from "@/hooks/use-toast";
+import { Settings as SettingsIcon } from "lucide-react";
 
 const Settings = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
@@ -64,14 +65,23 @@ const Settings = () => {
     <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-12 space-y-12">
-        <div className="text-center space-y-4">
-          <p className="text-sm text-muted-foreground font-cormorant uppercase tracking-wide">
-            Settings
+      <div className="container mx-auto px-4 py-12 space-y-10">
+        {/* Header with settings icon */}
+        <div className="text-center space-y-4 animate-fade-in-up">
+          <div className="flex justify-center mb-4">
+            <div className="p-4 rounded-full bg-primary/5 border-2 border-primary/10">
+              <SettingsIcon className="w-12 h-12 text-primary" strokeWidth={1.5} />
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground/60 font-cormorant uppercase tracking-widest">
+            Bell Settings
           </p>
-          <h1 className="text-5xl font-cinzel font-bold text-foreground">
-            When should your bells ring ?
+          <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground leading-tight px-4">
+            When should your<br />Bells ring?
           </h1>
+          <p className="text-base text-muted-foreground italic font-cormorant max-w-md mx-auto">
+            Configure your daily bell schedule and sound preferences
+          </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
