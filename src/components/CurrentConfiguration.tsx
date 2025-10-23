@@ -32,15 +32,10 @@ export const CurrentConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
-      <CardHeader className="text-center space-y-3">
+      <CardHeader className="text-center">
         <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
           {isDefault ? "Set your sacred bells schedule" : "Your Church Bells"}
         </CardTitle>
-        {isDefault && (
-          <p className="text-muted-foreground text-sm">
-            Customize your bell ringing schedule to match your spiritual rhythm
-          </p>
-        )}
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
