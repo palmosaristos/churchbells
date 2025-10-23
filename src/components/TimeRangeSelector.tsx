@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Clock, Volume2 } from "lucide-react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+import { formatTimeToAMPM } from "@/lib/utils";
 import sunImage from "@/assets/sun-prayer-realistic.png";
 import moonImage from "@/assets/moon-prayer-full.png";
 import bellStartImage from "@/assets/bell-start.png";
@@ -333,8 +334,8 @@ export const TimeRangeSelector = ({
             {pauseEnabled && <div className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50">
                 <p className="text-lg text-foreground font-cormorant text-center">
                   Bells will be silent from{' '}
-                  <span className="font-cinzel font-semibold text-red-600">{pauseStartTime}</span> to{' '}
-                  <span className="font-cinzel font-semibold text-green-600">{pauseEndTime}</span>
+                  <span className="font-cinzel font-semibold text-red-600">{formatTimeToAMPM(pauseStartTime)}</span> to{' '}
+                  <span className="font-cinzel font-semibold text-green-600">{formatTimeToAMPM(pauseEndTime)}</span>
                 </p>
               </div>}
           </div>
@@ -349,11 +350,11 @@ export const TimeRangeSelector = ({
             <Switch id="half-hour-switch" checked={halfHourChimes} onCheckedChange={onHalfHourChimesChange} disabled={!onHalfHourChimesChange} />
           </div>
           
-          <div className="p-4 rounded-lg bg-gradient-dawn border">
+          <div className="p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
             <p className="text-xl text-foreground font-cormorant text-center">
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
-              <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
-              <span className="font-cinzel font-semibold text-primary">{endTime}</span>
+              <span className="font-cinzel font-semibold text-primary">{formatTimeToAMPM(startTime)}</span> to{' '}
+              <span className="font-cinzel font-semibold text-primary">{formatTimeToAMPM(endTime)}</span>
             </p>
           </div>
         </CardContent>
