@@ -24,11 +24,6 @@ export const PremiumConfiguration = ({ isPremiumMember }: PremiumConfigurationPr
             <p className="text-lg font-medium text-foreground">
               {isPremiumMember ? "Sacred Bells Community Member" : "Not yet a Sacred Bells Community Member"}
             </p>
-            {!isPremiumMember && (
-              <p className="text-sm text-muted-foreground">
-                Unlock authentic Catholic and Orthodox prayer traditions
-              </p>
-            )}
           </div>
         </div>
         
