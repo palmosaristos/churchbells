@@ -82,7 +82,7 @@ export const PrayerConfiguration = ({
           <Link to="/prayer-times">
             <Button variant="outline" className="gap-2">
               <Settings className="w-4 h-4" />
-              Set your call to prayer
+              Schedule prayer bells
             </Button>
           </Link>
         </div>
