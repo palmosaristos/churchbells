@@ -194,6 +194,20 @@ export const TimeRangeSelector = ({
       onSelectedDaysChange([...selectedDays, dayId]);
     }
   };
+
+  const applyPreset = (preset: 'weekend' | '24-7') => {
+    if (preset === 'weekend') {
+      onSelectedDaysChange?.(['saturday', 'sunday']);
+      onStartTimeChange('08:00');
+      onEndTimeChange('20:00');
+      onPauseEnabledChange?.(false);
+    } else if (preset === '24-7') {
+      onSelectedDaysChange?.(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+      onStartTimeChange('00:00');
+      onEndTimeChange('23:30');
+      onPauseEnabledChange?.(false);
+    }
+  };
   return <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
@@ -203,6 +217,28 @@ export const TimeRangeSelector = ({
           <CardDescription className="font-cormorant text-xl text-foreground">Set the hours when bells will ring</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Quick Presets */}
+          <div className="space-y-3">
+            <Label className="text-lg font-cormorant text-muted-foreground text-center block">Quick Configurations</Label>
+            <div className="flex gap-3 justify-center flex-wrap">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => applyPreset('weekend')}
+                className="font-cormorant text-lg"
+              >
+                Weekend uniquement
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => applyPreset('24-7')}
+                className="font-cormorant text-lg"
+              >
+                24/7
+              </Button>
+            </div>
+          </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="start-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
