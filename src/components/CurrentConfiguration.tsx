@@ -39,11 +39,11 @@ export const CurrentConfiguration = ({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+          <div className="flex items-center justify-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <img 
               src={getBellImage(selectedBellTradition)} 
               alt="Selected Bell" 
-              className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
+              className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
             />
             <p className="font-cormorant text-xl text-foreground">
               {selectedBell?.name}
