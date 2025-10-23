@@ -103,9 +103,9 @@ const PrayerTimes = () => {
     <div className="min-h-screen bg-gradient-to-b from-sky-50/30 via-background to-amber-50/20 dark:from-sky-950/10 dark:via-background dark:to-amber-950/10">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-16 space-y-16">
+      <div className="container mx-auto px-4 py-12 space-y-10">
         {/* Header with bell icon */}
-        <div className="text-center space-y-6 animate-fade-in-up">
+        <div className="text-center space-y-4 animate-fade-in-up">
           <div className="flex justify-center mb-4">
             <div className="p-4 rounded-full bg-primary/5 border-2 border-primary/10">
               <Bell className="w-12 h-12 text-primary animate-bell-ring" strokeWidth={1.5} />
@@ -122,16 +122,16 @@ const PrayerTimes = () => {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-12">
-          <PrayerTimesSelector 
+        <div className="max-w-4xl mx-auto space-y-8">
+          <PrayerTimesSelector
             selectedTradition={selectedPrayerTradition} 
             onTraditionSelect={setSelectedPrayerTradition} 
             onTimesSelect={handlePrayerTimesSelect} 
           />
 
           {/* Custom Prayer Times */}
-          <Card className="relative overflow-hidden bg-gradient-to-br from-amber/5 to-secondary/10 dark:from-amber/5 dark:to-secondary/5 border-2 border-amber/20 dark:border-amber/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber/30">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,220,120,0.1),transparent)] pointer-events-none" />
+          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
               <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
@@ -161,15 +161,15 @@ const PrayerTimes = () => {
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
-                  <Input
-                    id="morning-prayer-name"
-                    type="text"
-                    value={morningPrayerName}
-                    onChange={(e) => setMorningPrayerName(e.target.value)}
-                    placeholder="e.g., Angélus du Matin"
-                    className="w-full font-cormorant border-2 focus:border-amber transition-colors"
-                    aria-label="Name your morning prayer"
-                  />
+                    <Input
+                      id="morning-prayer-name"
+                      type="text"
+                      value={morningPrayerName}
+                      onChange={(e) => setMorningPrayerName(e.target.value)}
+                      placeholder="e.g., Angélus du Matin"
+                      className="w-full font-cormorant border-2 focus:border-primary transition-colors"
+                      aria-label="Name your morning prayer"
+                    />
                   <div className="relative">
                     <Input
                       id="morning-prayer-time"
@@ -180,7 +180,7 @@ const PrayerTimes = () => {
                         setMorningPrayerTime(e.target.value);
                         setTimeError("");
                       }}
-                      className="w-full text-lg font-cormorant border-2 focus:border-amber transition-colors cursor-pointer"
+                      className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors cursor-pointer"
                       aria-label="Select morning prayer time"
                       required
                     />
@@ -237,20 +237,12 @@ const PrayerTimes = () => {
                   {timeError}
                 </p>
               )}
-              
-              <Button 
-                className="w-full md:w-auto md:mx-auto flex items-center justify-center md:px-12 py-6 text-base font-cinzel shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]" 
-                onClick={validateAndApplyTimes}
-                aria-label="Apply custom prayer times"
-              >
-                Apply Custom Times
-              </Button>
             </CardContent>
           </Card>
 
           {/* Bell Sound Selection */}
           <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.1),transparent)] pointer-events-none" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
               <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
@@ -299,12 +291,12 @@ const PrayerTimes = () => {
           </Card>
 
           {/* Push Notifications */}
-          <Card className="relative overflow-hidden bg-gradient-to-br from-emerald/5 to-secondary/10 dark:from-emerald/5 dark:to-secondary/5 border-2 border-emerald/20 dark:border-emerald/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-emerald/30">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,255,180,0.1),transparent)] pointer-events-none" />
+          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
               <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
-                <BellRing className="w-6 h-6 text-emerald" />
+                <BellRing className="w-6 h-6 text-primary" />
                 Push Notifications
               </CardTitle>
               <CardDescription className="font-cormorant text-base">
@@ -312,7 +304,7 @@ const PrayerTimes = () => {
               </CardDescription>
             </CardHeader>
             
-            <CardContent className="space-y-4 relative">
+            <CardContent className="space-y-6 relative">
               <div className="flex items-center justify-between p-4 rounded-lg border-2 border-border bg-background/50">
                 <div className="space-y-1">
                   <Label htmlFor="push-notifications" className="text-base font-medium font-cormorant cursor-pointer">
@@ -328,20 +320,17 @@ const PrayerTimes = () => {
                   onCheckedChange={setPushNotificationsEnabled}
                 />
               </div>
+              
+              <Button 
+                onClick={handleSave}
+                variant="sacred"
+                size="lg"
+                className="w-full gap-2 font-cinzel text-lg px-12 py-6 shadow-xl"
+              >
+                Save Prayer Settings
+              </Button>
             </CardContent>
           </Card>
-
-          {/* Save Button */}
-          <div className="text-center">
-            <Button 
-              onClick={handleSave}
-              variant="sacred"
-              size="lg"
-              className="gap-2 font-cinzel text-lg px-12 py-6 shadow-xl"
-            >
-              Save Prayer Settings
-            </Button>
-          </div>
         </div>
       </div>
     </div>
