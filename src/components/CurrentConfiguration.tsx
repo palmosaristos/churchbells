@@ -50,14 +50,16 @@ export const CurrentConfiguration = ({
             </p>
           </div>
           
-          <div className="text-center p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+          <div className="flex items-center gap-3 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <img 
               src={churchClockImage} 
               alt="Church Clock" 
-              className="w-8 h-8 object-contain mx-auto mb-2 filter drop-shadow-sm"
+              className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
             />
-            <p className="font-cormorant text-xl text-foreground">{startTime} - {endTime}</p>
-            <p className="text-xl text-foreground font-cormorant">Daily Schedule</p>
+            <div className="flex flex-col items-start">
+              <p className="text-sm font-medium text-foreground">Daily schedule</p>
+              <p className="font-cormorant text-lg text-foreground">{startTime} - {endTime}</p>
+            </div>
           </div>
         </div>
         
