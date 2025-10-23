@@ -7,10 +7,18 @@ import { AudioPermission } from "@/components/AudioPermission";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const Index = () => {
-  const [selectedBellTradition] = useState<string>("cathedral-bell");
-  const [startTime] = useState<string>("08:00");
-  const [endTime] = useState<string>("20:00");
-  const [halfHourChimes] = useState<boolean>(false);
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
+    return localStorage.getItem("bellTradition") || "cathedral-bell";
+  });
+  const [startTime, setStartTime] = useState<string>(() => {
+    return localStorage.getItem("startTime") || "08:00";
+  });
+  const [endTime, setEndTime] = useState<string>(() => {
+    return localStorage.getItem("endTime") || "20:00";
+  });
+  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(() => {
+    return localStorage.getItem("halfHourChimes") === "true";
+  });
   const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => {
     return localStorage.getItem("timeZone") || "";
   });
@@ -20,6 +28,31 @@ const Index = () => {
   const [isAppEnabled, setIsAppEnabled] = useState<boolean>(() => {
     return localStorage.getItem("appEnabled") !== "false";
   });
+
+  // Listen for settings changes
+  useEffect(() => {
+    const reloadSettings = () => {
+      setSelectedBellTradition(localStorage.getItem("bellTradition") || "cathedral-bell");
+      setStartTime(localStorage.getItem("startTime") || "08:00");
+      setEndTime(localStorage.getItem("endTime") || "20:00");
+      setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
+    };
+
+    // Listen for storage changes from other tabs
+    window.addEventListener("storage", reloadSettings);
+    
+    // Listen for page visibility changes (when user comes back to this page)
+    window.addEventListener("visibilitychange", reloadSettings);
+    
+    // Listen for focus events (when user navigates back)
+    window.addEventListener("focus", reloadSettings);
+
+    return () => {
+      window.removeEventListener("storage", reloadSettings);
+      window.removeEventListener("visibilitychange", reloadSettings);
+      window.removeEventListener("focus", reloadSettings);
+    };
+  }, []);
 
   const handleTimeZoneDetected = (timeZone: string) => {
     setSelectedTimeZone(timeZone);

@@ -1,20 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { BellSoundSelection } from "@/components/BellSoundSelection";
+import { Button } from "@/components/ui/button";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
 import { useToast } from "@/hooks/use-toast";
 
 const Settings = () => {
-  const [selectedBellTradition, setSelectedBellTradition] = useState<string>("cathedral-bell");
-  const [startTime, setStartTime] = useState<string>("08:00");
-  const [endTime, setEndTime] = useState<string>("20:00");
-  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(false);
-  const [pauseEnabled, setPauseEnabled] = useState<boolean>(false);
-  const [pauseStartTime, setPauseStartTime] = useState<string>("12:00");
-  const [pauseEndTime, setPauseEndTime] = useState<string>("14:00");
-  const [selectedDays, setSelectedDays] = useState<string[]>(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
+    return localStorage.getItem("bellTradition") || "cathedral-bell";
+  });
+  const [startTime, setStartTime] = useState<string>(() => {
+    return localStorage.getItem("startTime") || "08:00";
+  });
+  const [endTime, setEndTime] = useState<string>(() => {
+    return localStorage.getItem("endTime") || "20:00";
+  });
+  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(() => {
+    return localStorage.getItem("halfHourChimes") === "true";
+  });
+  const [pauseEnabled, setPauseEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("pauseEnabled") === "true";
+  });
+  const [pauseStartTime, setPauseStartTime] = useState<string>(() => {
+    return localStorage.getItem("pauseStartTime") || "12:00";
+  });
+  const [pauseEndTime, setPauseEndTime] = useState<string>(() => {
+    return localStorage.getItem("pauseEndTime") || "14:00";
+  });
+  const [selectedDays, setSelectedDays] = useState<string[]>(() => {
+    const saved = localStorage.getItem("selectedDays");
+    return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  });
   const { playAudio } = useAudioPlayer();
   const { toast } = useToast();
 
@@ -26,6 +44,16 @@ const Settings = () => {
   };
 
   const handleSave = () => {
+    localStorage.setItem("bellTradition", selectedBellTradition);
+    localStorage.setItem("startTime", startTime);
+    localStorage.setItem("endTime", endTime);
+    localStorage.setItem("halfHourChimes", String(halfHourChimes));
+    localStorage.setItem("pauseEnabled", String(pauseEnabled));
+    localStorage.setItem("pauseStartTime", pauseStartTime);
+    localStorage.setItem("pauseEndTime", pauseEndTime);
+    localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
+    localStorage.setItem("settingsConfigured", "true");
+    
     toast({
       title: "Settings saved",
       description: "Your preferences have been saved successfully"
@@ -70,6 +98,16 @@ const Settings = () => {
           onSelect={setSelectedBellTradition}
           onPlay={handleBellPlay}
         />
+
+        <div className="max-w-md mx-auto">
+          <Button 
+            onClick={handleSave} 
+            className="w-full"
+            size="lg"
+          >
+            Save Settings
+          </Button>
+        </div>
       </div>
     </div>
   );
