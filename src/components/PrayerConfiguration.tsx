@@ -25,7 +25,7 @@ export const PrayerConfiguration = ({
   return (
     <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm">
       <CardHeader className="text-center">
-        <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
+        <CardTitle className="font-cormorant text-3xl text-foreground text-center">
           {!prayersConfigured ? "Set your daily prayer times" : "Your Prayers"}
         </CardTitle>
       </CardHeader>
