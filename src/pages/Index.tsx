@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
 import { PremiumConfiguration } from "@/components/PremiumConfiguration";
+import { Separator } from "@/components/ui/separator";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const Index = () => {
@@ -106,7 +107,7 @@ const Index = () => {
       <HeroSection heroImage={heroImage} />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12 space-y-12">
+      <div className="container mx-auto px-4 py-16 space-y-16">
         {isAppEnabled && !selectedTimeZone && (
           <LocationPermission onTimeZoneDetected={handleTimeZoneDetected} />
         )}
@@ -116,13 +117,15 @@ const Index = () => {
         )}
 
         {isAppEnabled && selectedTimeZone && audioPermissionGranted && (
-          <>
+          <div className="space-y-12">
             <CurrentConfiguration
               selectedBellTradition={selectedBellTradition}
               startTime={startTime}
               endTime={endTime}
               halfHourChimes={halfHourChimes}
             />
+            
+            <Separator className="my-12 opacity-30" />
             
             <PrayerConfiguration
               morningPrayerEnabled={morningPrayerEnabled}
@@ -133,8 +136,10 @@ const Index = () => {
               eveningPrayerTime={eveningPrayerTime}
             />
             
+            <Separator className="my-12 opacity-30" />
+            
             <PremiumConfiguration isPremiumMember={isPremiumMember} />
-          </>
+          </div>
         )}
       </div>
     </div>
