@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Clock, Sun, Moon, Bell, Volume2 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Clock, Sun, Moon, Bell, Volume2, BellRing } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 
@@ -42,6 +43,9 @@ const PrayerTimes = () => {
   const [callType, setCallType] = useState<string>(() => {
     return localStorage.getItem("callType") || "short";
   });
+  const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("pushNotificationsEnabled") === "true";
+  });
   const { toast } = useToast();
   const { playAudio } = useAudioPlayer();
 
@@ -54,6 +58,7 @@ const PrayerTimes = () => {
     localStorage.setItem("morningPrayerEnabled", String(morningPrayerEnabled));
     localStorage.setItem("eveningPrayerEnabled", String(eveningPrayerEnabled));
     localStorage.setItem("callType", callType);
+    localStorage.setItem("pushNotificationsEnabled", String(pushNotificationsEnabled));
     localStorage.setItem("prayersConfigured", "true");
     
     toast({
@@ -290,6 +295,39 @@ const PrayerTimes = () => {
                 <Volume2 className="w-5 h-5" />
                 Listen to {callType === "short" ? "Short" : "Long"} Call
               </Button>
+            </CardContent>
+          </Card>
+
+          {/* Push Notifications */}
+          <Card className="relative overflow-hidden bg-gradient-to-br from-emerald/5 to-secondary/10 dark:from-emerald/5 dark:to-secondary/5 border-2 border-emerald/20 dark:border-emerald/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-emerald/30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,255,180,0.1),transparent)] pointer-events-none" />
+            
+            <CardHeader className="space-y-3 relative">
+              <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
+                <BellRing className="w-6 h-6 text-emerald" />
+                Push Notifications
+              </CardTitle>
+              <CardDescription className="font-cormorant text-base">
+                Receive a reminder 5 minutes before each prayer time
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-4 relative">
+              <div className="flex items-center justify-between p-4 rounded-lg border-2 border-border bg-background/50">
+                <div className="space-y-1">
+                  <Label htmlFor="push-notifications" className="text-base font-medium font-cormorant cursor-pointer">
+                    Enable Prayer Reminders
+                  </Label>
+                  <p className="text-sm text-muted-foreground font-cormorant">
+                    "Your bells will ring in 5 minutes"
+                  </p>
+                </div>
+                <Switch
+                  id="push-notifications"
+                  checked={pushNotificationsEnabled}
+                  onCheckedChange={setPushNotificationsEnabled}
+                />
+              </div>
             </CardContent>
           </Card>
 
