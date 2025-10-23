@@ -243,7 +243,7 @@ export const TimeRangeSelector = ({
                 }}
                 className={`px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300 ${
                   is24_7Active 
-                    ? 'border-2 border-amber-500' 
+                    ? 'border-4 border-amber-500' 
                     : 'border border-amber-300/50 dark:border-amber-700/50'
                 }`}
                 aria-label="Configuration 24/7"
@@ -261,7 +261,7 @@ export const TimeRangeSelector = ({
                 }}
                 className={`px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300 ${
                   is7to10Active 
-                    ? 'border-2 border-amber-500' 
+                    ? 'border-4 border-amber-500' 
                     : 'border border-amber-300/50 dark:border-amber-700/50'
                 }`}
                 aria-label="Configuration de 7h à 22h"
@@ -279,7 +279,7 @@ export const TimeRangeSelector = ({
                 }}
                 className={`px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300 ${
                   isWeekendActive 
-                    ? 'border-2 border-amber-500' 
+                    ? 'border-4 border-amber-500' 
                     : 'border border-amber-300/50 dark:border-amber-700/50'
                 }`}
                 aria-label="Configuration week-end uniquement"
