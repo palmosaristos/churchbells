@@ -168,10 +168,10 @@ export const TimeRangeSelector = ({
                   key={day.id}
                   type="button"
                   onClick={() => handleDayToggle(day.id)}
-                  className={`px-4 py-2 rounded-lg font-cormorant text-lg transition-all ${
+                  className={`w-14 h-14 rounded-full font-cormorant text-lg transition-all flex items-center justify-center ${
                     selectedDays.includes(day.id)
-                      ? 'bg-primary text-primary-foreground shadow-md'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg shadow-amber-500/30 font-semibold'
+                      : 'bg-muted/50 text-muted-foreground hover:bg-amber-100/50 dark:hover:bg-amber-900/20 border border-amber-200/30 dark:border-amber-800/30'
                   }`}
                 >
                   {day.label}
