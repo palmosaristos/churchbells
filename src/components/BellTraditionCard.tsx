@@ -30,12 +30,12 @@ export const BellTraditionCard = ({
       aria-pressed={isSelected}
       aria-label={`Sélectionner ${title}, ${isSelected ? 'actuellement sélectionné' : 'non sélectionné'}`}
     >
-      <CardContent className="p-3 flex flex-row items-center justify-between gap-3">
-        <div className="w-10 h-10 flex items-center justify-center flex-shrink-0">
+      <CardContent className="p-4 flex flex-row items-center justify-between gap-4">
+        <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
           <img 
             src={image} 
             alt={title}
-            className="w-8 h-8 object-contain"
+            className="w-14 h-14 object-contain"
           />
         </div>
         <Button
@@ -48,7 +48,7 @@ export const BellTraditionCard = ({
           className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
           aria-label={`Écouter le son de ${title}`}
         >
-          <Play className="w-4 h-4" />
+          <Play className="w-5 h-5" />
           Listen
         </Button>
       </CardContent>
