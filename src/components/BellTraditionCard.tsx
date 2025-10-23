@@ -26,12 +26,12 @@ export const BellTraditionCard = ({
       }`}
       onClick={onSelect}
     >
-      <CardContent className="p-4 flex flex-col items-center justify-center space-y-3">
-        <div className="w-16 h-16 flex items-center justify-center">
+      <CardContent className="p-3 flex flex-row items-center justify-between gap-3">
+        <div className="w-10 h-10 flex items-center justify-center flex-shrink-0">
           <img 
             src={image} 
             alt={title}
-            className="w-12 h-12 object-contain"
+            className="w-8 h-8 object-contain"
           />
         </div>
         <Button
@@ -41,7 +41,7 @@ export const BellTraditionCard = ({
             e.stopPropagation();
             onPlay();
           }}
-          className="w-full justify-center gap-2 hover:bg-primary/10 font-cormorant text-lg text-foreground"
+          className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-base text-foreground"
         >
           <Play className="w-4 h-4" />
           Listen
