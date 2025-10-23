@@ -66,22 +66,11 @@ const Settings = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-12 space-y-10">
-        {/* Header with settings icon */}
-        <div className="text-center space-y-4 animate-fade-in-up">
-          <div className="flex justify-center mb-4">
-            <div className="p-4 rounded-full bg-primary/5 border-2 border-primary/10">
-              <img src={churchBellNew} alt="Bell settings" className="w-12 h-12 object-contain drop-shadow-lg" />
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground/60 font-cormorant uppercase tracking-widest">
-            Bell Settings
-          </p>
+        {/* Header */}
+        <div className="text-center animate-fade-in-up">
           <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground leading-tight px-4">
-            When should your<br />Bells ring?
+            SET YOUR BELLS
           </h1>
-          <p className="text-base text-muted-foreground italic font-cormorant max-w-md mx-auto">
-            Configure your daily bell schedule and sound preferences
-          </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
