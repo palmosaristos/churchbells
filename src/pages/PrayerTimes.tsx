@@ -136,7 +136,7 @@ const PrayerTimes = () => {
             <CardHeader className="space-y-3 relative">
               <CardTitle className="flex items-center gap-3 font-cinzel text-2xl">
                 <Clock className="w-6 h-6 text-primary" />
-                Custom Prayer Times
+                Set your prayer times
               </CardTitle>
               <CardDescription className="font-cormorant text-base">
                 Set your preferred times for morning and evening prayers
