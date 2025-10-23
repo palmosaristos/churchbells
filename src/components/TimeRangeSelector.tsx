@@ -251,7 +251,7 @@ export const TimeRangeSelector = ({
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
               <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
-                Chime every half hour
+                Chime every half hour <span className="text-muted-foreground text-base">(12h30, 18h30...)</span>
               </Label>
             </div>
             <Switch
