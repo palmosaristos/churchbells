@@ -227,6 +227,7 @@ export const TimeRangeSelector = ({
                 variant="outline"
                 onClick={() => applyPreset('weekend')}
                 className="font-cormorant text-lg"
+                aria-label="Appliquer la configuration weekend uniquement"
               >
                 Weekend uniquement
               </Button>
@@ -235,6 +236,7 @@ export const TimeRangeSelector = ({
                 variant="outline"
                 onClick={() => applyPreset('24-7')}
                 className="font-cormorant text-lg"
+                aria-label="Appliquer la configuration 24h/24 et 7j/7"
               >
                 24/7
               </Button>
@@ -247,7 +249,7 @@ export const TimeRangeSelector = ({
                 Start Time
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
-                <SelectTrigger id="start-time">
+                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début">
                   <SelectValue placeholder="Select start time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -264,7 +266,7 @@ export const TimeRangeSelector = ({
                 End Time
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
-                <SelectTrigger id="end-time">
+                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin">
                   <SelectValue placeholder="Select end time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -280,7 +282,7 @@ export const TimeRangeSelector = ({
           <div className="space-y-3">
             <Label className="text-xl font-cormorant text-foreground">Active Days</Label>
             <div className="flex flex-wrap gap-3 justify-center">
-              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-14 h-14 rounded-full font-cormorant text-lg transition-all border-2 ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground border-amber-500 shadow-md' : 'bg-background text-muted-foreground border-amber-200 dark:border-amber-800 hover:border-amber-400 dark:hover:border-amber-600'}`}>
+              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-14 h-14 rounded-full font-cormorant text-lg transition-all border-2 ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground border-amber-500 shadow-md' : 'bg-background text-muted-foreground border-amber-200 dark:border-amber-800 hover:border-amber-400 dark:hover:border-amber-600'}`} aria-label={`${day.label}, ${selectedDays.includes(day.id) ? 'activé' : 'désactivé'}`} aria-pressed={selectedDays.includes(day.id)}>
                   {day.label}
                 </button>)}
             </div>
@@ -292,7 +294,7 @@ export const TimeRangeSelector = ({
               <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
                 Enable pause period
               </Label>
-              <Switch id="pause-switch" checked={pauseEnabled} onCheckedChange={onPauseEnabledChange} disabled={!onPauseEnabledChange} />
+              <Switch id="pause-switch" checked={pauseEnabled} onCheckedChange={onPauseEnabledChange} disabled={!onPauseEnabledChange} aria-label="Activer ou désactiver la période de pause" />
             </div>
             
             {pauseEnabled && <div className="grid gap-4 md:grid-cols-2 pt-2">
@@ -302,7 +304,7 @@ export const TimeRangeSelector = ({
                     Pause Start
                   </Label>
                   <Select value={pauseStartTime} onValueChange={onPauseStartTimeChange}>
-                    <SelectTrigger id="pause-start-time">
+                    <SelectTrigger id="pause-start-time" aria-label="Sélectionner l'heure de début de la pause">
                       <SelectValue placeholder="Select pause start time" />
                     </SelectTrigger>
                     <SelectContent>
@@ -319,7 +321,7 @@ export const TimeRangeSelector = ({
                     Pause End
                   </Label>
                   <Select value={pauseEndTime} onValueChange={onPauseEndTimeChange}>
-                    <SelectTrigger id="pause-end-time">
+                    <SelectTrigger id="pause-end-time" aria-label="Sélectionner l'heure de fin de la pause">
                       <SelectValue placeholder="Select pause end time" />
                     </SelectTrigger>
                     <SelectContent>
@@ -347,7 +349,7 @@ export const TimeRangeSelector = ({
                 Chime every half hour
               </Label>
             </div>
-            <Switch id="half-hour-switch" checked={halfHourChimes} onCheckedChange={onHalfHourChimesChange} disabled={!onHalfHourChimesChange} />
+            <Switch id="half-hour-switch" checked={halfHourChimes} onCheckedChange={onHalfHourChimesChange} disabled={!onHalfHourChimesChange} aria-label="Activer ou désactiver les sonneries toutes les demi-heures" />
           </div>
           
           <div className="p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
