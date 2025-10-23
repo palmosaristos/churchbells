@@ -26,18 +26,18 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
     <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
       <div className="container mx-auto px-2 sm:px-4">
         {/* First Row: Toggle ON/OFF, Logo, Theme Toggle */}
-        <div className="flex items-center justify-between h-12 sm:h-14 border-b border-border/30">
+        <div className="relative flex items-center justify-between h-12 sm:h-14 border-b border-border/30">
           {/* Left: App Toggle */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 z-10">
             {onAppToggle && (
               <AppToggle isEnabled={isAppEnabled} onToggle={onAppToggle} />
             )}
           </div>
 
-          {/* Center: Logo */}
+          {/* Center: Logo - Absolutely centered */}
           <button 
             onClick={handleBellClick}
-            className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel hover:opacity-80 transition-opacity cursor-pointer`}
+            className={`absolute left-1/2 -translate-x-1/2 flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel hover:opacity-80 transition-opacity cursor-pointer`}
             aria-label="Jouer le son de la cloche sacrée"
           >
             <img 
@@ -49,7 +49,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           </button>
 
           {/* Right: Theme Toggle */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 z-10">
             <ThemeToggle />
           </div>
         </div>
