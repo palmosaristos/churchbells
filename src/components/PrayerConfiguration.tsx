@@ -23,15 +23,15 @@ export const PrayerConfiguration = ({
   const prayersConfigured = localStorage.getItem("prayersConfigured") === "true";
 
   return (
-    <Card className="bg-gradient-to-br from-sky-50/80 to-primary/5 dark:from-sky-950/80 dark:to-primary/10 border-primary/30 dark:border-primary/20 shadow-lg backdrop-blur-sm">
+    <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm">
       <CardHeader className="text-center">
-        <CardTitle className="text-center text-primary dark:text-primary font-cormorant text-3xl">
+        <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
           {!prayersConfigured ? "Set your daily prayer times" : "Your Prayers"}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-primary/20 dark:border-primary/10 shadow-sm">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <div className="flex items-center gap-3">
               <Sun className="w-6 h-6 text-amber" />
               <div>
@@ -54,7 +54,7 @@ export const PrayerConfiguration = ({
             </span>
           </div>
           
-          <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-primary/20 dark:border-primary/10 shadow-sm">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <div className="flex items-center gap-3">
               <Moon className="w-6 h-6 text-primary" />
               <div>
