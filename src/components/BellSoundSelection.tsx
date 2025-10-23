@@ -22,14 +22,14 @@ export const BellSoundSelection = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="text-center">
-        <h2 className="text-5xl font-cormorant font-bold text-foreground mb-2">
+        <h2 className="text-3xl font-cormorant font-bold text-foreground mb-2">
           Choose Your Bell Sound
         </h2>
       </div>
       
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         {bellTraditions.map(tradition => (
           <BellTraditionCard
             key={tradition.id}
