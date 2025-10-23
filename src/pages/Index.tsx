@@ -5,6 +5,7 @@ import { PrayerConfiguration } from "@/components/PrayerConfiguration";
 import { HeroSection } from "@/components/HeroSection";
 import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
+import { PremiumConfiguration } from "@/components/PremiumConfiguration";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const Index = () => {
@@ -47,6 +48,9 @@ const Index = () => {
   const [eveningPrayerTime, setEveningPrayerTime] = useState<string>(() => {
     return localStorage.getItem("eveningPrayerTime") || "18:00";
   });
+  const [isPremiumMember, setIsPremiumMember] = useState<boolean>(() => {
+    return localStorage.getItem("isPremiumMember") === "true";
+  });
 
   // Listen for settings changes
   useEffect(() => {
@@ -61,6 +65,7 @@ const Index = () => {
       setEveningPrayerName(localStorage.getItem("eveningPrayerName") || "Evening Prayer");
       setMorningPrayerTime(localStorage.getItem("morningPrayerTime") || "06:00");
       setEveningPrayerTime(localStorage.getItem("eveningPrayerTime") || "18:00");
+      setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
     };
 
     // Listen for storage changes from other tabs
@@ -127,6 +132,8 @@ const Index = () => {
               morningPrayerTime={morningPrayerTime}
               eveningPrayerTime={eveningPrayerTime}
             />
+            
+            <PremiumConfiguration isPremiumMember={isPremiumMember} />
           </>
         )}
       </div>
