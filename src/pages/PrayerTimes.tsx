@@ -99,22 +99,11 @@ const PrayerTimes = () => {
       <Navigation />
       
       <div className="container mx-auto px-4 py-12 space-y-10">
-        {/* Header with bell icon */}
+        {/* Header */}
         <div className="text-center space-y-4 animate-fade-in-up">
-          <div className="flex justify-center mb-4">
-            <div className="p-4 rounded-full bg-primary/5 border-2 border-primary/10">
-              <Bell className="w-12 h-12 text-primary animate-bell-ring" strokeWidth={1.5} />
-            </div>
-          </div>
-          <p className="text-xs text-muted-foreground/60 font-cormorant uppercase tracking-widest">
-            Daily Prayer Times
-          </p>
           <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground leading-tight px-4">
             When should the Bells<br />call you to prayer?
           </h1>
-          <p className="text-base text-muted-foreground italic font-cormorant max-w-md mx-auto">
-            Morning and evening bells to guide your spiritual journey
-          </p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
@@ -129,9 +118,6 @@ const PrayerTimes = () => {
                 <Clock className="w-6 h-6 text-primary" />
                 Set your prayer times
               </CardTitle>
-              <CardDescription className="font-cormorant text-xl">
-                Set your preferred times for morning and evening prayers
-              </CardDescription>
             </CardHeader>
             
             <CardContent className="space-y-8 relative">
@@ -140,14 +126,14 @@ const PrayerTimes = () => {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
                       <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
-                      Morning Prayer
+                      Morning Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
                     </Label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={morningPrayerEnabled} onChange={e => setMorningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" aria-label="Activer la prière du matin" />
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
-                    <Input id="morning-prayer-name" type="text" value={morningPrayerName} onChange={e => setMorningPrayerName(e.target.value)} placeholder="e.g., Angélus du Matin" className="w-full font-cormorant border-2 focus:border-primary transition-colors" aria-label="Name your morning prayer" />
+                    <Input id="morning-prayer-name" type="text" value={morningPrayerName} onChange={e => setMorningPrayerName(e.target.value)} placeholder="Morning Prayer" className="w-full font-cormorant border-2 focus:border-primary transition-colors" aria-label="Name your morning prayer" />
                   <div className="relative">
                     <Input id="morning-prayer-time" type="time" step="900" value={morningPrayerTime} onChange={e => {
                     setMorningPrayerTime(e.target.value);
@@ -161,14 +147,14 @@ const PrayerTimes = () => {
                   <div className="flex items-center justify-between">
                     <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
                       <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
-                      Evening Prayer
+                      Evening Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
                     </Label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={eveningPrayerEnabled} onChange={e => setEveningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" aria-label="Activer la prière du soir" />
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
-                  <Input id="evening-prayer-name" type="text" value={eveningPrayerName} onChange={e => setEveningPrayerName(e.target.value)} placeholder="e.g., Angélus du Soir" className="w-full font-cormorant border-2 focus:border-primary transition-colors" aria-label="Name your evening prayer" />
+                  <Input id="evening-prayer-name" type="text" value={eveningPrayerName} onChange={e => setEveningPrayerName(e.target.value)} placeholder="Evening Prayer" className="w-full font-cormorant border-2 focus:border-primary transition-colors" aria-label="Name your evening prayer" />
                   <div className="relative">
                     <Input id="evening-prayer-time" type="time" step="900" value={eveningPrayerTime} onChange={e => {
                     setEveningPrayerTime(e.target.value);
@@ -203,17 +189,15 @@ const PrayerTimes = () => {
               <RadioGroup value={callType} onValueChange={setCallType} className="space-y-4" aria-label="Choisir la durée de l'appel à la prière">
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
                   <RadioGroupItem value="short" id="short-call" aria-label="Appel court" />
-                  <Label htmlFor="short-call" className="flex-1 cursor-pointer font-cormorant text-xl">
-                    <span className="font-semibold">Short Call</span>
-                    <span className="block text-base text-muted-foreground">Brief bell chime (~5 seconds)</span>
+                  <Label htmlFor="short-call" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
+                    Short Call (~15 seconds)
                   </Label>
                 </div>
                 
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
                   <RadioGroupItem value="long" id="long-call" aria-label="Appel long" />
-                  <Label htmlFor="long-call" className="flex-1 cursor-pointer font-cormorant text-xl">
-                    <span className="font-semibold">Long Call</span>
-                    <span className="block text-base text-muted-foreground">Extended bell sequence (~15 seconds)</span>
+                  <Label htmlFor="long-call" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
+                    Long Call (~30 seconds)
                   </Label>
                 </div>
               </RadioGroup>
