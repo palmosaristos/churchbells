@@ -34,7 +34,7 @@ export const CurrentConfiguration = ({
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
       <CardHeader className="text-center">
         <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
-          {!settingsConfigured ? "Set your sacred bells schedule" : "Your Church Bells"}
+          {!settingsConfigured ? "Set your sacred bells schedule" : "Your Sacred Bells schedule"}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -73,7 +73,7 @@ export const CurrentConfiguration = ({
           <Link to="/settings">
             <Button variant="outline" className="gap-2">
               <Settings className="w-4 h-4" />
-              Configure Settings
+              Customize your bells
             </Button>
           </Link>
         </div>
