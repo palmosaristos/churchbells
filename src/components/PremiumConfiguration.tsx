@@ -32,7 +32,7 @@ export const PremiumConfiguration = ({ isPremiumMember }: PremiumConfigurationPr
           variant="outline"
           className="w-full group"
         >
-          En savoir plus
+          Find out more
           <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
         </Button>
       </CardContent>
