@@ -344,10 +344,10 @@ export const TimeRangeSelector = ({
 
           <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
             <div className="flex items-center gap-2">
-              <svg className="w-6 h-6 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className="w-6 h-6 text-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 12 12 18"/>
-                <polyline points="12 12 12 18"/>
+                <polyline points="12 12 12 20"/>
+                <polyline points="12 12 15 19"/>
               </svg>
               <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
                 Chime every half hour
