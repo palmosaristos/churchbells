@@ -262,12 +262,41 @@ export const TimeRangeSelector = ({
             />
           </div>
           
-          <div className="p-4 rounded-lg bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-md backdrop-blur-sm">
-            <p className="text-xl text-foreground font-cormorant text-center">
-              Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
-              <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
-              <span className="font-cinzel font-semibold text-primary">{endTime}</span>
-            </p>
+          <div className="p-6 rounded-lg bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-md backdrop-blur-sm space-y-3">
+            <h3 className="text-2xl font-cinzel font-semibold text-center text-primary mb-4">Configuration Summary</h3>
+            
+            <div className="space-y-2 text-center">
+              <p className="text-xl text-foreground font-cormorant">
+                Bells will chime every <span className="font-semibold text-primary">{halfHourChimes ? 'half hour' : 'hour'}</span>
+              </p>
+              
+              <p className="text-xl text-foreground font-cormorant">
+                From <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
+                <span className="font-cinzel font-semibold text-primary">{endTime}</span>
+              </p>
+              
+              {pauseEnabled && (
+                <p className="text-lg text-foreground font-cormorant">
+                  With a pause from <span className="font-cinzel font-semibold text-red-600">{pauseStartTime}</span> to{' '}
+                  <span className="font-cinzel font-semibold text-green-600">{pauseEndTime}</span>
+                </p>
+              )}
+              
+              <p className="text-xl text-foreground font-cormorant">
+                Active on:{' '}
+                <span className="font-cinzel font-semibold text-primary">
+                  {selectedDays.length === 7 
+                    ? 'Every day' 
+                    : selectedDays.length === 0
+                    ? 'No days selected'
+                    : daysOfWeek
+                        .filter(day => selectedDays.includes(day.id))
+                        .map(day => day.label)
+                        .join(', ')
+                  }
+                </span>
+              </p>
+            </div>
           </div>
         </CardContent>
         </Card>
