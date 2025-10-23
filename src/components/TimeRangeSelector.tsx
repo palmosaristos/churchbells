@@ -208,10 +208,10 @@ export const TimeRangeSelector = ({
         <CardHeader>
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1">
-              <CardTitle className="font-cormorant text-3xl text-foreground text-center">
+              <CardTitle className="font-cormorant text-3xl text-foreground text-center mb-3">
                 Daily Bell Schedule
               </CardTitle>
-              <CardDescription className="font-cormorant text-xl text-foreground text-center">Set the hours when bells will ring</CardDescription>
+              <CardDescription className="font-cormorant text-xl text-foreground text-center whitespace-nowrap">Set the hours when your bells will ring</CardDescription>
             </div>
             <div className="flex flex-col items-end gap-2">
               <Switch 
