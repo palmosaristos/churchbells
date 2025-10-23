@@ -35,6 +35,9 @@ const Settings = () => {
     const saved = localStorage.getItem("selectedDays");
     return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   });
+  const [bellsEnabled, setBellsEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("bellsEnabled") !== "false";
+  });
   const { toggleAudio } = useAudioPlayer();
   const { toast } = useToast();
 
@@ -54,6 +57,7 @@ const Settings = () => {
     localStorage.setItem("pauseStartTime", pauseStartTime);
     localStorage.setItem("pauseEndTime", pauseEndTime);
     localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
+    localStorage.setItem("bellsEnabled", String(bellsEnabled));
     localStorage.setItem("settingsConfigured", "true");
     
     toast({
@@ -94,6 +98,8 @@ const Settings = () => {
             onPauseEndTimeChange={setPauseEndTime}
             selectedDays={selectedDays}
             onSelectedDaysChange={setSelectedDays}
+            bellsEnabled={bellsEnabled}
+            onBellsEnabledChange={setBellsEnabled}
           />
         </div>
 

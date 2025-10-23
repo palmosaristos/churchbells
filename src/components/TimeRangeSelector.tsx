@@ -26,6 +26,8 @@ interface TimeRangeSelectorProps {
   onPauseEndTimeChange?: (time: string) => void;
   selectedDays?: string[];
   onSelectedDaysChange?: (days: string[]) => void;
+  bellsEnabled?: boolean;
+  onBellsEnabledChange?: (enabled: boolean) => void;
 }
 const timeOptions = [{
   value: "05:00",
@@ -184,7 +186,9 @@ export const TimeRangeSelector = ({
   onPauseStartTimeChange,
   onPauseEndTimeChange,
   selectedDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
-  onSelectedDaysChange
+  onSelectedDaysChange,
+  bellsEnabled = true,
+  onBellsEnabledChange
 }: TimeRangeSelectorProps) => {
   const handleDayToggle = (dayId: string) => {
     if (!onSelectedDaysChange) return;
@@ -202,10 +206,26 @@ export const TimeRangeSelector = ({
   return <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="font-cormorant text-3xl text-foreground text-center">
-            Daily Bell Schedule
-          </CardTitle>
-          <CardDescription className="font-cormorant text-xl text-foreground">Set the hours when bells will ring</CardDescription>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
+              <CardTitle className="font-cormorant text-3xl text-foreground text-center">
+                Daily Bell Schedule
+              </CardTitle>
+              <CardDescription className="font-cormorant text-xl text-foreground text-center">Set the hours when bells will ring</CardDescription>
+            </div>
+            <div className="flex flex-col items-end gap-2">
+              <Switch 
+                id="bells-enabled" 
+                checked={bellsEnabled} 
+                onCheckedChange={onBellsEnabledChange}
+                disabled={!onBellsEnabledChange}
+                className="data-[state=checked]:bg-primary"
+              />
+              <Label htmlFor="bells-enabled" className="text-sm font-cormorant text-foreground/80">
+                {bellsEnabled ? 'ON' : 'OFF'}
+              </Label>
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Quick Configurations */}
