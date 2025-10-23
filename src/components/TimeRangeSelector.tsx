@@ -278,8 +278,8 @@ export const TimeRangeSelector = ({
           {/* Days of Week Selector */}
           <div className="space-y-3">
             <Label className="text-xl font-cormorant text-foreground">Active Days</Label>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`px-4 py-2 rounded-lg font-cormorant text-lg transition-all ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-14 h-14 rounded-full font-cormorant text-lg transition-all border-2 ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground border-amber-500 shadow-md' : 'bg-background text-muted-foreground border-amber-200 dark:border-amber-800 hover:border-amber-400 dark:hover:border-amber-600'}`}>
                   {day.label}
                 </button>)}
             </div>
