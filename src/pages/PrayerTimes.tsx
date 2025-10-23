@@ -10,13 +10,11 @@ import { Switch } from "@/components/ui/switch";
 import { Clock, Sun, Moon, Bell, Volume2, BellRing } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
-
 interface PrayerTime {
   name: string;
   time: string;
   description: string;
 }
-
 const PrayerTimes = () => {
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>(() => {
     return localStorage.getItem("prayerTradition") || "Roman Catholic";
@@ -46,9 +44,14 @@ const PrayerTimes = () => {
   const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState<boolean>(() => {
     return localStorage.getItem("pushNotificationsEnabled") === "true";
   });
-  const { toast } = useToast();
-  const { toggleAudio, isPlaying, currentAudioUrl } = useAudioPlayer();
-
+  const {
+    toast
+  } = useToast();
+  const {
+    toggleAudio,
+    isPlaying,
+    currentAudioUrl
+  } = useAudioPlayer();
   const handleSave = () => {
     localStorage.setItem("prayerTradition", selectedPrayerTradition);
     localStorage.setItem("morningPrayerTime", morningPrayerTime);
@@ -60,28 +63,23 @@ const PrayerTimes = () => {
     localStorage.setItem("callType", callType);
     localStorage.setItem("pushNotificationsEnabled", String(pushNotificationsEnabled));
     localStorage.setItem("prayersConfigured", "true");
-    
     toast({
       title: "Prayer settings saved",
       description: "Your prayer times have been saved successfully"
     });
   };
-
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
     toast({
       title: "Prayer times applied",
       description: `${times.length} prayer times have been configured for the bells`
     });
   };
-
   const validateAndApplyTimes = () => {
     // Convert times to comparable format
     const [morningHour, morningMinute] = morningPrayerTime.split(':').map(Number);
     const [eveningHour, eveningMinute] = eveningPrayerTime.split(':').map(Number);
-    
     const morningMinutes = morningHour * 60 + morningMinute;
     const eveningMinutes = eveningHour * 60 + eveningMinute;
-    
     if (eveningMinutes <= morningMinutes) {
       setTimeError("Evening prayer time must be after morning prayer time");
       toast({
@@ -91,16 +89,13 @@ const PrayerTimes = () => {
       });
       return;
     }
-    
     setTimeError("");
     toast({
       title: "🔔 Prayer Times Configured",
-      description: `${morningPrayerName}: ${morningPrayerTime} • ${eveningPrayerName}: ${eveningPrayerTime}`,
+      description: `${morningPrayerName}: ${morningPrayerTime} • ${eveningPrayerName}: ${eveningPrayerTime}`
     });
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-subtle">
+  return <div className="min-h-screen bg-gradient-subtle">
       <Navigation />
       
       <div className="container mx-auto px-4 py-12 space-y-10">
@@ -123,11 +118,7 @@ const PrayerTimes = () => {
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
-          <PrayerTimesSelector
-            selectedTradition={selectedPrayerTradition} 
-            onTraditionSelect={setSelectedPrayerTradition} 
-            onTimesSelect={handlePrayerTimesSelect} 
-          />
+          <PrayerTimesSelector selectedTradition={selectedPrayerTradition} onTraditionSelect={setSelectedPrayerTradition} onTimesSelect={handlePrayerTimesSelect} />
 
           {/* Custom Prayer Times */}
           <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
@@ -152,38 +143,16 @@ const PrayerTimes = () => {
                       Morning Prayer
                     </Label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={morningPrayerEnabled}
-                        onChange={(e) => setMorningPrayerEnabled(e.target.checked)}
-                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
-                      />
+                      <input type="checkbox" checked={morningPrayerEnabled} onChange={e => setMorningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
-                    <Input
-                      id="morning-prayer-name"
-                      type="text"
-                      value={morningPrayerName}
-                      onChange={(e) => setMorningPrayerName(e.target.value)}
-                      placeholder="e.g., Angélus du Matin"
-                      className="w-full font-cormorant border-2 focus:border-primary transition-colors"
-                      aria-label="Name your morning prayer"
-                    />
+                    <Input id="morning-prayer-name" type="text" value={morningPrayerName} onChange={e => setMorningPrayerName(e.target.value)} placeholder="e.g., Angélus du Matin" className="w-full font-cormorant border-2 focus:border-primary transition-colors" aria-label="Name your morning prayer" />
                   <div className="relative">
-                    <Input
-                      id="morning-prayer-time"
-                      type="time"
-                      step="900"
-                      value={morningPrayerTime}
-                      onChange={(e) => {
-                        setMorningPrayerTime(e.target.value);
-                        setTimeError("");
-                      }}
-                      className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors cursor-pointer"
-                      aria-label="Select morning prayer time"
-                      required
-                    />
+                    <Input id="morning-prayer-time" type="time" step="900" value={morningPrayerTime} onChange={e => {
+                    setMorningPrayerTime(e.target.value);
+                    setTimeError("");
+                  }} className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors cursor-pointer" aria-label="Select morning prayer time" required />
                     <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
                   </div>
                 </div>
@@ -195,48 +164,24 @@ const PrayerTimes = () => {
                       Evening Prayer
                     </Label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={eveningPrayerEnabled}
-                        onChange={(e) => setEveningPrayerEnabled(e.target.checked)}
-                        className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary"
-                      />
+                      <input type="checkbox" checked={eveningPrayerEnabled} onChange={e => setEveningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
-                  <Input
-                    id="evening-prayer-name"
-                    type="text"
-                    value={eveningPrayerName}
-                    onChange={(e) => setEveningPrayerName(e.target.value)}
-                    placeholder="e.g., Angélus du Soir"
-                    className="w-full font-cormorant border-2 focus:border-primary transition-colors"
-                    aria-label="Name your evening prayer"
-                  />
+                  <Input id="evening-prayer-name" type="text" value={eveningPrayerName} onChange={e => setEveningPrayerName(e.target.value)} placeholder="e.g., Angélus du Soir" className="w-full font-cormorant border-2 focus:border-primary transition-colors" aria-label="Name your evening prayer" />
                   <div className="relative">
-                    <Input
-                      id="evening-prayer-time"
-                      type="time"
-                      step="900"
-                      value={eveningPrayerTime}
-                      onChange={(e) => {
-                        setEveningPrayerTime(e.target.value);
-                        setTimeError("");
-                      }}
-                      className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors cursor-pointer"
-                      aria-label="Select evening prayer time"
-                      required
-                    />
+                    <Input id="evening-prayer-time" type="time" step="900" value={eveningPrayerTime} onChange={e => {
+                    setEveningPrayerTime(e.target.value);
+                    setTimeError("");
+                  }} className="w-full text-lg font-cormorant border-2 focus:border-primary transition-colors cursor-pointer" aria-label="Select evening prayer time" required />
                     <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
                   </div>
                 </div>
               </div>
               
-              {timeError && (
-                <p className="text-sm text-destructive font-cormorant italic text-center animate-fade-in-up">
+              {timeError && <p className="text-sm text-destructive font-cormorant italic text-center animate-fade-in-up">
                   {timeError}
-                </p>
-              )}
+                </p>}
             </CardContent>
           </Card>
 
@@ -273,21 +218,12 @@ const PrayerTimes = () => {
                 </div>
               </RadioGroup>
               
-              <Button 
-                variant="outline"
-                className="w-full md:w-auto md:mx-auto flex items-center justify-center gap-2 md:px-8 py-5 text-base font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                onClick={() => {
-                  const audioUrl = callType === "short" 
-                    ? "/audio/summoning-bell.mp3" 
-                    : "/audio/cathedral-bell.mp3";
-                  toggleAudio(audioUrl, `${callType === "short" ? "Short" : "Long"} Call`);
-                }}
-                aria-label="Preview bell call sound"
-              >
+              <Button variant="outline" className="w-full md:w-auto md:mx-auto flex items-center justify-center gap-2 md:px-8 py-5 text-base font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => {
+              const audioUrl = callType === "short" ? "/audio/summoning-bell.mp3" : "/audio/cathedral-bell.mp3";
+              toggleAudio(audioUrl, `${callType === "short" ? "Short" : "Long"} Call`);
+            }} aria-label="Preview bell call sound">
                 <Volume2 className="w-5 h-5" />
-                {isPlaying && currentAudioUrl === (callType === "short" ? "/audio/summoning-bell.mp3" : "/audio/cathedral-bell.mp3")
-                  ? "Stop"
-                  : `Listen to ${callType === "short" ? "Short" : "Long"} Call`}
+                {isPlaying && currentAudioUrl === (callType === "short" ? "/audio/summoning-bell.mp3" : "/audio/cathedral-bell.mp3") ? "Stop" : `Listen to ${callType === "short" ? "Short" : "Long"} Call`}
               </Button>
             </CardContent>
           </Card>
@@ -301,9 +237,7 @@ const PrayerTimes = () => {
                 <BellRing className="w-6 h-6 text-primary" />
                 Push Notifications
               </CardTitle>
-              <CardDescription className="font-cormorant text-base">
-                Receive a reminder 5 minutes before each prayer time
-              </CardDescription>
+              
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
@@ -316,27 +250,16 @@ const PrayerTimes = () => {
                     "Your bells will ring in 5 minutes"
                   </p>
                 </div>
-                <Switch
-                  id="push-notifications"
-                  checked={pushNotificationsEnabled}
-                  onCheckedChange={setPushNotificationsEnabled}
-                />
+                <Switch id="push-notifications" checked={pushNotificationsEnabled} onCheckedChange={setPushNotificationsEnabled} />
               </div>
               
-              <Button 
-                onClick={handleSave}
-                variant="sacred"
-                size="lg"
-                className="w-full gap-2 font-cinzel text-lg px-12 py-6 shadow-xl"
-              >
+              <Button onClick={handleSave} variant="sacred" size="lg" className="w-full gap-2 font-cinzel text-lg px-12 py-6 shadow-xl">
                 Save Prayer Settings
               </Button>
             </CardContent>
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default PrayerTimes;
