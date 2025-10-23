@@ -1,4 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { Settings } from "lucide-react";
 import { bellTraditions } from "@/data/bellTraditions";
 import churchClockImage from "@/assets/church-clock.jpg";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
@@ -25,13 +28,19 @@ export const CurrentConfiguration = ({
   };
 
   const selectedBell = bellTraditions.find(t => t.id === selectedBellTradition);
+  const isDefault = selectedBellTradition === "cathedral-bell" && startTime === "08:00" && endTime === "20:00" && !halfHourChimes;
 
   return (
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
-      <CardHeader className="text-center">
+      <CardHeader className="text-center space-y-3">
         <CardTitle className="text-center text-amber-800 dark:text-amber-200 font-cormorant text-3xl">
-          Your Church Bells
+          {isDefault ? "Set your sacred bells schedule" : "Your Church Bells"}
         </CardTitle>
+        {isDefault && (
+          <p className="text-muted-foreground text-sm">
+            Customize your bell ringing schedule to match your spiritual rhythm
+          </p>
+        )}
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2">
@@ -61,6 +70,15 @@ export const CurrentConfiguration = ({
           <p className="text-xl text-foreground font-cormorant">
             Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
           </p>
+        </div>
+
+        <div className="text-center mt-6">
+          <Link to="/settings">
+            <Button variant="outline" className="gap-2">
+              <Settings className="w-4 h-4" />
+              Configure Settings
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>
