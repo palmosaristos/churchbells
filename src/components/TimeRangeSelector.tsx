@@ -211,7 +211,7 @@ export const TimeRangeSelector = ({
                 type="button"
                 onClick={() => {
                   onStartTimeChange("00:00");
-                  onEndTimeChange("23:30");
+                  onEndTimeChange("23:00");
                   if (onSelectedDaysChange) {
                     onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
                   }
