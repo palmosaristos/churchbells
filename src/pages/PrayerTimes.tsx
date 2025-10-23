@@ -130,7 +130,7 @@ const PrayerTimes = () => {
           />
 
           {/* Custom Prayer Times */}
-          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
@@ -241,7 +241,7 @@ const PrayerTimes = () => {
           </Card>
 
           {/* Bell Sound Selection */}
-          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
@@ -291,7 +291,7 @@ const PrayerTimes = () => {
           </Card>
 
           {/* Push Notifications */}
-          <Card className="relative overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/10 dark:from-primary/5 dark:to-secondary/5 border-2 border-primary/20 dark:border-primary/10 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-primary/30">
+          <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
             <CardHeader className="space-y-3 relative">
