@@ -116,12 +116,12 @@ const Settings = () => {
 
         {/* Share Banner */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-red-50/80 via-rose-50/80 to-red-50/80 dark:from-red-950/40 dark:via-rose-950/40 dark:to-red-950/40 rounded-2xl shadow-2xl border-2 border-red-200/40 dark:border-red-800/40 p-8 md:p-10 backdrop-blur-sm">
+          <div className="bg-gradient-vespers border-burgundy/20 rounded-2xl shadow-2xl border-2 p-8 md:p-10">
             <div className="text-center space-y-4">
-              <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-foreground">
+              <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-burgundy-foreground">
                 Share the Bells
               </h3>
-              <p className="text-xl md:text-2xl font-cormorant text-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="text-xl md:text-2xl font-cormorant text-burgundy-foreground/90 leading-relaxed max-w-2xl mx-auto">
                 Do you know someone who appreciates living close to the church? Share this app with them and bring the sound of bells into their daily rhythm.
               </p>
               <Button 
@@ -132,7 +132,7 @@ const Settings = () => {
                     description: "Share it with your community"
                   });
                 }}
-                className="mt-4 text-xl font-cormorant px-8 py-6 bg-gradient-to-br from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                className="mt-4 text-xl font-cormorant px-8 py-6 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                 size="lg"
               >
                 Copy Link to Share
