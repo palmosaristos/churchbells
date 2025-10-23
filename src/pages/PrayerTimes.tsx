@@ -253,9 +253,7 @@ const PrayerTimes = () => {
                 <Switch id="push-notifications" checked={pushNotificationsEnabled} onCheckedChange={setPushNotificationsEnabled} />
               </div>
               
-              <Button onClick={handleSave} variant="sacred" size="lg" className="w-full gap-2 font-cinzel text-lg px-12 py-6 shadow-xl">
-                Save Prayer Settings
-              </Button>
+              
             </CardContent>
           </Card>
         </div>
