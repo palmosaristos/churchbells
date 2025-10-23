@@ -203,6 +203,55 @@ export const TimeRangeSelector = ({
           <CardDescription className="font-cormorant text-xl text-foreground">Set the hours when bells will ring</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* Quick Configurations */}
+          <div className="space-y-3">
+            <Label className="text-3xl font-cormorant text-foreground">Quick Configurations</Label>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  onStartTimeChange("00:00");
+                  onEndTimeChange("23:30");
+                  if (onSelectedDaysChange) {
+                    onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+                  }
+                }}
+                className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+                aria-label="Configuration 24/7"
+              >
+                ✨ 24/7
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onStartTimeChange("07:00");
+                  onEndTimeChange("22:00");
+                  if (onSelectedDaysChange) {
+                    onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+                  }
+                }}
+                className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+                aria-label="Configuration de 7h à 22h"
+              >
+                ☀️ From 7 AM to 10 PM
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onStartTimeChange("07:00");
+                  onEndTimeChange("22:00");
+                  if (onSelectedDaysChange) {
+                    onSelectedDaysChange(['saturday', 'sunday']);
+                  }
+                }}
+                className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+                aria-label="Configuration week-end uniquement"
+              >
+                🌙 Only the weekend
+              </button>
+            </div>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="start-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
@@ -210,7 +259,7 @@ export const TimeRangeSelector = ({
                 Start Time
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
-                <SelectTrigger id="start-time">
+                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début">
                   <SelectValue placeholder="Select start time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -227,7 +276,7 @@ export const TimeRangeSelector = ({
                 End Time
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
-                <SelectTrigger id="end-time">
+                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin">
                   <SelectValue placeholder="Select end time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -236,55 +285,6 @@ export const TimeRangeSelector = ({
                     </SelectItem>)}
                 </SelectContent>
               </Select>
-            </div>
-          </div>
-
-          {/* Quick Configurations */}
-          <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground">Quick Configurations</Label>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <button
-                type="button"
-                onClick={() => {
-                  onStartTimeChange("00:00");
-                  onEndTimeChange("23:30");
-                  if (onSelectedDaysChange) {
-                    onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
-                  }
-                }}
-                className="px-4 py-2 rounded-lg font-cormorant text-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-all"
-                aria-label="Configuration 24/7"
-              >
-                24/7
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  onStartTimeChange("07:00");
-                  onEndTimeChange("22:00");
-                  if (onSelectedDaysChange) {
-                    onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
-                  }
-                }}
-                className="px-4 py-2 rounded-lg font-cormorant text-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-all"
-                aria-label="Configuration de 7h à 22h"
-              >
-                From 7 AM to 10 PM
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  onStartTimeChange("07:00");
-                  onEndTimeChange("22:00");
-                  if (onSelectedDaysChange) {
-                    onSelectedDaysChange(['saturday', 'sunday']);
-                  }
-                }}
-                className="px-4 py-2 rounded-lg font-cormorant text-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-all"
-                aria-label="Configuration week-end uniquement"
-              >
-                Only the weekend
-              </button>
             </div>
           </div>
 
