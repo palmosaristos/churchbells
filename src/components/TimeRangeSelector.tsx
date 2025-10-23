@@ -194,6 +194,11 @@ export const TimeRangeSelector = ({
       onSelectedDaysChange([...selectedDays, dayId]);
     }
   };
+
+  const allDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  const is24_7Active = startTime === "00:00" && endTime === "23:00" && selectedDays.length === 7 && allDays.every(day => selectedDays.includes(day));
+  const is7to10Active = startTime === "07:00" && endTime === "22:00" && selectedDays.length === 7 && allDays.every(day => selectedDays.includes(day));
+  const isWeekendActive = startTime === "07:00" && endTime === "22:00" && selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday');
   return <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
@@ -216,7 +221,11 @@ export const TimeRangeSelector = ({
                     onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
                   }
                 }}
-                className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+                className={`px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300 ${
+                  is24_7Active 
+                    ? 'border-2 border-amber-500' 
+                    : 'border border-amber-300/50 dark:border-amber-700/50'
+                }`}
                 aria-label="Configuration 24/7"
               >
                 24/7
@@ -230,7 +239,11 @@ export const TimeRangeSelector = ({
                     onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
                   }
                 }}
-                className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+                className={`px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300 ${
+                  is7to10Active 
+                    ? 'border-2 border-amber-500' 
+                    : 'border border-amber-300/50 dark:border-amber-700/50'
+                }`}
                 aria-label="Configuration de 7h à 22h"
               >
                 From 7 AM to 10 PM
@@ -244,7 +257,11 @@ export const TimeRangeSelector = ({
                     onSelectedDaysChange(['saturday', 'sunday']);
                   }
                 }}
-                className="px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground border border-amber-300/50 dark:border-amber-700/50 shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300"
+                className={`px-6 py-3 rounded-xl font-cormorant text-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 text-foreground shadow-md hover:shadow-lg hover:shadow-amber-500/20 hover:scale-105 transition-all duration-300 ${
+                  isWeekendActive 
+                    ? 'border-2 border-amber-500' 
+                    : 'border border-amber-300/50 dark:border-amber-700/50'
+                }`}
                 aria-label="Configuration week-end uniquement"
               >
                 Only the weekend
