@@ -81,7 +81,7 @@ const Premium = () => {
               </p>
               
               <div className="mt-8">
-                <Button variant="outline" asChild className="gap-2">
+                <Button variant="outline" asChild className="gap-2" aria-label="Retour à la page d'accueil">
                   <Link to="/">
                     <ArrowLeft className="w-4 h-4" />
                     Back to Home

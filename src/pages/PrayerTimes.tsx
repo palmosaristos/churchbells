@@ -143,7 +143,7 @@ const PrayerTimes = () => {
                       Morning Prayer
                     </Label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={morningPrayerEnabled} onChange={e => setMorningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                      <input type="checkbox" checked={morningPrayerEnabled} onChange={e => setMorningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" aria-label="Activer la prière du matin" />
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
@@ -164,7 +164,7 @@ const PrayerTimes = () => {
                       Evening Prayer
                     </Label>
                     <label className="flex items-center gap-2 cursor-pointer">
-                      <input type="checkbox" checked={eveningPrayerEnabled} onChange={e => setEveningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                      <input type="checkbox" checked={eveningPrayerEnabled} onChange={e => setEveningPrayerEnabled(e.target.checked)} className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" aria-label="Activer la prière du soir" />
                       <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
                     </label>
                   </div>
@@ -200,9 +200,9 @@ const PrayerTimes = () => {
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
-              <RadioGroup value={callType} onValueChange={setCallType} className="space-y-4">
+              <RadioGroup value={callType} onValueChange={setCallType} className="space-y-4" aria-label="Choisir la durée de l'appel à la prière">
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="short" id="short-call" />
+                  <RadioGroupItem value="short" id="short-call" aria-label="Appel court" />
                   <Label htmlFor="short-call" className="flex-1 cursor-pointer font-cormorant text-base">
                     <span className="font-semibold">Short Call</span>
                     <span className="block text-sm text-muted-foreground">Brief bell chime (~5 seconds)</span>
@@ -210,7 +210,7 @@ const PrayerTimes = () => {
                 </div>
                 
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="long" id="long-call" />
+                  <RadioGroupItem value="long" id="long-call" aria-label="Appel long" />
                   <Label htmlFor="long-call" className="flex-1 cursor-pointer font-cormorant text-base">
                     <span className="font-semibold">Long Call</span>
                     <span className="block text-sm text-muted-foreground">Extended bell sequence (~15 seconds)</span>
@@ -243,9 +243,9 @@ const PrayerTimes = () => {
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
-              <RadioGroup value={reminderMinutes} onValueChange={setReminderMinutes} className="space-y-4">
+              <RadioGroup value={reminderMinutes} onValueChange={setReminderMinutes} className="space-y-4" aria-label="Choisir quand être rappelé avant la prière">
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="5" id="reminder-5" />
+                  <RadioGroupItem value="5" id="reminder-5" aria-label="5 minutes avant" />
                   <Label htmlFor="reminder-5" className="flex-1 cursor-pointer font-cormorant text-base">
                     <span className="font-semibold">5 minutes before</span>
                     <span className="block text-sm text-muted-foreground">Short notice reminder</span>
@@ -253,7 +253,7 @@ const PrayerTimes = () => {
                 </div>
                 
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="10" id="reminder-10" />
+                  <RadioGroupItem value="10" id="reminder-10" aria-label="10 minutes avant" />
                   <Label htmlFor="reminder-10" className="flex-1 cursor-pointer font-cormorant text-base">
                     <span className="font-semibold">10 minutes before</span>
                     <span className="block text-sm text-muted-foreground">Standard reminder</span>
@@ -261,7 +261,7 @@ const PrayerTimes = () => {
                 </div>
                 
                 <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="15" id="reminder-15" />
+                  <RadioGroupItem value="15" id="reminder-15" aria-label="15 minutes avant" />
                   <Label htmlFor="reminder-15" className="flex-1 cursor-pointer font-cormorant text-base">
                     <span className="font-semibold">15 minutes before</span>
                     <span className="block text-sm text-muted-foreground">Early preparation time</span>

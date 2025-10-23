@@ -38,6 +38,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           <button 
             onClick={handleBellClick}
             className={`flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel hover:opacity-80 transition-opacity cursor-pointer`}
+            aria-label="Jouer le son de la cloche sacrée"
           >
             <img 
               src={churchBellImage} 
@@ -59,6 +60,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            aria-label="Aller à la page d'accueil"
           >
             <Link to="/" className="flex items-center gap-1">
               <span>Home</span>
@@ -69,6 +71,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/settings" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            aria-label="Aller à la page des paramètres"
           >
             <Link to="/settings" className="flex items-center gap-1">
               <Settings className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
@@ -80,6 +83,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/prayer-times" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            aria-label="Aller à la page des heures de prière"
           >
             <Link to="/prayer-times" className="flex items-center gap-1">
               <Clock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
@@ -91,6 +95,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/premium" ? "amber" : "outline"}
             asChild
             className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            aria-label="Aller à la page premium"
           >
             <Link to="/premium" className="flex items-center gap-1">
               <Crown className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />

@@ -128,12 +128,13 @@ export const PremiumPrayerTimesSelector = ({
       </CardHeader>
       <CardContent>
         <Tabs value={selectedTradition} onValueChange={onTraditionSelect} className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-6">
+          <TabsList className="grid w-full grid-cols-5 mb-6" aria-label="Traditions de prière premium">
             {premiumPrayerTraditions.map((tradition) => (
               <TabsTrigger 
                 key={tradition.name} 
                 value={tradition.name}
                 className="flex items-center gap-2"
+                aria-label={`Sélectionner la tradition ${tradition.name}`}
               >
                 {tradition.icon}
                 <span className="hidden lg:inline">{tradition.name}</span>
@@ -168,6 +169,7 @@ export const PremiumPrayerTimesSelector = ({
                 variant="sacred" 
                 className="w-full mt-4"
                 onClick={() => onTimesSelect(tradition.times)}
+                aria-label={`Utiliser l'horaire de prière ${tradition.name}`}
               >
                 Use {tradition.name} Schedule
               </Button>

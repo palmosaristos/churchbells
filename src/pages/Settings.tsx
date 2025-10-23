@@ -114,6 +114,7 @@ const Settings = () => {
             onClick={handleSave} 
             className="w-full"
             size="lg"
+            aria-label="Sauvegarder les paramètres"
           >
             Save Settings
           </Button>
