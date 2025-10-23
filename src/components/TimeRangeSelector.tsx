@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Clock, Volume2 } from "lucide-react";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
-import { formatTimeToAMPM } from "@/lib/utils";
 import sunImage from "@/assets/sun-prayer-realistic.png";
 import moonImage from "@/assets/moon-prayer-full.png";
 import bellStartImage from "@/assets/bell-start.png";
@@ -195,20 +194,6 @@ export const TimeRangeSelector = ({
       onSelectedDaysChange([...selectedDays, dayId]);
     }
   };
-
-  const applyPreset = (preset: 'weekend' | '24-7') => {
-    if (preset === 'weekend') {
-      onSelectedDaysChange?.(['saturday', 'sunday']);
-      onStartTimeChange('08:00');
-      onEndTimeChange('20:00');
-      onPauseEnabledChange?.(false);
-    } else if (preset === '24-7') {
-      onSelectedDaysChange?.(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
-      onStartTimeChange('00:00');
-      onEndTimeChange('23:30');
-      onPauseEnabledChange?.(false);
-    }
-  };
   return <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardHeader>
@@ -218,30 +203,6 @@ export const TimeRangeSelector = ({
           <CardDescription className="font-cormorant text-xl text-foreground">Set the hours when bells will ring</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Quick Presets */}
-          <div className="space-y-3">
-            <Label className="text-lg font-cormorant text-muted-foreground text-center block">Quick Configurations</Label>
-            <div className="flex gap-3 justify-center flex-wrap">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => applyPreset('weekend')}
-                className="font-cormorant text-lg"
-                aria-label="Appliquer la configuration weekend uniquement"
-              >
-                Weekend uniquement
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => applyPreset('24-7')}
-                className="font-cormorant text-lg"
-                aria-label="Appliquer la configuration 24h/24 et 7j/7"
-              >
-                24/7
-              </Button>
-            </div>
-          </div>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="start-time" className="flex items-center gap-2 text-3xl font-cormorant text-foreground">
@@ -249,7 +210,7 @@ export const TimeRangeSelector = ({
                 Start Time
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
-                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début">
+                <SelectTrigger id="start-time">
                   <SelectValue placeholder="Select start time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -266,7 +227,7 @@ export const TimeRangeSelector = ({
                 End Time
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
-                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin">
+                <SelectTrigger id="end-time">
                   <SelectValue placeholder="Select end time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -281,8 +242,8 @@ export const TimeRangeSelector = ({
           {/* Days of Week Selector */}
           <div className="space-y-3">
             <Label className="text-xl font-cormorant text-foreground">Active Days</Label>
-            <div className="flex flex-wrap gap-3 justify-center">
-              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-14 h-14 rounded-full font-cormorant text-lg transition-all border-2 ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground border-amber-500 shadow-md' : 'bg-background text-muted-foreground border-amber-200 dark:border-amber-800 hover:border-amber-400 dark:hover:border-amber-600'}`} aria-label={`${day.label}, ${selectedDays.includes(day.id) ? 'activé' : 'désactivé'}`} aria-pressed={selectedDays.includes(day.id)}>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`px-4 py-2 rounded-lg font-cormorant text-lg transition-all ${selectedDays.includes(day.id) ? 'bg-primary text-primary-foreground shadow-md' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}>
                   {day.label}
                 </button>)}
             </div>
@@ -294,7 +255,7 @@ export const TimeRangeSelector = ({
               <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
                 Enable pause period
               </Label>
-              <Switch id="pause-switch" checked={pauseEnabled} onCheckedChange={onPauseEnabledChange} disabled={!onPauseEnabledChange} aria-label="Activer ou désactiver la période de pause" />
+              <Switch id="pause-switch" checked={pauseEnabled} onCheckedChange={onPauseEnabledChange} disabled={!onPauseEnabledChange} />
             </div>
             
             {pauseEnabled && <div className="grid gap-4 md:grid-cols-2 pt-2">
@@ -304,7 +265,7 @@ export const TimeRangeSelector = ({
                     Pause Start
                   </Label>
                   <Select value={pauseStartTime} onValueChange={onPauseStartTimeChange}>
-                    <SelectTrigger id="pause-start-time" aria-label="Sélectionner l'heure de début de la pause">
+                    <SelectTrigger id="pause-start-time">
                       <SelectValue placeholder="Select pause start time" />
                     </SelectTrigger>
                     <SelectContent>
@@ -315,48 +276,33 @@ export const TimeRangeSelector = ({
                   </Select>
                 </div>
                 
-                <div className="space-y-2">
-                  <Label htmlFor="pause-end-time" className="flex items-center gap-2 text-lg font-cormorant text-foreground">
-                    <Clock className="w-5 h-5 text-green-600" />
-                    Pause End
-                  </Label>
-                  <Select value={pauseEndTime} onValueChange={onPauseEndTimeChange}>
-                    <SelectTrigger id="pause-end-time" aria-label="Sélectionner l'heure de fin de la pause">
-                      <SelectValue placeholder="Select pause end time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
-                          {time.label}
-                        </SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
+                
               </div>}
             
             {pauseEnabled && <div className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50">
                 <p className="text-lg text-foreground font-cormorant text-center">
                   Bells will be silent from{' '}
-                  <span className="font-cinzel font-semibold text-red-600">{formatTimeToAMPM(pauseStartTime)}</span> to{' '}
-                  <span className="font-cinzel font-semibold text-green-600">{formatTimeToAMPM(pauseEndTime)}</span>
+                  <span className="font-cinzel font-semibold text-red-600">{pauseStartTime}</span> to{' '}
+                  <span className="font-cinzel font-semibold text-green-600">{pauseEndTime}</span>
                 </p>
               </div>}
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
+          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-dawn border">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-primary" />
               <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
                 Chime every half hour
               </Label>
             </div>
-            <Switch id="half-hour-switch" checked={halfHourChimes} onCheckedChange={onHalfHourChimesChange} disabled={!onHalfHourChimesChange} aria-label="Activer ou désactiver les sonneries toutes les demi-heures" />
+            <Switch id="half-hour-switch" checked={halfHourChimes} onCheckedChange={onHalfHourChimesChange} disabled={!onHalfHourChimesChange} />
           </div>
           
-          <div className="p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
+          <div className="p-4 rounded-lg bg-gradient-dawn border">
             <p className="text-xl text-foreground font-cormorant text-center">
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
-              <span className="font-cinzel font-semibold text-primary">{formatTimeToAMPM(startTime)}</span> to{' '}
-              <span className="font-cinzel font-semibold text-primary">{formatTimeToAMPM(endTime)}</span>
+              <span className="font-cinzel font-semibold text-primary">{startTime}</span> to{' '}
+              <span className="font-cinzel font-semibold text-primary">{endTime}</span>
             </p>
           </div>
         </CardContent>
