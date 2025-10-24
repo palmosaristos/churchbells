@@ -137,7 +137,7 @@ const Settings = () => {
 
         {/* Share Banner */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-vespers border-burgundy/20 rounded-full shadow-2xl border-2 p-8 md:p-10 aspect-[2/1] flex items-center justify-center max-w-3xl mx-auto">
+          <div className="bg-gradient-vespers border-burgundy/20 rounded-full shadow-2xl border-2 p-8 md:p-10 aspect-[3/1] flex items-center justify-center max-w-3xl mx-auto">
             <div className="text-center space-y-4">
               <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-burgundy-foreground">
                 Share the Bells
