@@ -5,6 +5,7 @@ import { PrayerConfiguration } from "@/components/PrayerConfiguration";
 import { HeroSection } from "@/components/HeroSection";
 import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
+import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { PremiumConfiguration } from "@/components/PremiumConfiguration";
 import { Separator } from "@/components/ui/separator";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
@@ -51,6 +52,9 @@ const Index = () => {
   });
   const [isPremiumMember, setIsPremiumMember] = useState<boolean>(() => {
     return localStorage.getItem("isPremiumMember") === "true";
+  });
+  const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => {
+    return localStorage.getItem("onboardingComplete") === "true";
   });
 
   // Listen for settings changes
@@ -100,6 +104,11 @@ const Index = () => {
     localStorage.setItem("appEnabled", String(enabled));
   };
 
+  const handleWelcomeComplete = () => {
+    setOnboardingComplete(true);
+    localStorage.setItem("onboardingComplete", "true");
+  };
+
   return (
     <div className="min-h-screen bg-gradient-subtle">
       <Navigation isAppEnabled={isAppEnabled} onAppToggle={handleAppToggle} />
@@ -108,15 +117,19 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-16 space-y-16">
-        {isAppEnabled && !selectedTimeZone && (
+        {isAppEnabled && !onboardingComplete && (
+          <WelcomeScreen isOpen={true} onComplete={handleWelcomeComplete} />
+        )}
+
+        {isAppEnabled && onboardingComplete && !selectedTimeZone && (
           <LocationPermission onTimeZoneDetected={handleTimeZoneDetected} />
         )}
 
-        {isAppEnabled && selectedTimeZone && !audioPermissionGranted && (
+        {isAppEnabled && onboardingComplete && selectedTimeZone && !audioPermissionGranted && (
           <AudioPermission onAudioPermissionGranted={handleAudioPermissionGranted} />
         )}
 
-        {isAppEnabled && selectedTimeZone && audioPermissionGranted && (
+        {isAppEnabled && onboardingComplete && selectedTimeZone && audioPermissionGranted && (
           <div className="space-y-12">
             <CurrentConfiguration
               selectedBellTradition={selectedBellTradition}
