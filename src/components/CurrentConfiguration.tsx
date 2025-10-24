@@ -38,45 +38,60 @@ export const CurrentConfiguration = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex items-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
-            <img 
-              src={getBellImage(selectedBellTradition)} 
-              alt="Selected Bell" 
-              className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
-            />
-            <p className="font-cormorant text-xl text-foreground">
-              {selectedBell?.name}
+        {!settingsConfigured ? (
+          <div className="text-center py-8">
+            <p className="text-lg text-muted-foreground mb-6 font-cormorant">
+              Configure your bells to start receiving sacred chimes throughout your day
             </p>
+            <Link to="/settings">
+              <Button variant="sacred" size="lg" className="text-xl px-12 py-8 h-auto">
+                Set your Bells
+              </Button>
+            </Link>
           </div>
-          
-          <div className="flex items-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
-            <img 
-              src={churchClockImage} 
-              alt="Church Clock" 
-              className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
-            />
-            <div className="flex flex-col items-start">
-              <p className="text-lg font-cormorant text-foreground">Daily schedule</p>
-              <p className="font-cormorant text-xl text-foreground">{startTime} - {endTime}</p>
+        ) : (
+          <>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="flex items-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+                <img 
+                  src={getBellImage(selectedBellTradition)} 
+                  alt="Selected Bell" 
+                  className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
+                />
+                <p className="font-cormorant text-xl text-foreground">
+                  {selectedBell?.name}
+                </p>
+              </div>
+              
+              <div className="flex items-center gap-2 p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+                <img 
+                  src={churchClockImage} 
+                  alt="Church Clock" 
+                  className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
+                />
+                <div className="flex flex-col items-start">
+                  <p className="text-lg font-cormorant text-foreground">Daily schedule</p>
+                  <p className="font-cormorant text-xl text-foreground">{startTime} - {endTime}</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        
-        <div className="text-center mt-4 p-3 rounded-lg bg-gradient-dawn border">
-          <p className="text-xl text-foreground font-cormorant text-center">
-            Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
-          </p>
-        </div>
+            
+            <div className="text-center mt-4 p-3 rounded-lg bg-gradient-dawn border">
+              <p className="text-xl text-foreground font-cormorant text-center">
+                Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
+              </p>
+            </div>
 
-        <div className="text-center mt-6">
-          <Link to="/settings">
-            <Button variant="outline" className="gap-2">
-              <Settings className="w-4 h-4" />
-              Customize your bells
-            </Button>
-          </Link>
-        </div>
+            <div className="text-center mt-6">
+              <Link to="/settings">
+                <Button variant="outline" className="gap-2">
+                  <Settings className="w-4 h-4" />
+                  Customize your bells
+                </Button>
+              </Link>
+            </div>
+          </>
+        )}
       </CardContent>
     </Card>
   );
