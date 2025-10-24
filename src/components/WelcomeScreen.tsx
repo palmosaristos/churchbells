@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import churchBellsHero from "@/assets/church-bells-hero.jpg";
+import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 interface WelcomeScreenProps {
   isOpen: boolean;
@@ -20,7 +20,7 @@ export const WelcomeScreen = ({ isOpen, onComplete }: WelcomeScreenProps) => {
       <AlertDialogContent className="max-w-2xl p-0 overflow-hidden border-amber-200/50 dark:border-amber-800/30">
         <div className="relative">
           {/* Hero Image */}
-          <div className="h-64 bg-cover bg-center relative" style={{ backgroundImage: `url(${churchBellsHero})` }}>
+          <div className="h-64 bg-cover bg-center relative" style={{ backgroundImage: `url(${heroImage})` }}>
             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
           </div>
           
