@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings } from "lucide-react";
+import { Settings, Bell } from "lucide-react";
 import { bellTraditions } from "@/data/bellTraditions";
 import churchClockImage from "@/assets/church-clock.jpg";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
@@ -40,12 +40,11 @@ export const CurrentConfiguration = ({
       <CardContent className="space-y-4">
         {!settingsConfigured ? (
           <div className="text-center py-8">
-            <p className="text-lg text-muted-foreground mb-6 font-cormorant">
-              Configure your bells to start receiving sacred chimes throughout your day
-            </p>
             <Link to="/settings">
-              <Button variant="sacred" size="lg" className="text-xl px-12 py-8 h-auto">
+              <Button variant="amber" size="lg" className="text-xl px-12 py-8 h-auto rounded-2xl gap-4">
+                <Bell className="w-6 h-6" />
                 Set your Bells
+                <Bell className="w-6 h-6" />
               </Button>
             </Link>
           </div>
