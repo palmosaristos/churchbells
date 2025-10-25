@@ -162,9 +162,9 @@ const Index = () => {
               </AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value="premium">
-              <AccordionTrigger>Premium Configuration</AccordionTrigger>
-              <AccordionContent>
+        <AccordionItem value="premium">
+          <AccordionTrigger>Your Premium Status</AccordionTrigger>
+          <AccordionContent>
                 <PremiumConfiguration isPremiumMember={isPremiumMember} />
               </AccordionContent>
             </AccordionItem>
