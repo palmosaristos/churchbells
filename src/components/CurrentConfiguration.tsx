@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Settings, Bell } from "lucide-react";
@@ -32,12 +32,7 @@ export const CurrentConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
-      <CardHeader className="text-center pb-2">
-        <CardTitle className="font-cormorant text-3xl text-foreground text-center">
-          Your Sacred Bells schedule
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2 pt-0">
+      <CardContent className="space-y-2 p-5">
         {!settingsConfigured ? (
           <div className="text-center py-8">
             <Link to="/settings">

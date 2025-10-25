@@ -12,7 +12,7 @@ const AccordionItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b", className)}
+    className={cn("border-0 mb-4", className)}
     {...props}
   />
 ))
@@ -26,13 +26,25 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between min-h-[44px] px-5 py-4",
+        "font-cormorant text-2xl font-semibold text-foreground",
+        "bg-[#FAF8F3] dark:bg-amber-950/40",
+        "border-2 border-[#d4a574] dark:border-amber-700",
+        "rounded-lg transition-all duration-300",
+        "hover:bg-[#F5F1E8] dark:hover:bg-amber-950/60",
+        "hover:border-[#b8864f] dark:hover:border-amber-600",
+        "hover:scale-[1.01] hover:shadow-md",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2",
+        "cursor-pointer",
+        "data-[state=open]:bg-white dark:data-[state=open]:bg-slate-900",
+        "data-[state=open]:rounded-b-none data-[state=open]:border-b-0",
+        "[&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+      <ChevronDown className="h-6 w-6 shrink-0 transition-transform duration-300 text-[#d4a574] dark:text-amber-600" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
@@ -44,10 +56,17 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AccordionPrimitive.Content
     ref={ref}
-    className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+    className="overflow-hidden transition-all duration-300 ease-in-out data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
     {...props}
   >
-    <div className={cn("pb-4 pt-0", className)}>{children}</div>
+    <div className={cn(
+      "p-5 bg-white dark:bg-slate-900",
+      "border-2 border-t-0 border-[#d4a574] dark:border-amber-700",
+      "rounded-b-lg",
+      className
+    )}>
+      {children}
+    </div>
   </AccordionPrimitive.Content>
 ))
 

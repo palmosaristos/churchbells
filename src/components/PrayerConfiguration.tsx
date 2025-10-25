@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Bell, Sun, Moon } from "lucide-react";
@@ -24,12 +24,7 @@ export const PrayerConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm">
-      <CardHeader className="text-center pb-4">
-        <CardTitle className="font-cormorant text-3xl text-foreground text-center">
-          {!prayersConfigured ? "Set your daily prayer times" : "Your Prayers"}
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3 pt-0">
+      <CardContent className="space-y-3 p-5">
         <div className="grid gap-3">
           <div className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <div className="flex items-center gap-3">

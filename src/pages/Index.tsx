@@ -7,7 +7,7 @@ import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { PremiumConfiguration } from "@/components/PremiumConfiguration";
-import { Separator } from "@/components/ui/separator";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const Index = () => {
@@ -130,29 +130,45 @@ const Index = () => {
         )}
 
         {isAppEnabled && onboardingComplete && selectedTimeZone && audioPermissionGranted && (
-          <div className="space-y-12">
-            <CurrentConfiguration
-              selectedBellTradition={selectedBellTradition}
-              startTime={startTime}
-              endTime={endTime}
-              halfHourChimes={halfHourChimes}
-            />
-            
-            <Separator className="my-12 opacity-30" />
-            
-            <PrayerConfiguration
-              morningPrayerEnabled={morningPrayerEnabled}
-              eveningPrayerEnabled={eveningPrayerEnabled}
-              morningPrayerName={morningPrayerName}
-              eveningPrayerName={eveningPrayerName}
-              morningPrayerTime={morningPrayerTime}
-              eveningPrayerTime={eveningPrayerTime}
-            />
-            
-            <Separator className="my-12 opacity-30" />
-            
-            <PremiumConfiguration isPremiumMember={isPremiumMember} />
-          </div>
+          <Accordion 
+            type="single" 
+            collapsible 
+            defaultValue="bells-schedule"
+            className="w-full"
+          >
+            <AccordionItem value="bells-schedule">
+              <AccordionTrigger>Your Sacred Bells schedule</AccordionTrigger>
+              <AccordionContent>
+                <CurrentConfiguration
+                  selectedBellTradition={selectedBellTradition}
+                  startTime={startTime}
+                  endTime={endTime}
+                  halfHourChimes={halfHourChimes}
+                />
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="prayers">
+              <AccordionTrigger>Your Prayers</AccordionTrigger>
+              <AccordionContent>
+                <PrayerConfiguration
+                  morningPrayerEnabled={morningPrayerEnabled}
+                  eveningPrayerEnabled={eveningPrayerEnabled}
+                  morningPrayerName={morningPrayerName}
+                  eveningPrayerName={eveningPrayerName}
+                  morningPrayerTime={morningPrayerTime}
+                  eveningPrayerTime={eveningPrayerTime}
+                />
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="premium">
+              <AccordionTrigger>Premium Configuration</AccordionTrigger>
+              <AccordionContent>
+                <PremiumConfiguration isPremiumMember={isPremiumMember} />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         )}
       </div>
     </div>
