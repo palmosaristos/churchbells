@@ -36,6 +36,12 @@ const Settings = () => {
   const { toggleAudio } = useAudioPlayer();
   const { toast } = useToast();
 
+  // Save bellsEnabled immediately to localStorage when it changes
+  const handleBellsEnabledChange = (enabled: boolean) => {
+    setBellsEnabled(enabled);
+    localStorage.setItem("bellsEnabled", String(enabled));
+  };
+
   // Check if any settings have changed
   const hasChanges = useMemo(() => {
     return (
@@ -113,7 +119,7 @@ const Settings = () => {
             selectedDays={selectedDays}
             onSelectedDaysChange={setSelectedDays}
             bellsEnabled={bellsEnabled}
-            onBellsEnabledChange={setBellsEnabled}
+            onBellsEnabledChange={handleBellsEnabledChange}
           />
         </div>
 

@@ -213,7 +213,7 @@ export const TimeRangeSelector = ({
               </CardTitle>
               <CardDescription className="font-cormorant text-xl text-foreground text-center whitespace-nowrap">Set the hours when your bells will ring</CardDescription>
             </div>
-            <div className="flex flex-col items-end gap-2">
+            <div className="flex flex-col items-center md:items-end gap-2 shrink-0">
               <Switch 
                 id="bells-enabled" 
                 checked={bellsEnabled} 
