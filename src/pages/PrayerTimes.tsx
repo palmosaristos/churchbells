@@ -119,7 +119,7 @@ const PrayerTimes = () => {
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
                   <Clock className="w-6 h-6 text-primary" />
-                  ⏰ Set Your Prayer Times
+                  Set Your Prayer Times
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
@@ -234,7 +234,7 @@ const PrayerTimes = () => {
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
                   <Volume2 className="w-6 h-6 text-primary" />
-                  🔊 Bell Call Sound
+                  Bell Call Sound
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
@@ -355,7 +355,7 @@ const PrayerTimes = () => {
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
                   <BellRing className="w-6 h-6 text-primary" />
-                  🔔 Prayer Reminder
+                  Prayer Reminder
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">

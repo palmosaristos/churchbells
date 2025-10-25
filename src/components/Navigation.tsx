@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { AppToggle } from "@/components/AppToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+import { Settings, Clock } from "lucide-react";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
 interface NavigationProps {
@@ -73,6 +74,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             aria-label="Aller à la page des paramètres"
           >
             <Link to="/settings" className="flex items-center gap-1">
+              <Settings className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               <span>Settings</span>
             </Link>
           </Button>
@@ -84,6 +86,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             aria-label="Aller à la page des heures de prière"
           >
             <Link to="/prayer-times" className="flex items-center gap-1">
+              <Clock className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               <span>Prayer Times</span>
             </Link>
           </Button>
