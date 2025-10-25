@@ -28,7 +28,7 @@ export const HeroSection = ({
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
               </div>
-              <p className="text-2xl md:text-3xl text-amber-800 dark:text-amber-200 font-cormorant max-w-4xl mx-auto leading-relaxed">Let the sacred rhythm of church bells guide your day
+              <p className="font-cormorant text-3xl text-foreground text-center leading-relaxed max-w-4xl mx-auto">Let the sacred rhythm of church bells guide your day
 
 
             </p>
