@@ -52,6 +52,12 @@ const PrayerTimes = () => {
   const [reminderMinutes, setReminderMinutes] = useState<string>(() => {
     return localStorage.getItem("reminderMinutes") || "5";
   });
+  const [morningReminderMinutes, setMorningReminderMinutes] = useState<string>(() => {
+    return localStorage.getItem("morningReminderMinutes") || "5";
+  });
+  const [eveningReminderMinutes, setEveningReminderMinutes] = useState<string>(() => {
+    return localStorage.getItem("eveningReminderMinutes") || "5";
+  });
   const {
     toast
   } = useToast();
@@ -70,7 +76,8 @@ const PrayerTimes = () => {
     localStorage.setItem("eveningPrayerEnabled", String(eveningPrayerEnabled));
     localStorage.setItem("morningCallType", morningCallType);
     localStorage.setItem("eveningCallType", eveningCallType);
-    localStorage.setItem("reminderMinutes", reminderMinutes);
+    localStorage.setItem("morningReminderMinutes", morningReminderMinutes);
+    localStorage.setItem("eveningReminderMinutes", eveningReminderMinutes);
     localStorage.setItem("prayersConfigured", "true");
     toast({
       title: "Prayer settings saved",
@@ -313,28 +320,63 @@ const PrayerTimes = () => {
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
-              <RadioGroup value={reminderMinutes} onValueChange={setReminderMinutes} className="space-y-4" aria-label="Choisir quand être rappelé avant la prière">
-                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="5" id="reminder-5" aria-label="5 minutes avant" />
-                  <Label htmlFor="reminder-5" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
-                    5 minutes before
-                  </Label>
-                </div>
+              <div className="grid grid-cols-[auto_1fr] gap-6 items-center">
+                {/* Header Row */}
+                <div className="font-cormorant text-xl font-semibold text-foreground">Prayer Time</div>
+                <div className="font-cormorant text-xl font-semibold text-foreground">Reminder</div>
                 
-                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="10" id="reminder-10" aria-label="10 minutes avant" />
-                  <Label htmlFor="reminder-10" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
-                    10 minutes before
-                  </Label>
+                {/* Morning Prayer Row */}
+                <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
+                  <Sun className="w-5 h-5 text-amber" />
+                  {morningPrayerName}
                 </div>
+                <RadioGroup value={morningReminderMinutes} onValueChange={setMorningReminderMinutes} className="flex gap-4" aria-label="Choisir le rappel pour la prière du matin">
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="5" id="morning-reminder-5" aria-label="5 minutes avant" />
+                    <Label htmlFor="morning-reminder-5" className="cursor-pointer font-cormorant text-lg">
+                      5min before
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="10" id="morning-reminder-10" aria-label="10 minutes avant" />
+                    <Label htmlFor="morning-reminder-10" className="cursor-pointer font-cormorant text-lg">
+                      10min
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="15" id="morning-reminder-15" aria-label="15 minutes avant" />
+                    <Label htmlFor="morning-reminder-15" className="cursor-pointer font-cormorant text-lg">
+                      15min
+                    </Label>
+                  </div>
+                </RadioGroup>
                 
-                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="15" id="reminder-15" aria-label="15 minutes avant" />
-                  <Label htmlFor="reminder-15" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
-                    15 minutes before
-                  </Label>
+                {/* Evening Prayer Row */}
+                <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
+                  <Moon className="w-5 h-5 text-primary" />
+                  {eveningPrayerName}
                 </div>
-              </RadioGroup>
+                <RadioGroup value={eveningReminderMinutes} onValueChange={setEveningReminderMinutes} className="flex gap-4" aria-label="Choisir le rappel pour la prière du soir">
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="5" id="evening-reminder-5" aria-label="5 minutes avant" />
+                    <Label htmlFor="evening-reminder-5" className="cursor-pointer font-cormorant text-lg">
+                      5min before
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="10" id="evening-reminder-10" aria-label="10 minutes avant" />
+                    <Label htmlFor="evening-reminder-10" className="cursor-pointer font-cormorant text-lg">
+                      10min
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="15" id="evening-reminder-15" aria-label="15 minutes avant" />
+                    <Label htmlFor="evening-reminder-15" className="cursor-pointer font-cormorant text-lg">
+                      15min
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </div>
             </CardContent>
           </Card>
         </div>
