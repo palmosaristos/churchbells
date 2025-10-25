@@ -59,7 +59,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           <Button
             variant={currentPath === "/" ? "default" : "ghost"}
             asChild
-            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
             aria-label="Aller à la page d'accueil"
           >
             <Link to="/" className="flex items-center gap-1">
@@ -70,11 +70,11 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           <Button
             variant={currentPath === "/settings" ? "default" : "ghost"}
             asChild
-            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
             aria-label="Aller à la page des paramètres"
           >
             <Link to="/settings" className="flex items-center gap-1">
-              <Settings className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+              <Settings className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               <span>Settings</span>
             </Link>
           </Button>
@@ -82,11 +82,11 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           <Button
             variant={currentPath === "/prayer-times" ? "default" : "ghost"}
             asChild
-            className={`font-medium ${isMobile ? 'text-xs px-2 py-1 h-8' : ''}`}
+            className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
             aria-label="Aller à la page des heures de prière"
           >
             <Link to="/prayer-times" className="flex items-center gap-1">
-              <Clock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+              <Clock className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               <span>Prayer Times</span>
             </Link>
           </Button>
