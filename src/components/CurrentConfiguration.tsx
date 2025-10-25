@@ -32,12 +32,12 @@ export const CurrentConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
-      <CardHeader className="text-center pb-4">
+      <CardHeader className="text-center pb-2">
         <CardTitle className="font-cormorant text-3xl text-foreground text-center">
           Your Sacred Bells schedule
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 pt-0">
+      <CardContent className="space-y-2 pt-0">
         {!settingsConfigured ? (
           <div className="text-center py-8">
             <Link to="/settings">
@@ -50,8 +50,8 @@ export const CurrentConfiguration = ({
           </div>
         ) : (
           <>
-            <div className="grid gap-3 md:grid-cols-2">
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+            <div className="grid gap-2 md:grid-cols-2">
+              <div className="flex items-center gap-2 p-2 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
                 <img 
                   src={getBellImage(selectedBellTradition)} 
                   alt="Selected Bell" 
@@ -62,7 +62,7 @@ export const CurrentConfiguration = ({
                 </p>
               </div>
               
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+              <div className="flex items-center gap-2 p-2 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
                 <img 
                   src={churchClockImage} 
                   alt="Church Clock" 
@@ -75,13 +75,13 @@ export const CurrentConfiguration = ({
               </div>
             </div>
             
-            <div className="text-center mt-3 p-3 rounded-lg bg-gradient-dawn border">
+            <div className="text-center mt-2 p-2 rounded-lg bg-gradient-dawn border">
               <p className="text-xl text-foreground font-cormorant text-center">
                 Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
               </p>
             </div>
 
-            <div className="text-center mt-4">
+            <div className="text-center mt-3">
               <Link to="/settings">
                 <Button variant="outline" className="gap-2">
                   <Settings className="w-4 h-4" />
