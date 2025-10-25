@@ -193,34 +193,50 @@ const PrayerTimes = () => {
                 Bell Call Sound
               </CardTitle>
               <CardDescription className="font-cormorant text-xl">
-                Choose the duration of your prayer call bell
+                How long should be your prayer call bell?
               </CardDescription>
             </CardHeader>
             
             <CardContent className="space-y-6 relative">
               <RadioGroup value={callType} onValueChange={setCallType} className="space-y-4" aria-label="Choisir la durée de l'appel à la prière">
-                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="short" id="short-call" aria-label="Appel court" />
-                  <Label htmlFor="short-call" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
-                    Short Call (~15 seconds)
-                  </Label>
+                <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
+                  <div className="flex items-center space-x-3 flex-1">
+                    <RadioGroupItem value="short" id="short-call" aria-label="Appel court" />
+                    <Label htmlFor="short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
+                      Short Call (~15 seconds)
+                    </Label>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                    onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call")} 
+                    aria-label="Preview short bell call sound"
+                  >
+                    <Volume2 className="w-4 h-4 mr-2" />
+                    {isPlaying && currentAudioUrl === "/audio/summoning-bell.mp3" ? "Stop" : "Listen"}
+                  </Button>
                 </div>
                 
-                <div className="flex items-center space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors cursor-pointer">
-                  <RadioGroupItem value="long" id="long-call" aria-label="Appel long" />
-                  <Label htmlFor="long-call" className="flex-1 cursor-pointer font-cormorant text-xl font-semibold">
-                    Long Call (~30 seconds)
-                  </Label>
+                <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
+                  <div className="flex items-center space-x-3 flex-1">
+                    <RadioGroupItem value="long" id="long-call" aria-label="Appel long" />
+                    <Label htmlFor="long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
+                      Long Call (~30 seconds)
+                    </Label>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                    onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call")} 
+                    aria-label="Preview long bell call sound"
+                  >
+                    <Volume2 className="w-4 h-4 mr-2" />
+                    {isPlaying && currentAudioUrl === "/audio/cathedral-bell.mp3" ? "Stop" : "Listen"}
+                  </Button>
                 </div>
               </RadioGroup>
-              
-              <Button variant="outline" className="w-full md:w-auto md:mx-auto flex items-center justify-center gap-2 md:px-8 py-5 text-base font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => {
-              const audioUrl = callType === "short" ? "/audio/summoning-bell.mp3" : "/audio/cathedral-bell.mp3";
-              toggleAudio(audioUrl, `${callType === "short" ? "Short" : "Long"} Call`);
-            }} aria-label="Preview bell call sound">
-                <Volume2 className="w-5 h-5" />
-                {isPlaying && currentAudioUrl === (callType === "short" ? "/audio/summoning-bell.mp3" : "/audio/cathedral-bell.mp3") ? "Stop" : `Listen to ${callType === "short" ? "Short" : "Long"} Call`}
-              </Button>
             </CardContent>
           </Card>
 
