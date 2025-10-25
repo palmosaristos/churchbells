@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Settings, Sun, Moon } from "lucide-react";
+import { Bell, Sun, Moon } from "lucide-react";
 
 interface PrayerConfigurationProps {
   morningPrayerEnabled: boolean;
@@ -38,20 +38,13 @@ export const PrayerConfiguration = ({
                 <p className="font-cormorant text-xl text-foreground font-semibold">
                   {morningPrayerName}
                 </p>
-                {morningPrayerEnabled && (
-                  <p className="font-cormorant text-sm text-muted-foreground">
-                    {morningPrayerTime}
-                  </p>
-                )}
+                <p className="font-cormorant text-sm text-muted-foreground">
+                  {morningPrayerEnabled 
+                    ? `Bells ringing at ${morningPrayerTime}` 
+                    : "Bells silent"}
+                </p>
               </div>
             </div>
-            <span className={`text-sm font-cormorant px-3 py-1 rounded-full ${
-              morningPrayerEnabled 
-                ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" 
-                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
-            }`}>
-              {morningPrayerEnabled ? "Enabled" : "Disabled"}
-            </span>
           </div>
           
           <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
@@ -61,28 +54,21 @@ export const PrayerConfiguration = ({
                 <p className="font-cormorant text-xl text-foreground font-semibold">
                   {eveningPrayerName}
                 </p>
-                {eveningPrayerEnabled && (
-                  <p className="font-cormorant text-sm text-muted-foreground">
-                    {eveningPrayerTime}
-                  </p>
-                )}
+                <p className="font-cormorant text-sm text-muted-foreground">
+                  {eveningPrayerEnabled 
+                    ? `Bells ringing at ${eveningPrayerTime}` 
+                    : "Bells silent"}
+                </p>
               </div>
             </div>
-            <span className={`text-sm font-cormorant px-3 py-1 rounded-full ${
-              eveningPrayerEnabled 
-                ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400" 
-                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
-            }`}>
-              {eveningPrayerEnabled ? "Enabled" : "Disabled"}
-            </span>
           </div>
         </div>
 
         <div className="text-center mt-6">
           <Link to="/prayer-times">
-            <Button variant="outline" className="gap-2">
-              <Settings className="w-4 h-4" />
-              Schedule prayer bells
+            <Button variant="amber" size="lg" className="gap-3 font-cormorant text-lg font-semibold">
+              <Bell className="w-5 h-5" />
+              Set prayer times
             </Button>
           </Link>
         </div>
