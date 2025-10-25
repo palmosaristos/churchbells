@@ -113,128 +113,13 @@ const PrayerTimes = () => {
           />
 
           {/* Accordion Layout */}
-          <Accordion type="single" collapsible defaultValue="prayer-times" className="space-y-4">
-            {/* Set Your Prayer Times Section */}
-            <AccordionItem value="prayer-times" className="border-none">
-              <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
-                <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
-                  <Clock className="w-6 h-6 text-primary" />
-                  ⏰ Set Your Prayer Times
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                <div className="space-y-6">
-                  <div className="grid gap-8 md:grid-cols-2">
-                    <div className="space-y-4 group">
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
-                          <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
-                          Morning Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
-                        </Label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={morningPrayerEnabled} 
-                            onChange={e => setMorningPrayerEnabled(e.target.checked)} 
-                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
-                            aria-label="Activer la prière du matin" 
-                          />
-                          <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
-                        </label>
-                      </div>
-                      <Input 
-                        id="morning-prayer-name" 
-                        type="text" 
-                        value={morningPrayerName} 
-                        onChange={e => setMorningPrayerName(e.target.value)} 
-                        placeholder="Morning Prayer" 
-                        className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
-                        aria-label="Name your morning prayer" 
-                      />
-                      <p className="text-lg text-foreground font-cormorant italic mt-1">
-                        Suggestions: Matins, Lauds or Prime
-                      </p>
-                      <div className="relative">
-                        <Input 
-                          id="morning-prayer-time" 
-                          type="time" 
-                          step="900" 
-                          value={morningPrayerTime} 
-                          onChange={e => {
-                            setMorningPrayerTime(e.target.value);
-                            setTimeError("");
-                          }} 
-                          className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
-                          aria-label="Select morning prayer time" 
-                          required 
-                        />
-                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-4 group">
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
-                          <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
-                          Evening Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
-                        </Label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            checked={eveningPrayerEnabled} 
-                            onChange={e => setEveningPrayerEnabled(e.target.checked)} 
-                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
-                            aria-label="Activer la prière du soir" 
-                          />
-                          <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
-                        </label>
-                      </div>
-                      <Input 
-                        id="evening-prayer-name" 
-                        type="text" 
-                        value={eveningPrayerName} 
-                        onChange={e => setEveningPrayerName(e.target.value)} 
-                        placeholder="Evening Prayer" 
-                        className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
-                        aria-label="Name your evening prayer" 
-                      />
-                      <p className="text-lg text-foreground font-cormorant italic mt-1">
-                        Suggestions: Vespers or Compline
-                      </p>
-                      <div className="relative">
-                        <Input 
-                          id="evening-prayer-time" 
-                          type="time" 
-                          step="900" 
-                          value={eveningPrayerTime} 
-                          onChange={e => {
-                            setEveningPrayerTime(e.target.value);
-                            setTimeError("");
-                          }} 
-                          className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
-                          aria-label="Select evening prayer time" 
-                          required 
-                        />
-                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {timeError && (
-                    <p className="text-sm text-destructive font-cormorant italic text-center animate-fade-in-up">
-                      {timeError}
-                    </p>
-                  )}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-
-            {/* Bell Call Sound Section */}
+          <Accordion type="single" collapsible defaultValue="bell-sound" className="space-y-4">
+            {/* Choose Your Bell Sound Section */}
             <AccordionItem value="bell-sound" className="border-none">
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
                   <Volume2 className="w-6 h-6 text-primary" />
-                  🔊 Bell Call Sound
+                  🔊 Choose Your Bell Sound
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
@@ -350,82 +235,195 @@ const PrayerTimes = () => {
               </AccordionContent>
             </AccordionItem>
 
-            {/* Prayer Reminder Section */}
-            <AccordionItem value="prayer-reminder" className="border-none">
+            {/* Daily Bell Schedule Section */}
+            <AccordionItem value="daily-schedule" className="border-none">
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
-                  <BellRing className="w-6 h-6 text-primary" />
-                  🔔 Prayer Reminder
+                  <Clock className="w-6 h-6 text-primary" />
+                  ⏰ Daily Bell Schedule
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                <div className="space-y-6">
-                  <div className="grid grid-cols-[auto_1fr] gap-6 items-center">
-                    {/* Header Row */}
-                    <div className="font-cormorant text-xl font-semibold text-foreground">Prayer Time</div>
-                    <div className="font-cormorant text-xl font-semibold text-foreground">Reminder</div>
-                    
-                    {/* Morning Prayer Row */}
-                    <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
-                      <Sun className="w-5 h-5 text-amber" />
-                      {morningPrayerName}
+                <div className="space-y-8">
+                  {/* Set Prayer Times */}
+                  <div>
+                    <h3 className="font-cormorant text-2xl font-semibold text-foreground mb-4">Set Your Prayer Times</h3>
+                    <div className="grid gap-8 md:grid-cols-2">
+                      <div className="space-y-4 group">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
+                            <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                            Morning Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
+                          </Label>
+                          <label className="flex items-center gap-2 cursor-pointer">
+                            <input 
+                              type="checkbox" 
+                              checked={morningPrayerEnabled} 
+                              onChange={e => setMorningPrayerEnabled(e.target.checked)} 
+                              className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
+                              aria-label="Activer la prière du matin" 
+                            />
+                            <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
+                          </label>
+                        </div>
+                        <Input 
+                          id="morning-prayer-name" 
+                          type="text" 
+                          value={morningPrayerName} 
+                          onChange={e => setMorningPrayerName(e.target.value)} 
+                          placeholder="Morning Prayer" 
+                          className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
+                          aria-label="Name your morning prayer" 
+                        />
+                        <p className="text-lg text-foreground font-cormorant italic mt-1">
+                          Suggestions: Matins, Lauds or Prime
+                        </p>
+                        <div className="relative">
+                          <Input 
+                            id="morning-prayer-time" 
+                            type="time" 
+                            step="900" 
+                            value={morningPrayerTime} 
+                            onChange={e => {
+                              setMorningPrayerTime(e.target.value);
+                              setTimeError("");
+                            }} 
+                            className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
+                            aria-label="Select morning prayer time" 
+                            required 
+                          />
+                          <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4 group">
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
+                            <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
+                            Evening Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
+                          </Label>
+                          <label className="flex items-center gap-2 cursor-pointer">
+                            <input 
+                              type="checkbox" 
+                              checked={eveningPrayerEnabled} 
+                              onChange={e => setEveningPrayerEnabled(e.target.checked)} 
+                              className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
+                              aria-label="Activer la prière du soir" 
+                            />
+                            <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
+                          </label>
+                        </div>
+                        <Input 
+                          id="evening-prayer-name" 
+                          type="text" 
+                          value={eveningPrayerName} 
+                          onChange={e => setEveningPrayerName(e.target.value)} 
+                          placeholder="Evening Prayer" 
+                          className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
+                          aria-label="Name your evening prayer" 
+                        />
+                        <p className="text-lg text-foreground font-cormorant italic mt-1">
+                          Suggestions: Vespers or Compline
+                        </p>
+                        <div className="relative">
+                          <Input 
+                            id="evening-prayer-time" 
+                            type="time" 
+                            step="900" 
+                            value={eveningPrayerTime} 
+                            onChange={e => {
+                              setEveningPrayerTime(e.target.value);
+                              setTimeError("");
+                            }} 
+                            className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
+                            aria-label="Select evening prayer time" 
+                            required 
+                          />
+                          <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
+                        </div>
+                      </div>
                     </div>
-                    <RadioGroup 
-                      value={morningReminderMinutes} 
-                      onValueChange={setMorningReminderMinutes} 
-                      className="flex gap-4" 
-                      aria-label="Choisir le rappel pour la prière du matin"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="5" id="morning-reminder-5" aria-label="5 minutes avant" />
-                        <Label htmlFor="morning-reminder-5" className="cursor-pointer font-cormorant text-lg">
-                          5min before
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="10" id="morning-reminder-10" aria-label="10 minutes avant" />
-                        <Label htmlFor="morning-reminder-10" className="cursor-pointer font-cormorant text-lg">
-                          10min
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="15" id="morning-reminder-15" aria-label="15 minutes avant" />
-                        <Label htmlFor="morning-reminder-15" className="cursor-pointer font-cormorant text-lg">
-                          15min
-                        </Label>
-                      </div>
-                    </RadioGroup>
                     
-                    {/* Evening Prayer Row */}
-                    <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
-                      <Moon className="w-5 h-5 text-primary" />
-                      {eveningPrayerName}
+                    {timeError && (
+                      <p className="text-sm text-destructive font-cormorant italic text-center animate-fade-in-up mt-4">
+                        {timeError}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Prayer Reminder */}
+                  <div className="border-t-2 border-border pt-6">
+                    <h3 className="font-cormorant text-2xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                      <BellRing className="w-6 h-6 text-primary" />
+                      Prayer Reminder
+                    </h3>
+                    <div className="grid grid-cols-[auto_1fr] gap-6 items-center">
+                      {/* Header Row */}
+                      <div className="font-cormorant text-xl font-semibold text-foreground">Prayer Time</div>
+                      <div className="font-cormorant text-xl font-semibold text-foreground">Reminder</div>
+                      
+                      {/* Morning Prayer Row */}
+                      <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
+                        <Sun className="w-5 h-5 text-amber" />
+                        {morningPrayerName}
+                      </div>
+                      <RadioGroup 
+                        value={morningReminderMinutes} 
+                        onValueChange={setMorningReminderMinutes} 
+                        className="flex gap-4" 
+                        aria-label="Choisir le rappel pour la prière du matin"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="5" id="morning-reminder-5" aria-label="5 minutes avant" />
+                          <Label htmlFor="morning-reminder-5" className="cursor-pointer font-cormorant text-lg">
+                            5min before
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="10" id="morning-reminder-10" aria-label="10 minutes avant" />
+                          <Label htmlFor="morning-reminder-10" className="cursor-pointer font-cormorant text-lg">
+                            10min
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="15" id="morning-reminder-15" aria-label="15 minutes avant" />
+                          <Label htmlFor="morning-reminder-15" className="cursor-pointer font-cormorant text-lg">
+                            15min
+                          </Label>
+                        </div>
+                      </RadioGroup>
+                      
+                      {/* Evening Prayer Row */}
+                      <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
+                        <Moon className="w-5 h-5 text-primary" />
+                        {eveningPrayerName}
+                      </div>
+                      <RadioGroup 
+                        value={eveningReminderMinutes} 
+                        onValueChange={setEveningReminderMinutes} 
+                        className="flex gap-4" 
+                        aria-label="Choisir le rappel pour la prière du soir"
+                      >
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="5" id="evening-reminder-5" aria-label="5 minutes avant" />
+                          <Label htmlFor="evening-reminder-5" className="cursor-pointer font-cormorant text-lg">
+                            5min before
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="10" id="evening-reminder-10" aria-label="10 minutes avant" />
+                          <Label htmlFor="evening-reminder-10" className="cursor-pointer font-cormorant text-lg">
+                            10min
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <RadioGroupItem value="15" id="evening-reminder-15" aria-label="15 minutes avant" />
+                          <Label htmlFor="evening-reminder-15" className="cursor-pointer font-cormorant text-lg">
+                            15min
+                          </Label>
+                        </div>
+                      </RadioGroup>
                     </div>
-                    <RadioGroup 
-                      value={eveningReminderMinutes} 
-                      onValueChange={setEveningReminderMinutes} 
-                      className="flex gap-4" 
-                      aria-label="Choisir le rappel pour la prière du soir"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="5" id="evening-reminder-5" aria-label="5 minutes avant" />
-                        <Label htmlFor="evening-reminder-5" className="cursor-pointer font-cormorant text-lg">
-                          5min before
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="10" id="evening-reminder-10" aria-label="10 minutes avant" />
-                        <Label htmlFor="evening-reminder-10" className="cursor-pointer font-cormorant text-lg">
-                          10min
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="15" id="evening-reminder-15" aria-label="15 minutes avant" />
-                        <Label htmlFor="evening-reminder-15" className="cursor-pointer font-cormorant text-lg">
-                          15min
-                        </Label>
-                      </div>
-                    </RadioGroup>
                   </div>
                 </div>
               </AccordionContent>
