@@ -222,7 +222,7 @@ export const TimeRangeSelector = ({
                 className="data-[state=checked]:bg-primary"
               />
               <Label htmlFor="bells-enabled" className="text-sm font-cormorant text-foreground/80">
-                Hourly Bells {bellsEnabled ? 'ON' : 'OFF'}
+                {bellsEnabled ? 'ON' : 'OFF'}
               </Label>
             </div>
           </div>
