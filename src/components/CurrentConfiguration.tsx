@@ -32,7 +32,7 @@ export const CurrentConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-slate-50/80 to-amber-50/80 dark:from-slate-900/80 dark:to-amber-950/30 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm">
-      <CardContent className="space-y-2 p-5">
+      <CardContent className="space-y-2 p-2">
         {!settingsConfigured ? (
           <div className="text-center py-8">
             <Link to="/settings">
