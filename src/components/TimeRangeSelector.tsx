@@ -428,6 +428,13 @@ export const TimeRangeSelector = ({
                   )}
                 </>
               )}
+              {pauseEnabled && (
+                <>
+                  , with a pause from{' '}
+                  <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
+                  <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
+                </>
+              )}
             </p>
           </div>
         </CardContent>
