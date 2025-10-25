@@ -24,14 +24,14 @@ export const PrayerConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm">
-      <CardHeader className="text-center">
+      <CardHeader className="text-center pb-4">
         <CardTitle className="font-cormorant text-3xl text-foreground text-center">
           {!prayersConfigured ? "Set your daily prayer times" : "Your Prayers"}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="grid gap-4">
-          <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+      <CardContent className="space-y-3 pt-0">
+        <div className="grid gap-3">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <div className="flex items-center gap-3">
               <Sun className="w-6 h-6 text-amber" />
               <div>
@@ -47,7 +47,7 @@ export const PrayerConfiguration = ({
             </div>
           </div>
           
-          <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
+          <div className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <div className="flex items-center gap-3">
               <Moon className="w-6 h-6 text-primary" />
               <div>
@@ -64,7 +64,7 @@ export const PrayerConfiguration = ({
           </div>
         </div>
 
-        <div className="text-center mt-6">
+        <div className="text-center mt-4">
           <Link to="/prayer-times">
             <Button variant="amber" size="lg" className="gap-3 font-cormorant text-lg font-semibold">
               <Bell className="w-5 h-5" />
