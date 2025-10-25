@@ -191,23 +191,26 @@ const PrayerTimes = () => {
           </Card>
 
           {/* Bell Sound Selection */}
-          <div className="space-y-6">
-            <h2 className="text-3xl font-cormorant font-semibold text-foreground text-center">
-              Configure bell sounds for each prayer time
-            </h2>
+          <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
             
-            {/* Morning Prayer Bell */}
-            <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
-              
-              <CardHeader className="space-y-3 relative">
-                <CardTitle className="flex items-center gap-3 font-cormorant text-2xl">
+            <CardHeader className="space-y-3 relative">
+              <CardTitle className="flex items-center gap-3 font-cormorant text-3xl">
+                <Volume2 className="w-6 h-6 text-primary" />
+                Bell Call Sound
+              </CardTitle>
+              <CardDescription className="font-cormorant text-xl">
+                Configure bell sounds for each prayer time
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-8 relative">
+              {/* Morning Prayer Bell */}
+              <div className="space-y-4">
+                <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                   <Sun className="w-5 h-5 text-amber" />
                   {morningPrayerName}
-                </CardTitle>
-              </CardHeader>
-              
-              <CardContent className="space-y-4 relative">
+                </h3>
                 <RadioGroup value={morningCallType} onValueChange={setMorningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du matin">
                   <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
                     <div className="flex items-center space-x-3 flex-1">
@@ -247,21 +250,14 @@ const PrayerTimes = () => {
                     </Button>
                   </div>
                 </RadioGroup>
-              </CardContent>
-            </Card>
+              </div>
 
-            {/* Evening Prayer Bell */}
-            <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
-              
-              <CardHeader className="space-y-3 relative">
-                <CardTitle className="flex items-center gap-3 font-cormorant text-2xl">
+              {/* Evening Prayer Bell */}
+              <div className="space-y-4">
+                <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                   <Moon className="w-5 h-5 text-primary" />
                   {eveningPrayerName}
-                </CardTitle>
-              </CardHeader>
-              
-              <CardContent className="space-y-4 relative">
+                </h3>
                 <RadioGroup value={eveningCallType} onValueChange={setEveningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du soir">
                   <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
                     <div className="flex items-center space-x-3 flex-1">
@@ -301,9 +297,9 @@ const PrayerTimes = () => {
                     </Button>
                   </div>
                 </RadioGroup>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* Prayer Reminder */}
           <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
