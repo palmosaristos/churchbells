@@ -43,6 +43,12 @@ const PrayerTimes = () => {
   const [callType, setCallType] = useState<string>(() => {
     return localStorage.getItem("callType") || "short";
   });
+  const [morningCallType, setMorningCallType] = useState<string>(() => {
+    return localStorage.getItem("morningCallType") || "short";
+  });
+  const [eveningCallType, setEveningCallType] = useState<string>(() => {
+    return localStorage.getItem("eveningCallType") || "short";
+  });
   const [reminderMinutes, setReminderMinutes] = useState<string>(() => {
     return localStorage.getItem("reminderMinutes") || "5";
   });
@@ -62,7 +68,8 @@ const PrayerTimes = () => {
     localStorage.setItem("eveningPrayerName", eveningPrayerName);
     localStorage.setItem("morningPrayerEnabled", String(morningPrayerEnabled));
     localStorage.setItem("eveningPrayerEnabled", String(eveningPrayerEnabled));
-    localStorage.setItem("callType", callType);
+    localStorage.setItem("morningCallType", morningCallType);
+    localStorage.setItem("eveningCallType", eveningCallType);
     localStorage.setItem("reminderMinutes", reminderMinutes);
     localStorage.setItem("prayersConfigured", "true");
     toast({
@@ -184,61 +191,119 @@ const PrayerTimes = () => {
           </Card>
 
           {/* Bell Sound Selection */}
-          <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
+          <div className="space-y-6">
+            <h2 className="text-3xl font-cormorant font-semibold text-foreground text-center">
+              Configure bell sounds for each prayer time
+            </h2>
             
-            <CardHeader className="space-y-3 relative">
-              <CardTitle className="flex items-center gap-3 font-cormorant text-3xl">
-                <Volume2 className="w-6 h-6 text-primary" />
-                Bell Call Sound
-              </CardTitle>
-              <CardDescription className="font-cormorant text-xl">
-                How long should be your prayer call bell?
-              </CardDescription>
-            </CardHeader>
-            
-            <CardContent className="space-y-6 relative">
-              <RadioGroup value={callType} onValueChange={setCallType} className="space-y-4" aria-label="Choisir la durée de l'appel à la prière">
-                <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
-                  <div className="flex items-center space-x-3 flex-1">
-                    <RadioGroupItem value="short" id="short-call" aria-label="Appel court" />
-                    <Label htmlFor="short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
-                      Short Call (~15 seconds)
-                    </Label>
+            {/* Morning Prayer Bell */}
+            <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
+              
+              <CardHeader className="space-y-3 relative">
+                <CardTitle className="flex items-center gap-3 font-cormorant text-2xl">
+                  <Sun className="w-5 h-5 text-amber" />
+                  {morningPrayerName}
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="space-y-4 relative">
+                <RadioGroup value={morningCallType} onValueChange={setMorningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du matin">
+                  <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <RadioGroupItem value="short" id="morning-short-call" aria-label="Appel court du matin" />
+                      <Label htmlFor="morning-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
+                        Short Call (~15 seconds)
+                      </Label>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                      onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call")} 
+                      aria-label="Preview short bell call sound"
+                    >
+                      <Volume2 className="w-4 h-4 mr-2" />
+                      {isPlaying && currentAudioUrl === "/audio/summoning-bell.mp3" ? "Stop" : "Listen"}
+                    </Button>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                    onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call")} 
-                    aria-label="Preview short bell call sound"
-                  >
-                    <Volume2 className="w-4 h-4 mr-2" />
-                    {isPlaying && currentAudioUrl === "/audio/summoning-bell.mp3" ? "Stop" : "Listen"}
-                  </Button>
-                </div>
-                
-                <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
-                  <div className="flex items-center space-x-3 flex-1">
-                    <RadioGroupItem value="long" id="long-call" aria-label="Appel long" />
-                    <Label htmlFor="long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
-                      Long Call (~30 seconds)
-                    </Label>
+                  
+                  <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <RadioGroupItem value="long" id="morning-long-call" aria-label="Appel long du matin" />
+                      <Label htmlFor="morning-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
+                        Long Call (~30 seconds)
+                      </Label>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                      onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call")} 
+                      aria-label="Preview long bell call sound"
+                    >
+                      <Volume2 className="w-4 h-4 mr-2" />
+                      {isPlaying && currentAudioUrl === "/audio/cathedral-bell.mp3" ? "Stop" : "Listen"}
+                    </Button>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm"
-                    className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                    onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call")} 
-                    aria-label="Preview long bell call sound"
-                  >
-                    <Volume2 className="w-4 h-4 mr-2" />
-                    {isPlaying && currentAudioUrl === "/audio/cathedral-bell.mp3" ? "Stop" : "Listen"}
-                  </Button>
-                </div>
-              </RadioGroup>
-            </CardContent>
-          </Card>
+                </RadioGroup>
+              </CardContent>
+            </Card>
+
+            {/* Evening Prayer Bell */}
+            <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(120,180,255,0.08),transparent)] pointer-events-none" />
+              
+              <CardHeader className="space-y-3 relative">
+                <CardTitle className="flex items-center gap-3 font-cormorant text-2xl">
+                  <Moon className="w-5 h-5 text-primary" />
+                  {eveningPrayerName}
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="space-y-4 relative">
+                <RadioGroup value={eveningCallType} onValueChange={setEveningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du soir">
+                  <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <RadioGroupItem value="short" id="evening-short-call" aria-label="Appel court du soir" />
+                      <Label htmlFor="evening-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
+                        Short Call (~15 seconds)
+                      </Label>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                      onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call")} 
+                      aria-label="Preview short bell call sound"
+                    >
+                      <Volume2 className="w-4 h-4 mr-2" />
+                      {isPlaying && currentAudioUrl === "/audio/summoning-bell.mp3" ? "Stop" : "Listen"}
+                    </Button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-border hover:border-primary/50 transition-colors">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <RadioGroupItem value="long" id="evening-long-call" aria-label="Appel long du soir" />
+                      <Label htmlFor="evening-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
+                        Long Call (~30 seconds)
+                      </Label>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
+                      onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call")} 
+                      aria-label="Preview long bell call sound"
+                    >
+                      <Volume2 className="w-4 h-4 mr-2" />
+                      {isPlaying && currentAudioUrl === "/audio/cathedral-bell.mp3" ? "Stop" : "Listen"}
+                    </Button>
+                  </div>
+                </RadioGroup>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Prayer Reminder */}
           <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
