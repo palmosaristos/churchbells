@@ -13,9 +13,9 @@ export const PremiumConfiguration = ({ isPremiumMember }: PremiumConfigurationPr
   return (
     <Card className="bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30">
       <CardContent className="space-y-2 p-2">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center">
           <div className="space-y-1">
-            <p className="font-cormorant text-xl text-foreground font-semibold">
+            <p className="font-cormorant text-xl text-foreground font-semibold text-center">
               {isPremiumMember ? "Sacred Bells Community Member" : "Join the Sacred Bells Community and Unlock Premium Features"}
             </p>
           </div>
