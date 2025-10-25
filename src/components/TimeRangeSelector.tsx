@@ -222,7 +222,7 @@ export const TimeRangeSelector = ({
                 className="data-[state=checked]:bg-primary"
               />
               <Label htmlFor="bells-enabled" className="text-sm font-cormorant text-foreground/80">
-                {bellsEnabled ? 'ON' : 'OFF'}
+                Hourly Bells {bellsEnabled ? 'ON' : 'OFF'}
               </Label>
             </div>
           </div>
@@ -367,7 +367,22 @@ export const TimeRangeSelector = ({
                   </Select>
                 </div>
                 
-                
+                <div className="space-y-2">
+                  <Label htmlFor="pause-end-time" className="flex items-center gap-2 text-lg font-cormorant text-foreground">
+                    <Clock className="w-5 h-5 text-green-600" />
+                    Pause End
+                  </Label>
+                  <Select value={pauseEndTime} onValueChange={onPauseEndTimeChange}>
+                    <SelectTrigger id="pause-end-time">
+                      <SelectValue placeholder="Select pause end time" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
+                          {time.label}
+                        </SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>}
             
             {pauseEnabled && <div className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50">
@@ -398,6 +413,21 @@ export const TimeRangeSelector = ({
               Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
               <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === startTime)?.label || startTime}</span> to{' '}
               <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === endTime)?.label || endTime}</span>
+              {selectedDays.length > 0 && (
+                <>
+                  {' '}on {selectedDays.length === 7 ? (
+                    <span className="font-cinzel font-semibold">every day</span>
+                  ) : selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday') ? (
+                    <span className="font-cinzel font-semibold">weekends</span>
+                  ) : selectedDays.length === 5 && !selectedDays.includes('saturday') && !selectedDays.includes('sunday') ? (
+                    <span className="font-cinzel font-semibold">weekdays</span>
+                  ) : (
+                    <span className="font-cinzel font-semibold">
+                      {selectedDays.map(day => daysOfWeek.find(d => d.id === day)?.label).join(', ')}
+                    </span>
+                  )}
+                </>
+              )}
             </p>
           </div>
         </CardContent>
