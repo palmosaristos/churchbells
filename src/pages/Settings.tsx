@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
 import { useToast } from "@/hooks/use-toast";
+import { Volume2, Clock } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 
@@ -87,7 +94,7 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-subtle">
+    <div className="min-h-screen bg-gradient-subtle pb-24">
       <Navigation />
       
       <div className="container mx-auto px-4 py-12 space-y-10">
@@ -102,43 +109,56 @@ const Settings = () => {
           </div>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <TimeRangeSelector 
-            startTime={startTime} 
-            endTime={endTime} 
-            onStartTimeChange={setStartTime} 
-            onEndTimeChange={setEndTime}
-            halfHourChimes={halfHourChimes}
-            onHalfHourChimesChange={setHalfHourChimes}
-            pauseEnabled={pauseEnabled}
-            onPauseEnabledChange={setPauseEnabled}
-            pauseStartTime={pauseStartTime}
-            pauseEndTime={pauseEndTime}
-            onPauseStartTimeChange={setPauseStartTime}
-            onPauseEndTimeChange={setPauseEndTime}
-            selectedDays={selectedDays}
-            onSelectedDaysChange={setSelectedDays}
-            bellsEnabled={bellsEnabled}
-            onBellsEnabledChange={handleBellsEnabledChange}
-          />
-        </div>
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Accordion Layout */}
+          <Accordion type="single" collapsible defaultValue="bell-sound" className="space-y-4">
+            {/* Choose Your Bell Sound Section */}
+            <AccordionItem value="bell-sound" className="border-none">
+              <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
+                <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
+                  <Volume2 className="w-6 h-6 text-primary" />
+                  Choose Your Bell Sound
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
+                <BellSoundSelection 
+                  selectedBellTradition={selectedBellTradition}
+                  onSelect={setSelectedBellTradition}
+                  onPlay={handleBellPlay}
+                />
+              </AccordionContent>
+            </AccordionItem>
 
-        <BellSoundSelection 
-          selectedBellTradition={selectedBellTradition}
-          onSelect={setSelectedBellTradition}
-          onPlay={handleBellPlay}
-        />
-
-        <div className="max-w-md mx-auto">
-          <Button 
-            onClick={handleSave} 
-            disabled={!hasChanges}
-            className="w-full text-3xl font-cormorant py-8 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-2 border-amber-400/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-            size="lg"
-            aria-label="Sauvegarder les paramètres"
-          >
-            Save Settings
-          </Button>
+            {/* Daily Bell Schedule Section */}
+            <AccordionItem value="bell-schedule" className="border-none">
+              <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
+                <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
+                  <Clock className="w-6 h-6 text-primary" />
+                  Daily Bell Schedule
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
+                <TimeRangeSelector 
+                  startTime={startTime} 
+                  endTime={endTime} 
+                  onStartTimeChange={setStartTime} 
+                  onEndTimeChange={setEndTime}
+                  halfHourChimes={halfHourChimes}
+                  onHalfHourChimesChange={setHalfHourChimes}
+                  pauseEnabled={pauseEnabled}
+                  onPauseEnabledChange={setPauseEnabled}
+                  pauseStartTime={pauseStartTime}
+                  pauseEndTime={pauseEndTime}
+                  onPauseStartTimeChange={setPauseStartTime}
+                  onPauseEndTimeChange={setPauseEndTime}
+                  selectedDays={selectedDays}
+                  onSelectedDaysChange={setSelectedDays}
+                  bellsEnabled={bellsEnabled}
+                  onBellsEnabledChange={handleBellsEnabledChange}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
 
         {/* Share Banner */}
@@ -166,6 +186,21 @@ const Settings = () => {
               </Button>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Sticky Save Button */}
+      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent py-4 px-4 z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
+        <div className="max-w-md mx-auto">
+          <Button 
+            onClick={handleSave} 
+            disabled={!hasChanges}
+            className="w-full text-3xl font-cormorant py-8 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-2 border-amber-400/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            size="lg"
+            aria-label="Sauvegarder les paramètres"
+          >
+            Save Settings
+          </Button>
         </div>
       </div>
     </div>
