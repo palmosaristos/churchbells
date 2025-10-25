@@ -33,7 +33,7 @@ export const PrayerConfiguration = ({
                 <p className="font-cormorant text-xl text-foreground font-semibold">
                   {morningPrayerName}
                 </p>
-                <p className="font-cormorant text-sm text-muted-foreground">
+                <p className="font-cormorant text-xl text-foreground">
                   {morningPrayerEnabled 
                     ? `Bells ringing at ${morningPrayerTime}` 
                     : "Bells silent"}
@@ -49,7 +49,7 @@ export const PrayerConfiguration = ({
                 <p className="font-cormorant text-xl text-foreground font-semibold">
                   {eveningPrayerName}
                 </p>
-                <p className="font-cormorant text-sm text-muted-foreground">
+                <p className="font-cormorant text-xl text-foreground">
                   {eveningPrayerEnabled 
                     ? `Bells ringing at ${eveningPrayerTime}` 
                     : "Bells silent"}
