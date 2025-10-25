@@ -140,7 +140,7 @@ const PrayerTimes = () => {
                     </label>
                   </div>
                     <Input id="morning-prayer-name" type="text" value={morningPrayerName} onChange={e => setMorningPrayerName(e.target.value)} placeholder="Morning Prayer" className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" aria-label="Name your morning prayer" />
-                    <p className="text-sm text-muted-foreground font-cormorant italic mt-1">
+                    <p className="text-base text-foreground/70 font-cormorant italic mt-1">
                       Suggestions: Matins, Lauds or Prime
                     </p>
                   <div className="relative">
@@ -164,7 +164,7 @@ const PrayerTimes = () => {
                     </label>
                   </div>
                   <Input id="evening-prayer-name" type="text" value={eveningPrayerName} onChange={e => setEveningPrayerName(e.target.value)} placeholder="Evening Prayer" className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" aria-label="Name your evening prayer" />
-                  <p className="text-sm text-muted-foreground font-cormorant italic mt-1">
+                  <p className="text-base text-foreground/70 font-cormorant italic mt-1">
                     Suggestions: Vespers or Compline
                   </p>
                   <div className="relative">
