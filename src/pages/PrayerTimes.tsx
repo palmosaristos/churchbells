@@ -59,8 +59,12 @@ const PrayerTimes = () => {
   const [eveningReminderMinutes, setEveningReminderMinutes] = useState<string>(() => {
     return localStorage.getItem("eveningReminderMinutes") || "5";
   });
-  const [bellVolume, setBellVolume] = useState<number>(() => {
-    const saved = localStorage.getItem("bellVolume");
+  const [morningBellVolume, setMorningBellVolume] = useState<number>(() => {
+    const saved = localStorage.getItem("morningBellVolume");
+    return saved ? parseFloat(saved) : 0.7;
+  });
+  const [eveningBellVolume, setEveningBellVolume] = useState<number>(() => {
+    const saved = localStorage.getItem("eveningBellVolume");
     return saved ? parseFloat(saved) : 0.7;
   });
   
@@ -79,7 +83,8 @@ const PrayerTimes = () => {
     localStorage.setItem("eveningCallType", eveningCallType);
     localStorage.setItem("morningReminderMinutes", morningReminderMinutes);
     localStorage.setItem("eveningReminderMinutes", eveningReminderMinutes);
-    localStorage.setItem("bellVolume", bellVolume.toString());
+    localStorage.setItem("morningBellVolume", morningBellVolume.toString());
+    localStorage.setItem("eveningBellVolume", eveningBellVolume.toString());
     localStorage.setItem("prayersConfigured", "true");
     
     toast({
@@ -249,34 +254,35 @@ const PrayerTimes = () => {
                     Configure bell sounds for each prayer time
                   </p>
                   
-                  {/* Volume Control */}
-                  <div className="space-y-3 p-4 rounded-lg border-2 border-border bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
-                    <div className="flex items-center justify-between">
-                      <Label htmlFor="bell-volume" className="flex items-center gap-2 font-cormorant text-xl font-semibold text-foreground">
-                        <Volume2 className="w-5 h-5 text-primary" />
-                        Volume Control
-                      </Label>
-                      <span className="font-cormorant text-lg text-muted-foreground">{Math.round(bellVolume * 100)}%</span>
-                    </div>
-                    <Slider 
-                      id="bell-volume"
-                      min={0} 
-                      max={1} 
-                      step={0.01} 
-                      value={[bellVolume]} 
-                      onValueChange={(value) => setBellVolume(value[0])}
-                      className="w-full"
-                      aria-label="Adjust bell volume"
-                    />
-                  </div>
-                  
                   {/* Morning Prayer Bell */}
                   <div className="space-y-4">
                     <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                       <Sun className="w-5 h-5 text-amber" />
                       {morningPrayerName}
                     </h3>
-                    <RadioGroup 
+                    
+                    {/* Morning Volume Control */}
+                    <div className="space-y-3 p-4 rounded-lg border-2 border-border bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="morning-bell-volume" className="flex items-center gap-2 font-cormorant text-lg font-semibold text-foreground">
+                          <Volume2 className="w-5 h-5 text-amber" />
+                          Volume
+                        </Label>
+                        <span className="font-cormorant text-base text-muted-foreground">{Math.round(morningBellVolume * 100)}%</span>
+                      </div>
+                      <Slider 
+                        id="morning-bell-volume"
+                        min={0} 
+                        max={1} 
+                        step={0.01} 
+                        value={[morningBellVolume]} 
+                        onValueChange={(value) => setMorningBellVolume(value[0])}
+                        className="w-full"
+                        aria-label="Adjust morning bell volume"
+                      />
+                    </div>
+                    
+                    <RadioGroup
                       value={morningCallType} 
                       onValueChange={setMorningCallType} 
                       className="space-y-4" 
@@ -293,7 +299,7 @@ const PrayerTimes = () => {
                           variant="outline" 
                           size="sm"
                           className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                          onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call", bellVolume)} 
+                          onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call", morningBellVolume)} 
                           aria-label="Preview short bell call sound"
                         >
                           <Volume2 className="w-4 h-4 mr-2" />
@@ -312,7 +318,7 @@ const PrayerTimes = () => {
                           variant="outline" 
                           size="sm"
                           className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                          onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call", bellVolume)} 
+                          onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call", morningBellVolume)} 
                           aria-label="Preview long bell call sound"
                         >
                           <Volume2 className="w-4 h-4 mr-2" />
@@ -328,7 +334,29 @@ const PrayerTimes = () => {
                       <Moon className="w-5 h-5 text-primary" />
                       {eveningPrayerName}
                     </h3>
-                    <RadioGroup 
+                    
+                    {/* Evening Volume Control */}
+                    <div className="space-y-3 p-4 rounded-lg border-2 border-border bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20">
+                      <div className="flex items-center justify-between">
+                        <Label htmlFor="evening-bell-volume" className="flex items-center gap-2 font-cormorant text-lg font-semibold text-foreground">
+                          <Volume2 className="w-5 h-5 text-primary" />
+                          Volume
+                        </Label>
+                        <span className="font-cormorant text-base text-muted-foreground">{Math.round(eveningBellVolume * 100)}%</span>
+                      </div>
+                      <Slider 
+                        id="evening-bell-volume"
+                        min={0} 
+                        max={1} 
+                        step={0.01} 
+                        value={[eveningBellVolume]} 
+                        onValueChange={(value) => setEveningBellVolume(value[0])}
+                        className="w-full"
+                        aria-label="Adjust evening bell volume"
+                      />
+                    </div>
+                    
+                    <RadioGroup
                       value={eveningCallType} 
                       onValueChange={setEveningCallType} 
                       className="space-y-4" 
@@ -345,7 +373,7 @@ const PrayerTimes = () => {
                           variant="outline" 
                           size="sm"
                           className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                          onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call", bellVolume)} 
+                          onClick={() => toggleAudio("/audio/summoning-bell.mp3", "Short Call", eveningBellVolume)} 
                           aria-label="Preview short bell call sound"
                         >
                           <Volume2 className="w-4 h-4 mr-2" />
@@ -364,7 +392,7 @@ const PrayerTimes = () => {
                           variant="outline" 
                           size="sm"
                           className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                          onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call", bellVolume)} 
+                          onClick={() => toggleAudio("/audio/cathedral-bell.mp3", "Long Call", eveningBellVolume)} 
                           aria-label="Preview long bell call sound"
                         >
                           <Volume2 className="w-4 h-4 mr-2" />
