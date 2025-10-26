@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Play, Volume2 } from "lucide-react";
 
 interface BellTraditionCardProps {
   title: string;
@@ -8,6 +9,8 @@ interface BellTraditionCardProps {
   isSelected: boolean;
   onSelect: () => void;
   onPlay: () => void;
+  volume: number;
+  onVolumeChange: (volume: number) => void;
 }
 
 export const BellTraditionCard = ({ 
@@ -15,7 +18,9 @@ export const BellTraditionCard = ({
   image, 
   isSelected, 
   onSelect, 
-  onPlay 
+  onPlay,
+  volume,
+  onVolumeChange
 }: BellTraditionCardProps) => {
   return (
     <Card 
@@ -30,27 +35,48 @@ export const BellTraditionCard = ({
       aria-pressed={isSelected}
       aria-label={`Sélectionner ${title}, ${isSelected ? 'actuellement sélectionné' : 'non sélectionné'}`}
     >
-      <CardContent className="p-4 flex flex-row items-center justify-between gap-4">
-        <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
-          <img 
-            src={image} 
-            alt={title}
-            className="w-14 h-14 object-contain"
+      <CardContent className="p-4 space-y-3">
+        <div className="flex flex-row items-center justify-between gap-4">
+          <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
+            <img 
+              src={image} 
+              alt={title}
+              className="w-14 h-14 object-contain"
+            />
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={(e) => {
+              e.stopPropagation();
+              onPlay();
+            }}
+            className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
+            aria-label={`Écouter le son de ${title}`}
+          >
+            <Play className="w-5 h-5" />
+            Listen
+          </Button>
+        </div>
+        
+        <div 
+          className="space-y-2"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between px-1">
+            <Volume2 className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm font-cormorant text-muted-foreground">{Math.round(volume * 100)}%</span>
+          </div>
+          <Slider
+            min={0}
+            max={1}
+            step={0.01}
+            value={[volume]}
+            onValueChange={(value) => onVolumeChange(value[0])}
+            className="w-full"
+            aria-label={`Adjust volume for ${title}`}
           />
         </div>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            onPlay();
-          }}
-          className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
-          aria-label={`Écouter le son de ${title}`}
-        >
-          <Play className="w-5 h-5" />
-          Listen
-        </Button>
       </CardContent>
     </Card>
   );

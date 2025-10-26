@@ -18,17 +18,25 @@ import churchBellNew from "@/assets/church-bell-new.png";
 
 const Settings = () => {
   // Store initial values
-  const initialSettings = useMemo(() => ({
-    bellTradition: localStorage.getItem("bellTradition") || "cathedral-bell",
-    startTime: localStorage.getItem("startTime") || "08:00",
-    endTime: localStorage.getItem("endTime") || "20:00",
-    halfHourChimes: localStorage.getItem("halfHourChimes") === "true",
-    pauseEnabled: localStorage.getItem("pauseEnabled") === "true",
-    pauseStartTime: localStorage.getItem("pauseStartTime") || "12:00",
-    pauseEndTime: localStorage.getItem("pauseEndTime") || "14:00",
-    selectedDays: JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'),
-    bellsEnabled: localStorage.getItem("bellsEnabled") !== "false"
-  }), []);
+  const initialSettings = useMemo(() => {
+    const savedBellVolumes = localStorage.getItem("bellVolumes");
+    return {
+      bellTradition: localStorage.getItem("bellTradition") || "cathedral-bell",
+      startTime: localStorage.getItem("startTime") || "08:00",
+      endTime: localStorage.getItem("endTime") || "20:00",
+      halfHourChimes: localStorage.getItem("halfHourChimes") === "true",
+      pauseEnabled: localStorage.getItem("pauseEnabled") === "true",
+      pauseStartTime: localStorage.getItem("pauseStartTime") || "12:00",
+      pauseEndTime: localStorage.getItem("pauseEndTime") || "14:00",
+      selectedDays: JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'),
+      bellsEnabled: localStorage.getItem("bellsEnabled") !== "false",
+      bellVolumes: savedBellVolumes ? JSON.parse(savedBellVolumes) : {
+        'cathedral-bell': 0.7,
+        'village-bell': 0.7,
+        'carillon-bell': 0.7
+      }
+    };
+  }, []);
 
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(initialSettings.bellTradition);
   const [startTime, setStartTime] = useState<string>(initialSettings.startTime);
@@ -39,6 +47,7 @@ const Settings = () => {
   const [pauseEndTime, setPauseEndTime] = useState<string>(initialSettings.pauseEndTime);
   const [selectedDays, setSelectedDays] = useState<string[]>(initialSettings.selectedDays);
   const [bellsEnabled, setBellsEnabled] = useState<boolean>(initialSettings.bellsEnabled);
+  const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(initialSettings.bellVolumes);
   
   const { toggleAudio } = useAudioPlayer();
   const { toast } = useToast();
@@ -47,6 +56,14 @@ const Settings = () => {
   const handleBellsEnabledChange = (enabled: boolean) => {
     setBellsEnabled(enabled);
     localStorage.setItem("bellsEnabled", String(enabled));
+  };
+
+  // Handle bell volume changes
+  const handleBellVolumeChange = (bellId: string, volume: number) => {
+    setBellVolumes(prev => ({
+      ...prev,
+      [bellId]: volume
+    }));
   };
 
   // Check if any settings have changed
@@ -60,11 +77,12 @@ const Settings = () => {
       pauseStartTime !== initialSettings.pauseStartTime ||
       pauseEndTime !== initialSettings.pauseEndTime ||
       bellsEnabled !== initialSettings.bellsEnabled ||
-      JSON.stringify(selectedDays) !== JSON.stringify(initialSettings.selectedDays)
+      JSON.stringify(selectedDays) !== JSON.stringify(initialSettings.selectedDays) ||
+      JSON.stringify(bellVolumes) !== JSON.stringify(initialSettings.bellVolumes)
     );
   }, [
     selectedBellTradition, startTime, endTime, halfHourChimes, 
-    pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, bellsEnabled,
+    pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, bellsEnabled, bellVolumes,
     initialSettings
   ]);
 
@@ -85,6 +103,7 @@ const Settings = () => {
     localStorage.setItem("pauseEndTime", pauseEndTime);
     localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
     localStorage.setItem("bellsEnabled", String(bellsEnabled));
+    localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
     localStorage.setItem("settingsConfigured", "true");
     
     toast({
@@ -125,6 +144,8 @@ const Settings = () => {
                   selectedBellTradition={selectedBellTradition}
                   onSelect={setSelectedBellTradition}
                   onPlay={handleBellPlay}
+                  bellVolumes={bellVolumes}
+                  onVolumeChange={handleBellVolumeChange}
                 />
               </AccordionContent>
             </AccordionItem>

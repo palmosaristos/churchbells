@@ -43,8 +43,19 @@ const bellTraditions: BellTradition[] = [
 const Premium = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>("village-bell");
   const [selectedPrayerTradition, setSelectedPrayerTradition] = useState<string>("Roman Catholic");
+  const [bellVolumes, setBellVolumes] = useState<Record<string, number>>({
+    'village-bell': 0.7,
+    'cathedral-bell': 0.7
+  });
   const { toast } = useToast();
   const { toggleAudio } = useAudioPlayer();
+
+  const handleBellVolumeChange = (bellId: string, volume: number) => {
+    setBellVolumes(prev => ({
+      ...prev,
+      [bellId]: volume
+    }));
+  };
 
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
@@ -115,6 +126,8 @@ const Premium = () => {
                 isSelected={selectedBellTradition === tradition.id}
                 onSelect={() => setSelectedBellTradition(tradition.id)}
                 onPlay={() => handleBellPlay(tradition.id)}
+                volume={bellVolumes[tradition.id] || 0.7}
+                onVolumeChange={(volume) => handleBellVolumeChange(tradition.id, volume)}
               />
             ))}
           </div>

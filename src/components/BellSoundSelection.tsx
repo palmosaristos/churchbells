@@ -8,12 +8,16 @@ interface BellSoundSelectionProps {
   selectedBellTradition: string;
   onSelect: (id: string) => void;
   onPlay: (id: string) => void;
+  bellVolumes: Record<string, number>;
+  onVolumeChange: (bellId: string, volume: number) => void;
 }
 
 export const BellSoundSelection = ({ 
   selectedBellTradition, 
   onSelect, 
-  onPlay 
+  onPlay,
+  bellVolumes,
+  onVolumeChange
 }: BellSoundSelectionProps) => {
   const getBellImage = (id: string) => {
     if (id === 'carillon-bell') return carillonBells;
@@ -32,6 +36,8 @@ export const BellSoundSelection = ({
             isSelected={selectedBellTradition === tradition.id}
             onSelect={() => onSelect(tradition.id)}
             onPlay={() => onPlay(tradition.id)}
+            volume={bellVolumes[tradition.id] || 0.7}
+            onVolumeChange={(volume) => onVolumeChange(tradition.id, volume)}
           />
         ))}
       </div>
