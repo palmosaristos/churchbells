@@ -22,11 +22,11 @@ export const HeroSection = ({
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-6 md:p-12">
             <div className="text-center space-y-3 md:space-y-6">
               <div className="flex items-center justify-center gap-4 md:gap-8">
-                <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-10 h-10 md:w-16 md:h-16 drop-shadow-lg" />
+                <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
                 <h1 className="text-4xl md:text-8xl font-cinzel font-bold text-foreground">
                   Sacred Bells
                 </h1>
-                <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-10 h-10 md:w-16 md:h-16 drop-shadow-lg" />
+                <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
               </div>
               <p className="font-cormorant text-2xl md:text-3xl text-foreground text-center leading-relaxed max-w-4xl mx-auto">Let the sacred rhythm of church bells guide your day</p>
             </div>
