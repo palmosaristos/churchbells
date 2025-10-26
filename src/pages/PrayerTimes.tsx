@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
 import { Clock, Sun, Moon, Volume2, BellRing } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
@@ -138,22 +139,24 @@ const PrayerTimes = () => {
                   <div className="grid gap-8 md:grid-cols-2">
                     <div className="space-y-4 group">
                       <div className="flex items-center justify-between">
-                        <Label htmlFor="morning-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
+                        <Label className="flex items-center gap-2 text-2xl font-bold font-cormorant">
                           <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
-                          Morning Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
+                          Morning Prayer
                         </Label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
+                          <Switch 
                             checked={morningPrayerEnabled} 
-                            onChange={e => setMorningPrayerEnabled(e.target.checked)} 
-                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
-                            aria-label="Activer la prière du matin" 
+                            onCheckedChange={setMorningPrayerEnabled}
+                            aria-label="Enable morning prayer" 
                           />
-                          <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
-                        </label>
+                          <span className="text-sm font-cormorant text-muted-foreground">ON</span>
+                        </div>
                       </div>
-                      <Input 
+                      <Label htmlFor="morning-prayer-name" className="text-base font-cormorant text-muted-foreground">
+                        Prayer name (optional)
+                      </Label>
+                      <Input
                         id="morning-prayer-name" 
                         type="text" 
                         value={morningPrayerName} 
@@ -162,7 +165,7 @@ const PrayerTimes = () => {
                         className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
                         aria-label="Name your morning prayer" 
                       />
-                      <p className="text-lg text-foreground font-cormorant italic mt-1">
+                      <p className="text-lg text-foreground font-cormorant font-semibold italic mt-1">
                         Suggestions: Matins, Lauds or Prime
                       </p>
                       <div className="relative">
@@ -185,22 +188,24 @@ const PrayerTimes = () => {
                     
                     <div className="space-y-4 group">
                       <div className="flex items-center justify-between">
-                        <Label htmlFor="evening-prayer-name" className="flex items-center gap-2 text-2xl font-medium font-cormorant">
+                        <Label className="flex items-center gap-2 text-2xl font-bold font-cormorant">
                           <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
-                          Evening Prayer <span className="text-base text-muted-foreground font-normal">(or name your prayer)</span>
+                          Evening Prayer
                         </Label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                          <input 
-                            type="checkbox" 
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
+                          <Switch 
                             checked={eveningPrayerEnabled} 
-                            onChange={e => setEveningPrayerEnabled(e.target.checked)} 
-                            className="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary" 
-                            aria-label="Activer la prière du soir" 
+                            onCheckedChange={setEveningPrayerEnabled}
+                            aria-label="Enable evening prayer" 
                           />
-                          <span className="text-sm font-cormorant text-muted-foreground">Enable</span>
-                        </label>
+                          <span className="text-sm font-cormorant text-muted-foreground">ON</span>
+                        </div>
                       </div>
-                      <Input 
+                      <Label htmlFor="evening-prayer-name" className="text-base font-cormorant text-muted-foreground">
+                        Prayer name (optional)
+                      </Label>
+                      <Input
                         id="evening-prayer-name" 
                         type="text" 
                         value={eveningPrayerName} 
@@ -209,7 +214,7 @@ const PrayerTimes = () => {
                         className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
                         aria-label="Name your evening prayer" 
                       />
-                      <p className="text-lg text-foreground font-cormorant italic mt-1">
+                      <p className="text-lg text-foreground font-cormorant font-semibold italic mt-1">
                         Suggestions: Vespers or Compline
                       </p>
                       <div className="relative">
