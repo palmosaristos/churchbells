@@ -7,7 +7,7 @@ export const useAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudioUrl, setCurrentAudioUrl] = useState<string>("");
 
-  const toggleAudio = async (audioUrl: string, traditionName?: string) => {
+  const toggleAudio = async (audioUrl: string, traditionName?: string, volume: number = 0.7) => {
     try {
       // Si on arrête le son en cours
       if (isPlaying && audioRef.current && currentAudioUrl === audioUrl) {
@@ -24,6 +24,7 @@ export const useAudioPlayer = () => {
       }
 
       const audio = new Audio(audioUrl);
+      audio.volume = volume;
       audioRef.current = audio;
       setCurrentAudioUrl(audioUrl);
       
