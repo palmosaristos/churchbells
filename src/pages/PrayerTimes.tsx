@@ -249,8 +249,8 @@ const PrayerTimes = () => {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                <div className="space-y-8">
-                  <p className="font-cormorant text-xl text-muted-foreground">
+                <div className="space-y-6">
+                  <p className="font-cormorant text-xl text-foreground italic mb-2">
                     Configure bell sounds for each prayer time
                   </p>
                   
