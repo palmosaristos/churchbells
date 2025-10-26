@@ -190,7 +190,7 @@ const Settings = () => {
               </p>
               <div className="mt-4 space-y-3">
                 <p className="text-lg font-cormorant text-burgundy-foreground/80">
-                  Share via:
+                  share our app via
                 </p>
                 <div className="flex flex-wrap gap-3 justify-center">
                   <Button 
