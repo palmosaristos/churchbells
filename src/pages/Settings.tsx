@@ -165,11 +165,15 @@ const Settings = () => {
             <Button 
               onClick={handleSave} 
               disabled={!hasChanges}
-              className="w-full text-3xl font-cormorant py-8 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-2 border-amber-400/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className={`w-full text-3xl font-cormorant py-8 shadow-lg transition-all duration-300 border-2 ${
+                hasChanges 
+                  ? 'bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white hover:shadow-xl hover:scale-[1.02] border-amber-400/30' 
+                  : 'bg-muted text-muted-foreground border-border cursor-not-allowed'
+              }`}
               size="lg"
               aria-label="Sauvegarder les paramètres"
             >
-              Save Settings
+              Save Bell Settings
             </Button>
           </div>
         </div>
