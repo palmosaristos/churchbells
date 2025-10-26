@@ -181,7 +181,7 @@ const Settings = () => {
                       const text = encodeURIComponent(`Discover Church Bells - ${window.location.origin}`);
                       window.open(`https://wa.me/?text=${text}`, '_blank');
                     }}
-                    className="text-lg font-cormorant px-6 py-5 bg-[#25D366] hover:bg-[#20BD5A] text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    className="text-lg font-cormorant px-6 py-5 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                     size="lg"
                   >
                     WhatsApp
@@ -192,7 +192,7 @@ const Settings = () => {
                       const body = encodeURIComponent(`I found this beautiful church bells app: ${window.location.origin}`);
                       window.location.href = `mailto:?subject=${subject}&body=${body}`;
                     }}
-                    className="text-lg font-cormorant px-6 py-5 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    className="text-lg font-cormorant px-6 py-5 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                     size="lg"
                   >
                     Email
@@ -202,7 +202,7 @@ const Settings = () => {
                       const text = encodeURIComponent(`Discover Church Bells: ${window.location.origin}`);
                       window.location.href = `sms:?body=${text}`;
                     }}
-                    className="text-lg font-cormorant px-6 py-5 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    className="text-lg font-cormorant px-6 py-5 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                     size="lg"
                   >
                     SMS
