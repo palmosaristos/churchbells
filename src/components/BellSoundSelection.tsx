@@ -23,12 +23,6 @@ export const BellSoundSelection = ({
 
   return (
     <div className="space-y-3">
-      <div className="text-center">
-        <h2 className="text-3xl font-cormorant font-bold text-foreground mb-1">
-          Choose Your Bell Sound
-        </h2>
-      </div>
-      
       <div className="grid gap-3 md:grid-cols-3 max-w-3xl mx-auto">
         {bellTraditions.map(tradition => (
           <BellTraditionCard
