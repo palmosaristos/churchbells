@@ -191,7 +191,7 @@ const Settings = () => {
                 <div className="flex flex-wrap gap-3 justify-center">
                   <Button 
                     onClick={() => {
-                      const text = encodeURIComponent(`Discover Church Bells - ${window.location.origin}`);
+                      const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
                       window.open(`https://wa.me/?text=${text}`, '_blank');
                     }}
                     className="text-lg font-cormorant px-6 py-5 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
@@ -201,8 +201,18 @@ const Settings = () => {
                   </Button>
                   <Button 
                     onClick={() => {
-                      const subject = encodeURIComponent('Discover Church Bells');
-                      const body = encodeURIComponent(`I found this beautiful church bells app: ${window.location.origin}`);
+                      const subject = encodeURIComponent('A beautiful app I thought you\'d appreciate');
+                      const body = encodeURIComponent(`Hi,
+
+I wanted to share something special with you. I've been using Sacred Bells, an app that recreates the traditional rhythm of church bells throughout the day.
+
+It's been a wonderful way to stay connected to the sacred rhythm that churches have maintained for centuries.
+
+I think you might enjoy it too!
+
+Download: ${window.location.origin}
+
+Blessings`);
                       window.location.href = `mailto:?subject=${subject}&body=${body}`;
                     }}
                     className="text-lg font-cormorant px-6 py-5 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
@@ -212,7 +222,7 @@ const Settings = () => {
                   </Button>
                   <Button 
                     onClick={() => {
-                      const text = encodeURIComponent(`Discover Church Bells: ${window.location.origin}`);
+                      const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
                       window.location.href = `sms:?body=${text}`;
                     }}
                     className="text-lg font-cormorant px-6 py-5 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
