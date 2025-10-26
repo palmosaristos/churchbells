@@ -35,8 +35,8 @@ export const BellTraditionCard = ({
       aria-pressed={isSelected}
       aria-label={`Sélectionner ${title}, ${isSelected ? 'actuellement sélectionné' : 'non sélectionné'}`}
     >
-      <CardContent className="p-4 space-y-3">
-        <div className="flex flex-row items-center justify-between gap-4">
+      <CardContent className="p-4">
+        <div className="flex items-center gap-4">
           <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
             <img 
               src={image} 
@@ -44,38 +44,39 @@ export const BellTraditionCard = ({
               className="w-14 h-14 object-contain"
             />
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              onPlay();
-            }}
-            className="flex-1 justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
-            aria-label={`Écouter le son de ${title}`}
-          >
-            <Play className="w-5 h-5" />
-            Listen
-          </Button>
-        </div>
-        
-        <div 
-          className="space-y-2"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex items-center justify-between px-1">
-            <Volume2 className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-cormorant text-muted-foreground">{Math.round(volume * 100)}%</span>
+          
+          <div className="flex-1 space-y-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                onPlay();
+              }}
+              className="w-full justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
+              aria-label={`Écouter le son de ${title}`}
+            >
+              <Play className="w-5 h-5" />
+              Listen
+            </Button>
+            
+            <div 
+              className="flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Volume2 className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+              <Slider
+                min={0}
+                max={1}
+                step={0.01}
+                value={[volume]}
+                onValueChange={(value) => onVolumeChange(value[0])}
+                className="flex-1"
+                aria-label={`Adjust volume for ${title}`}
+              />
+              <span className="text-sm font-cormorant text-muted-foreground w-10 text-right">{Math.round(volume * 100)}%</span>
+            </div>
           </div>
-          <Slider
-            min={0}
-            max={1}
-            step={0.01}
-            value={[volume]}
-            onValueChange={(value) => onVolumeChange(value[0])}
-            className="w-full"
-            aria-label={`Adjust volume for ${title}`}
-          />
         </div>
       </CardContent>
     </Card>
