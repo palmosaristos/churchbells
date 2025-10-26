@@ -168,22 +168,19 @@ const PrayerTimes = () => {
                       <p className="text-lg text-foreground font-cormorant font-semibold italic mt-1">
                         Suggestions: Matins, Lauds or Prime
                       </p>
-                      <div className="relative">
-                        <Input 
-                          id="morning-prayer-time" 
-                          type="time" 
-                          step="900" 
-                          value={morningPrayerTime} 
-                          onChange={e => {
-                            setMorningPrayerTime(e.target.value);
-                            setTimeError("");
-                          }} 
-                          className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
-                          aria-label="Select morning prayer time" 
-                          required 
-                        />
-                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                      </div>
+                      <Input 
+                        id="morning-prayer-time" 
+                        type="time" 
+                        step="900" 
+                        value={morningPrayerTime} 
+                        onChange={e => {
+                          setMorningPrayerTime(e.target.value);
+                          setTimeError("");
+                        }} 
+                        className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
+                        aria-label="Select morning prayer time" 
+                        required 
+                      />
                     </div>
                     
                     <div className="space-y-4 group">
@@ -217,22 +214,19 @@ const PrayerTimes = () => {
                       <p className="text-lg text-foreground font-cormorant font-semibold italic mt-1">
                         Suggestions: Vespers or Compline
                       </p>
-                      <div className="relative">
-                        <Input 
-                          id="evening-prayer-time" 
-                          type="time" 
-                          step="900" 
-                          value={eveningPrayerTime} 
-                          onChange={e => {
-                            setEveningPrayerTime(e.target.value);
-                            setTimeError("");
-                          }} 
-                          className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
-                          aria-label="Select evening prayer time" 
-                          required 
-                        />
-                        <Clock className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none" />
-                      </div>
+                      <Input 
+                        id="evening-prayer-time" 
+                        type="time" 
+                        step="900" 
+                        value={eveningPrayerTime} 
+                        onChange={e => {
+                          setEveningPrayerTime(e.target.value);
+                          setTimeError("");
+                        }} 
+                        className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" 
+                        aria-label="Select evening prayer time" 
+                        required 
+                      />
                     </div>
                   </div>
                   
