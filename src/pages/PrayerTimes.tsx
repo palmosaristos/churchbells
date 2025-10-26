@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { PrayerTimesSelector } from "@/components/PrayerTimesSelector";
 import { Input } from "@/components/ui/input";
@@ -72,6 +72,39 @@ const PrayerTimes = () => {
   const { toast } = useToast();
   const { toggleAudio, isPlaying, currentAudioUrl } = useAudioPlayer();
   
+  // Track initial state to detect changes
+  const [initialState, setInitialState] = useState({
+    prayerTradition: selectedPrayerTradition,
+    morningPrayerTime,
+    eveningPrayerTime,
+    morningPrayerName,
+    eveningPrayerName,
+    morningPrayerEnabled,
+    eveningPrayerEnabled,
+    morningCallType,
+    eveningCallType,
+    morningReminderMinutes,
+    eveningReminderMinutes,
+    morningBellVolume,
+    eveningBellVolume,
+  });
+
+  // Check if there are any changes
+  const hasChanges = 
+    selectedPrayerTradition !== initialState.prayerTradition ||
+    morningPrayerTime !== initialState.morningPrayerTime ||
+    eveningPrayerTime !== initialState.eveningPrayerTime ||
+    morningPrayerName !== initialState.morningPrayerName ||
+    eveningPrayerName !== initialState.eveningPrayerName ||
+    morningPrayerEnabled !== initialState.morningPrayerEnabled ||
+    eveningPrayerEnabled !== initialState.eveningPrayerEnabled ||
+    morningCallType !== initialState.morningCallType ||
+    eveningCallType !== initialState.eveningCallType ||
+    morningReminderMinutes !== initialState.morningReminderMinutes ||
+    eveningReminderMinutes !== initialState.eveningReminderMinutes ||
+    morningBellVolume !== initialState.morningBellVolume ||
+    eveningBellVolume !== initialState.eveningBellVolume;
+  
   const handleSave = () => {
     localStorage.setItem("prayerTradition", selectedPrayerTradition);
     localStorage.setItem("morningPrayerTime", morningPrayerTime);
@@ -87,6 +120,23 @@ const PrayerTimes = () => {
     localStorage.setItem("morningBellVolume", morningBellVolume.toString());
     localStorage.setItem("eveningBellVolume", eveningBellVolume.toString());
     localStorage.setItem("prayersConfigured", "true");
+    
+    // Update initial state after saving
+    setInitialState({
+      prayerTradition: selectedPrayerTradition,
+      morningPrayerTime,
+      eveningPrayerTime,
+      morningPrayerName,
+      eveningPrayerName,
+      morningPrayerEnabled,
+      eveningPrayerEnabled,
+      morningCallType,
+      eveningCallType,
+      morningReminderMinutes,
+      eveningReminderMinutes,
+      morningBellVolume,
+      eveningBellVolume,
+    });
     
     toast({
       title: "Prayer settings saved",
@@ -492,7 +542,12 @@ const PrayerTimes = () => {
           <div className="max-w-md mx-auto">
             <Button 
               onClick={handleSave}
-              className="w-full text-3xl font-cormorant py-8 bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300 border-2 border-amber-400/30"
+              disabled={!hasChanges}
+              className={`w-full text-3xl font-cormorant py-8 shadow-lg transition-all duration-300 border-2 ${
+                hasChanges 
+                  ? 'bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white hover:shadow-xl hover:scale-[1.02] border-amber-400/30' 
+                  : 'bg-muted text-muted-foreground border-border cursor-not-allowed'
+              }`}
               size="lg"
               aria-label="Save prayer settings"
             >
