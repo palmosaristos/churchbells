@@ -116,7 +116,7 @@ const Index = () => {
       <HeroSection heroImage={heroImage} />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 pt-4 pb-16 space-y-16">
+      <div className="container mx-auto px-4 pt-4 pb-16 space-y-10">
         {isAppEnabled && !onboardingComplete && (
           <WelcomeScreen isOpen={true} onComplete={handleWelcomeComplete} />
         )}
@@ -137,7 +137,7 @@ const Index = () => {
             className="w-full"
           >
             <AccordionItem value="bells-schedule">
-              <AccordionTrigger>Your Sacred Bells schedule</AccordionTrigger>
+              <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Sacred Bells schedule</AccordionTrigger>
               <AccordionContent>
                 <CurrentConfiguration
                   selectedBellTradition={selectedBellTradition}
@@ -149,7 +149,7 @@ const Index = () => {
             </AccordionItem>
 
             <AccordionItem value="prayers">
-              <AccordionTrigger>Your Prayers</AccordionTrigger>
+              <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Prayers</AccordionTrigger>
               <AccordionContent>
                 <PrayerConfiguration
                   morningPrayerEnabled={morningPrayerEnabled}
@@ -163,7 +163,7 @@ const Index = () => {
             </AccordionItem>
 
         <AccordionItem value="premium">
-          <AccordionTrigger>Your Premium Status</AccordionTrigger>
+          <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Premium Status</AccordionTrigger>
           <AccordionContent>
                 <PremiumConfiguration isPremiumMember={isPremiumMember} />
               </AccordionContent>

@@ -23,7 +23,7 @@ export const HeroSection = ({
             <div className="text-center space-y-3 md:space-y-6">
               <div className="flex items-center justify-center gap-4 md:gap-8">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
-                <h1 className="text-4xl md:text-8xl font-cinzel font-bold text-foreground">
+                <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground">
                   Sacred Bells
                 </h1>
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
