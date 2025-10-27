@@ -291,17 +291,16 @@ export const TimeRangeSelector = ({
 
           {/* Tailor your schedule section */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground">Or tailor your schedule</Label>
+            <Label className="text-3xl font-cormorant text-foreground">Custom Schedule</Label>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="start-time" className="flex items-center gap-2 text-2xl font-cormorant text-foreground">
-                <img src={ultraRealisticBellIcon} alt="Start Bell" className="w-10 h-10 object-contain" />
-                Start Time
+          <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
+            <div className="flex items-end gap-2 flex-1">
+              <Label htmlFor="start-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
+                Start:
               </Label>
               <Select value={startTime} onValueChange={onStartTimeChange}>
-                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début">
+                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début" className="w-[140px]">
                   <SelectValue placeholder="Select start time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -312,13 +311,12 @@ export const TimeRangeSelector = ({
               </Select>
             </div>
             
-            <div className="space-y-2">
-              <Label htmlFor="end-time" className="flex items-center gap-2 text-2xl font-cormorant text-foreground">
-                <img src={ultraRealisticBellIcon} alt="End Bell" className="w-10 h-10 object-contain" />
-                End Time
+            <div className="flex items-end gap-2 flex-1">
+              <Label htmlFor="end-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
+                End:
               </Label>
               <Select value={endTime} onValueChange={onEndTimeChange}>
-                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin">
+                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin" className="w-[140px]">
                   <SelectValue placeholder="Select end time" />
                 </SelectTrigger>
                 <SelectContent>
