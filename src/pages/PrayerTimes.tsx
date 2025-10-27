@@ -215,11 +215,8 @@ const PrayerTimes = () => {
                         className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
                         aria-label="Name your morning prayer" 
                       />
-                      <p className="text-lg text-foreground font-cormorant font-semibold italic mt-1">
-                        Suggestions: Matins, Lauds or Prime
-                      </p>
                       <Input 
-                        id="morning-prayer-time" 
+                        id="morning-prayer-time"
                         type="time" 
                         step="900" 
                         value={morningPrayerTime} 
@@ -261,11 +258,8 @@ const PrayerTimes = () => {
                         className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" 
                         aria-label="Name your evening prayer" 
                       />
-                      <p className="text-lg text-foreground font-cormorant font-semibold italic mt-1">
-                        Suggestions: Vespers or Compline
-                      </p>
                       <Input 
-                        id="evening-prayer-time" 
+                        id="evening-prayer-time"
                         type="time" 
                         step="900" 
                         value={eveningPrayerTime} 
