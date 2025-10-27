@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { Clock, Sun, Moon, Volume2, BellRing } from "lucide-react";
+import { Clock, Sun, Moon, Volume2, BellRing, Plus, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
@@ -18,6 +18,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface PrayerTime {
   name: string;
@@ -54,11 +61,13 @@ const PrayerTimes = () => {
   const [eveningCallType, setEveningCallType] = useState<string>(() => {
     return localStorage.getItem("eveningCallType") || "short";
   });
-  const [morningReminderMinutes, setMorningReminderMinutes] = useState<string>(() => {
-    return localStorage.getItem("morningReminderMinutes") || "5";
+  const [morningReminders, setMorningReminders] = useState<string[]>(() => {
+    const saved = localStorage.getItem("morningReminders");
+    return saved ? JSON.parse(saved) : ["5"];
   });
-  const [eveningReminderMinutes, setEveningReminderMinutes] = useState<string>(() => {
-    return localStorage.getItem("eveningReminderMinutes") || "5";
+  const [eveningReminders, setEveningReminders] = useState<string[]>(() => {
+    const saved = localStorage.getItem("eveningReminders");
+    return saved ? JSON.parse(saved) : ["5"];
   });
   const [morningBellVolume, setMorningBellVolume] = useState<number>(() => {
     const saved = localStorage.getItem("morningBellVolume");
@@ -83,8 +92,8 @@ const PrayerTimes = () => {
     eveningPrayerEnabled,
     morningCallType,
     eveningCallType,
-    morningReminderMinutes,
-    eveningReminderMinutes,
+    morningReminders: JSON.stringify(morningReminders),
+    eveningReminders: JSON.stringify(eveningReminders),
     morningBellVolume,
     eveningBellVolume,
   });
@@ -100,8 +109,8 @@ const PrayerTimes = () => {
     eveningPrayerEnabled !== initialState.eveningPrayerEnabled ||
     morningCallType !== initialState.morningCallType ||
     eveningCallType !== initialState.eveningCallType ||
-    morningReminderMinutes !== initialState.morningReminderMinutes ||
-    eveningReminderMinutes !== initialState.eveningReminderMinutes ||
+    JSON.stringify(morningReminders) !== initialState.morningReminders ||
+    JSON.stringify(eveningReminders) !== initialState.eveningReminders ||
     morningBellVolume !== initialState.morningBellVolume ||
     eveningBellVolume !== initialState.eveningBellVolume;
   
@@ -115,8 +124,8 @@ const PrayerTimes = () => {
     localStorage.setItem("eveningPrayerEnabled", String(eveningPrayerEnabled));
     localStorage.setItem("morningCallType", morningCallType);
     localStorage.setItem("eveningCallType", eveningCallType);
-    localStorage.setItem("morningReminderMinutes", morningReminderMinutes);
-    localStorage.setItem("eveningReminderMinutes", eveningReminderMinutes);
+    localStorage.setItem("morningReminders", JSON.stringify(morningReminders));
+    localStorage.setItem("eveningReminders", JSON.stringify(eveningReminders));
     localStorage.setItem("morningBellVolume", morningBellVolume.toString());
     localStorage.setItem("eveningBellVolume", eveningBellVolume.toString());
     localStorage.setItem("prayersConfigured", "true");
@@ -132,8 +141,8 @@ const PrayerTimes = () => {
       eveningPrayerEnabled,
       morningCallType,
       eveningCallType,
-      morningReminderMinutes,
-      eveningReminderMinutes,
+      morningReminders: JSON.stringify(morningReminders),
+      eveningReminders: JSON.stringify(eveningReminders),
       morningBellVolume,
       eveningBellVolume,
     });
@@ -142,6 +151,38 @@ const PrayerTimes = () => {
       title: "Prayer settings saved",
       description: "Your prayer times have been saved successfully"
     });
+  };
+
+  const addMorningReminder = () => {
+    if (morningReminders.length < 6) {
+      setMorningReminders([...morningReminders, "5"]);
+    }
+  };
+
+  const removeMorningReminder = (index: number) => {
+    setMorningReminders(morningReminders.filter((_, i) => i !== index));
+  };
+
+  const updateMorningReminder = (index: number, value: string) => {
+    const updated = [...morningReminders];
+    updated[index] = value;
+    setMorningReminders(updated);
+  };
+
+  const addEveningReminder = () => {
+    if (eveningReminders.length < 6) {
+      setEveningReminders([...eveningReminders, "5"]);
+    }
+  };
+
+  const removeEveningReminder = (index: number) => {
+    setEveningReminders(eveningReminders.filter((_, i) => i !== index));
+  };
+
+  const updateEveningReminder = (index: number, value: string) => {
+    const updated = [...eveningReminders];
+    updated[index] = value;
+    setEveningReminders(updated);
   };
   
   const handlePrayerTimesSelect = (times: PrayerTime[]) => {
@@ -457,73 +498,109 @@ const PrayerTimes = () => {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                <div className="space-y-6">
-                  <div className="grid grid-cols-[auto_1fr] gap-6 items-center">
-                    {/* Header Row */}
-                    <div className="font-cormorant text-xl font-semibold text-foreground">Prayer Time</div>
-                    <div className="font-cormorant text-xl font-semibold text-foreground">Reminder</div>
-                    
-                    {/* Morning Prayer Row */}
-                    <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
-                      <Sun className="w-5 h-5 text-amber" />
-                      {morningPrayerName}
+                <div className="space-y-8">
+                  {/* Morning Prayer Reminders */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
+                        <Sun className="w-5 h-5 text-amber" />
+                        {morningPrayerName}
+                      </h3>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={addMorningReminder}
+                        disabled={morningReminders.length >= 6}
+                        className="font-cormorant"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Reminder
+                      </Button>
                     </div>
-                    <RadioGroup 
-                      value={morningReminderMinutes} 
-                      onValueChange={setMorningReminderMinutes} 
-                      className="flex gap-4" 
-                      aria-label="Choisir le rappel pour la prière du matin"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="5" id="morning-reminder-5" aria-label="5 minutes avant" />
-                        <Label htmlFor="morning-reminder-5" className="cursor-pointer font-cormorant text-lg">
-                          5min before
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="10" id="morning-reminder-10" aria-label="10 minutes avant" />
-                        <Label htmlFor="morning-reminder-10" className="cursor-pointer font-cormorant text-lg">
-                          10min
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="15" id="morning-reminder-15" aria-label="15 minutes avant" />
-                        <Label htmlFor="morning-reminder-15" className="cursor-pointer font-cormorant text-lg">
-                          15min
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                    
-                    {/* Evening Prayer Row */}
-                    <div className="flex items-center gap-2 font-cormorant text-xl text-foreground">
-                      <Moon className="w-5 h-5 text-primary" />
-                      {eveningPrayerName}
+                    <div className="space-y-3">
+                      {morningReminders.map((minutes, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <Label className="font-cormorant text-lg text-muted-foreground min-w-[120px]">
+                            Reminder {index + 1}:
+                          </Label>
+                          <Select value={minutes} onValueChange={(value) => updateMorningReminder(index, value)}>
+                            <SelectTrigger className="w-[180px] font-cormorant text-lg">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="5" className="font-cormorant text-lg">5 min before</SelectItem>
+                              <SelectItem value="10" className="font-cormorant text-lg">10 min before</SelectItem>
+                              <SelectItem value="15" className="font-cormorant text-lg">15 min before</SelectItem>
+                              <SelectItem value="20" className="font-cormorant text-lg">20 min before</SelectItem>
+                              <SelectItem value="25" className="font-cormorant text-lg">25 min before</SelectItem>
+                              <SelectItem value="30" className="font-cormorant text-lg">30 min before</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          {morningReminders.length > 1 && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => removeMorningReminder(index)}
+                              className="text-destructive hover:text-destructive"
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      ))}
                     </div>
-                    <RadioGroup 
-                      value={eveningReminderMinutes} 
-                      onValueChange={setEveningReminderMinutes} 
-                      className="flex gap-4" 
-                      aria-label="Choisir le rappel pour la prière du soir"
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="5" id="evening-reminder-5" aria-label="5 minutes avant" />
-                        <Label htmlFor="evening-reminder-5" className="cursor-pointer font-cormorant text-lg">
-                          5min before
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="10" id="evening-reminder-10" aria-label="10 minutes avant" />
-                        <Label htmlFor="evening-reminder-10" className="cursor-pointer font-cormorant text-lg">
-                          10min
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="15" id="evening-reminder-15" aria-label="15 minutes avant" />
-                        <Label htmlFor="evening-reminder-15" className="cursor-pointer font-cormorant text-lg">
-                          15min
-                        </Label>
-                      </div>
-                    </RadioGroup>
+                  </div>
+
+                  {/* Evening Prayer Reminders */}
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
+                        <Moon className="w-5 h-5 text-primary" />
+                        {eveningPrayerName}
+                      </h3>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={addEveningReminder}
+                        disabled={eveningReminders.length >= 6}
+                        className="font-cormorant"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Reminder
+                      </Button>
+                    </div>
+                    <div className="space-y-3">
+                      {eveningReminders.map((minutes, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <Label className="font-cormorant text-lg text-muted-foreground min-w-[120px]">
+                            Reminder {index + 1}:
+                          </Label>
+                          <Select value={minutes} onValueChange={(value) => updateEveningReminder(index, value)}>
+                            <SelectTrigger className="w-[180px] font-cormorant text-lg">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="5" className="font-cormorant text-lg">5 min before</SelectItem>
+                              <SelectItem value="10" className="font-cormorant text-lg">10 min before</SelectItem>
+                              <SelectItem value="15" className="font-cormorant text-lg">15 min before</SelectItem>
+                              <SelectItem value="20" className="font-cormorant text-lg">20 min before</SelectItem>
+                              <SelectItem value="25" className="font-cormorant text-lg">25 min before</SelectItem>
+                              <SelectItem value="30" className="font-cormorant text-lg">30 min before</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          {eveningReminders.length > 1 && (
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => removeEveningReminder(index)}
+                              className="text-destructive hover:text-destructive"
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </AccordionContent>
