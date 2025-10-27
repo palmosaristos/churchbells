@@ -116,7 +116,7 @@ const Index = () => {
       <HeroSection heroImage={heroImage} />
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-16 space-y-16">
+      <div className="container mx-auto px-4 pt-4 pb-16 space-y-16">
         {isAppEnabled && !onboardingComplete && (
           <WelcomeScreen isOpen={true} onComplete={handleWelcomeComplete} />
         )}
