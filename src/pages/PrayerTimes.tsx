@@ -209,12 +209,6 @@ const PrayerTimes = () => {
         </div>
 
         <div className="max-w-4xl mx-auto space-y-6">
-          <PrayerTimesSelector 
-            selectedTradition={selectedPrayerTradition} 
-            onTraditionSelect={setSelectedPrayerTradition} 
-            onTimesSelect={handlePrayerTimesSelect} 
-          />
-
           {/* Accordion Layout */}
           <Accordion type="single" collapsible defaultValue="prayer-times" className="space-y-4">
             {/* Set Your Prayer Times Section */}
