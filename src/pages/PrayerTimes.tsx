@@ -602,6 +602,68 @@ const PrayerTimes = () => {
           </Accordion>
         </div>
 
+        {/* Share Banner */}
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-gradient-vespers border-burgundy/20 rounded-[2rem] shadow-2xl border-2 p-8 md:p-10 flex items-center justify-center max-w-2xl mx-auto">
+            <div className="text-center space-y-4">
+              <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-burgundy-foreground">
+                Share the Bells
+              </h3>
+              <p className="text-xl md:text-2xl font-cormorant text-burgundy-foreground/90 leading-relaxed max-w-2xl mx-auto">
+                The sound of bells has called people to prayer for centuries. Share this app with your community and strengthen your shared spiritual journey.
+              </p>
+              <div className="mt-4 space-y-3">
+                <p className="text-lg font-cormorant text-burgundy-foreground/80">
+                  share our app via
+                </p>
+                <div className="flex flex-wrap gap-3 justify-center">
+                  <Button 
+                    onClick={() => {
+                      const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
+                      window.open(`https://wa.me/?text=${text}`, '_blank');
+                    }}
+                    className="text-lg font-cormorant px-6 py-5 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    size="lg"
+                  >
+                    WhatsApp
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      const subject = encodeURIComponent('A beautiful app I thought you\'d appreciate');
+                      const body = encodeURIComponent(`Hi,
+
+I wanted to share something special with you. I've been using Sacred Bells, an app that recreates the traditional rhythm of church bells throughout the day.
+
+It's been a wonderful way to stay connected to the sacred rhythm that churches have maintained for centuries.
+
+I think you might enjoy it too!
+
+Download: ${window.location.origin}
+
+Blessings`);
+                      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                    }}
+                    className="text-lg font-cormorant px-6 py-5 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    size="lg"
+                  >
+                    Email
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
+                      window.location.href = `sms:?body=${text}`;
+                    }}
+                    className="text-lg font-cormorant px-6 py-5 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                    size="lg"
+                  >
+                    SMS
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Sticky Save Button */}
         <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent py-4 px-4 z-10 shadow-[0_-4px_12px_rgba(0,0,0,0.1)]">
           <div className="max-w-md mx-auto">
