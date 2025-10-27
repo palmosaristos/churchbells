@@ -350,15 +350,14 @@ export const TimeRangeSelector = ({
               <Switch id="pause-switch" checked={pauseEnabled} onCheckedChange={onPauseEnabledChange} disabled={!onPauseEnabledChange} />
             </div>
             
-            {pauseEnabled && <div className="grid gap-4 md:grid-cols-2 pt-2">
-                <div className="space-y-2">
-                  <Label htmlFor="pause-start-time" className="flex items-center gap-2 text-lg font-cormorant text-foreground">
-                    <Clock className="w-5 h-5 text-red-600" />
-                    Pause Start
+            {pauseEnabled && <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="pause-start-time" className="text-lg font-cormorant text-foreground whitespace-nowrap">
+                    Pause Bells from:
                   </Label>
                   <Select value={pauseStartTime} onValueChange={onPauseStartTimeChange}>
-                    <SelectTrigger id="pause-start-time">
-                      <SelectValue placeholder="Select pause start time" />
+                    <SelectTrigger id="pause-start-time" className="w-[130px]">
+                      <SelectValue placeholder="Select time" />
                     </SelectTrigger>
                     <SelectContent>
                       {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
@@ -368,14 +367,13 @@ export const TimeRangeSelector = ({
                   </Select>
                 </div>
                 
-                <div className="space-y-2">
-                  <Label htmlFor="pause-end-time" className="flex items-center gap-2 text-lg font-cormorant text-foreground">
-                    <Clock className="w-5 h-5 text-green-600" />
-                    Pause End
+                <div className="flex items-center gap-2">
+                  <Label htmlFor="pause-end-time" className="text-lg font-cormorant text-foreground whitespace-nowrap">
+                    Resume Bells at:
                   </Label>
                   <Select value={pauseEndTime} onValueChange={onPauseEndTimeChange}>
-                    <SelectTrigger id="pause-end-time">
-                      <SelectValue placeholder="Select pause end time" />
+                    <SelectTrigger id="pause-end-time" className="w-[130px]">
+                      <SelectValue placeholder="Select time" />
                     </SelectTrigger>
                     <SelectContent>
                       {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
