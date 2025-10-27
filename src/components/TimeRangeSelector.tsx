@@ -332,11 +332,11 @@ export const TimeRangeSelector = ({
           <div className="space-y-3">
             <Label className="text-3xl font-cormorant text-foreground">Active Days</Label>
             <div className="flex flex-wrap gap-3 justify-center">
-              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-16 h-16 rounded-full font-cormorant text-lg transition-all relative ${selectedDays.includes(day.id) ? 'bg-amber-100 dark:bg-amber-900/40 border-4 border-amber-500 text-amber-900 dark:text-amber-100 shadow-md' : 'bg-white/50 dark:bg-slate-800/50 border-2 border-amber-300/50 dark:border-amber-700/30 text-muted-foreground hover:border-amber-400'}`}>
+              {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-16 h-16 rounded-full font-cormorant text-lg transition-all flex items-center justify-center gap-0.5 ${selectedDays.includes(day.id) ? 'bg-amber-100 dark:bg-amber-900/40 border-4 border-amber-500 text-amber-900 dark:text-amber-100 shadow-md' : 'bg-white/50 dark:bg-slate-800/50 border-2 border-amber-300/50 dark:border-amber-700/30 text-muted-foreground hover:border-amber-400'}`}>
+                  <span>{day.label}</span>
                   {selectedDays.includes(day.id) && (
-                    <Check className="w-8 h-8 text-amber-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" strokeWidth={3} />
+                    <Check className="w-4 h-4 text-amber-500" strokeWidth={3} />
                   )}
-                  <span className={selectedDays.includes(day.id) ? 'opacity-0' : ''}>{day.label}</span>
                 </button>)}
             </div>
           </div>
