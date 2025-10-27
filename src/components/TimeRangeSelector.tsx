@@ -393,18 +393,42 @@ export const TimeRangeSelector = ({
               </div>}
           </div>
 
-          <div className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
-            <div className="flex items-center gap-2">
-              <svg className="w-6 h-6 text-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 12 12 20"/>
-                <polyline points="12 12 15 19"/>
-              </svg>
-              <Label htmlFor="half-hour-switch" className="text-xl font-cormorant text-foreground">
-                Chime every half hour
-              </Label>
+          <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
+            <Label className="text-xl font-cormorant text-foreground">
+              Bell frequency
+            </Label>
+            <div className="flex gap-4">
+              <button
+                type="button"
+                onClick={() => onHalfHourChimesChange?.(false)}
+                disabled={!onHalfHourChimesChange}
+                className="flex items-center gap-2 text-lg font-cormorant text-foreground"
+              >
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                  !halfHourChimes 
+                    ? 'border-primary bg-primary' 
+                    : 'border-muted-foreground/30'
+                }`}>
+                  {!halfHourChimes && <div className="w-2.5 h-2.5 rounded-full bg-background" />}
+                </div>
+                Every hour
+              </button>
+              <button
+                type="button"
+                onClick={() => onHalfHourChimesChange?.(true)}
+                disabled={!onHalfHourChimesChange}
+                className="flex items-center gap-2 text-lg font-cormorant text-foreground"
+              >
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                  halfHourChimes 
+                    ? 'border-primary bg-primary' 
+                    : 'border-muted-foreground/30'
+                }`}>
+                  {halfHourChimes && <div className="w-2.5 h-2.5 rounded-full bg-background" />}
+                </div>
+                Every half hour
+              </button>
             </div>
-            <Switch id="half-hour-switch" checked={halfHourChimes} onCheckedChange={onHalfHourChimesChange} disabled={!onHalfHourChimesChange} />
           </div>
           
           <div className="p-4 rounded-lg bg-gradient-dawn border">
