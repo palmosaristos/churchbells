@@ -203,7 +203,7 @@ const PrayerTimes = () => {
             <img src={churchBellTransparent} alt="Church bell" className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
             <img src={churchBellNew} alt="Church bell" className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
             <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center leading-tight">
-              When should the Bells<br />call you to prayer?
+              Set your prayer bells
             </h1>
           </div>
         </div>
