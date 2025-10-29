@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="bg-background/95 backdrop-blur-md border-t border-border/50 mt-auto">
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+        <div className="grid grid-cols-2 gap-8 max-w-2xl mx-auto">
           {/* Legal Links */}
           <div>
             <h3 className="font-cormorant text-xl font-bold text-foreground mb-4">Legal</h3>
