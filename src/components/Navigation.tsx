@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { AppToggle } from "@/components/AppToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
-import { Settings, Clock } from "lucide-react";
+import { Settings, Clock, MoreHorizontal } from "lucide-react";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
 interface NavigationProps {
@@ -88,6 +88,18 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             <Link to="/prayer-times" className="flex items-center gap-1">
               <Clock className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               <span>Prayer Times</span>
+            </Link>
+          </Button>
+
+          <Button
+            variant={currentPath === "/more" ? "default" : "ghost"}
+            asChild
+            className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
+            aria-label="Aller à la page More"
+          >
+            <Link to="/more" className="flex items-center gap-1">
+              <MoreHorizontal className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+              <span>More</span>
             </Link>
           </Button>
           

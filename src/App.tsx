@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Settings from "./pages/Settings";
 import PrayerTimes from "./pages/PrayerTimes";
 import Premium from "./pages/Premium";
+import More from "./pages/More";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import RGPDCompliance from "./pages/RGPDCompliance";
@@ -27,6 +28,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/prayer-times" element={<PrayerTimes />} />
+            <Route path="/more" element={<More />} />
             {/* Premium page accessible via direct URL only - link hidden in navigation */}
             <Route path="/premium" element={<Premium />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
