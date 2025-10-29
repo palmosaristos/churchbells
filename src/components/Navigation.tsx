@@ -98,7 +98,6 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             aria-label="Aller à la page More"
           >
             <Link to="/more" className="flex items-center gap-1">
-              <MoreHorizontal className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               <span>More</span>
             </Link>
           </Button>
