@@ -10,6 +10,8 @@ import PrayerTimes from "./pages/PrayerTimes";
 import Premium from "./pages/Premium";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
+import RGPDCompliance from "./pages/RGPDCompliance";
+import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +31,8 @@ const App = () => (
             <Route path="/premium" element={<Premium />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/rgpd-compliance" element={<RGPDCompliance />} />
+            <Route path="/support" element={<Support />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

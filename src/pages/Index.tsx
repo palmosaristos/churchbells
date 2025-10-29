@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 import { CurrentConfiguration } from "@/components/CurrentConfiguration";
 import { PrayerConfiguration } from "@/components/PrayerConfiguration";
 import { HeroSection } from "@/components/HeroSection";
@@ -171,6 +172,8 @@ const Index = () => {
           </Accordion>
         )}
       </div>
+
+      <Footer />
     </div>
   );
 };
