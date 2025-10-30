@@ -24,7 +24,7 @@ export const PrayerConfiguration = ({
 
   return (
     <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm">
-      <CardContent className="space-y-3 p-5">
+      <CardContent className="space-y-2 p-4">
         <div className="grid gap-3">
           <div className="flex items-center justify-between p-3 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
             <div className="flex items-center gap-3">
@@ -59,7 +59,7 @@ export const PrayerConfiguration = ({
           </div>
         </div>
 
-        <div className="text-center mt-4">
+        <div className="text-center mt-2">
           <Link to="/prayer-times">
             <Button variant="amber" size="lg" className="gap-3 font-cormorant text-lg font-semibold">
               <Bell className="w-5 h-5" />
