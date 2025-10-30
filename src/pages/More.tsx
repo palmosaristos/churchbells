@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
-import { Info, HelpCircle, Mail, Heart, Shield, FileText, Scale, Trash2 } from "lucide-react";
+import { Info, HelpCircle, Mail, Heart, Shield, FileText, Scale, Trash2, Book } from "lucide-react";
 import { toast } from "sonner";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
@@ -101,23 +101,24 @@ export default function More() {
         <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🔒 LEGAL & PRIVACY
+              <Book className="w-5 h-5" />
+              LEGAL & PRIVACY
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <Button variant="ghost" asChild className="w-full justify-start">
+          <CardContent className="space-y-0">
+            <Button variant="ghost" asChild className="w-full justify-start h-auto py-2">
               <Link to="/privacy-policy">
                 <Shield className="w-4 h-4 mr-2" />
                 Privacy Policy
               </Link>
             </Button>
-            <Button variant="ghost" asChild className="w-full justify-start">
+            <Button variant="ghost" asChild className="w-full justify-start h-auto py-2">
               <Link to="/terms-of-service">
                 <FileText className="w-4 h-4 mr-2" />
                 Terms of Service
               </Link>
             </Button>
-            <Button variant="ghost" asChild className="w-full justify-start">
+            <Button variant="ghost" asChild className="w-full justify-start h-auto py-2">
               <Link to="/rgpd-compliance">
                 <Scale className="w-4 h-4 mr-2" />
                 GDPR Compliance
