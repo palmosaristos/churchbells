@@ -47,18 +47,53 @@ Votre application est déjà configurée avec:
 
 ---
 
+## ⚠️ IMPORTANT - Vérification avant déploiement
+
+**CRITIQUE**: Avant de déployer, vérifiez que `capacitor.config.ts` **N'A PAS** de bloc `server` pointant vers une URL de développement:
+
+```typescript
+// ❌ MAUVAIS - Ne jamais utiliser pour production
+server: {
+  url: 'https://...replit.dev',
+  cleartext: true
+}
+
+// ✅ BON - Configuration production (app embarquée)
+const config: CapacitorConfig = {
+  appId: 'com.sacredbells.app',
+  appName: 'Sacred Bells',
+  webDir: 'dist'
+  // Pas de 'server' = app 100% native
+};
+```
+
+**Pourquoi?**
+- Les URL Replit de développement expirent
+- `cleartext: true` permet HTTP non sécurisé
+- L'app ne fonctionnera pas après expiration
+
+**Si vous modifiez `capacitor.config.ts`**, toujours re-synchroniser:
+```bash
+npm run build
+npx cap sync
+```
+
+---
+
 ## 🤖 Déploiement Android (Google Play)
 
 ### Étape 1: Préparer le build
 
 ```bash
-# 1. Construire l'application web
+# 1. Vérifier capacitor.config.ts (voir avertissement ci-dessus)
+
+# 2. Construire l'application web
 npm run build
 
-# 2. Synchroniser avec Android
+# 3. Synchroniser avec Android
 npx cap sync android
 
-# 3. Ouvrir Android Studio
+# 4. Ouvrir Android Studio
 npx cap open android
 ```
 
@@ -141,13 +176,15 @@ Le fichier sera dans: `android/app/release/app-release.aab`
 ### Étape 1: Préparer le build
 
 ```bash
-# 1. Construire l'application web
+# 1. Vérifier capacitor.config.ts (voir avertissement au début)
+
+# 2. Construire l'application web
 npm run build
 
-# 2. Synchroniser avec iOS
+# 3. Synchroniser avec iOS
 npx cap sync ios
 
-# 3. Ouvrir Xcode
+# 4. Ouvrir Xcode
 npx cap open ios
 ```
 
