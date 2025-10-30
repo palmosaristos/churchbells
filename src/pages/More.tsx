@@ -85,11 +85,56 @@ export default function More() {
                 <Heart className="w-4 h-4" />
                 Support Us
               </h3>
-              <CardDescription className="space-y-2 text-sm">
+              <CardDescription className="space-y-3 text-sm">
                 <p>Sacred Bells's core features are free and ad-free. If they help you in your spiritual life:</p>
                 <ul className="space-y-2 ml-4">
                   <li>⭐ <strong>Leave a review on the App Store/Play Store</strong></li>
-                  <li>💝 <strong>Share it with your community</strong></li>
+                  <li>
+                    <strong>💝 Share it with your community</strong>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <Button 
+                        onClick={() => {
+                          const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
+                          window.open(`https://wa.me/?text=${text}`, '_blank');
+                        }}
+                        className="text-sm font-cormorant px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                        size="sm"
+                      >
+                        WhatsApp
+                      </Button>
+                      <Button 
+                        onClick={() => {
+                          const subject = encodeURIComponent('A beautiful app I thought you\'d appreciate');
+                          const body = encodeURIComponent(`Hi,
+
+I wanted to share something special with you. I've been using Sacred Bells, an app that recreates the traditional rhythm of church bells throughout the day.
+
+It's been a wonderful way to stay connected to the sacred rhythm that churches have maintained for centuries.
+
+I think you might enjoy it too!
+
+Download: ${window.location.origin}
+
+Blessings`);
+                          window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                        }}
+                        className="text-sm font-cormorant px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                        size="sm"
+                      >
+                        Email
+                      </Button>
+                      <Button 
+                        onClick={() => {
+                          const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
+                          window.location.href = `sms:?body=${text}`;
+                        }}
+                        className="text-sm font-cormorant px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+                        size="sm"
+                      >
+                        SMS
+                      </Button>
+                    </div>
+                  </li>
                   <li>☕ <strong>Make a donation (paypal : sacredchurchbells@gmail.com)</strong></li>
                 </ul>
               </CardDescription>
