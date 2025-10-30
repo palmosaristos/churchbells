@@ -89,9 +89,8 @@ export default function More() {
                 <p>Sacred Bells's core features are free and ad-free. If they help you in your spiritual life:</p>
                 <ul className="space-y-2 ml-4">
                   <li>⭐ <strong>Leave a review on the App Store/Play Store</strong></li>
-                  <li>🙏 <strong>Pray for the app's development</strong></li>
                   <li>💝 <strong>Share it with your community</strong></li>
-                  <li>☕ <strong>Make a donation via PayPal to sacredchurchbells@gmail.com</strong></li>
+                  <li>☕ <strong>Make a donation (paypal : sacredchurchbells@gmail.com)</strong></li>
                 </ul>
               </CardDescription>
             </div>
