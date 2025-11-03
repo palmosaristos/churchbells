@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Volume2 } from "lucide-react";
+import { Volume2 } from "lucide-react";
 
 interface BellTraditionCardProps {
   title: string;
@@ -47,16 +47,16 @@ export const BellTraditionCard = ({
           
           <div className="flex-1 space-y-2">
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={(e) => {
                 e.stopPropagation();
                 onPlay();
               }}
-              className="w-full justify-center gap-2 hover:bg-primary/10 font-cormorant text-xl text-foreground"
+              className="w-full justify-center gap-2 font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]"
               aria-label={`Écouter le son de ${title}`}
             >
-              <Play className="w-5 h-5" />
+              <Volume2 className="w-4 h-4" />
               Listen
             </Button>
             
