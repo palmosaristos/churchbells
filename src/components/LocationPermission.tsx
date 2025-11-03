@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
+import { Geolocation } from '@capacitor/geolocation';
 
 interface LocationPermissionProps {
   onTimeZoneDetected: (timeZone: string) => void;
@@ -24,39 +25,48 @@ export const LocationPermission = ({ onTimeZoneDetected }: LocationPermissionPro
     setIsOpen(true);
   }, []);
 
-  const handleLocationRequest = () => {
+  const handleLocationRequest = async () => {
     setIsLoading(true);
     
-    if (!navigator.geolocation) {
+    try {
+      const permissionStatus = await Geolocation.checkPermissions();
+      
+      if (permissionStatus.location !== 'granted') {
+        const request = await Geolocation.requestPermissions();
+        if (request.location !== 'granted') {
+          toast({
+            title: "Permission Denied",
+            description: "Location permission is required to determine your time zone",
+            variant: "destructive"
+          });
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+      });
+      
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      onTimeZoneDetected(timeZone);
+      setIsOpen(false);
       toast({
-        title: "Geolocation Not Available",
-        description: "Your browser does not support geolocation",
+        title: "Location Detected",
+        description: `Time zone set to: ${timeZone}`
+      });
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Geolocation error:', error);
+      toast({
+        title: "Location Error",
+        description: "Unable to detect your location. Please enable GPS and grant location permission.",
         variant: "destructive"
       });
       setIsLoading(false);
-      return;
     }
-
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        onTimeZoneDetected(timeZone);
-        setIsOpen(false);
-        toast({
-          title: "Location Detected",
-          description: `Time zone set to: ${timeZone}`
-        });
-        setIsLoading(false);
-      },
-      (error) => {
-        toast({
-          title: "Location Error",
-          description: "Unable to detect your location",
-          variant: "destructive"
-        });
-        setIsLoading(false);
-      }
-    );
   };
 
   return (
