@@ -449,13 +449,6 @@ const PrayerTimes = () => {
           </div>
         </div>
 
-        {/* Save Button */}
-        <div className="max-w-4xl mx-auto py-6">
-          <Button onClick={handleSave} disabled={!hasChanges} className={`w-full text-3xl font-cormorant py-8 shadow-lg transition-all duration-300 border-2 ${hasChanges ? 'bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white hover:shadow-xl hover:scale-[1.02] border-amber-400/30' : 'bg-muted text-muted-foreground border-border cursor-not-allowed'}`} size="lg" aria-label="Save prayer settings">
-            Save Prayer Settings
-          </Button>
-        </div>
-
         {/* Share Banner */}
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-vespers border-burgundy/20 rounded-[2rem] shadow-2xl border-2 p-8 md:p-10 flex items-center justify-center max-w-2xl mx-auto">
