@@ -11,6 +11,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 const Settings = () => {
+  const [savedVersion, setSavedVersion] = useState(0);
+  
   // Store initial values
   const initialSettings = useMemo(() => {
     const savedBellVolumes = localStorage.getItem("bellVolumes");
@@ -30,7 +32,7 @@ const Settings = () => {
         'carillon-bell': 0.7
       }
     };
-  }, []);
+  }, [savedVersion]);
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(initialSettings.bellTradition);
   const [startTime, setStartTime] = useState<string>(initialSettings.startTime);
   const [endTime, setEndTime] = useState<string>(initialSettings.endTime);
@@ -84,6 +86,7 @@ const Settings = () => {
     localStorage.setItem("bellsEnabled", String(bellsEnabled));
     localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
     localStorage.setItem("settingsConfigured", "true");
+    setSavedVersion(prev => prev + 1);
     toast({
       title: "Settings saved",
       description: "Your preferences have been saved successfully"
