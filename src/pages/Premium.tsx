@@ -48,7 +48,7 @@ const Premium = () => {
     'cathedral-bell': 0.7
   });
   const { toast } = useToast();
-  const { toggleAudio } = useAudioPlayer();
+  const { toggleAudio, isPlaying, currentAudioUrl } = useAudioPlayer();
 
   const handleBellVolumeChange = (bellId: string, volume: number) => {
     setBellVolumes(prev => ({
@@ -128,6 +128,7 @@ const Premium = () => {
                 onPlay={() => handleBellPlay(tradition.id)}
                 volume={bellVolumes[tradition.id] || 0.7}
                 onVolumeChange={(volume) => handleBellVolumeChange(tradition.id, volume)}
+                isPlaying={isPlaying && currentAudioUrl === tradition.audioSample}
               />
             ))}
           </div>

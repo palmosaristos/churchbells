@@ -11,6 +11,7 @@ interface BellTraditionCardProps {
   onPlay: () => void;
   volume: number;
   onVolumeChange: (volume: number) => void;
+  isPlaying: boolean;
 }
 
 export const BellTraditionCard = ({ 
@@ -20,7 +21,8 @@ export const BellTraditionCard = ({
   onSelect, 
   onPlay,
   volume,
-  onVolumeChange
+  onVolumeChange,
+  isPlaying
 }: BellTraditionCardProps) => {
   return (
     <Card 
@@ -57,7 +59,7 @@ export const BellTraditionCard = ({
               aria-label={`Écouter le son de ${title}`}
             >
               <Volume2 className="w-4 h-4" />
-              Listen
+              {isPlaying ? "Stop" : "Listen"}
             </Button>
             
             <div 

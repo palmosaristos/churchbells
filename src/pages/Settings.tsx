@@ -44,7 +44,9 @@ const Settings = () => {
   const [bellsEnabled, setBellsEnabled] = useState<boolean>(initialSettings.bellsEnabled);
   const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(initialSettings.bellVolumes);
   const {
-    toggleAudio
+    toggleAudio,
+    isPlaying,
+    currentAudioUrl
   } = useAudioPlayer();
   const {
     toast
@@ -117,7 +119,7 @@ const Settings = () => {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} onPlay={handleBellPlay} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} />
+                <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} onPlay={handleBellPlay} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
               </AccordionContent>
             </AccordionItem>
 
