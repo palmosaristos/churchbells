@@ -205,13 +205,7 @@ export const TimeRangeSelector = ({
   const isWeekendActive = startTime === "07:00" && endTime === "22:00" && selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday');
   return <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="font-cormorant text-3xl text-foreground text-center mb-3">
-            Daily Bell Schedule
-          </CardTitle>
-          <CardDescription className="font-cormorant text-xl text-foreground text-center">Set the hours when your bells will ring</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           {/* Quick Configurations */}
           <div className="space-y-3">
             <Label className="text-3xl font-cormorant text-foreground">Quick Configurations</Label>
