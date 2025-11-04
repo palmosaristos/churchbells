@@ -145,7 +145,7 @@ const Settings = () => {
             {/* Daily Bell Schedule Section */}
             <AccordionItem value="bell-schedule" className="border-none">
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
-                <div className="flex items-center gap-3 font-cormorant text-2xl font-semibold text-foreground">
+                <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
                   <Clock className="w-6 h-6 text-primary" />
                   Daily Bell Schedule
                 </div>
