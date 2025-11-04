@@ -176,7 +176,7 @@ const PrayerTimes = () => {
 
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Accordion Layout */}
-          <Accordion type="single" collapsible defaultValue="prayer-times" className="space-y-4">
+          <Accordion type="multiple" defaultValue={["prayer-times", "bell-sound"]} className="space-y-4">
             {/* Set Your Prayer Times Section */}
             <AccordionItem value="prayer-times" className="border-none">
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
