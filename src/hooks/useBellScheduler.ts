@@ -104,14 +104,19 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         };
 
         let notificationId = 1;
-        const interval = options.halfHourChimes ? 30 : 60;
-        let currentMinutes = startMinutes;
         
-        while (currentMinutes <= endMinutes) {
-          const hour = Math.floor(currentMinutes / 60);
-          const minute = currentMinutes % 60;
-          scheduleBellNotification(hour, minute, notificationId++);
-          currentMinutes += interval;
+        for (let h = 0; h < 24; h++) {
+          const hourMinutes = h * 60;
+          if (hourMinutes >= startMinutes && hourMinutes <= endMinutes) {
+            scheduleBellNotification(h, 0, notificationId++);
+          }
+          
+          if (options.halfHourChimes) {
+            const halfHourMinutes = h * 60 + 30;
+            if (halfHourMinutes >= startMinutes && halfHourMinutes <= endMinutes) {
+              scheduleBellNotification(h, 30, notificationId++);
+            }
+          }
         }
 
         if (options.morningPrayerEnabled && options.morningPrayerTime) {
