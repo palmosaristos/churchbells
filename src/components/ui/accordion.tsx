@@ -27,7 +27,6 @@ const AccordionTrigger = React.forwardRef<
   React.useImperativeHandle(ref, () => triggerRef.current!);
   
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
     const currentScrollY = window.scrollY;
     
     props.onClick?.(e);
