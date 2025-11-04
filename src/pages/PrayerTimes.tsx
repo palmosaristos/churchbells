@@ -364,7 +364,7 @@ const PrayerTimes = () => {
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
                 <div className="space-y-8">
                   {/* Morning Prayer Reminders */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
                     <div className="flex items-center justify-between">
                       <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                         <Sun className="w-5 h-5 text-amber" />
@@ -401,7 +401,7 @@ const PrayerTimes = () => {
                   </div>
 
                   {/* Evening Prayer Reminders */}
-                  <div className="space-y-4">
+                  <div className="space-y-4 p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
                     <div className="flex items-center justify-between">
                       <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                         <Moon className="w-5 h-5 text-primary" />
