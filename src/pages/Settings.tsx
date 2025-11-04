@@ -100,7 +100,7 @@ const Settings = () => {
   return <div className="min-h-screen bg-gradient-subtle pb-24">
       <Navigation />
       
-      <div className="container mx-auto px-4 py-12 space-y-10">
+      <div className="container mx-auto px-4 py-12 space-y-[10px]">
         {/* Header */}
         <div className="max-w-4xl mx-auto animate-fade-in-up">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 px-8 md:px-12 py-1 md:py-2 relative">
