@@ -43,6 +43,16 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return;
         }
 
+        await LocalNotifications.createChannel({
+          id: 'sacred-bells-channel',
+          name: 'Sacred Bells',
+          description: 'Notifications for scheduled bell chimes',
+          importance: 5,
+          visibility: 1,
+          sound: 'default',
+          vibration: true
+        });
+
         await LocalNotifications.cancel({ notifications: [] });
 
         const notifications: any[] = [];
@@ -59,16 +69,21 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         const [pauseStartHour, pauseStartMinute] = options.pauseStartTime.split(':').map(Number);
         const [pauseEndHour, pauseEndMinute] = options.pauseEndTime.split(':').map(Number);
 
-        const isInPausePeriod = (hour: number, minute: number) => {
+        const startMinutes = startHour * 60 + startMinute;
+        const endMinutes = endHour * 60 + endMinute;
+        const pauseStartMinutes = pauseStartHour * 60 + pauseStartMinute;
+        const pauseEndMinutes = pauseEndHour * 60 + pauseEndMinute;
+
+        const isInPausePeriod = (timeMinutes: number) => {
           if (!options.pauseEnabled) return false;
-          const timeMinutes = hour * 60 + minute;
-          const pauseStartMinutes = pauseStartHour * 60 + pauseStartMinute;
-          const pauseEndMinutes = pauseEndHour * 60 + pauseEndMinute;
           return timeMinutes >= pauseStartMinutes && timeMinutes < pauseEndMinutes;
         };
 
         const scheduleBellNotification = (hour: number, minute: number, id: number) => {
-          if (isInPausePeriod(hour, minute)) return;
+          const timeMinutes = hour * 60 + minute;
+          
+          if (timeMinutes < startMinutes || timeMinutes > endMinutes) return;
+          if (isInPausePeriod(timeMinutes)) return;
 
           const bellTime = new Date();
           bellTime.setHours(hour, minute, 0, 0);
@@ -89,24 +104,22 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         };
 
         let notificationId = 1;
-        for (let h = startHour; h <= endHour; h++) {
-          const startMin = (h === startHour) ? startMinute : 0;
-          const endMin = (h === endHour) ? endMinute : 59;
-
-          if (startMin === 0 || (h > startHour)) {
-            scheduleBellNotification(h, 0, notificationId++);
-          }
-
-          if (options.halfHourChimes && endMin >= 30) {
-            scheduleBellNotification(h, 30, notificationId++);
-          }
+        const interval = options.halfHourChimes ? 30 : 60;
+        let currentMinutes = startMinutes;
+        
+        while (currentMinutes <= endMinutes) {
+          const hour = Math.floor(currentMinutes / 60);
+          const minute = currentMinutes % 60;
+          scheduleBellNotification(hour, minute, notificationId++);
+          currentMinutes += interval;
         }
 
         if (options.morningPrayerEnabled && options.morningPrayerTime) {
           const [mHour, mMinute] = options.morningPrayerTime.split(':').map(Number);
+          const morningTimeMinutes = mHour * 60 + mMinute;
           const morningTime = new Date();
           morningTime.setHours(mHour, mMinute, 0, 0);
-          if (morningTime > now && !isInPausePeriod(mHour, mMinute)) {
+          if (morningTime > now && !isInPausePeriod(morningTimeMinutes)) {
             notifications.push({
               title: '🙏 Morning Prayer',
               body: 'Time for morning prayer',
@@ -121,9 +134,10 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
         if (options.eveningPrayerEnabled && options.eveningPrayerTime) {
           const [eHour, eMinute] = options.eveningPrayerTime.split(':').map(Number);
+          const eveningTimeMinutes = eHour * 60 + eMinute;
           const eveningTime = new Date();
           eveningTime.setHours(eHour, eMinute, 0, 0);
-          if (eveningTime > now && !isInPausePeriod(eHour, eMinute)) {
+          if (eveningTime > now && !isInPausePeriod(eveningTimeMinutes)) {
             notifications.push({
               title: '🙏 Evening Prayer',
               body: 'Time for evening prayer',

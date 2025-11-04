@@ -10,6 +10,7 @@ import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { PremiumConfiguration } from "@/components/PremiumConfiguration";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
+import { useBellScheduler } from "@/hooks/useBellScheduler";
 
 const Index = () => {
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
@@ -57,6 +58,36 @@ const Index = () => {
   const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => {
     return localStorage.getItem("onboardingComplete") === "true";
   });
+  const [pauseEnabled, setPauseEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("pauseEnabled") === "true";
+  });
+  const [pauseStartTime, setPauseStartTime] = useState<string>(() => {
+    return localStorage.getItem("pauseStartTime") || "12:00";
+  });
+  const [pauseEndTime, setPauseEndTime] = useState<string>(() => {
+    return localStorage.getItem("pauseEndTime") || "14:00";
+  });
+  const [selectedDays, setSelectedDays] = useState<string[]>(() => {
+    const saved = localStorage.getItem("selectedDays");
+    return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  });
+
+  useBellScheduler({
+    enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
+    bellTradition: selectedBellTradition,
+    startTime,
+    endTime,
+    halfHourChimes,
+    pauseEnabled,
+    pauseStartTime,
+    pauseEndTime,
+    selectedDays,
+    timeZone: selectedTimeZone,
+    morningPrayerEnabled,
+    morningPrayerTime,
+    eveningPrayerEnabled,
+    eveningPrayerTime
+  });
 
   // Listen for settings changes
   useEffect(() => {
@@ -72,6 +103,11 @@ const Index = () => {
       setMorningPrayerTime(localStorage.getItem("morningPrayerTime") || "06:00");
       setEveningPrayerTime(localStorage.getItem("eveningPrayerTime") || "18:00");
       setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
+      setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
+      setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
+      setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
+      const saved = localStorage.getItem("selectedDays");
+      setSelectedDays(saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
     };
 
     // Listen for storage changes from other tabs
