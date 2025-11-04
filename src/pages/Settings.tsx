@@ -126,22 +126,20 @@ const Settings = () => {
           </div>
         </div>
 
+        {/* Choose Your Bell Sound Section - Moved to top */}
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="bg-[#FAF8F3] dark:bg-amber-950/30 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg p-6 shadow-lg">
+            <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground mb-6">
+              <Volume2 className="w-6 h-6 text-primary" />
+              Choose Your Bell Sound
+            </div>
+            <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} onPlay={handleBellPlay} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
+          </div>
+        </div>
+
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Accordion Layout */}
-          <Accordion type="single" collapsible defaultValue="bell-sound" className="space-y-4">
-            {/* Choose Your Bell Sound Section */}
-            <AccordionItem value="bell-sound" className="border-none">
-              <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
-                <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
-                  <Volume2 className="w-6 h-6 text-primary" />
-                  Choose Your Bell Sound
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} onPlay={handleBellPlay} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
-              </AccordionContent>
-            </AccordionItem>
-
+          <Accordion type="single" collapsible defaultValue="bell-schedule" className="space-y-4">
             {/* Daily Bell Schedule Section */}
             <AccordionItem value="bell-schedule" className="border-none">
               <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
