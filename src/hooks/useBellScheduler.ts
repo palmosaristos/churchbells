@@ -59,6 +59,46 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           vibration: true
         });
 
+        await LocalNotifications.createChannel({
+          id: 'morning-prayer-short',
+          name: 'Morning Prayer (Short Call)',
+          description: 'Short bell call for morning prayer',
+          importance: 5,
+          visibility: 1,
+          sound: 'summoning_bell',
+          vibration: true
+        });
+
+        await LocalNotifications.createChannel({
+          id: 'morning-prayer-long',
+          name: 'Morning Prayer (Long Call)',
+          description: 'Long bell call for morning prayer',
+          importance: 5,
+          visibility: 1,
+          sound: 'cathedral_bell',
+          vibration: true
+        });
+
+        await LocalNotifications.createChannel({
+          id: 'evening-prayer-short',
+          name: 'Evening Prayer (Short Call)',
+          description: 'Short bell call for evening prayer',
+          importance: 5,
+          visibility: 1,
+          sound: 'summoning_bell',
+          vibration: true
+        });
+
+        await LocalNotifications.createChannel({
+          id: 'evening-prayer-long',
+          name: 'Evening Prayer (Long Call)',
+          description: 'Long bell call for evening prayer',
+          importance: 5,
+          visibility: 1,
+          sound: 'cathedral_bell',
+          vibration: true
+        });
+
         await LocalNotifications.cancel({ notifications: [] });
 
         const notifications: any[] = [];
@@ -130,15 +170,47 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           const morningTimeMinutes = mHour * 60 + mMinute;
           const morningTime = new Date();
           morningTime.setHours(mHour, mMinute, 0, 0);
+          
           if (morningTime > now && !isInPausePeriod(morningTimeMinutes)) {
+            const morningReminders = options.morningReminders || ['5'];
+            
+            morningReminders.forEach((reminderMinutes) => {
+              const minutes = parseInt(reminderMinutes);
+              const reminderTime = new Date(morningTime.getTime() - minutes * 60000);
+              
+              if (reminderTime > now) {
+                notifications.push({
+                  title: '⏰ Prayer Reminder',
+                  body: `${options.morningPrayerName || 'Morning Prayer'} in ${minutes} minutes`,
+                  id: notificationId++,
+                  schedule: { at: reminderTime },
+                  sound: 'default',
+                  smallIcon: 'ic_launcher',
+                  channelId: 'sacred-bells-channel',
+                  extra: {
+                    type: 'reminder',
+                    prayerType: 'morning'
+                  }
+                });
+              }
+            });
+            
+            const channelId = options.morningCallType === 'long' 
+              ? 'morning-prayer-long' 
+              : 'morning-prayer-short';
+            
             notifications.push({
-              title: '🙏 Morning Prayer',
-              body: 'Time for morning prayer',
+              title: `🙏 ${options.morningPrayerName || 'Morning Prayer'}`,
+              body: 'Time for prayer - Bells are ringing',
               id: notificationId++,
               schedule: { at: morningTime },
-              sound: 'default',
               smallIcon: 'ic_launcher',
-              channelId: 'sacred-bells-channel'
+              channelId: channelId,
+              extra: {
+                type: 'prayer',
+                prayerType: 'morning',
+                callType: options.morningCallType || 'short'
+              }
             });
           }
         }
@@ -148,15 +220,47 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           const eveningTimeMinutes = eHour * 60 + eMinute;
           const eveningTime = new Date();
           eveningTime.setHours(eHour, eMinute, 0, 0);
+          
           if (eveningTime > now && !isInPausePeriod(eveningTimeMinutes)) {
+            const eveningReminders = options.eveningReminders || ['5'];
+            
+            eveningReminders.forEach((reminderMinutes) => {
+              const minutes = parseInt(reminderMinutes);
+              const reminderTime = new Date(eveningTime.getTime() - minutes * 60000);
+              
+              if (reminderTime > now) {
+                notifications.push({
+                  title: '⏰ Prayer Reminder',
+                  body: `${options.eveningPrayerName || 'Evening Prayer'} in ${minutes} minutes`,
+                  id: notificationId++,
+                  schedule: { at: reminderTime },
+                  sound: 'default',
+                  smallIcon: 'ic_launcher',
+                  channelId: 'sacred-bells-channel',
+                  extra: {
+                    type: 'reminder',
+                    prayerType: 'evening'
+                  }
+                });
+              }
+            });
+            
+            const channelId = options.eveningCallType === 'long' 
+              ? 'evening-prayer-long' 
+              : 'evening-prayer-short';
+            
             notifications.push({
-              title: '🙏 Evening Prayer',
-              body: 'Time for evening prayer',
+              title: `🙏 ${options.eveningPrayerName || 'Evening Prayer'}`,
+              body: 'Time for prayer - Bells are ringing',
               id: notificationId++,
               schedule: { at: eveningTime },
-              sound: 'default',
               smallIcon: 'ic_launcher',
-              channelId: 'sacred-bells-channel'
+              channelId: channelId,
+              extra: {
+                type: 'prayer',
+                prayerType: 'evening',
+                callType: options.eveningCallType || 'short'
+              }
             });
           }
         }
@@ -192,6 +296,12 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
     options.morningPrayerEnabled,
     options.morningPrayerTime,
     options.eveningPrayerEnabled,
-    options.eveningPrayerTime
+    options.eveningPrayerTime,
+    options.morningPrayerName,
+    options.eveningPrayerName,
+    options.morningCallType,
+    options.eveningCallType,
+    options.morningReminders,
+    options.eveningReminders
   ]);
 };

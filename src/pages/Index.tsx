@@ -71,6 +71,20 @@ const Index = () => {
     const saved = localStorage.getItem("selectedDays");
     return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   });
+  const [morningCallType, setMorningCallType] = useState<string>(() => {
+    return localStorage.getItem("morningCallType") || "short";
+  });
+  const [eveningCallType, setEveningCallType] = useState<string>(() => {
+    return localStorage.getItem("eveningCallType") || "short";
+  });
+  const [morningReminders, setMorningReminders] = useState<string[]>(() => {
+    const saved = localStorage.getItem("morningReminders");
+    return saved ? JSON.parse(saved) : ["5"];
+  });
+  const [eveningReminders, setEveningReminders] = useState<string[]>(() => {
+    const saved = localStorage.getItem("eveningReminders");
+    return saved ? JSON.parse(saved) : ["5"];
+  });
 
   useBellScheduler({
     enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
@@ -86,7 +100,13 @@ const Index = () => {
     morningPrayerEnabled,
     morningPrayerTime,
     eveningPrayerEnabled,
-    eveningPrayerTime
+    eveningPrayerTime,
+    morningPrayerName,
+    eveningPrayerName,
+    morningCallType,
+    eveningCallType,
+    morningReminders,
+    eveningReminders
   });
 
   // Listen for settings changes
@@ -106,8 +126,14 @@ const Index = () => {
       setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
       setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
       setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
-      const saved = localStorage.getItem("selectedDays");
-      setSelectedDays(saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+      setMorningCallType(localStorage.getItem("morningCallType") || "short");
+      setEveningCallType(localStorage.getItem("eveningCallType") || "short");
+      const savedDays = localStorage.getItem("selectedDays");
+      setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+      const savedMorningReminders = localStorage.getItem("morningReminders");
+      setMorningReminders(savedMorningReminders ? JSON.parse(savedMorningReminders) : ["5"]);
+      const savedEveningReminders = localStorage.getItem("eveningReminders");
+      setEveningReminders(savedEveningReminders ? JSON.parse(savedEveningReminders) : ["5"]);
     };
 
     // Listen for storage changes from other tabs
