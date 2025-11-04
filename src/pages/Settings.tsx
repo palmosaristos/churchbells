@@ -3,6 +3,8 @@ import { Navigation } from "@/components/Navigation";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { BellSoundSelection } from "@/components/BellSoundSelection";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
 import { useToast } from "@/hooks/use-toast";
@@ -99,11 +101,27 @@ const Settings = () => {
       
       <div className="container mx-auto px-4 py-12 space-y-10">
         {/* Header */}
-        <div className="max-w-4xl mx-auto animate-fade-in-up">
+        <div className="max-w-4xl mx-auto animate-fade-in-up space-y-4">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 px-8 md:px-12 py-1 md:py-2 relative">
             <img src={churchBellTransparent} alt="Church bell" className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
             <img src={churchBellNew} alt="Church bell" className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
             <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">Set your Bell Times</h1>
+          </div>
+          
+          {/* Bell Toggle - Always Visible */}
+          <div className="flex items-center justify-end gap-3 px-4">
+            <Label htmlFor="bells-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
+              Bells
+            </Label>
+            <Switch 
+              id="bells-main-toggle" 
+              checked={bellsEnabled} 
+              onCheckedChange={handleBellsEnabledChange}
+              className="data-[state=checked]:bg-primary"
+            />
+            <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
+              {bellsEnabled ? 'ON' : 'OFF'}
+            </span>
           </div>
         </div>
 
