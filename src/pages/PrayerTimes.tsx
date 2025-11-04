@@ -210,7 +210,7 @@ const PrayerTimes = () => {
                     }} className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" aria-label="Select morning prayer time" required />
                     </div>
                     
-                    <div className="space-y-4 group p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20">
+                    <div className="space-y-4 group p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
                       <div className="flex items-center justify-between">
                         <Label className="flex items-center gap-2 text-2xl font-bold font-cormorant">
                           <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
@@ -310,7 +310,7 @@ const PrayerTimes = () => {
                     </h3>
                     
                     {/* Evening Volume Control */}
-                    <div className="space-y-3 p-4 rounded-lg border-2 border-border bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20">
+                    <div className="space-y-3 p-4 rounded-lg border-2 border-border bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
                       <div className="flex items-center justify-between">
                         <Label htmlFor="evening-bell-volume" className="flex items-center gap-2 font-cormorant text-lg font-semibold text-foreground">
                           <Volume2 className="w-5 h-5 text-primary" />
