@@ -23,13 +23,16 @@ export const PremiumConfiguration = ({ isPremiumMember }: PremiumConfigurationPr
         
         <div className="text-center mt-2">
           <Button
-            onClick={() => navigate("/premium")}
+            onClick={() => {
+              // Premium page not yet available
+              console.log("Premium features coming soon");
+            }}
             variant="amber"
             size="lg"
             className="gap-3 font-cormorant text-lg font-semibold"
           >
             <Crown className="w-5 h-5" />
-            Find out more
+            Coming Soon
           </Button>
         </div>
       </CardContent>
