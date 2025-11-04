@@ -27,11 +27,15 @@ const AccordionTrigger = React.forwardRef<
   React.useImperativeHandle(ref, () => triggerRef.current!);
   
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const currentScrollY = window.scrollY;
+    
     props.onClick?.(e);
-    // Prevent automatic scroll when opening accordion
-    setTimeout(() => {
-      triggerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 10);
+    
+    // Prevent any automatic scroll when opening/closing accordion
+    requestAnimationFrame(() => {
+      window.scrollTo(0, currentScrollY);
+    });
   };
   
   return (
