@@ -208,7 +208,7 @@ export const TimeRangeSelector = ({
         <CardContent className="space-y-6 pt-6">
           {/* Quick Configurations */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground">Quick Configurations</Label>
+            <Label className="text-3xl font-cormorant text-foreground text-center italic block">Quick Configurations</Label>
             <div className="flex flex-wrap gap-3 justify-center">
               <button
                 type="button"
