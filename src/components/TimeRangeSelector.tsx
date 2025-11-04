@@ -320,7 +320,7 @@ export const TimeRangeSelector = ({
           </div>
           
           {/* Pause Period */}
-          <div className="space-y-4 p-4 rounded-lg border bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-amber-300/50 dark:border-amber-700/50">
+          <div className={`space-y-4 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 ${pauseEnabled ? 'border-4 border-amber-500' : 'border border-amber-300/50 dark:border-amber-700/50'}`}>
             <div className="flex items-center justify-between">
               <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
                 🔕 Quiet Hours (optional)
