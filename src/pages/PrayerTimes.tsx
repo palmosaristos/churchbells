@@ -274,7 +274,7 @@ const PrayerTimes = () => {
                     </div>
                     
                     <RadioGroup value={morningCallType} onValueChange={setMorningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du matin">
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 hover:border-primary/50 transition-colors">
+                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="short" id="morning-short-call" aria-label="Appel court du matin" />
                           <Label htmlFor="morning-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -287,7 +287,7 @@ const PrayerTimes = () => {
                         </Button>
                       </div>
                       
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 hover:border-primary/50 transition-colors">
+                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="long" id="morning-long-call" aria-label="Appel long du matin" />
                           <Label htmlFor="morning-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -322,7 +322,7 @@ const PrayerTimes = () => {
                     </div>
                     
                     <RadioGroup value={eveningCallType} onValueChange={setEveningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du soir">
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 hover:border-primary/50 transition-colors">
+                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="short" id="evening-short-call" aria-label="Appel court du soir" />
                           <Label htmlFor="evening-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -335,7 +335,7 @@ const PrayerTimes = () => {
                         </Button>
                       </div>
                       
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 hover:border-primary/50 transition-colors">
+                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="long" id="evening-long-call" aria-label="Appel long du soir" />
                           <Label htmlFor="evening-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
