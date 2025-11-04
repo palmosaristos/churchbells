@@ -320,7 +320,7 @@ export const TimeRangeSelector = ({
           </div>
           
           {/* Pause Period */}
-          <div className="space-y-4 p-4 rounded-lg border bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10">
+          <div className="space-y-4 p-4 rounded-lg border bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-amber-300/50 dark:border-amber-700/50">
             <div className="flex items-center justify-between">
               <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
                 🔕 Quiet Hours (optional)
@@ -371,7 +371,7 @@ export const TimeRangeSelector = ({
               </div>}
           </div>
 
-          <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-red-50/30 to-orange-50/30 dark:from-red-950/10 dark:to-orange-950/10 border">
+          <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-300/50 dark:border-amber-700/50">
             <Label className="text-xl font-cormorant text-foreground">
               Bell frequency
             </Label>
