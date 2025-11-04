@@ -17,6 +17,12 @@ interface BellSchedulerOptions {
   morningPrayerTime: string;
   eveningPrayerEnabled: boolean;
   eveningPrayerTime: string;
+  morningPrayerName?: string;
+  eveningPrayerName?: string;
+  morningCallType?: string;
+  eveningCallType?: string;
+  morningReminders?: string[];
+  eveningReminders?: string[];
 }
 
 const DAY_MAP: { [key: string]: number } = {
