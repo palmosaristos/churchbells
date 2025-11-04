@@ -18,6 +18,7 @@ const Settings = () => {
   // Store initial values
   const initialSettings = useMemo(() => {
     const savedBellVolumes = localStorage.getItem("bellVolumes");
+    const bellsEnabledValue = localStorage.getItem("bellsEnabled");
     return {
       bellTradition: localStorage.getItem("bellTradition") || "cathedral-bell",
       startTime: localStorage.getItem("startTime") || "08:00",
@@ -27,7 +28,7 @@ const Settings = () => {
       pauseStartTime: localStorage.getItem("pauseStartTime") || "12:00",
       pauseEndTime: localStorage.getItem("pauseEndTime") || "14:00",
       selectedDays: JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'),
-      bellsEnabled: localStorage.getItem("bellsEnabled") !== "false",
+      bellsEnabled: bellsEnabledValue === null ? true : bellsEnabledValue === "true",
       bellVolumes: savedBellVolumes ? JSON.parse(savedBellVolumes) : {
         'cathedral-bell': 0.7,
         'village-bell': 0.7,
@@ -101,7 +102,7 @@ const Settings = () => {
       
       <div className="container mx-auto px-4 py-12 space-y-10">
         {/* Header */}
-        <div className="max-w-4xl mx-auto animate-fade-in-up space-y-4">
+        <div className="max-w-4xl mx-auto animate-fade-in-up">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 px-8 md:px-12 py-1 md:py-2 relative">
             <img src={churchBellTransparent} alt="Church bell" className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
             <img src={churchBellNew} alt="Church bell" className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
@@ -109,7 +110,7 @@ const Settings = () => {
           </div>
           
           {/* Bell Toggle - Always Visible */}
-          <div className="flex items-center justify-end gap-3 px-4">
+          <div className="flex items-center justify-end gap-3 px-4 mt-2">
             <Label htmlFor="bells-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
               Bells
             </Label>
