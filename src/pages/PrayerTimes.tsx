@@ -188,7 +188,7 @@ const PrayerTimes = () => {
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
                 <div className="space-y-6">
                   <div className="grid gap-8 md:grid-cols-2">
-                    <div className="space-y-4 group p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                    <div className={`space-y-4 group p-5 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 ${morningPrayerEnabled ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                       <div className="flex items-center justify-between">
                         <Label className="flex items-center gap-2 text-2xl font-bold font-cormorant">
                           <Sun className="w-5 h-5 text-amber transition-transform group-hover:scale-110 group-hover:rotate-12" />
@@ -210,7 +210,7 @@ const PrayerTimes = () => {
                     }} className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" aria-label="Select morning prayer time" required />
                     </div>
                     
-                    <div className="space-y-4 group p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                    <div className={`space-y-4 group p-5 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 ${eveningPrayerEnabled ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                       <div className="flex items-center justify-between">
                         <Label className="flex items-center gap-2 text-2xl font-bold font-cormorant">
                           <Moon className="w-5 h-5 text-primary transition-transform group-hover:scale-110 group-hover:-rotate-12" />
@@ -274,7 +274,7 @@ const PrayerTimes = () => {
                     </div>
                     
                     <RadioGroup value={morningCallType} onValueChange={setMorningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du matin">
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors ${morningCallType === 'short' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="short" id="morning-short-call" aria-label="Appel court du matin" />
                           <Label htmlFor="morning-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -287,7 +287,7 @@ const PrayerTimes = () => {
                         </Button>
                       </div>
                       
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors ${morningCallType === 'long' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="long" id="morning-long-call" aria-label="Appel long du matin" />
                           <Label htmlFor="morning-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -322,7 +322,7 @@ const PrayerTimes = () => {
                     </div>
                     
                     <RadioGroup value={eveningCallType} onValueChange={setEveningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du soir">
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors ${eveningCallType === 'short' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="short" id="evening-short-call" aria-label="Appel court du soir" />
                           <Label htmlFor="evening-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -335,7 +335,7 @@ const PrayerTimes = () => {
                         </Button>
                       </div>
                       
-                      <div className="flex items-center justify-between space-x-3 p-4 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors">
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 hover:border-primary/50 transition-colors ${eveningCallType === 'long' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
                           <RadioGroupItem value="long" id="evening-long-call" aria-label="Appel long du soir" />
                           <Label htmlFor="evening-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
@@ -364,7 +364,7 @@ const PrayerTimes = () => {
               <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
                 <div className="space-y-8">
                   {/* Morning Prayer Reminders */}
-                  <div className="space-y-4 p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                  <div className={`space-y-4 p-5 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 ${morningPrayerEnabled ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                     <div className="flex items-center justify-between">
                       <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                         <Sun className="w-5 h-5 text-amber" />
@@ -401,7 +401,7 @@ const PrayerTimes = () => {
                   </div>
 
                   {/* Evening Prayer Reminders */}
-                  <div className="space-y-4 p-5 rounded-lg border-2 border-[#d4a574] dark:border-amber-700 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20">
+                  <div className={`space-y-4 p-5 rounded-lg bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 ${eveningPrayerEnabled ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                     <div className="flex items-center justify-between">
                       <h3 className="flex items-center gap-2 font-cormorant text-2xl font-semibold text-foreground">
                         <Moon className="w-5 h-5 text-primary" />
