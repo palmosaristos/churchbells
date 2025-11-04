@@ -273,10 +273,10 @@ const PrayerTimes = () => {
                       <Slider id="morning-bell-volume" min={0} max={1} step={0.01} value={[morningBellVolume]} onValueChange={value => setMorningBellVolume(value[0])} className="w-full" aria-label="Adjust morning bell volume" />
                     </div>
                     
-                    <RadioGroup value={morningCallType} onValueChange={setMorningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du matin">
-                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${morningCallType === 'short' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
+                    <RadioGroup value={morningPrayerEnabled ? morningCallType : ""} onValueChange={setMorningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du matin">
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${morningPrayerEnabled && morningCallType === 'short' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
-                          <RadioGroupItem value="short" id="morning-short-call" aria-label="Appel court du matin" />
+                          <RadioGroupItem value="short" id="morning-short-call" aria-label="Appel court du matin" disabled={!morningPrayerEnabled} />
                           <Label htmlFor="morning-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
                             Short Call (~15 seconds)
                           </Label>
@@ -287,9 +287,9 @@ const PrayerTimes = () => {
                         </Button>
                       </div>
                       
-                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${morningCallType === 'long' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${morningPrayerEnabled && morningCallType === 'long' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
-                          <RadioGroupItem value="long" id="morning-long-call" aria-label="Appel long du matin" />
+                          <RadioGroupItem value="long" id="morning-long-call" aria-label="Appel long du matin" disabled={!morningPrayerEnabled} />
                           <Label htmlFor="morning-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
                             Long Call (~30 seconds)
                           </Label>
@@ -321,10 +321,10 @@ const PrayerTimes = () => {
                       <Slider id="evening-bell-volume" min={0} max={1} step={0.01} value={[eveningBellVolume]} onValueChange={value => setEveningBellVolume(value[0])} className="w-full" aria-label="Adjust evening bell volume" />
                     </div>
                     
-                    <RadioGroup value={eveningCallType} onValueChange={setEveningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du soir">
-                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${eveningCallType === 'short' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
+                    <RadioGroup value={eveningPrayerEnabled ? eveningCallType : ""} onValueChange={setEveningCallType} className="space-y-4" aria-label="Choisir la durée de l'appel pour la prière du soir">
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${eveningPrayerEnabled && eveningCallType === 'short' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
-                          <RadioGroupItem value="short" id="evening-short-call" aria-label="Appel court du soir" />
+                          <RadioGroupItem value="short" id="evening-short-call" aria-label="Appel court du soir" disabled={!eveningPrayerEnabled} />
                           <Label htmlFor="evening-short-call" className="cursor-pointer font-cormorant text-xl font-semibold">
                             Short Call (~15 seconds)
                           </Label>
@@ -335,9 +335,9 @@ const PrayerTimes = () => {
                         </Button>
                       </div>
                       
-                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${eveningCallType === 'long' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
+                      <div className={`flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 hover:border-primary/50 transition-colors ${eveningPrayerEnabled && eveningCallType === 'long' ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
                         <div className="flex items-center space-x-3 flex-1">
-                          <RadioGroupItem value="long" id="evening-long-call" aria-label="Appel long du soir" />
+                          <RadioGroupItem value="long" id="evening-long-call" aria-label="Appel long du soir" disabled={!eveningPrayerEnabled} />
                           <Label htmlFor="evening-long-call" className="cursor-pointer font-cormorant text-xl font-semibold">
                             Long Call (~30 seconds)
                           </Label>
