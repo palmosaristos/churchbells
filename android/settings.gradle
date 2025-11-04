@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 pluginManagement {
     repositories {
         google()
@@ -7,8 +6,6 @@ pluginManagement {
     }
 }
 
-=======
->>>>>>> 380d8c334a159ffc8c5bc8aa1ce3e1197e6279c0
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
