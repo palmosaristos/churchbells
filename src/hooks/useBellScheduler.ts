@@ -59,6 +59,18 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           vibration: true
         });
 
+        for (let i = 1; i <= 12; i++) {
+          await LocalNotifications.createChannel({
+            id: `cathedral-bells-${i}`,
+            name: `Cathedral Bells (${i} chime${i > 1 ? 's' : ''})`,
+            description: `Cathedral bells - ${i} chime${i > 1 ? 's' : ''}`,
+            importance: 5,
+            visibility: 1,
+            sound: `cathedral_${i}`,
+            vibration: true
+          });
+        }
+
         await LocalNotifications.createChannel({
           id: 'morning-prayer-short',
           name: 'Morning Prayer (Short Call)',
@@ -137,15 +149,17 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           if (bellTime <= now) return;
 
           const chimeCount = minute === 0 ? (hour % 12 || 12) : 1;
+          const channelId = options.bellTradition === 'cathedral-bell' 
+            ? `cathedral-bells-${chimeCount}`
+            : 'sacred-bells-channel';
           
           notifications.push({
             title: '🔔 Sacred Bells',
             body: `${chimeCount} chime${chimeCount > 1 ? 's' : ''}`,
             id: id,
             schedule: { at: bellTime },
-            sound: 'default',
             smallIcon: 'ic_launcher',
-            channelId: 'sacred-bells-channel'
+            channelId: channelId
           });
         };
 
