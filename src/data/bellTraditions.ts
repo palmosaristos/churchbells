@@ -12,7 +12,7 @@ export const bellTraditions: BellTradition[] = [
     name: "Classic Bell (in C)",
     description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
     tradition: "Cathédrale",
-    audioSample: "/audio/freemium-cathedral.mp3"
+    audioSample: "/audio/cathedral_3.mp3"
   },
   {
     id: "village-bell",
