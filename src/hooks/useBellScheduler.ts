@@ -65,7 +65,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           description: 'Short bell call for morning prayer',
           importance: 5,
           visibility: 1,
-          sound: 'summoning_bell',
+          sound: 'short_call',
           vibration: true
         });
 
@@ -75,7 +75,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           description: 'Long bell call for morning prayer',
           importance: 5,
           visibility: 1,
-          sound: 'cathedral_bell',
+          sound: 'long_call',
           vibration: true
         });
 
@@ -85,7 +85,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           description: 'Short bell call for evening prayer',
           importance: 5,
           visibility: 1,
-          sound: 'summoning_bell',
+          sound: 'short_call',
           vibration: true
         });
 
@@ -95,7 +95,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           description: 'Long bell call for evening prayer',
           importance: 5,
           visibility: 1,
-          sound: 'cathedral_bell',
+          sound: 'long_call',
           vibration: true
         });
 
