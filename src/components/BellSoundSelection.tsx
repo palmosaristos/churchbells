@@ -31,7 +31,7 @@ export const BellSoundSelection = ({
 
   return (
     <div className="space-y-3">
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4 max-w-5xl mx-auto">
+      <div className="grid gap-3 md:grid-cols-3 max-w-3xl mx-auto">
         {bellTraditions.map(tradition => (
           <BellTraditionCard
             key={tradition.id}

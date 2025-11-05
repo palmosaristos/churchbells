@@ -27,12 +27,5 @@ export const bellTraditions: BellTradition[] = [
     description: "Un système de trois cloches produisant un carillon harmonieux, créant une mélodie sacrée qui élève l'âme.",
     tradition: "Carillon",
     audioSample: "/audio/freemium-carillon.mp3"
-  },
-  {
-    id: "angelus-bell",
-    name: "Angélus Bell",
-    description: "Le son puissant de l'Angélus, trois séries de trois coups suivis d'un carillon, marquant les moments de prière traditionnels.",
-    tradition: "Angélus",
-    audioSample: "/audio/freemium-angelus.mp3"
   }
 ];
