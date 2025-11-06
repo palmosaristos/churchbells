@@ -30,6 +30,12 @@ android {
     }
 }
 
+configurations.all {
+    if (it.name.contains('Classpath')) {
+        it.canBeConsumed = false
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
