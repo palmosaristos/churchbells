@@ -37,7 +37,7 @@ const DAY_MAP: { [key: string]: number } = {
 
 export const useBellScheduler = (options: BellSchedulerOptions) => {
   useEffect(() => {
-    if (!Capacitor.isNativePlatform() || !options.enabled || !options.timeZone) {
+    if (!Capacitor.isNativePlatform()) {
       return;
     }
 
@@ -46,6 +46,16 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         const permission = await LocalNotifications.requestPermissions();
         if (permission.display !== 'granted') {
           console.log('Notification permission not granted');
+          return;
+        }
+
+        const pending = await LocalNotifications.getPending();
+        if (pending.notifications.length > 0) {
+          await LocalNotifications.cancel({ notifications: pending.notifications });
+        }
+
+        if (!options.enabled || !options.timeZone) {
+          console.log('Bells disabled or no timezone, notifications cleared');
           return;
         }
 
@@ -111,16 +121,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           vibration: true
         });
 
-        await LocalNotifications.cancel({ notifications: [] });
-
         const notifications: any[] = [];
         const now = new Date();
-        const today = now.getDay();
-        const todayName = Object.keys(DAY_MAP).find(key => DAY_MAP[key] === today) || '';
-
-        if (!options.selectedDays.includes(todayName)) {
-          return;
-        }
 
         const [startHour, startMinute] = options.startTime.split(':').map(Number);
         const [endHour, endMinute] = options.endTime.split(':').map(Number);
@@ -137,27 +139,47 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return timeMinutes >= pauseStartMinutes && timeMinutes < pauseEndMinutes;
         };
 
-        const scheduleBellNotification = (hour: number, minute: number, id: number) => {
+        const getNextOccurrence = (weekday: number, hour: number, minute: number): Date => {
+          const target = new Date();
+          const currentDay = target.getDay();
+          const daysUntil = (weekday - currentDay + 7) % 7;
+          
+          if (daysUntil === 0) {
+            const targetTime = new Date();
+            targetTime.setHours(hour, minute, 0, 0);
+            if (targetTime <= now) {
+              target.setDate(target.getDate() + 7);
+            }
+          } else {
+            target.setDate(target.getDate() + daysUntil);
+          }
+          
+          target.setHours(hour, minute, 0, 0);
+          return target;
+        };
+
+        const scheduleBellNotification = (weekday: number, hour: number, minute: number, id: number) => {
           const timeMinutes = hour * 60 + minute;
           
           if (timeMinutes < startMinutes || timeMinutes > endMinutes) return;
           if (isInPausePeriod(timeMinutes)) return;
-
-          const bellTime = new Date();
-          bellTime.setHours(hour, minute, 0, 0);
-
-          if (bellTime <= now) return;
 
           const chimeCount = minute === 0 ? (hour % 12 || 12) : 1;
           const channelId = options.bellTradition === 'cathedral-bell' 
             ? `cathedral-bells-${chimeCount}`
             : 'sacred-bells-channel';
           
+          const nextOccurrence = getNextOccurrence(weekday, hour, minute);
+          
           notifications.push({
             title: '🔔 Sacred Bells',
             body: `${chimeCount} chime${chimeCount > 1 ? 's' : ''}`,
             id: id,
-            schedule: { at: bellTime },
+            schedule: { 
+              at: nextOccurrence,
+              every: 'week',
+              allowWhileIdle: true
+            },
             smallIcon: 'ic_launcher',
             channelId: channelId
           });
@@ -165,16 +187,21 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
         let notificationId = 1;
         
-        for (let h = 0; h < 24; h++) {
-          const hourMinutes = h * 60;
-          if (hourMinutes >= startMinutes && hourMinutes <= endMinutes) {
-            scheduleBellNotification(h, 0, notificationId++);
-          }
+        for (const dayName of options.selectedDays) {
+          const weekday = DAY_MAP[dayName];
+          if (weekday === undefined) continue;
           
-          if (options.halfHourChimes) {
-            const halfHourMinutes = h * 60 + 30;
-            if (halfHourMinutes >= startMinutes && halfHourMinutes <= endMinutes) {
-              scheduleBellNotification(h, 30, notificationId++);
+          for (let h = 0; h < 24; h++) {
+            const hourMinutes = h * 60;
+            if (hourMinutes >= startMinutes && hourMinutes <= endMinutes) {
+              scheduleBellNotification(weekday, h, 0, notificationId++);
+            }
+            
+            if (options.halfHourChimes) {
+              const halfHourMinutes = h * 60 + 30;
+              if (halfHourMinutes >= startMinutes && halfHourMinutes <= endMinutes) {
+                scheduleBellNotification(weekday, h, 30, notificationId++);
+              }
             }
           }
         }
@@ -182,22 +209,40 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         if (options.morningPrayerEnabled && options.morningPrayerTime) {
           const [mHour, mMinute] = options.morningPrayerTime.split(':').map(Number);
           const morningTimeMinutes = mHour * 60 + mMinute;
-          const morningTime = new Date();
-          morningTime.setHours(mHour, mMinute, 0, 0);
           
-          if (morningTime > now && !isInPausePeriod(morningTimeMinutes)) {
-            const morningReminders = options.morningReminders || ['5'];
-            
-            morningReminders.forEach((reminderMinutes) => {
-              const minutes = parseInt(reminderMinutes);
-              const reminderTime = new Date(morningTime.getTime() - minutes * 60000);
+          if (!isInPausePeriod(morningTimeMinutes)) {
+            for (const dayName of options.selectedDays) {
+              const weekday = DAY_MAP[dayName];
+              if (weekday === undefined) continue;
               
-              if (reminderTime > now) {
+              const morningReminders = options.morningReminders || ['5'];
+              
+              morningReminders.forEach((reminderMinutes) => {
+                const minutes = parseInt(reminderMinutes);
+                let totalMinutes = mHour * 60 + mMinute - minutes;
+                let dayOffset = 0;
+                
+                while (totalMinutes < 0) {
+                  totalMinutes += 24 * 60;
+                  dayOffset -= 1;
+                }
+                
+                const reminderHour = Math.floor(totalMinutes / 60) % 24;
+                const reminderMinute = totalMinutes % 60;
+                let reminderWeekday = (weekday + dayOffset + 7) % 7;
+                if (reminderWeekday < 0) reminderWeekday += 7;
+                
+                const nextOccurrence = getNextOccurrence(reminderWeekday, reminderHour, reminderMinute);
+                
                 notifications.push({
                   title: '⏰ Prayer Reminder',
                   body: `${options.morningPrayerName || 'Morning Prayer'} in ${minutes} minutes`,
                   id: notificationId++,
-                  schedule: { at: reminderTime },
+                  schedule: { 
+                    at: nextOccurrence,
+                    every: 'week',
+                    allowWhileIdle: true
+                  },
                   sound: 'default',
                   smallIcon: 'ic_launcher',
                   channelId: 'sacred-bells-channel',
@@ -206,48 +251,72 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                     prayerType: 'morning'
                   }
                 });
-              }
-            });
-            
-            const channelId = options.morningCallType === 'long' 
-              ? 'morning-prayer-long' 
-              : 'morning-prayer-short';
-            
-            notifications.push({
-              title: `🙏 ${options.morningPrayerName || 'Morning Prayer'}`,
-              body: 'Time for prayer - Bells are ringing',
-              id: notificationId++,
-              schedule: { at: morningTime },
-              smallIcon: 'ic_launcher',
-              channelId: channelId,
-              extra: {
-                type: 'prayer',
-                prayerType: 'morning',
-                callType: options.morningCallType || 'short'
-              }
-            });
+              });
+              
+              const channelId = options.morningCallType === 'long' 
+                ? 'morning-prayer-long' 
+                : 'morning-prayer-short';
+              
+              const nextOccurrence = getNextOccurrence(weekday, mHour, mMinute);
+              
+              notifications.push({
+                title: `🙏 ${options.morningPrayerName || 'Morning Prayer'}`,
+                body: 'Time for prayer - Bells are ringing',
+                id: notificationId++,
+                schedule: { 
+                  at: nextOccurrence,
+                  every: 'week',
+                  allowWhileIdle: true
+                },
+                smallIcon: 'ic_launcher',
+                channelId: channelId,
+                extra: {
+                  type: 'prayer',
+                  prayerType: 'morning',
+                  callType: options.morningCallType || 'short'
+                }
+              });
+            }
           }
         }
 
         if (options.eveningPrayerEnabled && options.eveningPrayerTime) {
           const [eHour, eMinute] = options.eveningPrayerTime.split(':').map(Number);
           const eveningTimeMinutes = eHour * 60 + eMinute;
-          const eveningTime = new Date();
-          eveningTime.setHours(eHour, eMinute, 0, 0);
           
-          if (eveningTime > now && !isInPausePeriod(eveningTimeMinutes)) {
-            const eveningReminders = options.eveningReminders || ['5'];
-            
-            eveningReminders.forEach((reminderMinutes) => {
-              const minutes = parseInt(reminderMinutes);
-              const reminderTime = new Date(eveningTime.getTime() - minutes * 60000);
+          if (!isInPausePeriod(eveningTimeMinutes)) {
+            for (const dayName of options.selectedDays) {
+              const weekday = DAY_MAP[dayName];
+              if (weekday === undefined) continue;
               
-              if (reminderTime > now) {
+              const eveningReminders = options.eveningReminders || ['5'];
+              
+              eveningReminders.forEach((reminderMinutes) => {
+                const minutes = parseInt(reminderMinutes);
+                let totalMinutes = eHour * 60 + eMinute - minutes;
+                let dayOffset = 0;
+                
+                while (totalMinutes < 0) {
+                  totalMinutes += 24 * 60;
+                  dayOffset -= 1;
+                }
+                
+                const reminderHour = Math.floor(totalMinutes / 60) % 24;
+                const reminderMinute = totalMinutes % 60;
+                let reminderWeekday = (weekday + dayOffset + 7) % 7;
+                if (reminderWeekday < 0) reminderWeekday += 7;
+                
+                const nextOccurrence = getNextOccurrence(reminderWeekday, reminderHour, reminderMinute);
+                
                 notifications.push({
                   title: '⏰ Prayer Reminder',
                   body: `${options.eveningPrayerName || 'Evening Prayer'} in ${minutes} minutes`,
                   id: notificationId++,
-                  schedule: { at: reminderTime },
+                  schedule: { 
+                    at: nextOccurrence,
+                    every: 'week',
+                    allowWhileIdle: true
+                  },
                   sound: 'default',
                   smallIcon: 'ic_launcher',
                   channelId: 'sacred-bells-channel',
@@ -256,26 +325,32 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                     prayerType: 'evening'
                   }
                 });
-              }
-            });
-            
-            const channelId = options.eveningCallType === 'long' 
-              ? 'evening-prayer-long' 
-              : 'evening-prayer-short';
-            
-            notifications.push({
-              title: `🙏 ${options.eveningPrayerName || 'Evening Prayer'}`,
-              body: 'Time for prayer - Bells are ringing',
-              id: notificationId++,
-              schedule: { at: eveningTime },
-              smallIcon: 'ic_launcher',
-              channelId: channelId,
-              extra: {
-                type: 'prayer',
-                prayerType: 'evening',
-                callType: options.eveningCallType || 'short'
-              }
-            });
+              });
+              
+              const channelId = options.eveningCallType === 'long' 
+                ? 'evening-prayer-long' 
+                : 'evening-prayer-short';
+              
+              const nextOccurrence = getNextOccurrence(weekday, eHour, eMinute);
+              
+              notifications.push({
+                title: `🙏 ${options.eveningPrayerName || 'Evening Prayer'}`,
+                body: 'Time for prayer - Bells are ringing',
+                id: notificationId++,
+                schedule: { 
+                  at: nextOccurrence,
+                  every: 'week',
+                  allowWhileIdle: true
+                },
+                smallIcon: 'ic_launcher',
+                channelId: channelId,
+                extra: {
+                  type: 'prayer',
+                  prayerType: 'evening',
+                  callType: options.eveningCallType || 'short'
+                }
+              });
+            }
           }
         }
 
