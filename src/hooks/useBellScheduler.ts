@@ -172,14 +172,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           const nextOccurrence = getNextOccurrence(weekday, hour, minute);
           
           notifications.push({
-            title: '🔔 Sacred Bells',
-            body: `${chimeCount} chime${chimeCount > 1 ? 's' : ''}`,
             id: id,
             schedule: { 
               at: nextOccurrence,
               every: 'week',
               allowWhileIdle: true
             },
+            silent: false,
             smallIcon: 'ic_launcher',
             channelId: channelId
           });
@@ -260,14 +259,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               const nextOccurrence = getNextOccurrence(weekday, mHour, mMinute);
               
               notifications.push({
-                title: `🙏 ${options.morningPrayerName || 'Morning Prayer'}`,
-                body: 'Time for prayer - Bells are ringing',
                 id: notificationId++,
                 schedule: { 
                   at: nextOccurrence,
                   every: 'week',
                   allowWhileIdle: true
                 },
+                silent: false,
                 smallIcon: 'ic_launcher',
                 channelId: channelId,
                 extra: {
@@ -334,14 +332,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               const nextOccurrence = getNextOccurrence(weekday, eHour, eMinute);
               
               notifications.push({
-                title: `🙏 ${options.eveningPrayerName || 'Evening Prayer'}`,
-                body: 'Time for prayer - Bells are ringing',
                 id: notificationId++,
                 schedule: { 
                   at: nextOccurrence,
                   every: 'week',
                   allowWhileIdle: true
                 },
+                silent: false,
                 smallIcon: 'ic_launcher',
                 channelId: channelId,
                 extra: {
