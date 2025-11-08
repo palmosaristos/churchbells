@@ -1,0 +1,32 @@
+PS C:\Users\Utilisateur\Desktop\PROJET CHURCH BELLS\churchbellsV4> npm run build
+
+> vite_react_shadcn_ts@0.0.0 build
+> vite build
+
+vite v5.4.10 building for production...
+transforming (3) src\main.tsxBrowserslist: browsers data (caniuse-lite) is 13 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 1784 modules transformed.
+x Build failed in 6.81s
+error during build:
+src/hooks/useNotificationListener.ts (4:18): "HapticsImpactStyle" is not exported by "node_modules/@capacitor/haptics/dist/esm/index.js", imported by "src/hooks/useNotificationListener.ts".
+file: C:/Users/Utilisateur/Desktop/PROJET CHURCH BELLS/churchbellsV4/src/hooks/useNotificationListener.ts:4:18
+
+2: import { LocalNotifications } from '@capacitor/local-notifications';
+3: import { Capacitor } from '@capacitor/core';
+4: import { Haptics, HapticsImpactStyle } from '@capacitor/haptics';  // Optionnel : Vibration (npm i @capacitor/haptics)
+                     ^
+5: import { useToast } from '@/hooks/use-toast';  // Pour feedback errors
+6: import { useAudioPlayer } from '@/hooks/useAudioPlayer';  // Intégration pour play uniforme
+
+    at getRollupError (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/parseAst.js:395:41)
+    at error (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/parseAst.js:391:42)
+    at Module.error (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:15535:16)
+    at Module.traceVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:15984:29)
+    at ModuleScope.findVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:13770:39)
+    at ReturnValueScope.findVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:5252:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:5252:38)
+    at ReturnValueScope.findVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:5252:38)
+    at FunctionBodyScope.findVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:5252:38)
+    at BlockScope.findVariable (file:///C:/Users/Utilisateur/Desktop/PROJET%20CHURCH%20BELLS/churchbellsV4/node_modules/rollup/dist/es/shared/node-entry.js:5252:38)
