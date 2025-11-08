@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 
-export const useCurrentTime = (timeZone: string) => {
+export interface UseCurrentTimeOptions {
+  timeZone: string;
+}
+
+export interface CurrentTimeResult {
+  time: string;
+  formatted: string;
+}
+
+export const useCurrentTime = (options: string | UseCurrentTimeOptions): string => {
+  const timeZone = typeof options === 'string' ? options : options.timeZone;
   const [currentTime, setCurrentTime] = useState<string>("");
 
   useEffect(() => {

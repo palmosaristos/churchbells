@@ -1,106 +1,33 @@
-import { useState, useEffect } from "react";
-import { MapPin, Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useToast } from "@/hooks/use-toast";
-import { Geolocation } from '@capacitor/geolocation';
+import { Globe, Loader2 } from "lucide-react";
 
 interface LocationPermissionProps {
   onTimeZoneDetected: (timeZone: string) => void;
 }
 
 export const LocationPermission = ({ onTimeZoneDetected }: LocationPermissionProps) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-
   useEffect(() => {
-    setIsOpen(true);
-  }, []);
-
-  const handleLocationRequest = async () => {
-    setIsLoading(true);
-    
-    try {
-      const permissionStatus = await Geolocation.checkPermissions();
-      
-      if (permissionStatus.location !== 'granted') {
-        const request = await Geolocation.requestPermissions();
-        if (request.location !== 'granted') {
-          toast({
-            title: "Permission Denied",
-            description: "Location permission is required to determine your time zone",
-            variant: "destructive"
-          });
-          setIsLoading(false);
-          return;
-        }
-      }
-
-      const position = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0
-      });
-      
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      onTimeZoneDetected(timeZone);
-      setIsOpen(false);
-      toast({
-        title: "Location Detected",
-        description: `Time zone set to: ${timeZone}`
-      });
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Geolocation error:', error);
-      toast({
-        title: "Location Error",
-        description: "Unable to detect your location. Please enable GPS and grant location permission.",
-        variant: "destructive"
-      });
-      setIsLoading(false);
-    }
-  };
+    // Auto-detect time zone
+    const detectedTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    onTimeZoneDetected(detectedTimeZone);
+  }, [onTimeZoneDetected]);
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center gap-2">
-            <MapPin className="w-5 h-5" />
-            Location Permission Required
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-base">
-            We need your location to automatically determine your time zone and schedule the bells at the correct times.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <Button 
-            onClick={handleLocationRequest} 
-            disabled={isLoading}
-            className="w-full"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Detecting...
-              </>
-            ) : (
-              <>
-                <MapPin className="mr-2 h-4 w-4" />
-                Allow Location Access
-              </>
-            )}
-          </Button>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <Card className="max-w-md mx-auto border-amber-200/50 dark:border-amber-800/30">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Globe className="w-5 h-5" />
+          Detecting Time Zone
+        </CardTitle>
+        <CardDescription>
+          Automatically detecting your time zone for accurate bell times...
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex justify-center">
+        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      </CardContent>
+    </Card>
   );
 };
