@@ -16,6 +16,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { useExactAlarmPermission } from "@/hooks/useExactAlarmPermission";
+import { useBootRescheduler } from "@/hooks/useBootRescheduler";
 import Index from "./pages/Index";
 import Settings from "./pages/Settings";
 import PrayerTimes from "./pages/PrayerTimes";
@@ -31,6 +32,7 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   const { showPermissionDialog, requestPermission, dismissDialog } = useExactAlarmPermission();
+  useBootRescheduler();
 
   return (
     <>
