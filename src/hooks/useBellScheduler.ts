@@ -85,40 +85,40 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           id: 'morning-prayer-short',
           name: 'Morning Prayer (Short Call)',
           description: 'Short bell call for morning prayer',
-          importance: 5,
-          visibility: 1,
+          importance: 2,
+          visibility: 0,
           sound: 'short_call',
-          vibration: true
+          vibration: false
         });
 
         await LocalNotifications.createChannel({
           id: 'morning-prayer-long',
           name: 'Morning Prayer (Long Call)',
           description: 'Long bell call for morning prayer',
-          importance: 5,
-          visibility: 1,
+          importance: 2,
+          visibility: 0,
           sound: 'long_call',
-          vibration: true
+          vibration: false
         });
 
         await LocalNotifications.createChannel({
           id: 'evening-prayer-short',
           name: 'Evening Prayer (Short Call)',
           description: 'Short bell call for evening prayer',
-          importance: 5,
-          visibility: 1,
+          importance: 2,
+          visibility: 0,
           sound: 'short_call',
-          vibration: true
+          vibration: false
         });
 
         await LocalNotifications.createChannel({
           id: 'evening-prayer-long',
           name: 'Evening Prayer (Long Call)',
           description: 'Long bell call for evening prayer',
-          importance: 5,
-          visibility: 1,
+          importance: 2,
+          visibility: 0,
           sound: 'long_call',
-          vibration: true
+          vibration: false
         });
 
         const notifications: any[] = [];
@@ -259,6 +259,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               const nextOccurrence = getNextOccurrence(weekday, mHour, mMinute);
               
               notifications.push({
+                title: '🔔',
+                body: ' ',
                 id: notificationId++,
                 schedule: { 
                   at: nextOccurrence,
@@ -332,6 +334,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               const nextOccurrence = getNextOccurrence(weekday, eHour, eMinute);
               
               notifications.push({
+                title: '🔔',
+                body: ' ',
                 id: notificationId++,
                 schedule: { 
                   at: nextOccurrence,
