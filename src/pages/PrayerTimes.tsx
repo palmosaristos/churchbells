@@ -288,9 +288,9 @@ const PrayerTimes = () => {
                             Short Call (~15 seconds)
                           </Label>
                         </div>
-                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio("/audio/short-call.mp3", "Short Call", morningBellVolume)} aria-label="Preview short bell call sound">
+                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio({ audioUrl: "/audio/short_call.mp3", traditionName: "Short Call", type: "prayer", volume: morningBellVolume })} aria-label="Preview short bell call sound">
                           <Volume2 className="w-4 h-4 mr-2" />
-                          {isPlaying && currentAudioUrl === "/audio/short-call.mp3" ? "Stop" : "Listen"}
+                          {isPlaying && currentAudioUrl === "/audio/short_call.mp3" ? "Stop" : "Listen"}
                         </Button>
                       </div>
                       
@@ -301,9 +301,9 @@ const PrayerTimes = () => {
                             Long Call (~30 seconds)
                           </Label>
                         </div>
-                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio("/audio/long-call.mp3", "Long Call", morningBellVolume)} aria-label="Preview long bell call sound">
+                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio({ audioUrl: "/audio/long_call.mp3", traditionName: "Long Call", type: "prayer", volume: morningBellVolume })} aria-label="Preview long bell call sound">
                           <Volume2 className="w-4 h-4 mr-2" />
-                          {isPlaying && currentAudioUrl === "/audio/long-call.mp3" ? "Stop" : "Listen"}
+                          {isPlaying && currentAudioUrl === "/audio/long_call.mp3" ? "Stop" : "Listen"}
                         </Button>
                       </div>
                     </RadioGroup>
@@ -336,9 +336,9 @@ const PrayerTimes = () => {
                             Short Call (~15 seconds)
                           </Label>
                         </div>
-                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio("/audio/short-call.mp3", "Short Call", eveningBellVolume)} aria-label="Preview short bell call sound">
+                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio({ audioUrl: "/audio/short_call.mp3", traditionName: "Short Call", type: "prayer", volume: eveningBellVolume })} aria-label="Preview short bell call sound">
                           <Volume2 className="w-4 h-4 mr-2" />
-                          {isPlaying && currentAudioUrl === "/audio/short-call.mp3" ? "Stop" : "Listen"}
+                          {isPlaying && currentAudioUrl === "/audio/short_call.mp3" ? "Stop" : "Listen"}
                         </Button>
                       </div>
                       
@@ -349,9 +349,9 @@ const PrayerTimes = () => {
                             Long Call (~30 seconds)
                           </Label>
                         </div>
-                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio("/audio/long-call.mp3", "Long Call", eveningBellVolume)} aria-label="Preview long bell call sound">
+                        <Button variant="outline" size="sm" className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" onClick={() => toggleAudio({ audioUrl: "/audio/long_call.mp3", traditionName: "Long Call", type: "prayer", volume: eveningBellVolume })} aria-label="Preview long bell call sound">
                           <Volume2 className="w-4 h-4 mr-2" />
-                          {isPlaying && currentAudioUrl === "/audio/long-call.mp3" ? "Stop" : "Listen"}
+                          {isPlaying && currentAudioUrl === "/audio/long_call.mp3" ? "Stop" : "Listen"}
                         </Button>
                       </div>
                     </RadioGroup>

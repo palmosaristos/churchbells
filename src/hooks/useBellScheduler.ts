@@ -70,13 +70,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return;
         }
 
-        // Channels avec high prio (importance 5 loud, visibility 1 HUD, vibration true)
-        const highPrio = { importance: 5, visibility: 1, vibration: true };
         await LocalNotifications.createChannel({
           id: 'sacred-bells-channel',
           name: 'Sacred Bells',
           description: 'Notifications for scheduled bell chimes',
-          ...highPrio,
+          importance: 5 as 5,
+          visibility: 1 as 1,
+          vibration: true,
           sound: 'default'
         });
 
@@ -85,39 +85,25 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             id: `cathedral-bells-${i}`,
             name: `Cathedral Bells (${i} chime${i > 1 ? 's' : ''})`,
             description: `Cathedral bells - ${i} chime${i > 1 ? 's' : ''}`,
-            ...highPrio,
+            importance: 5 as 5,
+            visibility: 1 as 1,
+            vibration: true,
             sound: `cathedral_${i}`
           });
         }
 
-        // Fix Await: Boucles for...of async au lieu de forEach (await séquentiel safe)
-        try {
-          // Morning prayers channels
-          for (const pt of ['morning']) {
-            for (const ct of ['short', 'long']) {
-              await LocalNotifications.createChannel({
-                id: `${pt}-prayer-${ct}`,
-                name: `${pt.charAt(0).toUpperCase() + pt.slice(1)} Prayer (${ct} Call)`,
-                description: `${ct} bell call for ${pt} prayer`,
-                ...highPrio,
-                sound: `${ct}_call`
-              });
-            }
+        for (const pt of ['morning', 'evening']) {
+          for (const ct of ['short', 'long']) {
+            await LocalNotifications.createChannel({
+              id: `${pt}-prayer-${ct}`,
+              name: `${pt.charAt(0).toUpperCase() + pt.slice(1)} Prayer (${ct} Call)`,
+              description: `${ct} bell call for ${pt} prayer`,
+              importance: 5 as 5,
+              visibility: 1 as 1,
+              vibration: true,
+              sound: `${ct}_call`
+            });
           }
-          // Evening prayers channels
-          for (const pt of ['evening']) {
-            for (const ct of ['short', 'long']) {
-              await LocalNotifications.createChannel({
-                id: `${pt}-prayer-${ct}`,
-                name: `${pt.charAt(0).toUpperCase() + pt.slice(1)} Prayer (${ct} Call)`,
-                description: `${ct} bell call for ${pt} prayer`,
-                ...highPrio,
-                sound: `${ct}_call`
-              });
-            }
-          }
-        } catch (chanErr) {
-          console.warn('Channel create fail (OK if already exist):', chanErr);  // Silent, no crash
         }
 
         const notifications: any[] = [];

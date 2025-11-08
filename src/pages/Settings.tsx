@@ -76,7 +76,7 @@ const Settings = () => {
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      await toggleAudio(tradition.audioSample);
+      await toggleAudio({ audioUrl: tradition.audioSample, traditionName: tradition.name, type: "bell" });
     }
   };
   const handleSave = () => {
