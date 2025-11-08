@@ -204,10 +204,32 @@ const PrayerTimes = () => {
                         Prayer name (optional)
                       </Label>
                       <Input id="morning-prayer-name" type="text" value={morningPrayerName} onChange={e => setMorningPrayerName(e.target.value)} placeholder="Morning Prayer" className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" aria-label="Name your morning prayer" />
-                      <Input id="morning-prayer-time" type="time" step="900" value={morningPrayerTime} onChange={e => {
-                      setMorningPrayerTime(e.target.value);
-                      setTimeError("");
-                    }} className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" aria-label="Select morning prayer time" required />
+                      <Select value={morningPrayerTime} onValueChange={(value) => {
+                        setMorningPrayerTime(value);
+                        setTimeError("");
+                      }}>
+                        <SelectTrigger className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="05:00">5:00 AM</SelectItem>
+                          <SelectItem value="05:30">5:30 AM</SelectItem>
+                          <SelectItem value="06:00">6:00 AM</SelectItem>
+                          <SelectItem value="06:30">6:30 AM</SelectItem>
+                          <SelectItem value="07:00">7:00 AM</SelectItem>
+                          <SelectItem value="07:30">7:30 AM</SelectItem>
+                          <SelectItem value="08:00">8:00 AM</SelectItem>
+                          <SelectItem value="08:30">8:30 AM</SelectItem>
+                          <SelectItem value="09:00">9:00 AM</SelectItem>
+                          <SelectItem value="09:30">9:30 AM</SelectItem>
+                          <SelectItem value="10:00">10:00 AM</SelectItem>
+                          <SelectItem value="10:30">10:30 AM</SelectItem>
+                          <SelectItem value="11:00">11:00 AM</SelectItem>
+                          <SelectItem value="11:30">11:30 AM</SelectItem>
+                          <SelectItem value="12:00">12:00 PM</SelectItem>
+                          <SelectItem value="12:30">12:30 PM</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                     
                     <div className={`space-y-4 group p-5 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 ${eveningPrayerEnabled ? 'border-4 border-amber-500' : 'border-2 border-[#d4a574] dark:border-amber-700'}`}>
@@ -226,10 +248,38 @@ const PrayerTimes = () => {
                         Prayer name (optional)
                       </Label>
                       <Input id="evening-prayer-name" type="text" value={eveningPrayerName} onChange={e => setEveningPrayerName(e.target.value)} placeholder="Evening Prayer" className="w-full text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors" aria-label="Name your evening prayer" />
-                      <Input id="evening-prayer-time" type="time" step="900" value={eveningPrayerTime} onChange={e => {
-                      setEveningPrayerTime(e.target.value);
-                      setTimeError("");
-                    }} className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer" aria-label="Select evening prayer time" required />
+                      <Select value={eveningPrayerTime} onValueChange={(value) => {
+                        setEveningPrayerTime(value);
+                        setTimeError("");
+                      }}>
+                        <SelectTrigger className="w-44 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors cursor-pointer">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="12:00">12:00 PM</SelectItem>
+                          <SelectItem value="12:30">12:30 PM</SelectItem>
+                          <SelectItem value="13:00">1:00 PM</SelectItem>
+                          <SelectItem value="13:30">1:30 PM</SelectItem>
+                          <SelectItem value="14:00">2:00 PM</SelectItem>
+                          <SelectItem value="14:30">2:30 PM</SelectItem>
+                          <SelectItem value="15:00">3:00 PM</SelectItem>
+                          <SelectItem value="15:30">3:30 PM</SelectItem>
+                          <SelectItem value="16:00">4:00 PM</SelectItem>
+                          <SelectItem value="16:30">4:30 PM</SelectItem>
+                          <SelectItem value="17:00">5:00 PM</SelectItem>
+                          <SelectItem value="17:30">5:30 PM</SelectItem>
+                          <SelectItem value="18:00">6:00 PM</SelectItem>
+                          <SelectItem value="18:30">6:30 PM</SelectItem>
+                          <SelectItem value="19:00">7:00 PM</SelectItem>
+                          <SelectItem value="19:30">7:30 PM</SelectItem>
+                          <SelectItem value="20:00">8:00 PM</SelectItem>
+                          <SelectItem value="20:30">8:30 PM</SelectItem>
+                          <SelectItem value="21:00">9:00 PM</SelectItem>
+                          <SelectItem value="21:30">9:30 PM</SelectItem>
+                          <SelectItem value="22:00">10:00 PM</SelectItem>
+                          <SelectItem value="22:30">10:30 PM</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   
