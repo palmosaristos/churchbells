@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface AudioOptions {
   audioUrl: string;
@@ -10,7 +10,6 @@ interface AudioOptions {
 }
 
 export const useAudioPlayer = () => {
-  const { toast } = useToast();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudioUrl, setCurrentAudioUrl] = useState<string>("");
@@ -82,7 +81,7 @@ export const useAudioPlayer = () => {
         setCurrentAudioUrl("");
         // Retry 1x pour scheduled (silent)
         if (!isScheduled) {
-          toast({ title: "Playback Error", description: "Unable to play audio sample", variant: "destructive" });
+          toast.error("Unable to play audio sample");
         }
       };
 
@@ -91,9 +90,8 @@ export const useAudioPlayer = () => {
 
       // Toast seulement pour previews manuelles (no disrupt pour scheduled cloches/prayers)
       if (traditionName && !isScheduled) {
-        toast({
-          title: "Playing Sample",
-          description: `Listening to ${traditionName}`,
+        toast.success(`Listening to ${traditionName}`, {
+          duration: 2000, // Auto-dismiss après 2s
         });
       }
 
@@ -105,14 +103,10 @@ export const useAudioPlayer = () => {
       setIsPlaying(false);
       setCurrentAudioUrl("");
       if (!isScheduled) {
-        toast({
-          title: "Playback Error",
-          description: "Unable to play audio sample",
-          variant: "destructive",
-        });
+        toast.error("Unable to play audio sample");
       }
     }
-  }, [toast, getVolume, isPlaying, currentAudioUrl]);
+  }, [getVolume, isPlaying, currentAudioUrl]);
 
   // Cleanup global avec stop complet (no leaks, no errors au changement de page)
   useEffect(() => {
