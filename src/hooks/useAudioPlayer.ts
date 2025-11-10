@@ -43,8 +43,10 @@ export const useAudioPlayer = () => {
       if (audioRef.current && currentAudioUrl === audioUrl) {
         if (isPlaying) {
           audioRef.current.pause();
+          audioRef.current.currentTime = 0; // Reset pour prochain play
           setIsPlaying(false);
-          return;  // Pause seulement
+          setCurrentAudioUrl(""); // Clear pour permettre replay
+          return;  // Stop complet
         } else {
           // Resume si paused
           audioRef.current.volume = effectiveVol;
@@ -54,10 +56,12 @@ export const useAudioPlayer = () => {
         }
       }
 
-      // Stop previous
+      // Stop previous avec cleanup complet
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.src = '';  // Cleanup
+        audioRef.current.currentTime = 0;
+        audioRef.current.src = '';
+        audioRef.current = null;
       }
 
       // New audio (preload pour start immédiat)
@@ -67,10 +71,15 @@ export const useAudioPlayer = () => {
       audioRef.current = audio;
       setCurrentAudioUrl(audioUrl);
 
-      audio.onended = () => setIsPlaying(false);
+      audio.onended = () => {
+        setIsPlaying(false);
+        setCurrentAudioUrl("");
+      };
+      
       audio.onerror = (e) => {
         if (import.meta.env.DEV) console.error("Audio error:", e);
         setIsPlaying(false);
+        setCurrentAudioUrl("");
         // Retry 1x pour scheduled (silent)
         if (!isScheduled) {
           toast({ title: "Playback Error", description: "Unable to play audio sample", variant: "destructive" });
@@ -94,6 +103,7 @@ export const useAudioPlayer = () => {
     } catch (error) {
       if (import.meta.env.DEV) console.error("Toggle error:", error);
       setIsPlaying(false);
+      setCurrentAudioUrl("");
       if (!isScheduled) {
         toast({
           title: "Playback Error",
@@ -102,15 +112,24 @@ export const useAudioPlayer = () => {
         });
       }
     }
-  }, [toast, getVolume]);
+  }, [toast, getVolume, isPlaying, currentAudioUrl]);
 
-  // Cleanup global (no leaks pour plays sériés)
+  // Cleanup global avec stop complet (no leaks, no errors au changement de page)
   useEffect(() => {
     return () => {
       if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.src = '';
+        try {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          audioRef.current.src = '';
+          audioRef.current = null;
+        } catch (e) {
+          // Ignore errors during cleanup
+          if (import.meta.env.DEV) console.log("Audio cleanup:", e);
+        }
       }
+      setIsPlaying(false);
+      setCurrentAudioUrl("");
     };
   }, []);
 
