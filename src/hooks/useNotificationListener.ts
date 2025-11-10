@@ -1,37 +1,103 @@
 import { useEffect } from 'react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
+import { App as CapApp } from '@capacitor/app';
+import { useAudioPlayer } from './useAudioPlayer';  // Intègre previous hook
 
 export const useNotificationListener = () => {
-  useEffect(() => {
-    if (!Capacitor.isNativePlatform()) {
-      return;
-    }
+  const { toggleAudio, isPlaying } = useAudioPlayer();
 
-    const handleNotificationAction = async (notification: any) => {
-      const { extra } = notification.notification;
-      
-      if (extra && extra.type === 'prayer' && extra.soundFile) {
-        try {
-          const audio = new Audio(`/audio/${extra.soundFile}`);
-          const volume = extra.prayerType === 'morning' 
-            ? parseFloat(localStorage.getItem('morningBellVolume') || '0.7')
-            : parseFloat(localStorage.getItem('eveningBellVolume') || '0.7');
-          
-          audio.volume = volume;
-          await audio.play();
-          
-          console.log(`Playing ${extra.callType} call for ${extra.prayerType} prayer`);
-        } catch (error) {
-          console.error('Error playing prayer bell sound:', error);
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return;
+
+    // Handle received (main trigger: play at schedule.at, fg/bg exact)
+    const handleNotificationReceived = async (notification: any) => {
+      const { extra } = notification;
+      if (!extra || !extra.type) return;
+
+      // Handle prayer reminders (toast only, no sound)
+      if (extra.type === 'prayer-reminder') {
+        const { toast } = await import('@/hooks/use-toast');
+        const prayerName = extra.prayerName || 'Prayer';
+        const minutesUntil = extra.minutesUntil || '5';
+        
+        toast({
+          title: `Your ${prayerName} starts in ${minutesUntil} minutes`,
+          variant: 'prayer-reminder',
+          duration: 10000,
+        });
+        
+        console.log(`Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
+        return;
+      }
+
+      // Handle bell and prayer sounds
+      if (!extra.soundFile) return;
+
+      try {
+        // Check delay (pour backups)
+        const scheduledTime = new Date(extra.scheduledTime || Date.now());
+        const delay = (Date.now() - scheduledTime.getTime()) / 1000;
+        if (extra.retryLevel === 0 && delay > 30) {
+          console.warn(`Main notif delayed ${delay}s – canceling backups`);
+          if (extra.originalId) {
+            await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 1 }] });  // Cancel +30s backup
+          }
+          return;
         }
+
+        // App state: Fg = JS play ; Bg/Closed = natif channel (sound auto)
+        const appState = await CapApp.getState();
+        const isFg = appState.isActive;  // Active = foreground
+
+        if (isFg && !isPlaying) {  // Fg: JS play (no visuals auréolées)
+          const options = {
+            audioUrl: `/audio/${extra.soundFile}`,
+            type: extra.type as 'bell' | 'prayer',
+            isScheduled: true  // No toast – silent play au moment requis
+          };
+          toggleAudio(options);
+          console.log(`Playing ${extra.type} ${extra.soundFile} on receive (fg, delay: ${Math.round(delay)}s)`);
+        } else if (!isFg) {
+          console.log(`Natif play ${extra.soundFile} on receive (bg/closed)`);  // Channel sound auto
+        }
+
+        // Backup check: Si retry>0, log mais joue
+        if (extra.retryLevel > 0) {
+          console.log(`Backup play triggered (level ${extra.retryLevel})`);
+          // Optional: Cancel further backups if +60s
+          if (extra.originalId) {
+            await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 2 }] });
+          }
+        }
+      } catch (error) {
+        console.error('Received play error:', error);
       }
     };
 
+    // Handle tap/action (optional replay if user taps notif)
+    const handleNotificationAction = async (notification: any) => {
+      const { extra } = notification.notification;
+      if (!extra || !extra.soundFile || !extra.type) return;
+
+      // Replay via player (si !playing, no disrupt)
+      if (!isPlaying) {
+        const options = {
+          audioUrl: `/audio/${extra.soundFile}`,
+          type: extra.type as 'bell' | 'prayer',
+          isScheduled: false  // Allow toast si manual tap (mais optional)
+        };
+        toggleAudio(options);
+        console.log(`Replay on tap: ${extra.type} ${extra.soundFile}`);
+      }
+    };
+
+    // Add listeners
+    LocalNotifications.addListener('localNotificationReceived', handleNotificationReceived);
     LocalNotifications.addListener('localNotificationActionPerformed', handleNotificationAction);
 
     return () => {
       LocalNotifications.removeAllListeners();
     };
-  }, []);
+  }, [toggleAudio, isPlaying]);  // Deps stable (player callback)
 };

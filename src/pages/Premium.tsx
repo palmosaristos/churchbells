@@ -60,7 +60,7 @@ const Premium = () => {
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
-      await toggleAudio(tradition.audioSample, `${tradition.name} - ${tradition.tradition}`);
+      await toggleAudio({ audioUrl: tradition.audioSample, traditionName: `${tradition.name} - ${tradition.tradition}`, type: 'bell' });
     }
   };
 

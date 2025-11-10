@@ -4,13 +4,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Clock, Volume2, Check } from "lucide-react";
-import { useAudioPlayer } from "@/hooks/useAudioPlayer";
-import sunImage from "@/assets/sun-prayer-realistic.png";
+import { useCurrentTime } from "@/hooks/useCurrentTime";  // Intègre pour validation TZ/next occurrence
+import { useEffect } from "react";  // Pour persistence localStorage
+import sunImage from "@/assets/sun-prayer-realistic.png";  // Imports originaux
 import moonImage from "@/assets/moon-prayer-full.png";
 import bellStartImage from "@/assets/bell-start.png";
 import bellEndImage from "@/assets/bell-end.png";
 import ultraRealisticBellIcon from "@/assets/ultra-realistic-bell-icon.png";
+
 interface TimeRangeSelectorProps {
   startTime: string;
   endTime: string;
@@ -28,150 +31,57 @@ interface TimeRangeSelectorProps {
   onSelectedDaysChange?: (days: string[]) => void;
   bellsEnabled?: boolean;
   onBellsEnabledChange?: (enabled: boolean) => void;
+  timeZone?: string;  // TZ pour display/validation (e.g., "Europe/Paris")
+  bellTradition?: string;  // Link à sounds (indirect extras.soundFile)
+  onBellTraditionChange?: (tradition: string) => void;  // Optional persist
 }
-const timeOptions = [{
-  value: "05:00",
-  label: "5:00 AM"
-}, {
-  value: "05:30",
-  label: "5:30 AM"
-}, {
-  value: "06:00",
-  label: "6:00 AM"
-}, {
-  value: "06:30",
-  label: "6:30 AM"
-}, {
-  value: "07:00",
-  label: "7:00 AM"
-}, {
-  value: "07:30",
-  label: "7:30 AM"
-}, {
-  value: "08:00",
-  label: "8:00 AM"
-}, {
-  value: "08:30",
-  label: "8:30 AM"
-}, {
-  value: "09:00",
-  label: "9:00 AM"
-}, {
-  value: "09:30",
-  label: "9:30 AM"
-}, {
-  value: "10:00",
-  label: "10:00 AM"
-}, {
-  value: "10:30",
-  label: "10:30 AM"
-}, {
-  value: "11:00",
-  label: "11:00 AM"
-}, {
-  value: "11:30",
-  label: "11:30 AM"
-}, {
-  value: "12:00",
-  label: "12:00 PM"
-}, {
-  value: "12:30",
-  label: "12:30 PM"
-}, {
-  value: "13:00",
-  label: "1:00 PM"
-}, {
-  value: "13:30",
-  label: "1:30 PM"
-}, {
-  value: "14:00",
-  label: "2:00 PM"
-}, {
-  value: "14:30",
-  label: "2:30 PM"
-}, {
-  value: "15:00",
-  label: "3:00 PM"
-}, {
-  value: "15:30",
-  label: "3:30 PM"
-}, {
-  value: "16:00",
-  label: "4:00 PM"
-}, {
-  value: "16:30",
-  label: "4:30 PM"
-}, {
-  value: "17:00",
-  label: "5:00 PM"
-}, {
-  value: "17:30",
-  label: "5:30 PM"
-}, {
-  value: "18:00",
-  label: "6:00 PM"
-}, {
-  value: "18:30",
-  label: "6:30 PM"
-}, {
-  value: "19:00",
-  label: "7:00 PM"
-}, {
-  value: "19:30",
-  label: "7:30 PM"
-}, {
-  value: "20:00",
-  label: "8:00 PM"
-}, {
-  value: "20:30",
-  label: "8:30 PM"
-}, {
-  value: "21:00",
-  label: "9:00 PM"
-}, {
-  value: "21:30",
-  label: "9:30 PM"
-}, {
-  value: "22:00",
-  label: "10:00 PM"
-}, {
-  value: "22:30",
-  label: "10:30 PM"
-}, {
-  value: "23:00",
-  label: "11:00 PM"
-}, {
-  value: "23:30",
-  label: "11:30 PM"
-}, {
-  value: "00:00",
-  label: "12:00 AM"
-}, {
-  value: "00:30",
-  label: "12:30 AM"
-}];
-const daysOfWeek = [{
-  id: 'monday',
-  label: 'Mon'
-}, {
-  id: 'tuesday',
-  label: 'Tue'
-}, {
-  id: 'wednesday',
-  label: 'Wed'
-}, {
-  id: 'thursday',
-  label: 'Thu'
-}, {
-  id: 'friday',
-  label: 'Fri'
-}, {
-  id: 'saturday',
-  label: 'Sat'
-}, {
-  id: 'sunday',
-  label: 'Sun'
-}];
+
+// Generate all time options (every 30 minutes from 12:00 AM to 11:30 PM)
+const generateTimeOptions = () => {
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute of [0, 30]) {
+      const value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const displayMinute = String(minute).padStart(2, '0');
+      const period = hour < 12 ? 'AM' : 'PM';
+      const label = `${displayHour}:${displayMinute} ${period}`;
+      options.push({ value, label });
+    }
+  }
+  return options;
+};
+
+const timeOptions = generateTimeOptions();
+
+// Generate end time options based on start time (30 min after start to 11:30 PM)
+const generateEndTimeOptions = (startTime: string) => {
+  const [startHour, startMinute] = startTime.split(':').map(Number);
+  const startMinutes = startHour * 60 + startMinute;
+  
+  return timeOptions.filter(option => {
+    const [optHour, optMinute] = option.value.split(':').map(Number);
+    const optMinutes = optHour * 60 + optMinute;
+    // At least 30 minutes after start time
+    return optMinutes > startMinutes;
+  });
+};
+
+const daysOfWeek = [  // Original
+  { id: 'monday', label: 'Mon' },
+  { id: 'tuesday', label: 'Tue' },
+  { id: 'wednesday', label: 'Wed' },
+  { id: 'thursday', label: 'Thu' },
+  { id: 'friday', label: 'Fri' },
+  { id: 'saturday', label: 'Sat' },
+  { id: 'sunday', label: 'Sun' }
+];
+
+const DAY_MAP = {  // Pour scheduler align (current.raw.getDay() vs selected)
+  'sunday': 0, 'monday': 1, 'tuesday': 2, 'wednesday': 3, 'thursday': 4,
+  'friday': 5, 'saturday': 6
+};
+
 export const TimeRangeSelector = ({
   startTime,
   endTime,
@@ -188,8 +98,52 @@ export const TimeRangeSelector = ({
   selectedDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
   onSelectedDaysChange,
   bellsEnabled = true,
-  onBellsEnabledChange
+  onBellsEnabledChange,
+  timeZone = 'UTC',  // Fallback
+  bellTradition = 'sacred-bells',  // Default
+  onBellTraditionChange
 }: TimeRangeSelectorProps) => {
+  // Persistence localStorage (pour scheduler options reload)
+  useEffect(() => {
+    if (bellsEnabled) {
+      const config = { startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, timeZone, bellTradition };
+      localStorage.setItem('bellConfig', JSON.stringify(config));
+    }
+  }, [startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, timeZone, bellTradition, bellsEnabled]);
+
+  // Current time pour validation next chime
+  const current = useCurrentTime({ timeZone });
+
+  // Helper: Get next chime display (in text, vs current.raw)
+  const getNextChimeDisplay = (): string => {
+    if (!bellsEnabled) return '';
+    
+    const [sh, sm] = startTime.split(':').map(Number);
+    const [eh, em] = endTime.split(':').map(Number);
+    const nowMinutes = current.raw.getHours() * 60 + current.raw.getMinutes();
+    const todayDayNum = current.raw.getDay();  // 0=Sun
+    const todayDayName = Object.keys(DAY_MAP).find(key => DAY_MAP[key] === todayDayNum);
+    const isTodayActive = todayDayName && selectedDays.includes(todayDayName);
+    
+    let nextText = '';
+    if (isTodayActive && nowMinutes >= sh * 60 + sm && nowMinutes < eh * 60 + em) {  // < pour end inclus next day si cross
+      const nextHour = Math.ceil(nowMinutes / 60) * 60;
+      if (halfHourChimes && nowMinutes % 60 >= 30) nextText = ` (next at ${String(nextHour + 30).padStart(2, '0')}:30)`;
+      else if (halfHourChimes) nextText = ` (next half-hour at ${String(nextHour).padStart(2, '0')}:30)`;
+      else nextText = ` (next at ${String(nextHour).padStart(2, '0')}:00)`;
+    } else {
+      nextText = ` (next on ${selectedDays[0] || 'active day'} at ${startTime})`;
+    }
+    
+    if (current.isValidTZ && timeZone !== 'UTC') {
+      nextText += ` (${timeZone.replace('/', ' ')})`;
+    }
+
+    return nextText;
+  };
+
+  const nextChimeText = getNextChimeDisplay();
+
   const handleDayToggle = (dayId: string) => {
     if (!onSelectedDaysChange) return;
     if (selectedDays.includes(dayId)) {
@@ -200,13 +154,15 @@ export const TimeRangeSelector = ({
   };
 
   const allDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-  const is24_7Active = startTime === "00:00" && endTime === "23:00" && selectedDays.length === 7 && allDays.every(day => selectedDays.includes(day));
+  const is24_7Active = startTime === "00:00" && endTime === "23:30" && selectedDays.length === 7 && allDays.every(day => selectedDays.includes(day));
   const is7to10Active = startTime === "07:00" && endTime === "22:00" && selectedDays.length === 7 && allDays.every(day => selectedDays.includes(day));
   const isWeekendActive = startTime === "07:00" && endTime === "22:00" && selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday');
-  return <div className="space-y-6">
+
+  return (
+    <div className="space-y-6">
       <Card className="w-full bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-amber-200/50 dark:border-amber-800/30 shadow-lg backdrop-blur-sm">
         <CardContent className="space-y-6 pt-6">
-          {/* Quick Configurations */}
+          {/* Quick Configurations – Full original */}
           <div className="space-y-3">
             <Label className="text-3xl font-cormorant text-foreground text-center italic block">Quick Configurations</Label>
             <div className="flex flex-wrap gap-3 justify-center">
@@ -214,7 +170,7 @@ export const TimeRangeSelector = ({
                 type="button"
                 onClick={() => {
                   onStartTimeChange("00:00");
-                  onEndTimeChange("23:00");
+                  onEndTimeChange("23:30");  // Fix pour halfHour
                   if (onSelectedDaysChange) {
                     onSelectedDaysChange(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
                   }
@@ -267,48 +223,55 @@ export const TimeRangeSelector = ({
             </div>
           </div>
 
-          {/* Tailor your schedule section */}
+          {/* Custom Schedule Section */}
           <div className="space-y-3">
             <Label className="text-3xl font-cormorant text-foreground text-center italic block">Custom Schedule</Label>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
-            <div className="flex items-end gap-2 flex-1">
-              <Label htmlFor="start-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
-                Start:
-              </Label>
-              <Select value={startTime} onValueChange={onStartTimeChange}>
-                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début" className="w-[140px]">
-                  <SelectValue placeholder="Select start time" />
-                </SelectTrigger>
-                <SelectContent>
-                  {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
-                      {time.label}
-                    </SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
+          {/* Schedule Hours Sub-section */}
+          <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
+            <Label className="text-2xl font-semibold font-cormorant text-foreground block">Schedule Hours</Label>
             
-            <div className="flex items-end gap-2 flex-1">
-              <Label htmlFor="end-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
-                End:
-              </Label>
-              <Select value={endTime} onValueChange={onEndTimeChange}>
-                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin" className="w-[140px]">
-                  <SelectValue placeholder="Select end time" />
-                </SelectTrigger>
-                <SelectContent>
-                  {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
-                      {time.label}
-                    </SelectItem>)}
-                </SelectContent>
-              </Select>
+            <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
+              <div className="flex items-end gap-2 flex-1">
+                <Label htmlFor="start-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
+                  Start:
+                </Label>
+                <Select value={startTime} onValueChange={onStartTimeChange}>
+                  <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début" className="w-[140px]">
+                    <SelectValue placeholder="Select start time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex items-end gap-2 flex-1">
+                <Label htmlFor="end-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
+                  End:
+                </Label>
+                <Select value={endTime} onValueChange={onEndTimeChange}>
+                  <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin" className="w-[140px]">
+                    <SelectValue placeholder="Select end time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {generateEndTimeOptions(startTime).map(time => <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
-          {/* Days of Week Selector */}
-          <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground text-center italic block">Active Days</Label>
+          <Separator className="my-4" />
+
+          {/* Active Days Sub-section */}
+          <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
+            <Label className="text-2xl font-semibold font-cormorant text-foreground block">Active Days</Label>
             <div className="flex flex-wrap gap-3 justify-center">
               {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-16 h-16 rounded-full font-cormorant text-lg transition-all flex items-center justify-center gap-0.5 ${selectedDays.includes(day.id) ? 'bg-amber-100 dark:bg-amber-900/40 border-4 border-amber-500 text-amber-900 dark:text-amber-100 shadow-md' : 'bg-white/50 dark:bg-slate-800/50 border-2 border-amber-300/50 dark:border-amber-700/30 text-muted-foreground hover:border-amber-400'}`}>
                   <span>{day.label}</span>
@@ -319,7 +282,7 @@ export const TimeRangeSelector = ({
             </div>
           </div>
           
-          {/* Pause Period */}
+          {/* Pause Period – Full original */}
           <div className={`space-y-4 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 ${pauseEnabled ? 'border-4 border-amber-500' : 'border border-amber-300/50 dark:border-amber-700/50'}`}>
             <div className="flex items-center justify-between">
               <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
@@ -371,6 +334,7 @@ export const TimeRangeSelector = ({
               </div>}
           </div>
 
+          {/* Bell frequency – Full original */}
           <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-300/50 dark:border-amber-700/50">
             <Label className="text-xl font-cormorant text-foreground">
               Bell frequency
@@ -409,12 +373,14 @@ export const TimeRangeSelector = ({
             </div>
           </div>
           
+          {/* Summary amélioré avec validation – Full JSX */}
           <div className="p-4 rounded-lg bg-gradient-dawn border">
             <p className="text-xl text-foreground font-cormorant text-center">
-              Bells will chime every {halfHourChimes ? 'half hour' : 'hour'} from{' '}
-              <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === startTime)?.label || startTime}</span> to{' '}
-              <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === endTime)?.label || endTime}</span>
-              {selectedDays.length > 0 && (
+              {bellsEnabled 
+                ? `Bells will chime every ${halfHourChimes ? 'half hour' : 'hour'} from ${timeOptions.find(t => t.value === startTime)?.label || startTime} to ${timeOptions.find(t => t.value === endTime)?.label || endTime}${nextChimeText}`
+                : 'Bells disabled (no sounds scheduled)'
+              }
+              {selectedDays.length > 0 && !nextChimeText.includes('next on') && (
                 <>
                   {' '}on {selectedDays.length === 7 ? (
                     <span className="font-cinzel font-semibold">every day</span>
@@ -434,11 +400,16 @@ export const TimeRangeSelector = ({
                   , with a pause from{' '}
                   <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
                   <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
+                  {pauseStartTime > pauseEndTime ? ' (overnight)' : ''}
                 </>
+              )}
+              {bellTradition && (
+                <span className="block text-sm text-muted-foreground mt-1">Using {bellTradition} tradition (sounds will play as configured)</span>
               )}
             </p>
           </div>
         </CardContent>
-        </Card>
-    </div>;
+      </Card>
+    </div>
+  );
 };
