@@ -407,9 +407,6 @@ export const TimeRangeSelector = ({
                   {pauseStartTime > pauseEndTime ? ' (overnight)' : ''}
                 </>
               )}
-              {bellTradition && (
-                <span className="block text-sm text-muted-foreground mt-1">Using {bellTradition} tradition (sounds will play as configured)</span>
-              )}
             </p>
           </div>
         </CardContent>
