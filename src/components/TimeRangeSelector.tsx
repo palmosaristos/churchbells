@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Clock, Volume2, Check } from "lucide-react";
 import { useCurrentTime } from "@/hooks/useCurrentTime";  // Intègre pour validation TZ/next occurrence
 import { useEffect } from "react";  // Pour persistence localStorage
@@ -222,48 +223,55 @@ export const TimeRangeSelector = ({
             </div>
           </div>
 
-          {/* Tailor your schedule section – Full original */}
+          {/* Custom Schedule Section */}
           <div className="space-y-3">
             <Label className="text-3xl font-cormorant text-foreground text-center italic block">Custom Schedule</Label>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
-            <div className="flex items-end gap-2 flex-1">
-              <Label htmlFor="start-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
-                Start:
-              </Label>
-              <Select value={startTime} onValueChange={onStartTimeChange}>
-                <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début" className="w-[140px]">
-                  <SelectValue placeholder="Select start time" />
-                </SelectTrigger>
-                <SelectContent>
-                  {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
-                      {time.label}
-                    </SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
+          {/* Schedule Hours Sub-section */}
+          <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
+            <Label className="text-2xl font-semibold font-cormorant text-foreground block">Schedule Hours</Label>
             
-            <div className="flex items-end gap-2 flex-1">
-              <Label htmlFor="end-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
-                End:
-              </Label>
-              <Select value={endTime} onValueChange={onEndTimeChange}>
-                <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin" className="w-[140px]">
-                  <SelectValue placeholder="Select end time" />
-                </SelectTrigger>
-                <SelectContent>
-                  {generateEndTimeOptions(startTime).map(time => <SelectItem key={time.value} value={time.value}>
-                      {time.label}
-                    </SelectItem>)}
-                </SelectContent>
-              </Select>
+            <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
+              <div className="flex items-end gap-2 flex-1">
+                <Label htmlFor="start-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
+                  Start:
+                </Label>
+                <Select value={startTime} onValueChange={onStartTimeChange}>
+                  <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début" className="w-[140px]">
+                    <SelectValue placeholder="Select start time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="flex items-end gap-2 flex-1">
+                <Label htmlFor="end-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
+                  End:
+                </Label>
+                <Select value={endTime} onValueChange={onEndTimeChange}>
+                  <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin" className="w-[140px]">
+                    <SelectValue placeholder="Select end time" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {generateEndTimeOptions(startTime).map(time => <SelectItem key={time.value} value={time.value}>
+                        {time.label}
+                      </SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
-          {/* Days of Week Selector – Full original */}
-          <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground text-center italic block">Active Days</Label>
+          <Separator className="my-4" />
+
+          {/* Active Days Sub-section */}
+          <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
+            <Label className="text-2xl font-semibold font-cormorant text-foreground block">Active Days</Label>
             <div className="flex flex-wrap gap-3 justify-center">
               {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-16 h-16 rounded-full font-cormorant text-lg transition-all flex items-center justify-center gap-0.5 ${selectedDays.includes(day.id) ? 'bg-amber-100 dark:bg-amber-900/40 border-4 border-amber-500 text-amber-900 dark:text-amber-100 shadow-md' : 'bg-white/50 dark:bg-slate-800/50 border-2 border-amber-300/50 dark:border-amber-700/30 text-muted-foreground hover:border-amber-400'}`}>
                   <span>{day.label}</span>
