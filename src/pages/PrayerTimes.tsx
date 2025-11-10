@@ -101,7 +101,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                   <div className="space-y-6">
                     <div className="max-w-2xl mx-auto">
                       <div className="space-y-4 group p-5 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574] dark:border-amber-700">
-                        <Label htmlFor="prayer-name" className="text-base font-cormorant text-muted-foreground">
+                        <Label htmlFor="prayer-name" className="text-base font-cormorant font-semibold text-muted-foreground">
                           Prayer name (optional)
                         </Label>
                         <Input 
@@ -266,7 +266,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                               )}
                             </div>
                             {additionalNotification === 0 ? (
-                              <p className="text-sm font-cormorant text-muted-foreground italic">
+                              <p className="text-base font-cormorant font-semibold text-muted-foreground italic">
                                 No additional notification
                               </p>
                             ) : (
