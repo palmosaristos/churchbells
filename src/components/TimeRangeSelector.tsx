@@ -267,7 +267,7 @@ export const TimeRangeSelector = ({
             </div>
           </div>
 
-          <Separator className="my-4" />
+          <Separator className="my-1.5" />
 
           {/* Active Days Sub-section */}
           <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
@@ -282,7 +282,7 @@ export const TimeRangeSelector = ({
             </div>
           </div>
 
-          <Separator className="my-4" />
+          <Separator className="my-1.5" />
           
           {/* Pause Period – Full original */}
           <div className={`space-y-4 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 ${pauseEnabled ? 'border-4 border-amber-500' : 'border border-amber-300/50 dark:border-amber-700/50'}`}>
@@ -336,7 +336,7 @@ export const TimeRangeSelector = ({
               </div>}
           </div>
 
-          <Separator className="my-4" />
+          <Separator className="my-1.5" />
 
           {/* Bell frequency – Full original */}
           <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-300/50 dark:border-amber-700/50">
