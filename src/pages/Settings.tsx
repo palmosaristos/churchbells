@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { BellSoundSelection } from "@/components/BellSoundSelection";
@@ -7,61 +7,80 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
-import { useToast } from "@/hooks/use-toast";
 import { Volume2, Clock } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
+
 const Settings = () => {
-  const [savedVersion, setSavedVersion] = useState(0);
+  const savedBellVolumes = localStorage.getItem("bellVolumes");
+  const bellsEnabledValue = localStorage.getItem("bellsEnabled");
   
-  // Store initial values
-  const initialSettings = useMemo(() => {
-    const savedBellVolumes = localStorage.getItem("bellVolumes");
-    const bellsEnabledValue = localStorage.getItem("bellsEnabled");
-    return {
-      bellTradition: localStorage.getItem("bellTradition") || "cathedral-bell",
-      startTime: localStorage.getItem("startTime") || "08:00",
-      endTime: localStorage.getItem("endTime") || "20:00",
-      halfHourChimes: localStorage.getItem("halfHourChimes") === "true",
-      pauseEnabled: localStorage.getItem("pauseEnabled") === "true",
-      pauseStartTime: localStorage.getItem("pauseStartTime") || "12:00",
-      pauseEndTime: localStorage.getItem("pauseEndTime") || "14:00",
-      selectedDays: JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'),
-      bellsEnabled: bellsEnabledValue === null ? true : bellsEnabledValue === "true",
-      bellVolumes: savedBellVolumes ? JSON.parse(savedBellVolumes) : {
-        'cathedral-bell': 0.7,
-        'village-bell': 0.7,
-        'carillon-bell': 0.7
-      }
-    };
-  }, [savedVersion]);
-  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(initialSettings.bellTradition);
-  const [startTime, setStartTime] = useState<string>(initialSettings.startTime);
-  const [endTime, setEndTime] = useState<string>(initialSettings.endTime);
-  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(initialSettings.halfHourChimes);
-  const [pauseEnabled, setPauseEnabled] = useState<boolean>(initialSettings.pauseEnabled);
-  const [pauseStartTime, setPauseStartTime] = useState<string>(initialSettings.pauseStartTime);
-  const [pauseEndTime, setPauseEndTime] = useState<string>(initialSettings.pauseEndTime);
-  const [selectedDays, setSelectedDays] = useState<string[]>(initialSettings.selectedDays);
-  const [bellsEnabled, setBellsEnabled] = useState<boolean>(initialSettings.bellsEnabled);
-  const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(initialSettings.bellVolumes);
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(localStorage.getItem("bellTradition") || "cathedral-bell");
+  const [startTime, setStartTime] = useState<string>(localStorage.getItem("startTime") || "08:00");
+  const [endTime, setEndTime] = useState<string>(localStorage.getItem("endTime") || "20:00");
+  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(localStorage.getItem("halfHourChimes") === "true");
+  const [pauseEnabled, setPauseEnabled] = useState<boolean>(localStorage.getItem("pauseEnabled") === "true");
+  const [pauseStartTime, setPauseStartTime] = useState<string>(localStorage.getItem("pauseStartTime") || "12:00");
+  const [pauseEndTime, setPauseEndTime] = useState<string>(localStorage.getItem("pauseEndTime") || "14:00");
+  const [selectedDays, setSelectedDays] = useState<string[]>(JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'));
+  const [bellsEnabled, setBellsEnabled] = useState<boolean>(bellsEnabledValue === null ? true : bellsEnabledValue === "true");
+  const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(savedBellVolumes ? JSON.parse(savedBellVolumes) : {
+    'cathedral-bell': 0.7,
+    'village-bell': 0.7,
+    'carillon-bell': 0.7
+  });
   const {
     toggleAudio,
     isPlaying,
     currentAudioUrl
   } = useAudioPlayer();
-  const {
-    toast
-  } = useToast();
+  // Auto-save settings to localStorage
+  useEffect(() => {
+    localStorage.setItem("bellTradition", selectedBellTradition);
+    localStorage.setItem("settingsConfigured", "true");
+  }, [selectedBellTradition]);
 
-  // Save bellsEnabled immediately to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem("startTime", startTime);
+  }, [startTime]);
+
+  useEffect(() => {
+    localStorage.setItem("endTime", endTime);
+  }, [endTime]);
+
+  useEffect(() => {
+    localStorage.setItem("halfHourChimes", String(halfHourChimes));
+  }, [halfHourChimes]);
+
+  useEffect(() => {
+    localStorage.setItem("pauseEnabled", String(pauseEnabled));
+  }, [pauseEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem("pauseStartTime", pauseStartTime);
+  }, [pauseStartTime]);
+
+  useEffect(() => {
+    localStorage.setItem("pauseEndTime", pauseEndTime);
+  }, [pauseEndTime]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
+  }, [selectedDays]);
+
+  useEffect(() => {
+    localStorage.setItem("bellsEnabled", String(bellsEnabled));
+  }, [bellsEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
+  }, [bellVolumes]);
+
   const handleBellsEnabledChange = (enabled: boolean) => {
     setBellsEnabled(enabled);
-    localStorage.setItem("bellsEnabled", String(enabled));
   };
 
-  // Handle bell volume changes
   const handleBellVolumeChange = (bellId: string, volume: number) => {
     setBellVolumes(prev => ({
       ...prev,
@@ -69,33 +88,11 @@ const Settings = () => {
     }));
   };
 
-  // Check if any settings have changed
-  const hasChanges = useMemo(() => {
-    return selectedBellTradition !== initialSettings.bellTradition || startTime !== initialSettings.startTime || endTime !== initialSettings.endTime || halfHourChimes !== initialSettings.halfHourChimes || pauseEnabled !== initialSettings.pauseEnabled || pauseStartTime !== initialSettings.pauseStartTime || pauseEndTime !== initialSettings.pauseEndTime || bellsEnabled !== initialSettings.bellsEnabled || JSON.stringify(selectedDays) !== JSON.stringify(initialSettings.selectedDays) || JSON.stringify(bellVolumes) !== JSON.stringify(initialSettings.bellVolumes);
-  }, [selectedBellTradition, startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, bellsEnabled, bellVolumes, initialSettings]);
   const handleBellPlay = async (traditionId: string) => {
     const tradition = bellTraditions.find(t => t.id === traditionId);
     if (tradition?.audioSample) {
       await toggleAudio({ audioUrl: tradition.audioSample, traditionName: tradition.name, type: 'bell' });
     }
-  };
-  const handleSave = () => {
-    localStorage.setItem("bellTradition", selectedBellTradition);
-    localStorage.setItem("startTime", startTime);
-    localStorage.setItem("endTime", endTime);
-    localStorage.setItem("halfHourChimes", String(halfHourChimes));
-    localStorage.setItem("pauseEnabled", String(pauseEnabled));
-    localStorage.setItem("pauseStartTime", pauseStartTime);
-    localStorage.setItem("pauseEndTime", pauseEndTime);
-    localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
-    localStorage.setItem("bellsEnabled", String(bellsEnabled));
-    localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
-    localStorage.setItem("settingsConfigured", "true");
-    setSavedVersion(prev => prev + 1);
-    toast({
-      title: "Settings saved",
-      description: "Your preferences have been saved successfully"
-    });
   };
   return <div className="min-h-screen bg-gradient-subtle pb-24">
       <Navigation />
@@ -155,13 +152,6 @@ const Settings = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-
-          {/* Save Button */}
-          <div className="max-w-4xl mx-auto py-6">
-            <Button onClick={handleSave} disabled={!hasChanges} className={`w-full text-3xl font-cormorant py-8 shadow-lg transition-all duration-300 border-2 ${hasChanges ? 'bg-gradient-to-br from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white hover:shadow-xl hover:scale-[1.02] border-amber-400/30' : 'bg-muted text-muted-foreground border-border cursor-not-allowed'}`} size="lg" aria-label="Sauvegarder les paramètres">
-              Save Bell Settings
-            </Button>
-          </div>
         </div>
 
         {/* Share Banner */}
