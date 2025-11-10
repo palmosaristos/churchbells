@@ -1,16 +1,17 @@
-  import { useState, useEffect } from "react";
-  import { Navigation } from "@/components/Navigation";
-  import { TimeRangeSelector } from "@/components/TimeRangeSelector";
-  import { BellSoundSelection } from "@/components/BellSoundSelection";
-  import { Button } from "@/components/ui/button";
-  import { Switch } from "@/components/ui/switch";
-  import { Label } from "@/components/ui/label";
-  import { useAudioPlayer } from "@/hooks/useAudioPlayer";
-  import { bellTraditions } from "@/data/bellTraditions";
-  import { Volume2, Clock } from "lucide-react";
-  import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-  import churchBellTransparent from "@/assets/church-bell-transparent.png";
-  import churchBellNew from "@/assets/church-bell-new.png";
+import { useState, useEffect } from "react";
+import { Navigation } from "@/components/Navigation";
+import { TimeRangeSelector } from "@/components/TimeRangeSelector";
+import { BellSoundSelection } from "@/components/BellSoundSelection";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+import { bellTraditions } from "@/data/bellTraditions";
+import { Volume2, Clock } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import churchBellTransparent from "@/assets/church-bell-transparent.png";
+import churchBellNew from "@/assets/church-bell-new.png";
+import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
   const Settings = () => {
     const savedBellVolumes = localStorage.getItem("bellVolumes");
@@ -97,31 +98,45 @@
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
-        <div className="container mx-auto px-4 py-12 space-y-[10px]">
-          {/* Header */}
-          <div className="max-w-4xl mx-auto animate-fade-in-up">
-            <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 px-8 md:px-12 py-1 md:py-2 relative">
-              <img src={churchBellTransparent} alt="Church bell" className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
-              <img src={churchBellNew} alt="Church bell" className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
-              <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">Set your Bell Times</h1>
-            </div>
+        {/* Hero Image */}
+        <div className="relative overflow-hidden pt-2">
+          <div className="h-48 md:h-96 bg-cover bg-top md:bg-bottom bg-no-repeat relative" style={{
+            backgroundImage: `url(${heroImage})`
+          }}>
+            <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/20 to-transparent" />
+          </div>
+        </div>
 
-            {/* Bell Toggle - Always Visible */}
-            <div className="flex items-center justify-end gap-3 px-4 mt-2">
-              <Label htmlFor="bells-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
-                Bells
-              </Label>
-              <Switch 
-                id="bells-main-toggle" 
-                checked={bellsEnabled} 
-                onCheckedChange={handleBellsEnabledChange}
-                className="data-[state=checked]:bg-primary"
-              />
-              <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
-                {bellsEnabled ? 'ON' : 'OFF'}
-              </span>
+        {/* Header with overlap */}
+        <div className="relative -mt-8 md:-mt-12 z-10">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto animate-fade-in-up">
+              <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 px-8 md:px-12 py-1 md:py-2 relative">
+                <img src={churchBellTransparent} alt="Church bell" className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
+                <img src={churchBellNew} alt="Church bell" className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
+                <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">Set your Bell Times</h1>
+              </div>
+
+              {/* Bell Toggle - Always Visible */}
+              <div className="flex items-center justify-end gap-3 px-4 mt-2">
+                <Label htmlFor="bells-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
+                  Bells
+                </Label>
+                <Switch 
+                  id="bells-main-toggle" 
+                  checked={bellsEnabled} 
+                  onCheckedChange={handleBellsEnabledChange}
+                  className="data-[state=checked]:bg-primary"
+                />
+                <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
+                  {bellsEnabled ? 'ON' : 'OFF'}
+                </span>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-6 space-y-[10px]">
 
           <div className="max-w-4xl mx-auto space-y-6">
             {/* Accordion Layout */}
