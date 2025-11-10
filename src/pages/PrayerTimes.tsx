@@ -191,7 +191,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                     <div className="space-y-4 p-5 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574] dark:border-amber-700">
                       <div className="flex items-center justify-between">
                         <p className="text-2xl font-bold font-cormorant text-foreground">
-                          Get a notification 5 minutes before your prayer time
+                          Enable reminder
                         </p>
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
@@ -206,23 +206,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                       
                       {reminderEnabled && (
                         <>
-                          {/* Bell option */}
-                          <div className="flex items-center justify-between pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
-                            <Label className="font-cormorant text-lg font-semibold text-foreground">
-                              With bell sound
-                            </Label>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
-                              <Switch 
-                                checked={reminderWithBell} 
-                                onCheckedChange={setReminderWithBell} 
-                                aria-label="Enable bell sound for reminder" 
-                              />
-                              <span className="text-sm font-cormorant text-muted-foreground">ON</span>
-                            </div>
-                          </div>
-
-                          {/* Reminder Timing with checkboxes */}
+                          {/* Reminder Timing */}
                           <div className="space-y-3 pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
                             <Label className="font-cormorant text-lg font-semibold text-foreground">
                               Reminder Timing
@@ -241,6 +225,25 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                                   {minutes} min
                                 </button>
                               ))}
+                            </div>
+                            <p className="text-sm font-cormorant text-muted-foreground italic mt-2">
+                              Get a notification {reminderMinutes} {reminderMinutes === 1 ? 'minute' : 'minutes'} before your prayer time
+                            </p>
+                          </div>
+
+                          {/* Bell option */}
+                          <div className="flex items-center justify-between pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
+                            <Label className="font-cormorant text-lg font-semibold text-foreground">
+                              With bell sound
+                            </Label>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
+                              <Switch 
+                                checked={reminderWithBell} 
+                                onCheckedChange={setReminderWithBell} 
+                                aria-label="Enable bell sound for reminder" 
+                              />
+                              <span className="text-sm font-cormorant text-muted-foreground">ON</span>
                             </div>
                           </div>
 
