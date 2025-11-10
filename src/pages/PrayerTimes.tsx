@@ -154,10 +154,10 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                       />
                     </div>
 
-                    {/* Call Sound */}
+                    {/* Bell Sound */}
                     <div className="flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574] dark:border-amber-700">
                       <Label className="font-cormorant text-xl font-semibold">
-                        Call (~15 seconds)
+                        Bell sound
                       </Label>
                       <Button 
                         variant="outline" 
