@@ -158,11 +158,16 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         // Next occurrence TZ-aware
         const getNextOccurrence = (weekday: number, hour: number, minute: number): Date => {
           const nowDay = now.getDay();
-          let targetDay = day + ((weekday - nowDay + 7) % 7);
-          const target = createTZDate(year, month, targetDay, hour, minute, options.timeZone);
+          let daysUntilTarget = (weekday - nowDay + 7) % 7;
+          
+          // Si c'est aujourd'hui (daysUntilTarget === 0), créer avec l'heure pour vérifier si c'est dans le futur
+          let target = createTZDate(year, month, day + daysUntilTarget, hour, minute, options.timeZone);
+          
+          // Si la date calculée est dans le passé, prendre la prochaine semaine
           if (target <= now) {
-            target.setDate(target.getDate() + 7);
+            target = createTZDate(year, month, day + daysUntilTarget + 7, hour, minute, options.timeZone);
           }
+          
           return target;
         };
 
