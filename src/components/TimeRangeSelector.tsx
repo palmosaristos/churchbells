@@ -35,15 +35,36 @@ interface TimeRangeSelectorProps {
   onBellTraditionChange?: (tradition: string) => void;  // Optional persist
 }
 
-const timeOptions = [  // Full list originale (AM/PM labels, 24h values)
-  { value: "05:00", label: "5:00 AM" },
-  { value: "05:30", label: "5:30 AM" },
-  { value: "06:00", label: "6:00 AM" },
-  // ... (insert full list from your original code – up to { value: "23:30", label: "11:30 PM" } pour complétude)
-  { value: "00:00", label: "12:00 AM" },
-  { value: "00:30", label: "12:30 AM" }
-  // Assure 48 entries comme original
-];
+// Generate all time options (every 30 minutes from 12:00 AM to 11:30 PM)
+const generateTimeOptions = () => {
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute of [0, 30]) {
+      const value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const displayMinute = String(minute).padStart(2, '0');
+      const period = hour < 12 ? 'AM' : 'PM';
+      const label = `${displayHour}:${displayMinute} ${period}`;
+      options.push({ value, label });
+    }
+  }
+  return options;
+};
+
+const timeOptions = generateTimeOptions();
+
+// Generate end time options based on start time (30 min after start to 11:30 PM)
+const generateEndTimeOptions = (startTime: string) => {
+  const [startHour, startMinute] = startTime.split(':').map(Number);
+  const startMinutes = startHour * 60 + startMinute;
+  
+  return timeOptions.filter(option => {
+    const [optHour, optMinute] = option.value.split(':').map(Number);
+    const optMinutes = optHour * 60 + optMinute;
+    // At least 30 minutes after start time
+    return optMinutes > startMinutes;
+  });
+};
 
 const daysOfWeek = [  // Original
   { id: 'monday', label: 'Mon' },
@@ -232,7 +253,7 @@ export const TimeRangeSelector = ({
                   <SelectValue placeholder="Select end time" />
                 </SelectTrigger>
                 <SelectContent>
-                  {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
+                  {generateEndTimeOptions(startTime).map(time => <SelectItem key={time.value} value={time.value}>
                       {time.label}
                     </SelectItem>)}
                 </SelectContent>
