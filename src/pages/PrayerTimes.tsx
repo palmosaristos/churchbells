@@ -35,6 +35,10 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
     const saved = localStorage.getItem("prayerReminderNotifications");
     return saved ? JSON.parse(saved) : [5];
   });
+  const [reminderWithBell, setReminderWithBell] = useState<boolean>(() => {
+    return localStorage.getItem("prayerReminderWithBell") === "true";
+  });
+  const [additionalNotification, setAdditionalNotification] = useState<number>(0);
 
     const {
       toggleAudio,
@@ -51,9 +55,10 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
       localStorage.setItem("prayerReminderEnabled", String(reminderEnabled));
       localStorage.setItem("prayerReminderMinutes", reminderMinutes.toString());
       localStorage.setItem("prayerReminderNotifications", JSON.stringify(reminderNotifications));
+      localStorage.setItem("prayerReminderWithBell", String(reminderWithBell));
       localStorage.setItem("prayersConfigured", "true");
     };
-  }, [prayerName, prayerTime, bellVolume, reminderEnabled, reminderMinutes, reminderNotifications]);
+  }, [prayerName, prayerTime, bellVolume, reminderEnabled, reminderMinutes, reminderNotifications, reminderWithBell]);
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
@@ -178,7 +183,6 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
               <AccordionItem value="prayer-reminder" className="border-none">
                 <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                   <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
-                    <BellRing className="w-6 h-6 text-primary" />
                     Prayer Reminder
                   </div>
                 </AccordionTrigger>
@@ -186,9 +190,9 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                   <div className="max-w-2xl mx-auto space-y-6">
                     <div className="space-y-4 p-5 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574] dark:border-amber-700">
                       <div className="flex items-center justify-between">
-                        <Label className="font-cormorant text-2xl font-semibold text-foreground">
-                          Enable Reminder
-                        </Label>
+                        <p className="text-2xl font-bold font-cormorant text-foreground">
+                          Get a notification 5 minutes before your prayer time
+                        </p>
                         <div className="flex items-center gap-2">
                           <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
                           <Switch 
@@ -202,72 +206,81 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                       
                       {reminderEnabled && (
                         <>
-                          <div className="space-y-3 pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
-                            <div className="flex items-center justify-between">
-                              <Label htmlFor="reminder-minutes" className="font-cormorant text-lg font-semibold text-foreground">
-                                Reminder Duration
-                              </Label>
-                              <span className="font-cormorant text-base text-muted-foreground">{reminderMinutes} min</span>
+                          {/* Bell option */}
+                          <div className="flex items-center justify-between pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
+                            <Label className="font-cormorant text-lg font-semibold text-foreground">
+                              With bell sound
+                            </Label>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-cormorant text-muted-foreground">OFF</span>
+                              <Switch 
+                                checked={reminderWithBell} 
+                                onCheckedChange={setReminderWithBell} 
+                                aria-label="Enable bell sound for reminder" 
+                              />
+                              <span className="text-sm font-cormorant text-muted-foreground">ON</span>
                             </div>
-                            <Slider 
-                              id="reminder-minutes" 
-                              min={1} 
-                              max={30} 
-                              step={1} 
-                              value={[reminderMinutes]} 
-                              onValueChange={value => setReminderMinutes(value[0])} 
-                              className="w-full" 
-                              aria-label="Set reminder duration in minutes" 
-                            />
-                            <p className="text-sm font-cormorant text-muted-foreground italic">
-                              Get notified {reminderMinutes} {reminderMinutes === 1 ? 'minute' : 'minutes'} before your prayer time
-                            </p>
                           </div>
 
+                          {/* Reminder Timing with checkboxes */}
                           <div className="space-y-3 pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
                             <Label className="font-cormorant text-lg font-semibold text-foreground">
-                              Additional Notifications
+                              Reminder Timing
                             </Label>
-                            <div className="space-y-2">
-                              {reminderNotifications.map((minutes, index) => (
-                                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/50 dark:bg-slate-800/30 border border-amber-200/30 dark:border-amber-800/20">
-                                  <BellRing className="w-4 h-4 text-primary flex-shrink-0" />
-                                  <span className="font-cormorant text-base flex-1">
-                                    {minutes} {minutes === 1 ? 'minute' : 'minutes'} before
-                                  </span>
-                                  {reminderNotifications.length > 1 && (
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={() => {
-                                        const newNotifications = reminderNotifications.filter((_, i) => i !== index);
-                                        setReminderNotifications(newNotifications);
-                                      }}
-                                      className="h-8 w-8 p-0"
-                                      aria-label="Remove notification"
-                                    >
-                                      <X className="w-4 h-4" />
-                                    </Button>
-                                  )}
-                                </div>
-                              ))}
-                              {reminderNotifications.length < 5 && (
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() => {
-                                    const newMinutes = reminderNotifications.length > 0 
-                                      ? Math.max(...reminderNotifications) + 5 
-                                      : 5;
-                                    setReminderNotifications([...reminderNotifications, newMinutes]);
-                                  }}
-                                  className="w-full font-cormorant"
+                            <div className="grid grid-cols-2 gap-3">
+                              {[5, 10, 15, 20].map((minutes) => (
+                                <button
+                                  key={minutes}
+                                  onClick={() => setReminderMinutes(minutes)}
+                                  className={`p-3 rounded-lg border-2 font-cormorant text-base font-semibold transition-all ${
+                                    reminderMinutes === minutes
+                                      ? 'bg-primary text-primary-foreground border-primary'
+                                      : 'bg-white/50 dark:bg-slate-800/30 border-amber-200/30 dark:border-amber-800/20 hover:border-primary'
+                                  }`}
                                 >
-                                  <Plus className="w-4 h-4 mr-2" />
-                                  Add Notification
+                                  {minutes} min
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Additional notification slider */}
+                          <div className="space-y-3 pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
+                            <div className="flex items-center justify-between">
+                              <Label htmlFor="additional-notification" className="font-cormorant text-lg font-semibold text-foreground">
+                                Additional Notification
+                              </Label>
+                              {additionalNotification > 0 && (
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setAdditionalNotification(0)}
+                                  className="h-8 px-2 text-xs"
+                                >
+                                  <X className="w-4 h-4 mr-1" />
+                                  Cancel
                                 </Button>
                               )}
                             </div>
+                            {additionalNotification === 0 ? (
+                              <p className="text-sm font-cormorant text-muted-foreground italic">
+                                No additional notification
+                              </p>
+                            ) : (
+                              <p className="text-sm font-cormorant text-muted-foreground italic">
+                                Get notified {additionalNotification} {additionalNotification === 1 ? 'minute' : 'minutes'} before your prayer time
+                              </p>
+                            )}
+                            <Slider 
+                              id="additional-notification" 
+                              min={0} 
+                              max={30} 
+                              step={1} 
+                              value={[additionalNotification]} 
+                              onValueChange={value => setAdditionalNotification(value[0])} 
+                              className="w-full" 
+                              aria-label="Set additional notification time in minutes" 
+                            />
                           </div>
                         </>
                       )}
