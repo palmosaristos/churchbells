@@ -19,7 +19,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
   const { toggleAudio } = useAudioPlayer();
 
   const handleBellClick = () => {
-    toggleAudio("/audio/cathedral-bell.mp3", "Sacred Bells");
+    toggleAudio({ audioUrl: "/audio/cathedral_1.mp3", traditionName: "Sacred Bells", type: 'bell' });
   };
 
   return (

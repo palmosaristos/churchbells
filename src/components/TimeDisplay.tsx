@@ -31,7 +31,7 @@ export const TimeDisplay = ({ selectedTimeZone, onTimeZoneChange }: TimeDisplayP
             
             <div className="space-y-1">
               <h3 className="text-6xl font-cinzel font-bold text-amber-800 dark:text-amber-200 tracking-wide">
-                {currentTime}
+                {currentTime.time}
               </h3>
             </div>
           </div>

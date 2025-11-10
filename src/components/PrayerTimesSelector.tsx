@@ -1,26 +1,66 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Checkbox } from "@/components/ui/checkbox";  // Pour select multiple times
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";  // Pour custom minutes reminders
 import { Label } from "@/components/ui/label";
-import { Clock, Volume2, Bell } from "lucide-react";
-import { useCurrentTime } from "@/hooks/useCurrentTime";  // Validation TZ/next
-import { useState, useEffect } from "react";  // Local state pour selects/checks
+import { Bell, Church, Cross } from "lucide-react";
+import { useCurrentTime } from "@/hooks/useCurrentTime";
+import { useState, useEffect } from "react";
 
-// timeOptions dupliqué de TimeRangeSelector (labels AM/PM, values 24h – maintenu)
 const timeOptions = [
   { value: "00:00", label: "12:00 AM" },
   { value: "00:30", label: "12:30 AM" },
-  // ... (full list from previous TimeRangeSelector, e.g., { value: "06:00", label: "6:00 AM" }, up to "23:30" "11:30 PM")
-  // Assure full 24h coverage pour prayers (dawn/nocturnal)
+  { value: "01:00", label: "1:00 AM" },
+  { value: "01:30", label: "1:30 AM" },
+  { value: "02:00", label: "2:00 AM" },
+  { value: "02:30", label: "2:30 AM" },
+  { value: "03:00", label: "3:00 AM" },
+  { value: "03:30", label: "3:30 AM" },
+  { value: "04:00", label: "4:00 AM" },
+  { value: "04:30", label: "4:30 AM" },
+  { value: "05:00", label: "5:00 AM" },
+  { value: "05:30", label: "5:30 AM" },
+  { value: "06:00", label: "6:00 AM" },
+  { value: "06:30", label: "6:30 AM" },
+  { value: "07:00", label: "7:00 AM" },
+  { value: "07:30", label: "7:30 AM" },
+  { value: "08:00", label: "8:00 AM" },
+  { value: "08:30", label: "8:30 AM" },
+  { value: "09:00", label: "9:00 AM" },
+  { value: "09:30", label: "9:30 AM" },
+  { value: "10:00", label: "10:00 AM" },
+  { value: "10:30", label: "10:30 AM" },
+  { value: "11:00", label: "11:00 AM" },
+  { value: "11:30", label: "11:30 AM" },
+  { value: "12:00", label: "12:00 PM" },
+  { value: "12:30", label: "12:30 PM" },
+  { value: "13:00", label: "1:00 PM" },
+  { value: "13:30", label: "1:30 PM" },
+  { value: "14:00", label: "2:00 PM" },
+  { value: "14:30", label: "2:30 PM" },
+  { value: "15:00", label: "3:00 PM" },
+  { value: "15:30", label: "3:30 PM" },
+  { value: "16:00", label: "4:00 PM" },
+  { value: "16:30", label: "4:30 PM" },
+  { value: "17:00", label: "5:00 PM" },
+  { value: "17:30", label: "5:30 PM" },
+  { value: "18:00", label: "6:00 PM" },
+  { value: "18:30", label: "6:30 PM" },
+  { value: "19:00", label: "7:00 PM" },
+  { value: "19:30", label: "7:30 PM" },
+  { value: "20:00", label: "8:00 PM" },
+  { value: "20:30", label: "8:30 PM" },
+  { value: "21:00", label: "9:00 PM" },
+  { value: "21:30", label: "9:30 PM" },
+  { value: "22:00", label: "10:00 PM" },
+  { value: "22:30", label: "10:30 PM" },
+  { value: "23:00", label: "11:00 PM" },
+  { value: "23:30", label: "11:30 PM" },
 ];
 
 interface PrayerTime {
   name: string;
-  time: string;  // 24h "HH:MM" interne
+  time: string;
   description: string;
   selected?: boolean;
 }
@@ -32,125 +72,179 @@ interface PrayerTradition {
   times: PrayerTime[];
 }
 
-const prayerTraditions: PrayerTradition[] = [  // Inchangé
-  // ... (Roman Catholic, Orthodox, Anglican comme fourni – times en 24h "HH:MM")
+const prayerTraditions: PrayerTradition[] = [
   {
     name: "Roman Catholic",
-    icon: /* SVG croix */,
+    icon: <Cross className="h-5 w-5" />,
     color: "burgundy",
     times: [
       { name: "Matins", time: "00:00", description: "Office of Readings during the night" },
       { name: "Lauds", time: "06:00", description: "Morning prayer at dawn" },
-      // ... (autres times en 24h)
+      { name: "Prime", time: "07:00", description: "First hour" },
+      { name: "Terce", time: "09:00", description: "Third hour" },
+      { name: "Sext", time: "12:00", description: "Sixth hour (midday)" },
+      { name: "None", time: "15:00", description: "Ninth hour" },
+      { name: "Vespers", time: "18:00", description: "Evening prayer" },
+      { name: "Compline", time: "21:00", description: "Night prayer" },
     ]
   },
-  // ... (Orthodox, Anglican)
+  {
+    name: "Orthodox",
+    icon: <Church className="h-5 w-5" />,
+    color: "gold",
+    times: [
+      { name: "Midnight Office", time: "00:00", description: "Vigil prayer" },
+      { name: "Orthros", time: "06:00", description: "Morning office" },
+      { name: "First Hour", time: "07:00", description: "Early morning" },
+      { name: "Third Hour", time: "09:00", description: "Mid-morning" },
+      { name: "Sixth Hour", time: "12:00", description: "Midday" },
+      { name: "Ninth Hour", time: "15:00", description: "Afternoon" },
+      { name: "Vespers", time: "18:00", description: "Evening service" },
+      { name: "Apodeipnon", time: "21:00", description: "Compline" },
+    ]
+  },
+  {
+    name: "Anglican",
+    icon: <Bell className="h-5 w-5" />,
+    color: "blue",
+    times: [
+      { name: "Morning Prayer", time: "06:00", description: "Dawn worship" },
+      { name: "Midday Prayer", time: "12:00", description: "Noon devotion" },
+      { name: "Evening Prayer", time: "18:00", description: "Evensong" },
+      { name: "Compline", time: "21:00", description: "Night prayer" },
+    ]
+  },
 ];
 
 interface PrayerTimesSelectorProps {
-  // ... (props idem précédent)
+  selectedTradition?: string;
+  onTraditionSelect?: (tradition: string) => void;
+  onTimesSelect?: (times: PrayerTime[]) => void;
+  morningCallType?: string;
+  eveningCallType?: string;
+  onCallTypeChange?: (type: 'morning' | 'evening', callType: string) => void;
+  morningReminders?: string[];
+  eveningReminders?: string[];
+  onRemindersChange?: (type: 'morning' | 'evening', reminders: string[]) => void;
+  timeZone?: string;
+  onPrayerConfigChange?: (config: any) => void;
 }
 
 export const PrayerTimesSelector = ({
   selectedTradition = 'Roman Catholic',
   onTraditionSelect,
   onTimesSelect,
-  morningCallType = 'short',
-  eveningCallType = 'short',
-  onCallTypeChange,
-  morningReminders = ['5'],
-  eveningReminders = ['5'],
-  onRemindersChange,
   timeZone = 'UTC',
-  onPrayerConfigChange
 }: PrayerTimesSelectorProps) => {
-  const [localTimes, setLocalTimes] = useState<PrayerTime[]>(prayerTraditions.find(t => t.name === selectedTradition)?.times || []);
-  const [callTypes, setCallTypes] = useState({ morning: morningCallType, evening: eveningCallType });
-  const [reminders, setReminders] = useState({ morning: morningReminders, evening: eveningReminders });
+  const tradition = prayerTraditions.find(t => t.name === selectedTradition) || prayerTraditions[0];
+  const [localTimes, setLocalTimes] = useState<PrayerTime[]>(
+    tradition.times.map(t => ({ ...t, selected: false }))
+  );
 
-  // Current time pour validation
   const current = useCurrentTime({ timeZone });
 
   useEffect(() => {
-    const tradition = prayerTraditions.find(t => t.name === selectedTradition);
-    if (tradition) {
-      setLocalTimes(tradition.times.map(t => ({ ...t, selected: false })));
+    const trad = prayerTraditions.find(t => t.name === selectedTradition);
+    if (trad) {
+      setLocalTimes(trad.times.map(t => ({ ...t, selected: false })));
     }
   }, [selectedTradition]);
 
-  // ... (handleTraditionSelect, toggleTimeSelect, handleReminderChange inchangés)
+  const toggleTimeSelect = (idx: number) => {
+    const updated = [...localTimes];
+    updated[idx].selected = !updated[idx].selected;
+    setLocalTimes(updated);
+    onTimesSelect?.(updated.filter(t => t.selected));
+  };
 
-  // getTimeDisplay : Maintenir AM/PM (toLocaleTimeString hour12: true)
+  const handleTimeChange = (idx: number, newTime: string) => {
+    const updated = [...localTimes];
+    updated[idx].time = newTime;
+    setLocalTimes(updated);
+  };
+
   const getTimeDisplay = (time: string, name: string): string => {
     if (!time) return `${name}: Not set`;
     
     const [h, m] = time.split(':').map(Number);
-    const todayPrayer = new Date(current.raw);  // Base today TZ
+    const todayPrayer = new Date(current.raw);
     todayPrayer.setHours(h, m, 0, 0);
     
     const isPast = todayPrayer < current.raw;
-    const isSoon = Math.abs(todayPrayer.getTime() - current.raw.getTime()) < 300000;  // <5min
     
-    // AM/PM display (user-friendly)
     const ampmTime = todayPrayer.toLocaleTimeString('en-US', { 
       hour: 'numeric', 
       minute: '2-digit', 
-      hour12: true,  // Force AM/PM
+      hour12: true,
       timeZone 
-    }).toLowerCase();  // e.g., "6:00 am"
+    });
     
-    let display = `${name} at ${ampmTime.toUpperCase()}`;  // "LAUDS AT 6:00 AM"
+    let display = `${name} at ${ampmTime}`;
     
     if (current.isValidTZ && timeZone !== 'UTC') {
       display += ` (${timeZone.replace('/', ' ')})`;
     }
     
     if (isPast) {
-      const next = new Date(todayPrayer);
-      next.setDate(next.getDate() + 1);
-      const nextAmpm = next.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit', 
-        hour12: true, 
-        timeZone 
-      }).toLowerCase();
-      display += ` (next day at ${nextAmpm.toUpperCase()})`;
-    } else if (isSoon) {
-      display = `Now! ${display}`;
+      display += ` (next day)`;
     }
     
     return display;
   };
 
-  // ... (useEffect persistence inchangé – config avec 24h times)
-
   return (
-    <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
+    <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
       <CardHeader>
         <CardTitle className="text-2xl font-cormorant text-center">Prayer Times</CardTitle>
-        <CardDescription>Select tradition and times for bell calls (AM/PM times)</CardDescription>
+        <CardDescription className="text-center">Select tradition and times for bell calls</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Tabs Traditions inchangé */}
-        
-        {prayerTraditions.map(trad => (
-          <TabsContent key={trad.name} value={trad.name} className="space-y-4">
-            <div className="space-y-2">
-              <Label className="text-lg font-semibold">Select Times</Label>
-              {trad.times.map((time, idx) => (
-                <div key={time.name} className="flex items-center space-x-2 p-2 rounded-md bg-white/50 dark:bg-slate-800/50">
-                  <Checkbox id={`time-${idx}`} checked={localTimes[idx]?.selected || false} onCheckedChange={() => toggleTimeSelect(idx)} />
-                  <Label htmlFor={`time-${idx}`} className="flex-1 cursor-pointer">
-                    <div>
-                      <p className="font-medium">{getTimeDisplay(time.time, time.name)}</p>  {/* AM/PM here */}
-                      <p className="text-sm text-muted-foreground">{time.description}</p>
-                    </div>
-                  </Label>
-                  {/* Custom Select: Labels AM/PM, value 24h */}
-                  <Select value={time.time} onValueChange={(newTime) => {  // newTime = "06:00"
-                    const updated = [...localTimes];
-                    updated[idx].time = newTime;  // Keep 24h internal
-                    setLocalTimes(updated);
-                  }}>
-                    <SelectTrigger className="w-32">  {/* Wider for AM/PM label */}
-                      <SelectValue />
+        <Tabs value={selectedTradition} onValueChange={onTraditionSelect}>
+          <TabsList className="grid w-full grid-cols-3">
+            {prayerTraditions.map(trad => (
+              <TabsTrigger key={trad.name} value={trad.name} className="flex items-center gap-2">
+                {trad.icon}
+                <span className="hidden sm:inline">{trad.name}</span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          
+          {prayerTraditions.map(trad => (
+            <TabsContent key={trad.name} value={trad.name} className="space-y-4">
+              <div className="space-y-2">
+                <Label className="text-lg font-semibold">Select Times</Label>
+                {trad.times.map((time, idx) => (
+                  <div key={time.name} className="flex items-center space-x-2 p-3 rounded-md bg-background/50 border border-border/50">
+                    <Checkbox 
+                      id={`time-${idx}`} 
+                      checked={localTimes[idx]?.selected || false} 
+                      onCheckedChange={() => toggleTimeSelect(idx)} 
+                    />
+                    <Label htmlFor={`time-${idx}`} className="flex-1 cursor-pointer">
+                      <div>
+                        <p className="font-medium">{getTimeDisplay(time.time, time.name)}</p>
+                        <p className="text-sm text-muted-foreground">{time.description}</p>
+                      </div>
+                    </Label>
+                    <Select value={time.time} onValueChange={(newTime) => handleTimeChange(idx, newTime)}>
+                      <SelectTrigger className="w-32">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {timeOptions.map(opt => (
+                          <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+      </CardContent>
+    </Card>
+  );
+};

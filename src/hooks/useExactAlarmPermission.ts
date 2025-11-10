@@ -39,7 +39,7 @@ export const useExactAlarmPermission = () => {
     }
 
     try {
-      await LocalNotifications.changeExactNotificationSetting('enabled');  // Explicit to granted
+      await LocalNotifications.changeExactNotificationSetting();
       await new Promise(resolve => setTimeout(resolve, 500));  // Buffer for system
       const granted = await checkPermission();
       if (granted) {

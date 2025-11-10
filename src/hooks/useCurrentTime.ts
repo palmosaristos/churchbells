@@ -21,7 +21,8 @@ export const useCurrentTime = (options: string | UseCurrentTimeOptions): Current
   // Validation TZ (once, pour scheduler fiable)
   useEffect(() => {
     try {
-      const validTZs = Intl.supportedValuesOf('timeZone');
+      // @ts-ignore - supportedValuesOf might not be available in all environments
+      const validTZs = Intl.supportedValuesOf ? Intl.supportedValuesOf('timeZone') : [];
       const isValid = validTZs.includes(timeZone) || timeZone === 'UTC';
       setIsValidTZ(isValid);
       if (!isValid && import.meta.env.DEV) {

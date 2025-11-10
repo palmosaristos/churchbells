@@ -2,7 +2,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Bell, Sun, Moon, Clock } from "lucide-react";
-import { useCurrentTime } from "@/hooks/useCurrentTime";  // Intègre pour validation TZ/time
+import { useCurrentTime } from "@/hooks/useCurrentTime";
+import { useEffect } from "react";
 
 interface PrayerConfigurationProps {
   morningPrayerEnabled: boolean;
@@ -66,8 +67,9 @@ export const PrayerConfiguration = ({
     }
     
     // Append callType/reminders (text, no visuals)
-    const callText = callType === 'long' ? ' (Long call)' : ' (Short call)';
-    const remText = (reminders.length > 0) ? ` with ${reminders.join(', ')}min toast` : '';
+    const callText = isMorning && morningCallType === 'long' ? ' (Long call)' : !isMorning && eveningCallType === 'long' ? ' (Long call)' : ' (Short call)';
+    const activeReminders = isMorning ? morningReminders : eveningReminders;
+    const remText = (activeReminders.length > 0) ? ` with ${activeReminders.join(', ')}min toast` : '';
     
     return `${display}${callText}${remText}`;
   };

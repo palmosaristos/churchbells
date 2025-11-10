@@ -11,8 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Capacitor } from '@capacitor/core';
-import { Permissions } from '@capacitor/permissions';  // Native media perms
-import { useExactAlarmPermission } from "@/hooks/useExactAlarmPermission";  // Exact at pour no drifts
+import { useExactAlarmPermission } from "@/hooks/useExactAlarmPermission";
 
 interface AudioPermissionProps {
   onAudioPermissionGranted: (status: { audio: boolean; exactAlarm: boolean }) => void;  // Étendu pour status
@@ -23,7 +22,7 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
   const [isLoading, setIsLoading] = useState(false);
   const [hasRetried, setHasRetried] = useState(false);  // Pour retry optional
   const { toast } = useToast();
-  const { hasPermission: hasExactAlarm, request: requestExactAlarm } = useExactAlarmPermission();  // Hook exact
+  const { hasPermission: hasExactAlarm, requestPermission: requestExactAlarm } = useExactAlarmPermission();
 
   useEffect(() => {
     const audioUnlocked = localStorage.getItem('audioUnlocked') === 'true';
@@ -42,15 +41,9 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
 
     try {
       // Web/Silent test pour audio context unlock (inaudible, no perturb)
-      if (!Capacitor.isNativePlatform()) {
-        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGm98OGeUhELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsI');
-        await audio.play();
-        audioUnlocked = true;
-      } else {
-        // Native: Request media perms (pour bg channels audible)
-        const { media } = await Permissions.request({ permissions: ['media'] });  // Ou 'audio' si plugin specific
-        audioGranted = media === 'granted';
-      }
+      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGm98OGeUhELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsI');
+      await audio.play();
+      audioGranted = true;
 
       // Set defaults volumes au grant (pour useAudioPlayer plays)
       localStorage.setItem('bellVolume', '0.7');
@@ -69,7 +62,7 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
       localStorage.setItem('exactAlarmGranted', exactGranted.toString());
 
       // Callback étendu
-      onAudioPermissionGranted({ audio: true, exactAlarm });
+      onAudioPermissionGranted({ audio: true, exactAlarm: exactGranted });
 
       setIsOpen(false);
       setHasRetried(false);

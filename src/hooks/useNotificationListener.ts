@@ -29,7 +29,7 @@ export const useNotificationListener = () => {
 
         // App state: Fg = JS play ; Bg/Closed = natif channel (sound auto)
         const appState = await CapApp.getState();
-        const isFg = appState.isActive || appState.isInactive;  // Inactif = bg
+        const isFg = appState.isActive;  // Active = foreground
 
         if (isFg && !isPlaying) {  // Fg: JS play (no visuals auréolées)
           const options = {
@@ -78,8 +78,7 @@ export const useNotificationListener = () => {
     LocalNotifications.addListener('localNotificationActionPerformed', handleNotificationAction);
 
     return () => {
-      LocalNotifications.removeAllListeners('localNotificationReceived');
-      LocalNotifications.removeAllListeners('localNotificationActionPerformed');
+      LocalNotifications.removeAllListeners();
     };
   }, [toggleAudio, isPlaying]);  // Deps stable (player callback)
 };

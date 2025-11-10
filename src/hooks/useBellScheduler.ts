@@ -70,13 +70,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return;
         }
 
-        // Channels avec high prio (importance 5 loud, visibility 1 HUD, vibration true)
-        const highPrio = { importance: 5, visibility: 1, vibration: true };
+        // Channels avec low prio (importance 2 pour son only, visibility 0 secret, vibration false)
+        const lowPrio = { importance: 2 as any, visibility: 0 as any, vibration: false };
         await LocalNotifications.createChannel({
           id: 'sacred-bells-channel',
           name: 'Sacred Bells',
           description: 'Notifications for scheduled bell chimes',
-          ...highPrio,
+          ...lowPrio,
           sound: 'default'
         });
 
@@ -85,7 +85,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             id: `cathedral-bells-${i}`,
             name: `Cathedral Bells (${i} chime${i > 1 ? 's' : ''})`,
             description: `Cathedral bells - ${i} chime${i > 1 ? 's' : ''}`,
-            ...highPrio,
+            ...lowPrio,
             sound: `cathedral_${i}`
           });
         }
@@ -99,7 +99,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 id: `${pt}-prayer-${ct}`,
                 name: `${pt.charAt(0).toUpperCase() + pt.slice(1)} Prayer (${ct} Call)`,
                 description: `${ct} bell call for ${pt} prayer`,
-                ...highPrio,
+                ...lowPrio,
                 sound: `${ct}_call`
               });
             }
@@ -111,7 +111,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 id: `${pt}-prayer-${ct}`,
                 name: `${pt.charAt(0).toUpperCase() + pt.slice(1)} Prayer (${ct} Call)`,
                 description: `${ct} bell call for ${pt} prayer`,
-                ...highPrio,
+                ...lowPrio,
                 sound: `${ct}_call`
               });
             }
