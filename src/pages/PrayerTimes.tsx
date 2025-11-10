@@ -226,7 +226,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                                 </button>
                               ))}
                             </div>
-                            <p className="text-sm font-cormorant text-muted-foreground italic mt-2">
+                            <p className="text-base font-cormorant font-semibold text-muted-foreground italic mt-2">
                               Get a notification {reminderMinutes} {reminderMinutes === 1 ? 'minute' : 'minutes'} before your prayer time
                             </p>
                           </div>
@@ -270,7 +270,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                                 No additional notification
                               </p>
                             ) : (
-                              <p className="text-sm font-cormorant text-muted-foreground italic">
+                              <p className="text-base font-cormorant font-semibold text-muted-foreground italic">
                                 Get notified {additionalNotification} {additionalNotification === 1 ? 'minute' : 'minutes'} before your prayer time
                               </p>
                             )}
