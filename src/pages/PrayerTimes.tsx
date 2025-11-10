@@ -5,7 +5,7 @@
   import { Button } from "@/components/ui/button";
   import { Slider } from "@/components/ui/slider";
   import { Switch } from "@/components/ui/switch";
-  import { Clock, Volume2, BellRing } from "lucide-react";
+  import { Clock, Volume2, BellRing, Plus, X } from "lucide-react";
   import { useAudioPlayer } from "@/hooks/useAudioPlayer";
   import churchBellTransparent from "@/assets/church-bell-transparent.png";
   import churchBellNew from "@/assets/church-bell-new.png";
@@ -23,9 +23,17 @@
       const saved = localStorage.getItem("prayerBellVolume");
       return saved ? parseFloat(saved) : 0.7;
     });
-    const [reminderEnabled, setReminderEnabled] = useState<boolean>(() => {
-      return localStorage.getItem("prayerReminderEnabled") === "true";
-    });
+  const [reminderEnabled, setReminderEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("prayerReminderEnabled") === "true";
+  });
+  const [reminderMinutes, setReminderMinutes] = useState<number>(() => {
+    const saved = localStorage.getItem("prayerReminderMinutes");
+    return saved ? parseInt(saved) : 5;
+  });
+  const [reminderNotifications, setReminderNotifications] = useState<number[]>(() => {
+    const saved = localStorage.getItem("prayerReminderNotifications");
+    return saved ? JSON.parse(saved) : [5];
+  });
 
     const {
       toggleAudio,
@@ -33,16 +41,18 @@
       currentAudioUrl
     } = useAudioPlayer();
 
-    // Auto-save on unmount
-    useEffect(() => {
-      return () => {
-        localStorage.setItem("prayerName", prayerName);
-        localStorage.setItem("prayerTime", prayerTime);
-        localStorage.setItem("prayerBellVolume", bellVolume.toString());
-        localStorage.setItem("prayerReminderEnabled", String(reminderEnabled));
-        localStorage.setItem("prayersConfigured", "true");
-      };
-    }, [prayerName, prayerTime, bellVolume, reminderEnabled]);
+  // Auto-save on unmount
+  useEffect(() => {
+    return () => {
+      localStorage.setItem("prayerName", prayerName);
+      localStorage.setItem("prayerTime", prayerTime);
+      localStorage.setItem("prayerBellVolume", bellVolume.toString());
+      localStorage.setItem("prayerReminderEnabled", String(reminderEnabled));
+      localStorage.setItem("prayerReminderMinutes", reminderMinutes.toString());
+      localStorage.setItem("prayerReminderNotifications", JSON.stringify(reminderNotifications));
+      localStorage.setItem("prayersConfigured", "true");
+    };
+  }, [prayerName, prayerTime, bellVolume, reminderEnabled, reminderMinutes, reminderNotifications]);
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
@@ -158,7 +168,7 @@
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                  <div className="max-w-2xl mx-auto">
+                  <div className="max-w-2xl mx-auto space-y-6">
                     <div className="space-y-4 p-5 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574] dark:border-amber-700">
                       <div className="flex items-center justify-between">
                         <Label className="font-cormorant text-2xl font-semibold text-foreground">
@@ -174,9 +184,78 @@
                           <span className="text-sm font-cormorant text-muted-foreground">ON</span>
                         </div>
                       </div>
-                      <p className="text-lg font-cormorant text-muted-foreground italic">
-                        Get notified 5 minutes before your prayer time
-                      </p>
+                      
+                      {reminderEnabled && (
+                        <>
+                          <div className="space-y-3 pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
+                            <div className="flex items-center justify-between">
+                              <Label htmlFor="reminder-minutes" className="font-cormorant text-lg font-semibold text-foreground">
+                                Reminder Duration
+                              </Label>
+                              <span className="font-cormorant text-base text-muted-foreground">{reminderMinutes} min</span>
+                            </div>
+                            <Slider 
+                              id="reminder-minutes" 
+                              min={1} 
+                              max={30} 
+                              step={1} 
+                              value={[reminderMinutes]} 
+                              onValueChange={value => setReminderMinutes(value[0])} 
+                              className="w-full" 
+                              aria-label="Set reminder duration in minutes" 
+                            />
+                            <p className="text-sm font-cormorant text-muted-foreground italic">
+                              Get notified {reminderMinutes} {reminderMinutes === 1 ? 'minute' : 'minutes'} before your prayer time
+                            </p>
+                          </div>
+
+                          <div className="space-y-3 pt-4 border-t border-amber-300/50 dark:border-amber-700/50">
+                            <Label className="font-cormorant text-lg font-semibold text-foreground">
+                              Additional Notifications
+                            </Label>
+                            <div className="space-y-2">
+                              {reminderNotifications.map((minutes, index) => (
+                                <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-white/50 dark:bg-slate-800/30 border border-amber-200/30 dark:border-amber-800/20">
+                                  <BellRing className="w-4 h-4 text-primary flex-shrink-0" />
+                                  <span className="font-cormorant text-base flex-1">
+                                    {minutes} {minutes === 1 ? 'minute' : 'minutes'} before
+                                  </span>
+                                  {reminderNotifications.length > 1 && (
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={() => {
+                                        const newNotifications = reminderNotifications.filter((_, i) => i !== index);
+                                        setReminderNotifications(newNotifications);
+                                      }}
+                                      className="h-8 w-8 p-0"
+                                      aria-label="Remove notification"
+                                    >
+                                      <X className="w-4 h-4" />
+                                    </Button>
+                                  )}
+                                </div>
+                              ))}
+                              {reminderNotifications.length < 5 && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => {
+                                    const newMinutes = reminderNotifications.length > 0 
+                                      ? Math.max(...reminderNotifications) + 5 
+                                      : 5;
+                                    setReminderNotifications([...reminderNotifications, newMinutes]);
+                                  }}
+                                  className="w-full font-cormorant"
+                                >
+                                  <Plus className="w-4 h-4 mr-2" />
+                                  Add Notification
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </AccordionContent>
