@@ -13,7 +13,26 @@ export const useNotificationListener = () => {
     // Handle received (main trigger: play at schedule.at, fg/bg exact)
     const handleNotificationReceived = async (notification: any) => {
       const { extra } = notification;
-      if (!extra || !extra.soundFile || !extra.type) return;
+      if (!extra || !extra.type) return;
+
+      // Handle prayer reminders (toast only, no sound)
+      if (extra.type === 'prayer-reminder') {
+        const { toast } = await import('@/hooks/use-toast');
+        const prayerName = extra.prayerName || 'Prayer';
+        const minutesUntil = extra.minutesUntil || '5';
+        
+        toast({
+          title: `Your ${prayerName} starts in ${minutesUntil} minutes`,
+          variant: 'prayer-reminder',
+          duration: 10000,
+        });
+        
+        console.log(`Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
+        return;
+      }
+
+      // Handle bell and prayer sounds
+      if (!extra.soundFile) return;
 
       try {
         // Check delay (pour backups)

@@ -5,7 +5,7 @@ import type {
   ToastProps,
 } from "@/components/ui/toast"
 
-export type ToastVariant = "default" | "destructive" | "success" | "error" | "info" | "bell" | "prayer"
+export type ToastVariant = "default" | "destructive" | "success" | "error" | "info" | "bell" | "prayer" | "prayer-reminder"
 
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000

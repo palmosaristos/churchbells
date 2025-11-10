@@ -92,6 +92,16 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
         // Fix Await: Boucles for...of async au lieu de forEach (await séquentiel safe)
         try {
+          // Prayer reminder channel (silent, for toast only)
+          await LocalNotifications.createChannel({
+            id: 'prayer-reminder',
+            name: 'Prayer Reminders',
+            description: 'Reminders before prayer times',
+            importance: 3 as any,
+            visibility: 1 as any,
+            sound: undefined
+          });
+          
           // Morning prayers channels
           for (const pt of ['morning']) {
             for (const ct of ['short', 'long']) {
@@ -236,11 +246,28 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               const weekday = DAY_MAP[dayName];
               if (weekday === undefined) continue;
               
-              // Reminders (only toast, no sound)
-              const morningReminders = options.morningReminders || ['5'];
+              // Reminders (silent notifications for toast display)
+              const morningReminders = options.morningReminders || [];
               for (const reminderMinutes of morningReminders) {
-                // Logique reminder toast (no channel/sound here ; UI handle)
-                // Ex: Push minimal notif for timing, but sound only at prayer
+                const reminderTime = new Date(mHour * 3600000 + (mMinute - parseInt(reminderMinutes)) * 60000);
+                const reminderOccurrence = getNextOccurrence(weekday, reminderTime.getHours(), reminderTime.getMinutes());
+                
+                notifications.push({
+                  id: notificationId++,
+                  title: '🔔',
+                  body: ' ',
+                  schedule: { at: reminderOccurrence, allowWhileIdle: true },
+                  silent: true,
+                  smallIcon: 'ic_launcher',
+                  channelId: 'prayer-reminder',
+                  extra: {
+                    type: 'prayer-reminder' as const,
+                    prayerType: 'morning' as const,
+                    prayerName: options.morningPrayerName || 'Morning Prayer',
+                    minutesUntil: reminderMinutes,
+                    scheduledTime: reminderOccurrence.toISOString()
+                  }
+                });
               }
               
               const channelId = options.morningCallType === 'long' 
@@ -293,8 +320,89 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           }
         }
 
-        // Duplicate bloc pour evening (if options.eveningPrayerEnabled...)
-        // ... (copie le morning bloc, change 'morning' → 'evening', etc.)
+        // Evening Prayer scheduling (similar to morning)
+        if (options.eveningPrayerEnabled && options.eveningPrayerTime) {
+          const [eHour, eMinute] = options.eveningPrayerTime.split(':').map(Number);
+          const eveningTimeMinutes = eHour * 60 + eMinute;
+          
+          if (!isInPausePeriod(eveningTimeMinutes)) {
+            for (const dayName of options.selectedDays) {
+              const weekday = DAY_MAP[dayName];
+              if (weekday === undefined) continue;
+              
+              // Reminders (silent notifications for toast display)
+              const eveningReminders = options.eveningReminders || [];
+              for (const reminderMinutes of eveningReminders) {
+                const reminderTime = new Date(eHour * 3600000 + (eMinute - parseInt(reminderMinutes)) * 60000);
+                const reminderOccurrence = getNextOccurrence(weekday, reminderTime.getHours(), reminderTime.getMinutes());
+                
+                notifications.push({
+                  id: notificationId++,
+                  title: '🔔',
+                  body: ' ',
+                  schedule: { at: reminderOccurrence, allowWhileIdle: true },
+                  silent: true,
+                  smallIcon: 'ic_launcher',
+                  channelId: 'prayer-reminder',
+                  extra: {
+                    type: 'prayer-reminder' as const,
+                    prayerType: 'evening' as const,
+                    prayerName: options.eveningPrayerName || 'Evening Prayer',
+                    minutesUntil: reminderMinutes,
+                    scheduledTime: reminderOccurrence.toISOString()
+                  }
+                });
+              }
+              
+              const channelId = options.eveningCallType === 'long' 
+                ? 'evening-prayer-long' 
+                : 'evening-prayer-short';
+              const soundFile = options.eveningCallType === 'long' ? 'long_call.mp3' : 'short_call.mp3';
+
+              const nextOccurrence = getNextOccurrence(weekday, eHour, eMinute);
+              const baseExtra = {
+                type: 'prayer' as const,
+                prayerType: 'evening' as const,
+                callType: options.eveningCallType || 'short',
+                soundFile,
+                scheduledTime: nextOccurrence.toISOString()
+              };
+
+              const originalId = notificationId++;
+              notifications.push({
+                title: '🔔',
+                body: ' ',
+                id: originalId,
+                schedule: { at: nextOccurrence, allowWhileIdle: true },
+                silent: false,
+                smallIcon: 'ic_launcher',
+                channelId,
+                extra: { ...baseExtra, retryLevel: 0 as const, originalId }
+              });
+
+              // Backup
+              const backupTime = new Date(nextOccurrence.getTime() + 30000);
+              notifications.push({
+                id: notificationId++,
+                title: '🔔 (backup)',
+                body: ' ',
+                schedule: { at: backupTime, allowWhileIdle: true },
+                silent: false,
+                smallIcon: 'ic_launcher',
+                channelId,
+                extra: {
+                  ...baseExtra,
+                  retryLevel: 1 as const,
+                  originalId,
+                  scheduledTime: backupTime.toISOString()
+                }
+              });
+
+              prayerCount += 2;
+              console.log(`Evening prayer at ${nextOccurrence.toLocaleTimeString(options.timeZone)}, ID ${originalId}`);
+            }
+          }
+        }
 
         if (notifications.length > 0 && notifications.length < 500) {
           await LocalNotifications.schedule({ notifications });
