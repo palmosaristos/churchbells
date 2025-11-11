@@ -30,7 +30,7 @@ export const WelcomeScreen = ({ isOpen, onComplete }: WelcomeScreenProps) => {
               <AlertDialogTitle className="text-5xl md:text-6xl font-cinzel font-bold text-center text-foreground">
                 Welcome to Sacred Bells
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-xl md:text-2xl text-center font-cormorant text-amber-800 dark:text-amber-200 leading-relaxed">
+              <AlertDialogDescription className="text-2xl md:text-3xl text-center font-cormorant text-amber-900 dark:text-amber-100 leading-relaxed italic">
                 Let the sacred sound of church bells guide you through the day
               </AlertDialogDescription>
             </AlertDialogHeader>
