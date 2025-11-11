@@ -35,7 +35,7 @@ const Index = () => {
     return localStorage.getItem("appEnabled") !== "false";
   });
   const [prayerEnabled, setPrayerEnabled] = useState<boolean>(() => {
-    return localStorage.getItem("prayerReminderEnabled") === "true";
+    return localStorage.getItem("prayerEnabled") !== "false";
   });
   const [prayerName, setPrayerName] = useState<string>(() => {
     return localStorage.getItem("prayerName") || "Prayer";
@@ -98,7 +98,7 @@ const Index = () => {
       setStartTime(localStorage.getItem("startTime") || "08:00");
       setEndTime(localStorage.getItem("endTime") || "20:00");
       setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
-      setPrayerEnabled(localStorage.getItem("prayerReminderEnabled") === "true");
+      setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
       setPrayerName(localStorage.getItem("prayerName") || "Prayer");
       setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
       setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
