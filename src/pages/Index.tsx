@@ -88,7 +88,8 @@ const Index = () => {
     prayerTime,
     prayerName,
     callType,
-    prayerReminders
+    prayerReminders,
+    prayerReminderWithBell: reminderWithBell
   });
 
   // Listen for settings changes

@@ -18,6 +18,7 @@ interface BellSchedulerOptions {
   prayerName?: string;
   callType?: string;
   prayerReminders?: string[];
+  prayerReminderWithBell?: boolean;
 }
 
 const DAY_MAP: { [key: string]: number } = {
@@ -86,7 +87,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         }
 
         try {
-          // Prayer reminder channel
+          // Prayer reminder channels (silent and with bell)
           await LocalNotifications.createChannel({
             id: 'prayer-reminder',
             name: 'Prayer Reminders',
@@ -94,6 +95,15 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             importance: 3 as any,
             visibility: 1 as any,
             sound: undefined
+          });
+
+          await LocalNotifications.createChannel({
+            id: 'prayer-reminder-bell',
+            name: 'Prayer Reminders (with bell)',
+            description: 'Reminders before prayer times with CATHEDRAL_1 bell',
+            importance: 3 as any,
+            visibility: 1 as any,
+            sound: 'cathedral_1'
           });
 
           // Prayer channels
@@ -238,14 +248,15 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 const reminderTime = new Date(pHour * 3600000 + (pMinute - parseInt(reminderMinutes)) * 60000);
                 const reminderOccurrence = getNextOccurrence(weekday, reminderTime.getHours(), reminderTime.getMinutes());
 
+                const withBell = options.prayerReminderWithBell || false;
                 notifications.push({
                   id: notificationId++,
                   title: '🔔',
                   body: ' ',
                   schedule: { at: reminderOccurrence, allowWhileIdle: true },
-                  silent: true,
+                  silent: !withBell,
                   smallIcon: 'ic_launcher',
-                  channelId: 'prayer-reminder',
+                  channelId: withBell ? 'prayer-reminder-bell' : 'prayer-reminder',
                   extra: {
                     type: 'prayer-reminder' as const,
                     prayerName: options.prayerName || 'Prayer',
@@ -321,6 +332,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
   }, [
     options.enabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
     options.pauseEnabled, options.pauseStartTime, options.pauseEndTime, options.selectedDays, options.timeZone,
-    options.prayerEnabled, options.prayerTime, options.prayerName, options.callType, options.prayerReminders
+    options.prayerEnabled, options.prayerTime, options.prayerName, options.callType, options.prayerReminders,
+    options.prayerReminderWithBell
   ]);
 };
