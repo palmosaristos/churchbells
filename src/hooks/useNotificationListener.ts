@@ -2,57 +2,76 @@ import { useEffect } from 'react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
-import { useAudioPlayer } from './useAudioPlayer';  // Intègre previous hook
+import { useAudioPlayer } from './useAudioPlayer';
+import { ToastOptions, useToast } from '@/hooks/use-toast';
 
 export const useNotificationListener = () => {
   const { toggleAudio, isPlaying } = useAudioPlayer();
+  const { toast } = useToast();
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // Handle received (main trigger: play at schedule.at, fg/bg exact)
+    // CORRECTION : Gestion robuste des notifications reçues
     const handleNotificationReceived = async (notification: any) => {
       const { extra } = notification;
       if (!extra || !extra.type) return;
 
-      // Handle prayer reminders (toast only, no sound)
-      if (extra.type === 'prayer-reminder') {
-        const { toast } = await import('@/hooks/use-toast');
-        const prayerName = extra.prayerName || 'Prayer';
-        const minutesUntil = extra.minutesUntil || '5';
-        
-        toast({
-          title: `Your ${prayerName} starts in ${minutesUntil} minutes`,
-          variant: 'prayer-reminder',
-          duration: 10000,
-        });
-        
-        console.log(`Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
-        return;
-      }
-
-      // Handle bell and prayer sounds
-      if (!extra.soundFile) return;
-
       try {
-        // Check delay (pour backups)
-        const scheduledTime = new Date(extra.scheduledTime || Date.now());
-        const delay = (Date.now() - scheduledTime.getTime()) / 1000;
-        if (extra.retryLevel === 0 && delay > 30) {
-          console.warn(`Main notif delayed ${delay}s – canceling backups`);
-          if (extra.originalId) {
-            await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 1 }] });  // Cancel +30s backup
+        const appState = await CapApp.getState();
+        const isForeground = appState.isActive;
+
+        // PAUSE/RESUME handling
+        if (extra.type === 'pause') {
+          if (isForeground && !isPlaying) {
+            const options = {
+              audioUrl: `/audio/${extra.soundFile}`,
+              type: 'bell' as const,
+              volume: extra.volume,
+              isScheduled: true
+            };
+            toggleAudio(options);
           }
           return;
         }
 
-        // App state: Fg = JS play ; Bg/Closed = natif channel (sound auto)
-        const appState = await CapApp.getState();
-        const isFg = appState.isActive;  // Active = foreground
+        // PRAYER REMINDERS (toast seulement)
+        if (extra.type === 'prayer-reminder') {
+          const prayerName = extra.prayerName || 'Prayer';
+          const minutesUntil = extra.minutesUntil || '5';
+          
+          toast({
+            title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
+            variant: 'prayer-reminder',
+            duration: 8000,
+            style: {
+              background: 'linear-gradient(135deg, #d4a574, #8b4513)',
+              color: 'white',
+              border: '1px solid rgba(212, 165, 116, 0.3)'
+            }
+          } as ToastOptions);
+          
+          console.log(`🔔 Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
+          return;
+        }
 
-        if (isFg && !isPlaying) {  // Fg: JS play (no visuals auréolées)
-          // Récupérer le volume configuré pour cette tradition/prière
+        // Vérification du délai pour les backups
+        const scheduledTime = new Date(extra.scheduledTime || Date.now());
+        const delay = (Date.now() - scheduledTime.getTime()) / 1000;
+        
+        if (extra.retryLevel === 0 && delay > 30) {
+          console.warn(`Main notification delayed ${delay}s – cancelling backup`);
+          if (extra.originalId) {
+            await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 1 }] });
+          }
+          return;
+        }
+
+        // JOUER LE SON (foreground uniquement)
+        if (isForeground && !isPlaying) {
           let volume: number | undefined;
+          
+          // Récupérer le volume configuré
           if (extra.type === 'bell' && extra.bellTradition) {
             const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
             volume = bellVolumes[extra.bellTradition];
@@ -64,62 +83,61 @@ export const useNotificationListener = () => {
           const options = {
             audioUrl: `/audio/${extra.soundFile}`,
             type: extra.type as 'bell' | 'prayer',
-            volume, // Utilise le volume configuré ou undefined pour le défaut
-            isScheduled: true  // No toast – silent play au moment requis
+            volume,
+            isScheduled: true
           };
+          
           toggleAudio(options);
-          console.log(`Playing ${extra.type} ${extra.soundFile} (vol: ${volume || 'default'}) on receive (fg, delay: ${Math.round(delay)}s)`);
-        } else if (!isFg) {
-          console.log(`Natif play ${extra.soundFile} on receive (bg/closed)`);  // Channel sound auto
+          console.log(`🔊 Playing ${extra.type} ${extra.soundFile} (vol: ${volume || 'default'}) - FG delay: ${Math.round(delay)}s`);
+        } else if (!isForeground) {
+          console.log(`📱 Native play ${extra.soundFile} (BG/closed)`);
         }
 
-        // Backup check: Si retry>0, log mais joue
+        // Gestion des backups
         if (extra.retryLevel > 0) {
-          console.log(`Backup play triggered (level ${extra.retryLevel})`);
-          // Optional: Cancel further backups if +60s
+          console.log(`Backup triggered (level ${extra.retryLevel})`);
           if (extra.originalId) {
             await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 2 }] });
           }
         }
       } catch (error) {
-        console.error('Received play error:', error);
+        console.error('❌ Notification handling error:', error);
       }
     };
 
-    // Handle tap/action (optional replay if user taps notif)
+    // Gestion du tap sur notification
     const handleNotificationAction = async (notification: any) => {
       const { extra } = notification.notification;
-      if (!extra || !extra.soundFile || !extra.type) return;
+      if (!extra || !extra.soundFile || !extra.type || isPlaying) return;
 
-      // Replay via player (si !playing, no disrupt)
-      if (!isPlaying) {
-        // Récupérer le volume configuré
-        let volume: number | undefined;
-        if (extra.type === 'bell' && extra.bellTradition) {
-          const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
-          volume = bellVolumes[extra.bellTradition];
-        } else if (extra.type === 'prayer') {
-          const saved = localStorage.getItem('prayerBellVolume');
-          volume = saved ? parseFloat(saved) : undefined;
-        }
-
-        const options = {
-          audioUrl: `/audio/${extra.soundFile}`,
-          type: extra.type as 'bell' | 'prayer',
-          volume,
-          isScheduled: false  // Allow toast si manual tap (mais optional)
-        };
-        toggleAudio(options);
-        console.log(`Replay on tap: ${extra.type} ${extra.soundFile} (vol: ${volume || 'default'})`);
+      let volume: number | undefined;
+      
+      if (extra.type === 'bell' && extra.bellTradition) {
+        const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
+        volume = bellVolumes[extra.bellTradition];
+      } else if (extra.type === 'prayer') {
+        const saved = localStorage.getItem('prayerBellVolume');
+        volume = saved ? parseFloat(saved) : undefined;
       }
+
+      const options = {
+        audioUrl: `/audio/${extra.soundFile}`,
+        type: extra.type as 'bell' | 'prayer',
+        volume,
+        isScheduled: false
+      };
+      
+      toggleAudio(options);
+      console.log(`🔄 Replay on tap: ${extra.type} ${extra.soundFile}`);
     };
 
-    // Add listeners
-    LocalNotifications.addListener('localNotificationReceived', handleNotificationReceived);
-    LocalNotifications.addListener('localNotificationActionPerformed', handleNotificationAction);
+    // Enregistrer les listeners
+    const receivedListener = await LocalNotifications.addListener('localNotificationReceived', handleNotificationReceived);
+    const actionListener = await LocalNotifications.addListener('localNotificationActionPerformed', handleNotificationAction);
 
     return () => {
-      LocalNotifications.removeAllListeners();
+      receivedListener.remove();
+      actionListener.remove();
     };
-  }, [toggleAudio, isPlaying]);  // Deps stable (player callback)
+  }, [toggleAudio, isPlaying]);
 };
