@@ -12,6 +12,7 @@ interface PrayerConfigurationProps {
   callType?: 'short' | 'long';
   timeZone?: string;
   reminders?: string[];
+  reminderWithBell?: boolean;
 }
 
 export const PrayerConfiguration = ({
@@ -21,6 +22,7 @@ export const PrayerConfiguration = ({
   callType = 'short',
   timeZone = 'UTC',
   reminders = [],
+  reminderWithBell = false,
 }: PrayerConfigurationProps) => {
   const isConfigured = prayerEnabled;
   useEffect(() => {
@@ -63,13 +65,14 @@ export const PrayerConfiguration = ({
               </p>
               {prayerEnabled && reminders.length > 0 && (
                 <p className="text-sm text-muted-foreground">
-                  with {reminders.map((r, i) => 
-                    i === reminders.length - 1 && i > 0 
-                      ? ` + ${r} min reminder` 
-                      : i > 0 
-                        ? `, ${r} min reminder`
-                        : `${r} min reminder`
-                  ).join('')}
+                  with {reminders.map((r, i) => {
+                    const reminderType = reminderWithBell ? 'bell' : 'visual';
+                    if (i === 0) {
+                      return `${r} min ${reminderType} reminder`;
+                    } else {
+                      return `and another ${r} min ${reminderType} reminder`;
+                    }
+                  }).join(' ')}
                 </p>
               )}
             </div>

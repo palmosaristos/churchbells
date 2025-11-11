@@ -69,6 +69,9 @@ const Index = () => {
     const saved = localStorage.getItem("prayerReminderNotifications");
     return saved ? JSON.parse(saved) : ["5"];
   });
+  const [reminderWithBell, setReminderWithBell] = useState<boolean>(() => {
+    return localStorage.getItem("prayerReminderWithBell") === "true";
+  });
 
   useBellScheduler({
     enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
@@ -107,6 +110,7 @@ const Index = () => {
       setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
       const savedReminders = localStorage.getItem("prayerReminderNotifications");
       setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
+      setReminderWithBell(localStorage.getItem("prayerReminderWithBell") === "true");
     };
 
     // Listen for storage changes from other tabs
@@ -194,6 +198,7 @@ const Index = () => {
                   callType={callType as 'short' | 'long'}
                   timeZone={selectedTimeZone}
                   reminders={prayerReminders}
+                  reminderWithBell={reminderWithBell}
                 />
               </AccordionContent>
             </AccordionItem>
