@@ -38,22 +38,13 @@ export const useAudioPlayer = () => {
     try {
       const effectiveVol = getVolume(type, overrideVol);
 
-      // Si même URL - toggle play/pause
-      if (audioRef.current && currentAudioUrl === audioUrl) {
-        if (isPlaying) {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-          setIsPlaying(false);
-          // Garder currentAudioUrl pour permettre replay
-          return;
-        } else {
-          // Replay depuis le début
-          audioRef.current.currentTime = 0;
-          audioRef.current.volume = effectiveVol;
-          await audioRef.current.play();
-          setIsPlaying(true);
-          return;
-        }
+      // Si même URL et en cours de lecture - stop complet
+      if (audioRef.current && currentAudioUrl === audioUrl && isPlaying) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+        setCurrentAudioUrl("");
+        return;
       }
 
       // Stop previous avec cleanup complet
