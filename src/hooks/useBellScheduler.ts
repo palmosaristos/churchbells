@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
+import { App as CapApp } from '@capacitor/app';
 
 interface BellSchedulerOptions {
   enabled: boolean;
@@ -30,7 +31,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // Helper TZ (pour at exact, no drifts)
+    // CORRECTION 1 : Gestion de la timezone exacte sans dérive
     const createTZDate = (year: number, month: number, day: number, hour: number, minute: number, tz: string): Date => {
       try {
         const fmt = new Intl.DateTimeFormat('en-US', { 
@@ -39,12 +40,124 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           hour: 'numeric', minute: 'numeric', hour12: false 
         });
         const parts = fmt.formatToParts(new Date(year, month - 1, day, hour, minute));
-        let str = parts.map(p => p.value).join('');
-        str = str.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4}), (\d{1,2}):(\d{2})/, '$3-$1-$2T$4:$5:00');
-        return new Date(str);
+        const str = parts.map(p => p.value).join('');
+        const match = str.match(/(\d{1,2})\/(\d{1,2})\/(\d{4}), (\d{1,2}):(\d{2})/);
+        if (match) {
+          const [, m, d, y, h, min] = match;
+          return new Date(`${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}T${h.padStart(2, '0')}:${min}:00`);
+        }
+        return new Date(year, month - 1, day, hour, minute);
       } catch {
         console.warn('TZ calc fail, fallback local');
         return new Date(year, month - 1, day, hour, minute);
+      }
+    };
+
+    // CORRECTION 2 : Création des canaux avec volume et son personnalisé
+    const setupChannels = async () => {
+      try {
+        // Channels principaux
+        const lowPrio = { importance: 3, visibility: 1, vibration: false };
+        
+        // IMPORTANT : Appliquer le volume utilisateur aux canaux
+        const volume = parseFloat(localStorage.getItem('generalVolume') || '0.7');
+        
+        await LocalNotifications.createChannel({
+          id: 'sacred-bells-channel',
+          name: 'Sacred Bells',
+          description: 'Notifications for scheduled bell chimes',
+          ...lowPrio,
+          sound: 'freemium_carillon.mp3',
+          // CORRECTION : Audio attributes pour le volume natif
+          audioAttributes: {
+            usage: 6, // USAGE_NOTIFICATION
+            contentType: 4, // CONTENT_TYPE_SONIFICATION
+          },
+          lightColor: '#d4a574',
+          vibration: false
+        });
+
+        // Canaux Cathedral (1-12 carillons)
+        const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
+        for (let i = 1; i <= 12; i++) {
+          await LocalNotifications.createChannel({
+            id: `cathedral-bells-${i}`,
+            name: `Cathedral Bells (${i} chime${i > 1 ? 's' : ''})`,
+            description: `Cathedral bells - ${i} chime${i > 1 ? 's' : ''}`,
+            ...lowPrio,
+            sound: `cathedral_${i}.mp3`,
+            audioAttributes: {
+              usage: 6,
+              contentType: 4,
+              volume: bellVolumes['cathedral-bell'] || volume
+            },
+            lightColor: '#d4a574',
+            vibration: false
+          });
+        }
+
+        // Canaux de prière
+        const prayerVolume = parseFloat(localStorage.getItem('prayerBellVolume') || '0.7');
+        
+        await LocalNotifications.createChannel({
+          id: 'prayer-short',
+          name: 'Prayer (Short Call)',
+          description: 'Short bell call for prayer',
+          ...lowPrio,
+          sound: 'short_call.mp3',
+          audioAttributes: {
+            usage: 6,
+            contentType: 4,
+            volume: prayerVolume
+          },
+          lightColor: '#8b4513',
+          vibration: false
+        });
+
+        await LocalNotifications.createChannel({
+          id: 'prayer-long',
+          name: 'Prayer (Long Call)',
+          description: 'Long bell call for prayer',
+          ...lowPrio,
+          sound: 'long_call.mp3',
+          audioAttributes: {
+            usage: 6,
+            contentType: 4,
+            volume: prayerVolume
+          },
+          lightColor: '#8b4513',
+          vibration: false
+        });
+
+        // Canaux de rappel
+        await LocalNotifications.createChannel({
+          id: 'prayer-reminder',
+          name: 'Prayer Reminders',
+          description: 'Silent reminders before prayer times',
+          importance: 2,
+          visibility: 1,
+          sound: undefined,
+          vibration: false
+        });
+
+        await LocalNotifications.createChannel({
+          id: 'prayer-reminder-bell',
+          name: 'Prayer Reminders (with bell)',
+          description: 'Reminders with cathedral bell',
+          importance: 3,
+          visibility: 1,
+          sound: 'cathedral_1.mp3',
+          audioAttributes: {
+            usage: 6,
+            contentType: 4,
+            volume: prayerVolume * 0.5 // Moitié du volume pour les rappels
+          },
+          lightColor: '#d4a574',
+          vibration: false
+        });
+
+      } catch (chanErr) {
+        console.warn('Channel create fail (OK if already exist):', chanErr);
       }
     };
 
@@ -56,6 +169,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return;
         }
 
+        // CORRECTION 3 : Nettoyage complet des anciennes notifications
         const pending = await LocalNotifications.getPending();
         if (pending.notifications.length > 0) {
           await LocalNotifications.cancel({ notifications: pending.notifications });
@@ -66,59 +180,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return;
         }
 
-        // Channels avec low prio
-        const lowPrio = { importance: 2 as any, visibility: 0 as any, vibration: false };
-        await LocalNotifications.createChannel({
-          id: 'sacred-bells-channel',
-          name: 'Sacred Bells',
-          description: 'Notifications for scheduled bell chimes',
-          ...lowPrio,
-          sound: 'default'
-        });
-
-        for (let i = 1; i <= 12; i++) {
-          await LocalNotifications.createChannel({
-            id: `cathedral-bells-${i}`,
-            name: `Cathedral Bells (${i} chime${i > 1 ? 's' : ''})`,
-            description: `Cathedral bells - ${i} chime${i > 1 ? 's' : ''}`,
-            ...lowPrio,
-            sound: `cathedral_${i}`
-          });
-        }
-
-        try {
-          // Prayer reminder channels (silent and with bell)
-          await LocalNotifications.createChannel({
-            id: 'prayer-reminder',
-            name: 'Prayer Reminders',
-            description: 'Reminders before prayer times',
-            importance: 3 as any,
-            visibility: 1 as any,
-            sound: undefined
-          });
-
-          await LocalNotifications.createChannel({
-            id: 'prayer-reminder-bell',
-            name: 'Prayer Reminders (with bell)',
-            description: 'Reminders before prayer times with CATHEDRAL_1 bell',
-            importance: 3 as any,
-            visibility: 1 as any,
-            sound: 'cathedral_1'
-          });
-
-          // Prayer channels
-          for (const ct of ['short', 'long']) {
-            await LocalNotifications.createChannel({
-              id: `prayer-${ct}`,
-              name: `Prayer (${ct} Call)`,
-              description: `${ct} bell call for prayer`,
-              ...lowPrio,
-              sound: `${ct}_call`
-            });
-          }
-        } catch (chanErr) {
-          console.warn('Channel create fail (OK if already exist):', chanErr);
-        }
+        // CORRECTION 4 : Mise à jour des volumes avant la planification
+        await setupChannels();
 
         const notifications: any[] = [];
         const now = new Date();
@@ -156,7 +219,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
         let notificationId = Date.now();
 
-        // Cloches
+        // ==================== CLOCHES PRINCIPALES ====================
         let bellCount = 0;
         for (const dayName of options.selectedDays) {
           const weekday = DAY_MAP[dayName];
@@ -167,22 +230,20 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             if (hourMinutes >= startMinutes && hourMinutes <= endMinutes) {
               const chimeCount = h % 12 || 12;
               
+              if (isInPausePeriod(hourMinutes)) continue;
+
               let soundFile: string;
               let channelId: string;
               
               if (options.bellTradition === 'cathedral-bell') {
                 soundFile = `CATHEDRAL_${chimeCount}.mp3`;
                 channelId = `cathedral-bells-${chimeCount}`;
-              } else if (options.bellTradition === 'village-bell') {
-                soundFile = `VILLAGE_${chimeCount}.mp3`;
-                channelId = 'village-bells-channel';
               } else {
-                soundFile = 'freemium-carillon.mp3';
-                channelId = 'carillon-bells-channel';
+                soundFile = 'freemium_carillon.mp3';
+                channelId = 'sacred-bells-channel';
               }
 
               const nextOccurrence = getNextOccurrence(weekday, h, 0);
-              if (nextOccurrence.getTime() <= now.getTime() - 60000) continue;
 
               const baseExtra = {
                 type: 'bell' as const,
@@ -204,10 +265,11 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 extra: { ...baseExtra, retryLevel: 0 as const, originalId }
               });
 
+              // Backup à +30s
               const backupTime = new Date(nextOccurrence.getTime() + 30000);
               notifications.push({
                 id: notificationId++,
-                title: '🔔 Sacred Bells (backup)',
+                title: '🔔 Sacred Bells',
                 body: `${chimeCount} chime${chimeCount > 1 ? 's' : ''}`,
                 schedule: { at: backupTime, allowWhileIdle: true },
                 silent: false,
@@ -222,16 +284,54 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               });
 
               bellCount += 2;
-              console.log(`Bell scheduled: ${chimeCount} at ${nextOccurrence.toLocaleTimeString(options.timeZone)}, ID ${originalId}`);
             }
 
+            // CORRECTION 5 : DEMI-HEURES ACTIVÉES
             if (options.halfHourChimes) {
-              // Half hour logic here if needed
+              const halfHourMinutes = h * 60 + 30;
+              if (halfHourMinutes >= startMinutes && halfHourMinutes <= endMinutes && !isInPausePeriod(halfHourMinutes)) {
+                
+                let soundFile: string;
+                let channelId: string;
+                
+                if (options.bellTradition === 'cathedral-bell') {
+                  soundFile = 'CATHEDRAL_1.mp3';
+                  channelId = 'cathedral-bells-1';
+                } else {
+                  soundFile = 'freemium_carillon.mp3';
+                  channelId = 'sacred-bells-channel';
+                }
+
+                const nextOccurrence = getNextOccurrence(weekday, h, 30);
+
+                const originalId = notificationId++;
+                notifications.push({
+                  id: originalId,
+                  title: '🔔 Sacred Bells',
+                  body: 'Half hour',
+                  schedule: { at: nextOccurrence, allowWhileIdle: true },
+                  silent: false,
+                  smallIcon: 'ic_launcher',
+                  channelId,
+                  extra: {
+                    type: 'bell' as const,
+                    soundFile,
+                    bellTradition: options.bellTradition,
+                    chimeCount: 1,
+                    retryLevel: 0 as const,
+                    originalId,
+                    scheduledTime: nextOccurrence.toISOString(),
+                    isHalfHour: true
+                  }
+                });
+
+                bellCount++;
+              }
             }
           }
         }
 
-        // Prayer scheduling
+        // ==================== PRIÈRES ====================
         let prayerCount = 0;
         if (options.prayerEnabled && options.prayerTime) {
           const [pHour, pMinute] = options.prayerTime.split(':').map(Number);
@@ -242,17 +342,19 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               const weekday = DAY_MAP[dayName];
               if (weekday === undefined) continue;
 
-              // Reminders
+              // Rappels
               const prayerReminders = options.prayerReminders || [];
               for (const reminderMinutes of prayerReminders) {
-                const reminderTime = new Date(pHour * 3600000 + (pMinute - parseInt(reminderMinutes)) * 60000);
+                const reminderTime = new Date();
+                reminderTime.setHours(pHour, pMinute - parseInt(reminderMinutes), 0, 0);
+                
                 const reminderOccurrence = getNextOccurrence(weekday, reminderTime.getHours(), reminderTime.getMinutes());
 
                 const withBell = options.prayerReminderWithBell || false;
                 notifications.push({
                   id: notificationId++,
-                  title: '🔔',
-                  body: ' ',
+                  title: `🔔 ${options.prayerName || 'Prayer'}`,
+                  body: `in ${reminderMinutes} min${reminderMinutes === '1' ? '' : 's'}`,
                   schedule: { at: reminderOccurrence, allowWhileIdle: true },
                   silent: !withBell,
                   smallIcon: 'ic_launcher',
@@ -261,14 +363,14 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                     type: 'prayer-reminder' as const,
                     prayerName: options.prayerName || 'Prayer',
                     minutesUntil: reminderMinutes,
-                    scheduledTime: reminderOccurrence.toISOString()
+                    scheduledTime: reminderOccurrence.toISOString(),
+                    withBell: withBell
                   }
                 });
               }
 
-              const channelId = options.callType === 'long' 
-                ? 'prayer-long' 
-                : 'prayer-short';
+              // Notification principale de prière
+              const channelId = options.callType === 'long' ? 'prayer-long' : 'prayer-short';
               const soundFile = options.callType === 'long' ? 'long_call.mp3' : 'short_call.mp3';
 
               const nextOccurrence = getNextOccurrence(weekday, pHour, pMinute);
@@ -281,7 +383,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
               const originalId = notificationId++;
               notifications.push({
-                title: '🔔',
+                title: `🔔 ${options.prayerName || 'Prayer'}`,
                 body: ' ',
                 id: originalId,
                 schedule: { at: nextOccurrence, allowWhileIdle: true },
@@ -291,10 +393,11 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 extra: { ...baseExtra, retryLevel: 0 as const, originalId }
               });
 
+              // Backup
               const backupTime = new Date(nextOccurrence.getTime() + 30000);
               notifications.push({
                 id: notificationId++,
-                title: '🔔 (backup)',
+                title: `🔔 ${options.prayerName || 'Prayer'}`,
                 body: ' ',
                 schedule: { at: backupTime, allowWhileIdle: true },
                 silent: false,
@@ -309,26 +412,49 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               });
 
               prayerCount += 2;
-              console.log(`Prayer at ${nextOccurrence.toLocaleTimeString(options.timeZone)}, ID ${originalId}`);
             }
           }
         }
 
+        // ==================== PLANIFICATION ====================
         if (notifications.length > 0 && notifications.length < 500) {
           await LocalNotifications.schedule({ notifications });
-          console.log(`Scheduled ${notifications.length} (bells: ${bellCount}, prayers: ${prayerCount})`);
+          console.log(`✅ Scheduled ${notifications.length} notifications (bells: ${bellCount}, prayers: ${prayerCount})`);
         } else if (notifications.length >= 500) {
-          console.warn('Too many – reduce range');
+          console.warn('⚠️ Too many notifications – reduce time range');
         }
+
       } catch (error) {
-        console.error('Schedule error:', error);
+        console.error('❌ Schedule error:', error);
       }
     };
 
+    // CORRECTION 6 : PLANIFICATION IMMÉDIATE ET QUOTIDIENNE
     scheduleBells();
-    const rescheduleInterval = setInterval(scheduleBells, 24 * 60 * 60 * 1000);
+    
+    // Planification quotidienne à 3h du matin
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(3, 0, 0, 0);
+    
+    const msUntil3am = tomorrow.getTime() - now.getTime();
+    
+    setTimeout(() => {
+      scheduleBells();
+      // Puis toutes les 24h
+      setInterval(scheduleBells, 24 * 60 * 60 * 1000);
+    }, msUntil3am);
 
-    return () => clearInterval(rescheduleInterval);
+    // CORRECTION 7 : RÉACTIVATION AU REDÉMARRAGE DU TÉLÉPHONE
+    const bootListener = CapApp.addListener('appRestoredResult', () => {
+      console.log('📱 App restored after reboot – rescheduling bells');
+      setTimeout(scheduleBells, 5000); // Attendre 5s que le système soit prêt
+    });
+
+    return () => {
+      bootListener.remove();
+    };
   }, [
     options.enabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
     options.pauseEnabled, options.pauseStartTime, options.pauseEndTime, options.selectedDays, options.timeZone,
