@@ -46,18 +46,16 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
       currentAudioUrl
     } = useAudioPlayer();
 
-  // Auto-save on unmount
+  // Auto-save immediately on any change
   useEffect(() => {
-    return () => {
-      localStorage.setItem("prayerName", prayerName);
-      localStorage.setItem("prayerTime", prayerTime);
-      localStorage.setItem("prayerBellVolume", bellVolume.toString());
-      localStorage.setItem("prayerReminderEnabled", String(reminderEnabled));
-      localStorage.setItem("prayerReminderMinutes", reminderMinutes.toString());
-      localStorage.setItem("prayerReminderNotifications", JSON.stringify(reminderNotifications));
-      localStorage.setItem("prayerReminderWithBell", String(reminderWithBell));
-      localStorage.setItem("prayersConfigured", "true");
-    };
+    localStorage.setItem("prayerName", prayerName);
+    localStorage.setItem("prayerTime", prayerTime);
+    localStorage.setItem("prayerBellVolume", bellVolume.toString());
+    localStorage.setItem("prayerReminderEnabled", String(reminderEnabled));
+    localStorage.setItem("prayerReminderMinutes", reminderMinutes.toString());
+    localStorage.setItem("prayerReminderNotifications", JSON.stringify(reminderNotifications));
+    localStorage.setItem("prayerReminderWithBell", String(reminderWithBell));
+    localStorage.setItem("prayersConfigured", "true");
   }, [prayerName, prayerTime, bellVolume, reminderEnabled, reminderMinutes, reminderNotifications, reminderWithBell]);
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />

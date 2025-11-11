@@ -221,6 +221,11 @@ const Index = () => {
                   eveningPrayerName={eveningPrayerName}
                   morningPrayerTime={morningPrayerTime}
                   eveningPrayerTime={eveningPrayerTime}
+                  morningCallType={morningCallType as 'short' | 'long'}
+                  eveningCallType={eveningCallType as 'short' | 'long'}
+                  timeZone={selectedTimeZone}
+                  morningReminders={morningReminders}
+                  eveningReminders={eveningReminders}
                 />
               </AccordionContent>
             </AccordionItem>
