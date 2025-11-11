@@ -32,31 +32,16 @@ export const PrayerConfiguration = ({
     if (!prayerTime) return "Not set";
     
     const [h, m] = prayerTime.split(':').map(Number);
-    const todayPrayer = new Date();
-    todayPrayer.setHours(h, m, 0, 0);
-    const isPast = todayPrayer < current.raw;
+    const period = h >= 12 ? 'PM' : 'AM';
+    const displayHours = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    const formattedTime = `${displayHours}.${m.toString().padStart(2, '0')} ${period}`;
     
-    let display = `${prayerTime}`;
+    let display = formattedTime;
     if (timeZone !== 'UTC' && current.isValidTZ) {
       display += ` (${timeZone.replace('/', ' ')})`;
     }
-    if (isPast) {
-      const next = new Date(todayPrayer);
-      next.setDate(next.getDate() + 1);
-      display += ` (next day at ${next.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
-        minute: '2-digit', 
-        timeZone,
-        hour12: false 
-      })})`;
-    } else if (Math.abs(todayPrayer.getTime() - current.raw.getTime()) < 60000) {
-      display = `Now! ${display}`;
-    }
     
-    const callText = callType === 'long' ? ' (Long call)' : ' (Short call)';
-    const remText = (reminders.length > 0) ? ` with ${reminders.join(', ')}min toast` : '';
-    
-    return `${display}${callText}${remText}`;
+    return display;
   };
 
   const displayTime = getDisplayTime();
@@ -76,8 +61,16 @@ export const PrayerConfiguration = ({
                   ? displayTime 
                   : "Bells silent"}
               </p>
-              {reminders.length > 0 && (
-                <p className="text-sm text-muted-foreground">Toast reminders: {reminders.join(', ')} min before</p>
+              {prayerEnabled && reminders.length > 0 && (
+                <p className="text-sm text-muted-foreground">
+                  with {reminders.map((r, i) => 
+                    i === reminders.length - 1 && i > 0 
+                      ? ` + ${r} min reminder` 
+                      : i > 0 
+                        ? `, ${r} min reminder`
+                        : `${r} min reminder`
+                  ).join('')}
+                </p>
               )}
             </div>
           </div>
