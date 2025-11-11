@@ -51,13 +51,24 @@ export const useNotificationListener = () => {
         const isFg = appState.isActive;  // Active = foreground
 
         if (isFg && !isPlaying) {  // Fg: JS play (no visuals auréolées)
+          // Récupérer le volume configuré pour cette tradition/prière
+          let volume: number | undefined;
+          if (extra.type === 'bell' && extra.bellTradition) {
+            const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
+            volume = bellVolumes[extra.bellTradition];
+          } else if (extra.type === 'prayer') {
+            const saved = localStorage.getItem('prayerBellVolume');
+            volume = saved ? parseFloat(saved) : undefined;
+          }
+
           const options = {
             audioUrl: `/audio/${extra.soundFile}`,
             type: extra.type as 'bell' | 'prayer',
+            volume, // Utilise le volume configuré ou undefined pour le défaut
             isScheduled: true  // No toast – silent play au moment requis
           };
           toggleAudio(options);
-          console.log(`Playing ${extra.type} ${extra.soundFile} on receive (fg, delay: ${Math.round(delay)}s)`);
+          console.log(`Playing ${extra.type} ${extra.soundFile} (vol: ${volume || 'default'}) on receive (fg, delay: ${Math.round(delay)}s)`);
         } else if (!isFg) {
           console.log(`Natif play ${extra.soundFile} on receive (bg/closed)`);  // Channel sound auto
         }
@@ -82,13 +93,24 @@ export const useNotificationListener = () => {
 
       // Replay via player (si !playing, no disrupt)
       if (!isPlaying) {
+        // Récupérer le volume configuré
+        let volume: number | undefined;
+        if (extra.type === 'bell' && extra.bellTradition) {
+          const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
+          volume = bellVolumes[extra.bellTradition];
+        } else if (extra.type === 'prayer') {
+          const saved = localStorage.getItem('prayerBellVolume');
+          volume = saved ? parseFloat(saved) : undefined;
+        }
+
         const options = {
           audioUrl: `/audio/${extra.soundFile}`,
           type: extra.type as 'bell' | 'prayer',
+          volume,
           isScheduled: false  // Allow toast si manual tap (mais optional)
         };
         toggleAudio(options);
-        console.log(`Replay on tap: ${extra.type} ${extra.soundFile}`);
+        console.log(`Replay on tap: ${extra.type} ${extra.soundFile} (vol: ${volume || 'default'})`);
       }
     };
 
