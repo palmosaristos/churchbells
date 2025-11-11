@@ -96,7 +96,58 @@ const Index = () => {
     prayerReminderWithBell: reminderWithBell
   });
 
-  // ... (reste du code identique) ...
+  // Écoute des changements de settings depuis d'autres onglets
+  useEffect(() => {
+    const reloadSettings = () => {
+      setSelectedBellTradition(localStorage.getItem("bellTradition") || "cathedral-bell");
+      setStartTime(localStorage.getItem("startTime") || "08:00");
+      setEndTime(localStorage.getItem("endTime") || "20:00");
+      setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
+      setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
+      setPrayerName(localStorage.getItem("prayerName") || "Prayer");
+      setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
+      setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
+      setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
+      setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
+      setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
+      setCallType((localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short');
+      const savedDays = localStorage.getItem("selectedDays");
+      setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+      const savedReminders = localStorage.getItem("prayerReminderNotifications");
+      setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
+      setReminderWithBell(localStorage.getItem("prayerReminderWithBell") === "true");
+    };
+
+    window.addEventListener("storage", reloadSettings);
+    window.addEventListener("visibilitychange", reloadSettings);
+    window.addEventListener("focus", reloadSettings);
+
+    return () => {
+      window.removeEventListener("storage", reloadSettings);
+      window.removeEventListener("visibilitychange", reloadSettings);
+      window.removeEventListener("focus", reloadSettings);
+    };
+  }, []);
+
+  const handleTimeZoneDetected = (timeZone: string) => {
+    setSelectedTimeZone(timeZone);
+    localStorage.setItem("timeZone", timeZone);
+  };
+
+  const handleAudioPermissionGranted = () => {
+    setAudioPermissionGranted(true);
+    localStorage.setItem("audioPermission", "granted");
+  };
+
+  const handleAppToggle = (enabled: boolean) => {
+    setIsAppEnabled(enabled);
+    localStorage.setItem("appEnabled", String(enabled));
+  };
+
+  const handleWelcomeComplete = () => {
+    setOnboardingComplete(true);
+    localStorage.setItem("onboardingComplete", "true");
+  };
 
   return (
     <div className="min-h-screen bg-gradient-subtle">
@@ -106,7 +157,57 @@ const Index = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-4 pb-16 space-y-10">
-        {/* ... (reste du JSX) ... */}
+        {isAppEnabled && !onboardingComplete && (
+          <WelcomeScreen isOpen={true} onComplete={handleWelcomeComplete} />
+        )}
+
+        {isAppEnabled && onboardingComplete && !selectedTimeZone && (
+          <LocationPermission onTimeZoneDetected={handleTimeZoneDetected} />
+        )}
+
+        {isAppEnabled && onboardingComplete && selectedTimeZone && !audioPermissionGranted && (
+          <AudioPermission onAudioPermissionGranted={handleAudioPermissionGranted} />
+        )}
+
+        {isAppEnabled && onboardingComplete && selectedTimeZone && audioPermissionGranted && (
+          <>
+            <Accordion type="single" collapsible defaultValue="bells-schedule" className="w-full">
+              <AccordionItem value="bells-schedule">
+                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Sacred Bells schedule</AccordionTrigger>
+                <AccordionContent>
+                  <CurrentConfiguration
+                    selectedBellTradition={selectedBellTradition}
+                    startTime={startTime}
+                    endTime={endTime}
+                    halfHourChimes={halfHourChimes}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="prayers">
+                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Prayer</AccordionTrigger>
+                <AccordionContent>
+                  <PrayerConfiguration
+                    prayerEnabled={prayerEnabled}
+                    prayerName={prayerName}
+                    prayerTime={prayerTime}
+                    callType={callType}
+                    timeZone={selectedTimeZone}
+                    reminders={prayerReminders}
+                    reminderWithBell={reminderWithBell}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="premium">
+                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Premium Status</AccordionTrigger>
+                <AccordionContent>
+                  <PremiumConfiguration isPremiumMember={isPremiumMember} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </>
+        )}
       </div>
 
       <Footer />
