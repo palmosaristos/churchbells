@@ -19,7 +19,7 @@ export const bellTraditions: BellTradition[] = [
     name: "Village Bell (in E)",
     description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
     tradition: "Village",
-    audioSample: "/audio/freemium_VILLAGE.mp3"
+    audioSample: "/audio/VILLAGE_3.mp3"
   },
   {
     id: "carillon-bell",
