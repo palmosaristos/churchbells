@@ -61,8 +61,10 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
     localStorage.setItem("prayerReminderMinutes", reminderMinutes.toString());
     localStorage.setItem("prayerReminderNotifications", JSON.stringify(reminderNotifications));
     localStorage.setItem("prayerReminderWithBell", String(reminderWithBell));
+    localStorage.setItem("prayerEnabled", String(prayerEnabled));
+    localStorage.setItem("prayerCallType", callType);
     localStorage.setItem("prayersConfigured", "true");
-  }, [prayerName, prayerTime, bellVolume, reminderEnabled, reminderMinutes, reminderNotifications, reminderWithBell]);
+  }, [prayerName, prayerTime, bellVolume, reminderEnabled, reminderMinutes, reminderNotifications, reminderWithBell, prayerEnabled, callType]);
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
