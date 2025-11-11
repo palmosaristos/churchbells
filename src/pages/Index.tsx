@@ -34,23 +34,14 @@ const Index = () => {
   const [isAppEnabled, setIsAppEnabled] = useState<boolean>(() => {
     return localStorage.getItem("appEnabled") !== "false";
   });
-  const [morningPrayerEnabled, setMorningPrayerEnabled] = useState<boolean>(() => {
-    return localStorage.getItem("morningPrayerEnabled") === "true";
+  const [prayerEnabled, setPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("prayerReminderEnabled") === "true";
   });
-  const [eveningPrayerEnabled, setEveningPrayerEnabled] = useState<boolean>(() => {
-    return localStorage.getItem("eveningPrayerEnabled") === "true";
+  const [prayerName, setPrayerName] = useState<string>(() => {
+    return localStorage.getItem("prayerName") || "Prayer";
   });
-  const [morningPrayerName, setMorningPrayerName] = useState<string>(() => {
-    return localStorage.getItem("morningPrayerName") || "Morning Prayer";
-  });
-  const [eveningPrayerName, setEveningPrayerName] = useState<string>(() => {
-    return localStorage.getItem("eveningPrayerName") || "Evening Prayer";
-  });
-  const [morningPrayerTime, setMorningPrayerTime] = useState<string>(() => {
-    return localStorage.getItem("morningPrayerTime") || "06:00";
-  });
-  const [eveningPrayerTime, setEveningPrayerTime] = useState<string>(() => {
-    return localStorage.getItem("eveningPrayerTime") || "18:00";
+  const [prayerTime, setPrayerTime] = useState<string>(() => {
+    return localStorage.getItem("prayerTime") || "06:00";
   });
   const [isPremiumMember, setIsPremiumMember] = useState<boolean>(() => {
     return localStorage.getItem("isPremiumMember") === "true";
@@ -71,18 +62,11 @@ const Index = () => {
     const saved = localStorage.getItem("selectedDays");
     return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   });
-  const [morningCallType, setMorningCallType] = useState<string>(() => {
-    return localStorage.getItem("morningCallType") || "short";
+  const [callType, setCallType] = useState<string>(() => {
+    return localStorage.getItem("prayerCallType") || "short";
   });
-  const [eveningCallType, setEveningCallType] = useState<string>(() => {
-    return localStorage.getItem("eveningCallType") || "short";
-  });
-  const [morningReminders, setMorningReminders] = useState<string[]>(() => {
-    const saved = localStorage.getItem("morningReminders");
-    return saved ? JSON.parse(saved) : ["5"];
-  });
-  const [eveningReminders, setEveningReminders] = useState<string[]>(() => {
-    const saved = localStorage.getItem("eveningReminders");
+  const [prayerReminders, setPrayerReminders] = useState<string[]>(() => {
+    const saved = localStorage.getItem("prayerReminderNotifications");
     return saved ? JSON.parse(saved) : ["5"];
   });
 
@@ -97,16 +81,11 @@ const Index = () => {
     pauseEndTime,
     selectedDays,
     timeZone: selectedTimeZone,
-    morningPrayerEnabled,
-    morningPrayerTime,
-    eveningPrayerEnabled,
-    eveningPrayerTime,
-    morningPrayerName,
-    eveningPrayerName,
-    morningCallType,
-    eveningCallType,
-    morningReminders,
-    eveningReminders
+    prayerEnabled,
+    prayerTime,
+    prayerName,
+    callType,
+    prayerReminders
   });
 
   // Listen for settings changes
@@ -116,24 +95,18 @@ const Index = () => {
       setStartTime(localStorage.getItem("startTime") || "08:00");
       setEndTime(localStorage.getItem("endTime") || "20:00");
       setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
-      setMorningPrayerEnabled(localStorage.getItem("morningPrayerEnabled") === "true");
-      setEveningPrayerEnabled(localStorage.getItem("eveningPrayerEnabled") === "true");
-      setMorningPrayerName(localStorage.getItem("morningPrayerName") || "Morning Prayer");
-      setEveningPrayerName(localStorage.getItem("eveningPrayerName") || "Evening Prayer");
-      setMorningPrayerTime(localStorage.getItem("morningPrayerTime") || "06:00");
-      setEveningPrayerTime(localStorage.getItem("eveningPrayerTime") || "18:00");
+      setPrayerEnabled(localStorage.getItem("prayerReminderEnabled") === "true");
+      setPrayerName(localStorage.getItem("prayerName") || "Prayer");
+      setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
       setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
       setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
       setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
       setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
-      setMorningCallType(localStorage.getItem("morningCallType") || "short");
-      setEveningCallType(localStorage.getItem("eveningCallType") || "short");
+      setCallType(localStorage.getItem("prayerCallType") || "short");
       const savedDays = localStorage.getItem("selectedDays");
       setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
-      const savedMorningReminders = localStorage.getItem("morningReminders");
-      setMorningReminders(savedMorningReminders ? JSON.parse(savedMorningReminders) : ["5"]);
-      const savedEveningReminders = localStorage.getItem("eveningReminders");
-      setEveningReminders(savedEveningReminders ? JSON.parse(savedEveningReminders) : ["5"]);
+      const savedReminders = localStorage.getItem("prayerReminderNotifications");
+      setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
     };
 
     // Listen for storage changes from other tabs
@@ -212,20 +185,15 @@ const Index = () => {
             </AccordionItem>
 
             <AccordionItem value="prayers">
-              <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Prayers</AccordionTrigger>
+              <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Prayer</AccordionTrigger>
               <AccordionContent>
                 <PrayerConfiguration
-                  morningPrayerEnabled={morningPrayerEnabled}
-                  eveningPrayerEnabled={eveningPrayerEnabled}
-                  morningPrayerName={morningPrayerName}
-                  eveningPrayerName={eveningPrayerName}
-                  morningPrayerTime={morningPrayerTime}
-                  eveningPrayerTime={eveningPrayerTime}
-                  morningCallType={morningCallType as 'short' | 'long'}
-                  eveningCallType={eveningCallType as 'short' | 'long'}
+                  prayerEnabled={prayerEnabled}
+                  prayerName={prayerName}
+                  prayerTime={prayerTime}
+                  callType={callType as 'short' | 'long'}
                   timeZone={selectedTimeZone}
-                  morningReminders={morningReminders}
-                  eveningReminders={eveningReminders}
+                  reminders={prayerReminders}
                 />
               </AccordionContent>
             </AccordionItem>
