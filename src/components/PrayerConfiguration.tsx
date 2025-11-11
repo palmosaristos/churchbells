@@ -1,9 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Bell, Clock } from "lucide-react";
+import { Bell, Clock, Volume2 } from "lucide-react";
 import { useCurrentTime } from "@/hooks/useCurrentTime";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 interface PrayerConfigurationProps {
   prayerEnabled: boolean;
@@ -24,69 +24,167 @@ export const PrayerConfiguration = ({
   reminders = [],
   reminderWithBell = false,
 }: PrayerConfigurationProps) => {
-  const isConfigured = prayerEnabled;
+  const isConfigured = prayerEnabled && !!prayerTime;
+  
+  // CORRECTION 1 : Persiste l'état de configuration pour le planificateur
   useEffect(() => {
-    localStorage.setItem("prayersConfigured", isConfigured.toString());
-  }, [isConfigured]);
+    localStorage.setItem("prayersConfigured", String(isConfigured));
+    if (import.meta.env.DEV) {
+      console.log(`🔔 Prayer configuration: ${isConfigured ? 'ACTIVE' : 'INACTIVE'}`);
+    }
+  }, [isConfigured, prayerName, prayerTime, callType, reminders, reminderWithBell]);
 
   const current = useCurrentTime({ timeZone });
-  const getDisplayTime = (): string => {
-    if (!prayerTime) return "Not set";
-    
-    const [h, m] = prayerTime.split(':').map(Number);
-    const period = h >= 12 ? 'PM' : 'AM';
-    const displayHours = h === 0 ? 12 : h > 12 ? h - 12 : h;
-    const formattedTime = `${displayHours}.${m.toString().padStart(2, '0')} ${period}`;
-    
-    let display = formattedTime;
-    if (timeZone !== 'UTC' && current.isValidTZ) {
-      display += ` (${timeZone.replace('/', ' ')})`;
+  
+  // CORRECTION 2 : Formatage robuste de l'heure
+  const displayTime = useMemo(() => {
+    if (!prayerEnabled || !prayerTime) {
+      return { time: "Bells silent", subtitle: "Prayer notifications disabled" };
     }
     
-    return display;
+    try {
+      const [h, m] = prayerTime.split(':').map(Number);
+      
+      if (isNaN(h) || isNaN(m)) {
+        return { time: "Invalid time", subtitle: "Please check settings" };
+      }
+      
+      const period = h >= 12 ? 'PM' : 'AM';
+      const displayHours = h === 0 ? 12 : h > 12 ? h - 12 : h;
+      const formattedTime = `${displayHours}:${m.toString().padStart(2, '0')} ${period}`;
+      
+      const tzDisplay = timeZone !== 'UTC' && current.isValidTZ 
+        ? ` (${timeZone.split('/').pop()?.replace('_', ' ')})` 
+        : '';
+      
+      const callTypeText = callType === 'long' ? 'Long call' : 'Short call';
+      
+      return {
+        time: formattedTime + tzDisplay,
+        subtitle: callTypeText
+      };
+    } catch (error) {
+      console.error('❌ Time formatting error:', error);
+      return { time: "Error", subtitle: "Invalid time format" };
+    }
+  }, [prayerEnabled, prayerTime, timeZone, current.isValidTZ, callType]);
+
+  // CORRECTION 3 : Formatage des rappels avec volumes
+  const reminderText = useMemo(() => {
+    if (!prayerEnabled || reminders.length === 0) return null;
+    
+    const volumes = {
+      bell: reminderWithBell ? getReminderVolume() : 0,
+      visual: 0
+    };
+    
+    const reminderType = reminderWithBell ? '🔔 Bell reminder' : '👁 Visual reminder';
+    
+    return {
+      prefix: reminders.length === 1 ? 'with' : 'with reminders at',
+      text: reminders.join(', ') + ' min',
+      type: reminderType,
+      volume: volumes.bell
+    };
+  }, [prayerEnabled, reminders, reminderWithBell]);
+
+  // CORRECTION 4 : Récupération du volume des rappels
+  const getReminderVolume = () => {
+    try {
+      const prayerVol = parseFloat(localStorage.getItem('prayerBellVolume') || '0.7');
+      const reminderVol = parseFloat(localStorage.getItem('prayerReminderVolume') || '0.5');
+      return Math.min(prayerVol * reminderVol, 1); // Volume combiné max 100%
+    } catch {
+      return 0.5;
+    }
   };
 
-  const displayTime = getDisplayTime();
-
   return (
-    <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm">
+    <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
       <CardContent className="p-5 space-y-4">
-        <div className="flex items-center justify-between p-4 rounded-lg bg-white/50 dark:bg-slate-800/50 border border-amber-200/30 dark:border-amber-800/20 shadow-sm">
-          <div className="flex items-center gap-3">
-            <Bell className="w-6 h-6 text-primary" />
+        {/* État de la prière */}
+        <div className={`flex items-center justify-between p-4 rounded-lg border shadow-sm transition-all ${
+          isConfigured 
+            ? 'bg-white/70 dark:bg-slate-800/70 border-amber-300/50 dark:border-amber-700/50' 
+            : 'bg-gray-50 dark:bg-slate-800/30 border-border'
+        }`}>
+          <div className="flex items-center gap-4">
+            <div className={`p-2 rounded-full ${isConfigured ? 'bg-primary/10' : 'bg-gray-200 dark:bg-slate-700'}`}>
+              <Bell className={`w-6 h-6 ${isConfigured ? 'text-primary' : 'text-muted-foreground'}`} />
+            </div>
             <div>
-              <p className="font-cormorant text-xl text-foreground font-semibold">
-                {prayerName}
+              <p className="font-cormorant text-xl font-bold text-foreground">
+                {isConfigured ? prayerName : 'Prayer not configured'}
               </p>
-              <p className="font-cormorant text-xl text-foreground">
-                {prayerEnabled 
-                  ? displayTime 
-                  : "Bells silent"}
+              <p className={`font-cormorant text-lg ${isConfigured ? 'text-foreground' : 'text-muted-foreground'}`}>
+                {displayTime.time}
               </p>
-              {prayerEnabled && reminders.length > 0 && (
-                <p className="text-sm text-muted-foreground">
-                  with {reminders.map((r, i) => {
-                    const reminderType = reminderWithBell ? 'bell' : 'visual';
-                    if (i === 0) {
-                      return `${r} min ${reminderType} reminder`;
-                    } else {
-                      return `and another ${r} min ${reminderType} reminder`;
-                    }
-                  }).join(' ')}
+              {isConfigured && (
+                <p className="text-sm text-muted-foreground font-medium">
+                  {displayTime.subtitle}
                 </p>
               )}
             </div>
           </div>
+          
+          {isConfigured && (
+            <div className="flex items-center gap-2">
+              <Volume2 className={`w-4 h-4 ${reminderWithBell ? 'text-primary' : 'text-muted-foreground'}`} />
+              <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
+                reminderWithBell 
+                  ? 'bg-primary/10 text-primary' 
+                  : 'bg-gray-100 dark:bg-slate-700 text-muted-foreground'
+              }`}>
+                {reminderWithBell ? 'Sound ON' : 'Silent'}
+              </span>
+            </div>
+          )}
         </div>
 
-        <div className="text-center">
+        {/* Rappels configurés */}
+        {isConfigured && reminderText && (
+          <div className="flex items-center justify-center gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200/50 dark:border-amber-800/30">
+            <Clock className="w-4 h-4 text-primary" />
+            <p className="text-sm font-cormorant font-semibold text-foreground">
+              {reminderText.prefix} <span className="text-primary font-bold">{reminderText.text}</span>
+            </p>
+            <span className={`text-xs px-2 py-0.5 rounded ${
+              reminderWithBell ? 'bg-primary/10 text-primary' : 'bg-gray-100 dark:bg-slate-700 text-muted-foreground'
+            }`}>
+              {reminderText.type}
+            </span>
+            {reminderWithBell && (
+              <span className="text-xs text-muted-foreground">
+                ({Math.round(reminderText.volume * 100)}% vol)
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Bouton d'action */}
+        <div className="text-center pt-2">
           <Link to="/prayer-times">
-            <Button variant="amber" size="lg" className="gap-3 font-cormorant text-lg font-semibold">
+            <Button 
+              variant="amber" 
+              size="lg" 
+              className="gap-3 font-cormorant text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              aria-label="Configure prayer time"
+            >
               <Clock className="w-5 h-5" />
-              Set prayer time
+              {isConfigured ? 'Modify prayer time' : 'Set prayer time'}
             </Button>
           </Link>
         </div>
+
+        {/* Debugging info (dev only) */}
+        {import.meta.env.DEV && isConfigured && (
+          <div className="mt-2 p-2 text-xs bg-gray-100 dark:bg-slate-800 rounded text-muted-foreground font-mono">
+            <div>ID: prayer-main</div>
+            <div>Type: {callType}</div>
+            <div>Reminders: {reminders.join(',') || 'none'}</div>
+            <div>Bell: {reminderWithBell ? 'yes' : 'no'}</div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
