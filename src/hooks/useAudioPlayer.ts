@@ -3,42 +3,65 @@ import { toast } from "sonner";
 
 interface AudioOptions {
   audioUrl: string;
-  traditionName?: string;  // Pour previews UI (toast optional)
-  type?: 'bell' | 'prayer';  // Pour volumes persistants (cloches/prayers)
-  volume?: number;  // Override, défaut persistant
-  isScheduled?: boolean;  // Silent pour timed plays (no toast)
+  traditionName?: string;
+  type?: 'bell' | 'prayer' | 'general';
+  volume?: number;
+  isScheduled?: boolean;
 }
 
 export const useAudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudioUrl, setCurrentAudioUrl] = useState<string>("");
-  const volumesRef = useRef<Record<string, number>>({ bell: 0.7, prayer: 0.7 });  // Cache persistant
+  const volumesRef = useRef<Record<string, number>>({ 
+    bell: 0.7, 
+    prayer: 0.7,
+    general: 0.7 
+  });
 
-  // Load/save volume persistant
-  const getVolume = useCallback((type: 'bell' | 'prayer' | 'general', override?: number): number => {
-    if (override !== undefined) return override;
-    const key = type === 'general' ? 'generalVolume' : `${type}Volume`;
+  // CORRECTION : Récupération robuste du volume
+  const getVolume = useCallback((type: 'bell' | 'prayer' | 'general' = 'general', override?: number): number => {
+    if (override !== undefined) return Math.max(0, Math.min(1, override));
+    
+    const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
     const saved = localStorage.getItem(key);
-    const vol = parseFloat(saved || '0.7');
+    const vol = saved ? parseFloat(saved) : 0.7;
+    
     volumesRef.current[type] = vol;
     return vol;
   }, []);
 
+  // CORRECTION : Sauvegarde du volume avec validation
   const setVolume = useCallback((volume: number, type: 'bell' | 'prayer' | 'general' = 'general') => {
-    if (type !== 'general') volumesRef.current[type] = Math.max(0, Math.min(1, volume));
-    const key = type === 'general' ? 'generalVolume' : `${type}Volume`;
-    localStorage.setItem(key, volume.toString());
-  }, []);
+    const clampedVol = Math.max(0, Math.min(1, volume));
+    volumesRef.current[type] = clampedVol;
+    
+    const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
+    localStorage.setItem(key, clampedVol.toString());
+    
+    // Mettre à jour le canal audio actif si en cours de lecture
+    if (audioRef.current && isPlaying) {
+      audioRef.current.volume = clampedVol;
+    }
+  }, [isPlaying]);
 
-  // Toggle amélioré (play/pause/resume, no reset si même)
+  // CORRECTION : Toggle avec gestion d'erreurs complète
   const toggleAudio = useCallback(async (options: AudioOptions) => {
     const { audioUrl, traditionName, type = 'general', volume: overrideVol, isScheduled = false } = options;
+
+    // Validation de l'URL
+    if (!audioUrl || !audioUrl.startsWith('/audio/')) {
+      console.error('Invalid audio URL:', audioUrl);
+      if (!isScheduled) {
+        toast.error("Audio file not found");
+      }
+      return;
+    }
 
     try {
       const effectiveVol = getVolume(type, overrideVol);
 
-      // Si même URL et en cours de lecture - stop complet
+      // Si même URL et en cours de lecture - stop
       if (audioRef.current && currentAudioUrl === audioUrl && isPlaying) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
@@ -47,15 +70,19 @@ export const useAudioPlayer = () => {
         return;
       }
 
-      // Stop previous avec cleanup complet
+      // Stop complet de l'audio précédent
       if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        audioRef.current.src = '';
+        try {
+          audioRef.current.pause();
+          audioRef.current.currentTime = 0;
+          audioRef.current.src = '';
+        } catch (e) {
+          console.warn('Error stopping previous audio:', e);
+        }
         audioRef.current = null;
       }
 
-      // New audio (preload pour start immédiat)
+      // Nouvel élément audio avec préchargement
       const audio = new Audio(audioUrl);
       audio.preload = 'auto';
       audio.volume = effectiveVol;
@@ -68,11 +95,18 @@ export const useAudioPlayer = () => {
       };
       
       audio.onerror = (e) => {
-        if (import.meta.env.DEV) console.error("Audio error:", e);
+        console.error("Audio error:", e);
         setIsPlaying(false);
         setCurrentAudioUrl("");
-        // Retry 1x pour scheduled (silent)
-        if (!isScheduled) {
+        
+        // Retry silencieux pour les sons programmés
+        if (isScheduled) {
+          setTimeout(() => {
+            if (audioRef.current === audio) {
+              audio.play().catch(() => {});
+            }
+          }, 1000);
+        } else {
           toast.error("Unable to play audio sample");
         }
       };
@@ -80,27 +114,29 @@ export const useAudioPlayer = () => {
       await audio.play();
       setIsPlaying(true);
 
-      // Toast seulement pour previews manuelles (no disrupt pour scheduled cloches/prayers)
+      // Toast uniquement pour les prévisions manuelles
       if (traditionName && !isScheduled) {
         toast.success(`Listening to ${traditionName}`, {
-          duration: 2000, // Auto-dismiss après 2s
+          duration: 2000,
+          icon: '🔔'
         });
       }
 
       if (import.meta.env.DEV && isScheduled) {
-        console.log(`Scheduled play: ${audioUrl} (type: ${type}, vol: ${effectiveVol}) at ${new Date().toISOString()}`);
+        console.log(`🔔 Scheduled play: ${audioUrl} (type: ${type}, vol: ${effectiveVol}) at ${new Date().toISOString()}`);
       }
     } catch (error) {
-      if (import.meta.env.DEV) console.error("Toggle error:", error);
+      console.error("❌ Toggle error:", error);
       setIsPlaying(false);
       setCurrentAudioUrl("");
+      
       if (!isScheduled) {
         toast.error("Unable to play audio sample");
       }
     }
   }, [getVolume, isPlaying, currentAudioUrl]);
 
-  // Cleanup global avec stop complet (no leaks, no errors au changement de page)
+  // CORRECTION : Cleanup complet sans erreurs
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -108,11 +144,10 @@ export const useAudioPlayer = () => {
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
           audioRef.current.src = '';
-          audioRef.current = null;
         } catch (e) {
-          // Ignore errors during cleanup
-          if (import.meta.env.DEV) console.log("Audio cleanup:", e);
+          console.log("Audio cleanup:", e);
         }
+        audioRef.current = null;
       }
       setIsPlaying(false);
       setCurrentAudioUrl("");
@@ -123,6 +158,7 @@ export const useAudioPlayer = () => {
     toggleAudio, 
     isPlaying, 
     currentAudioUrl,
-    setVolume  // Expose pour UI settings (persistant)
+    setVolume,
+    getVolume
   };
 };
