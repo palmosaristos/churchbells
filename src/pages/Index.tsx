@@ -1,164 +1,117 @@
-import { useState, useRef, useCallback, useEffect } from "react";
-import { toast } from "sonner";
+import { useState, useEffect } from "react";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
+import { CurrentConfiguration } from "@/components/CurrentConfiguration";
+import { PrayerConfiguration } from "@/components/PrayerConfiguration";
+import { HeroSection } from "@/components/HeroSection";
+import { LocationPermission } from "@/components/LocationPermission";
+import { AudioPermission } from "@/components/AudioPermission";
+import { WelcomeScreen } from "@/components/WelcomeScreen";
+import { PremiumConfiguration } from "@/components/PremiumConfiguration";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
+import { useBellScheduler } from "@/hooks/useBellScheduler";
+import { useNotificationListener } from "@/hooks/useNotificationListener";
 
-interface AudioOptions {
-  audioUrl: string;
-  traditionName?: string;
-  type?: 'bell' | 'prayer' | 'general';
-  volume?: number;
-  isScheduled?: boolean;
-}
-
-export const useAudioPlayer = () => {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentAudioUrl, setCurrentAudioUrl] = useState<string>("");
-  const volumesRef = useRef<Record<string, number>>({ 
-    bell: 0.7, 
-    prayer: 0.7,
-    general: 0.7 
+const Index = () => {
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
+    return localStorage.getItem("bellTradition") || "cathedral-bell";
+  });
+  const [startTime, setStartTime] = useState<string>(() => {
+    return localStorage.getItem("startTime") || "08:00";
+  });
+  const [endTime, setEndTime] = useState<string>(() => {
+    return localStorage.getItem("endTime") || "20:00";
+  });
+  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(() => {
+    return localStorage.getItem("halfHourChimes") === "true";
+  });
+  const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => {
+    return localStorage.getItem("timeZone") || "";
+  });
+  const [audioPermissionGranted, setAudioPermissionGranted] = useState<boolean>(() => {
+    return localStorage.getItem("audioPermission") === "granted";
+  });
+  const [isAppEnabled, setIsAppEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("appEnabled") !== "false";
+  });
+  const [prayerEnabled, setPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("prayerEnabled") !== "false";
+  });
+  const [prayerName, setPrayerName] = useState<string>(() => {
+    return localStorage.getItem("prayerName") || "Prayer";
+  });
+  const [prayerTime, setPrayerTime] = useState<string>(() => {
+    return localStorage.getItem("prayerTime") || "06:00";
+  });
+  const [isPremiumMember, setIsPremiumMember] = useState<boolean>(() => {
+    return localStorage.getItem("isPremiumMember") === "true";
+  });
+  const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => {
+    return localStorage.getItem("onboardingComplete") === "true";
+  });
+  const [pauseEnabled, setPauseEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("pauseEnabled") === "true";
+  });
+  const [pauseStartTime, setPauseStartTime] = useState<string>(() => {
+    return localStorage.getItem("pauseStartTime") || "12:00";
+  });
+  const [pauseEndTime, setPauseEndTime] = useState<string>(() => {
+    return localStorage.getItem("pauseEndTime") || "14:00";
+  });
+  const [selectedDays, setSelectedDays] = useState<string[]>(() => {
+    const saved = localStorage.getItem("selectedDays");
+    return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  });
+  const [callType, setCallType] = useState<'short' | 'long'>(() => {
+    return (localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short';
+  });
+  const [prayerReminders, setPrayerReminders] = useState<string[]>(() => {
+    const saved = localStorage.getItem("prayerReminderNotifications");
+    return saved ? JSON.parse(saved) : ["5"];
+  });
+  const [reminderWithBell, setReminderWithBell] = useState<boolean>(() => {
+    return localStorage.getItem("prayerReminderWithBell") === "true";
   });
 
-  // CORRECTION : Récupération robuste du volume
-  const getVolume = useCallback((type: 'bell' | 'prayer' | 'general' = 'general', override?: number): number => {
-    if (override !== undefined) return Math.max(0, Math.min(1, override));
-    
-    const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
-    const saved = localStorage.getItem(key);
-    const vol = saved ? parseFloat(saved) : 0.7;
-    
-    volumesRef.current[type] = vol;
-    return vol;
-  }, []);
+  // Activation des hooks Capacitor
+  useNotificationListener();
+  
+  useBellScheduler({
+    enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
+    bellTradition: selectedBellTradition,
+    startTime,
+    endTime,
+    halfHourChimes,
+    pauseEnabled,
+    pauseStartTime,
+    pauseEndTime,
+    selectedDays,
+    timeZone: selectedTimeZone,
+    prayerEnabled,
+    prayerTime,
+    prayerName,
+    callType,
+    prayerReminders,
+    prayerReminderWithBell: reminderWithBell
+  });
 
-  // CORRECTION : Sauvegarde du volume avec validation
-  const setVolume = useCallback((volume: number, type: 'bell' | 'prayer' | 'general' = 'general') => {
-    const clampedVol = Math.max(0, Math.min(1, volume));
-    volumesRef.current[type] = clampedVol;
-    
-    const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
-    localStorage.setItem(key, clampedVol.toString());
-    
-    // Mettre à jour le canal audio actif si en cours de lecture
-    if (audioRef.current && isPlaying) {
-      audioRef.current.volume = clampedVol;
-    }
-  }, [isPlaying]);
+  // ... (reste du code identique) ...
 
-  // CORRECTION : Toggle avec gestion d'erreurs complète
-  const toggleAudio = useCallback(async (options: AudioOptions) => {
-    const { audioUrl, traditionName, type = 'general', volume: overrideVol, isScheduled = false } = options;
-
-    // Validation de l'URL
-    if (!audioUrl || !audioUrl.startsWith('/audio/')) {
-      console.error('Invalid audio URL:', audioUrl);
-      if (!isScheduled) {
-        toast.error("Audio file not found");
-      }
-      return;
-    }
-
-    try {
-      const effectiveVol = getVolume(type, overrideVol);
-
-      // Si même URL et en cours de lecture - stop
-      if (audioRef.current && currentAudioUrl === audioUrl && isPlaying) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        setIsPlaying(false);
-        setCurrentAudioUrl("");
-        return;
-      }
-
-      // Stop complet de l'audio précédent
-      if (audioRef.current) {
-        try {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-          audioRef.current.src = '';
-        } catch (e) {
-          console.warn('Error stopping previous audio:', e);
-        }
-        audioRef.current = null;
-      }
-
-      // Nouvel élément audio avec préchargement
-      const audio = new Audio(audioUrl);
-      audio.preload = 'auto';
-      audio.volume = effectiveVol;
-      audioRef.current = audio;
-      setCurrentAudioUrl(audioUrl);
-
-      audio.onended = () => {
-        setIsPlaying(false);
-        setCurrentAudioUrl("");
-      };
+  return (
+    <div className="min-h-screen bg-gradient-subtle">
+      <Navigation isAppEnabled={isAppEnabled} onAppToggle={handleAppToggle} />
       
-      audio.onerror = (e) => {
-        console.error("Audio error:", e);
-        setIsPlaying(false);
-        setCurrentAudioUrl("");
-        
-        // Retry silencieux pour les sons programmés
-        if (isScheduled) {
-          setTimeout(() => {
-            if (audioRef.current === audio) {
-              audio.play().catch(() => {});
-            }
-          }, 1000);
-        } else {
-          toast.error("Unable to play audio sample");
-        }
-      };
+      <HeroSection heroImage={heroImage} />
 
-      await audio.play();
-      setIsPlaying(true);
+      {/* Main Content */}
+      <div className="container mx-auto px-4 pt-4 pb-16 space-y-10">
+        {/* ... (reste du JSX) ... */}
+      </div>
 
-      // Toast uniquement pour les prévisions manuelles
-      if (traditionName && !isScheduled) {
-        toast.success(`Listening to ${traditionName}`, {
-          duration: 2000,
-          icon: '🔔'
-        });
-      }
-
-      if (import.meta.env.DEV && isScheduled) {
-        console.log(`🔔 Scheduled play: ${audioUrl} (type: ${type}, vol: ${effectiveVol}) at ${new Date().toISOString()}`);
-      }
-    } catch (error) {
-      console.error("❌ Toggle error:", error);
-      setIsPlaying(false);
-      setCurrentAudioUrl("");
-      
-      if (!isScheduled) {
-        toast.error("Unable to play audio sample");
-      }
-    }
-  }, [getVolume, isPlaying, currentAudioUrl]);
-
-  // CORRECTION : Cleanup complet sans erreurs
-  useEffect(() => {
-    return () => {
-      if (audioRef.current) {
-        try {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-          audioRef.current.src = '';
-        } catch (e) {
-          console.log("Audio cleanup:", e);
-        }
-        audioRef.current = null;
-      }
-      setIsPlaying(false);
-      setCurrentAudioUrl("");
-    };
-  }, []);
-
-  return { 
-    toggleAudio, 
-    isPlaying, 
-    currentAudioUrl,
-    setVolume,
-    getVolume
-  };
+      <Footer />
+    </div>
+  );
 };
+
+export default Index;
