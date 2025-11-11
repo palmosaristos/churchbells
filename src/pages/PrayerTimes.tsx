@@ -39,6 +39,12 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
     return localStorage.getItem("prayerReminderWithBell") === "true";
   });
   const [additionalNotification, setAdditionalNotification] = useState<number>(0);
+  const [prayerEnabled, setPrayerEnabled] = useState<boolean>(() => {
+    return localStorage.getItem("prayerEnabled") !== "false";
+  });
+  const [callType, setCallType] = useState<'short' | 'long'>(() => {
+    return (localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short';
+  });
 
     const {
       toggleAudio,
