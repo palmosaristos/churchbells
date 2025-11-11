@@ -156,10 +156,20 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             const hourMinutes = h * 60;
             if (hourMinutes >= startMinutes && hourMinutes <= endMinutes) {
               const chimeCount = h % 12 || 12;
-              const channelId = options.bellTradition === 'cathedral-bell' 
-                ? `cathedral-bells-${chimeCount}` 
-                : 'sacred-bells-channel';
-              const soundFile = `cathedral_${chimeCount}.mp3`;
+              
+              let soundFile: string;
+              let channelId: string;
+              
+              if (options.bellTradition === 'cathedral-bell') {
+                soundFile = `CATHEDRAL_${chimeCount}.mp3`;
+                channelId = `cathedral-bells-${chimeCount}`;
+              } else if (options.bellTradition === 'village-bell') {
+                soundFile = `VILLAGE_${chimeCount}.mp3`;
+                channelId = 'village-bells-channel';
+              } else {
+                soundFile = 'freemium-carillon.mp3';
+                channelId = 'carillon-bells-channel';
+              }
 
               const nextOccurrence = getNextOccurrence(weekday, h, 0);
               if (nextOccurrence.getTime() <= now.getTime() - 60000) continue;
