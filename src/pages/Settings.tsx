@@ -92,7 +92,13 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
     const handleBellPlay = async (traditionId: string) => {
       const tradition = bellTraditions.find(t => t.id === traditionId);
       if (tradition?.audioSample) {
-        await toggleAudio({ audioUrl: tradition.audioSample, traditionName: tradition.name, type: 'bell' });
+        const volume = bellVolumes[traditionId] || 0.7;
+        await toggleAudio({ 
+          audioUrl: tradition.audioSample, 
+          traditionName: tradition.name, 
+          type: 'bell',
+          volume: volume
+        });
       }
     };
     return <div className="min-h-screen bg-gradient-subtle pb-24">

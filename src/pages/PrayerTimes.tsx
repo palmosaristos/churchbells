@@ -163,22 +163,25 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                     {/* Bell Sound Preview */}
                     <div className="flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574] dark:border-amber-700">
                       <Label className="font-cormorant text-xl font-semibold">
-                        Bell sound
+                        Bell sound ({callType} call)
                       </Label>
                       <Button 
                         variant="outline" 
                         size="sm" 
                         className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
-                        onClick={() => toggleAudio({ 
-                          audioUrl: "/audio/short_call.mp3", 
-                          traditionName: "Bell", 
-                          type: 'prayer', 
-                          volume: bellVolume 
-                        })} 
+                        onClick={() => {
+                          const audioFile = callType === 'long' ? '/audio/long_call.mp3' : '/audio/short_call.mp3';
+                          toggleAudio({ 
+                            audioUrl: audioFile, 
+                            traditionName: `${callType === 'long' ? 'Long' : 'Short'} Bell`, 
+                            type: 'prayer', 
+                            volume: bellVolume 
+                          });
+                        }} 
                         aria-label="Preview bell sound"
                       >
                         <Volume2 className="w-4 h-4 mr-2" />
-                        {isPlaying && currentAudioUrl === "/audio/short_call.mp3" ? "Stop" : "Listen"}
+                        {isPlaying && (currentAudioUrl === "/audio/short_call.mp3" || currentAudioUrl === "/audio/long_call.mp3") ? "Stop" : "Listen"}
                       </Button>
                     </div>
                   </div>

@@ -69,35 +69,39 @@ export const PrayerConfiguration = ({
     }
   }, [prayerEnabled, prayerTime, timeZone, current.isValidTZ, callType]);
 
-  // CORRECTION 3 : Formatage des rappels avec volumes
-  const reminderText = useMemo(() => {
-    if (!prayerEnabled || reminders.length === 0) return null;
-    
-    const volumes = {
-      bell: reminderWithBell ? getReminderVolume() : 0,
-      visual: 0
-    };
-    
-    const reminderType = reminderWithBell ? '🔔 Bell reminder' : '👁 Visual reminder';
-    
-    return {
-      prefix: reminders.length === 1 ? 'with' : 'with reminders at',
-      text: reminders.join(', ') + ' min',
-      type: reminderType,
-      volume: volumes.bell
-    };
-  }, [prayerEnabled, reminders, reminderWithBell]);
-
-  // CORRECTION 4 : Récupération du volume des rappels
+  // Récupération du volume des rappels (défini AVANT son utilisation)
   const getReminderVolume = () => {
     try {
       const prayerVol = parseFloat(localStorage.getItem('prayerBellVolume') || '0.7');
       const reminderVol = parseFloat(localStorage.getItem('prayerReminderVolume') || '0.5');
-      return Math.min(prayerVol * reminderVol, 1); // Volume combiné max 100%
+      return Math.min(prayerVol * reminderVol, 1);
     } catch {
       return 0.5;
     }
   };
+
+  // Formatage des rappels avec types corrects
+  const reminderText = useMemo(() => {
+    if (!prayerEnabled || reminders.length === 0) return null;
+    
+    const reminderType = reminderWithBell ? 'bell' : 'visual';
+    const volume = reminderWithBell ? getReminderVolume() : 0;
+    
+    const formatReminders = () => {
+      if (reminders.length === 1) {
+        return `with ${reminders[0]} min ${reminderType} reminder`;
+      }
+      const sorted = [...reminders].sort((a, b) => Number(a) - Number(b));
+      const first = sorted[0];
+      const rest = sorted.slice(1);
+      return `with ${first} min ${reminderType} reminder${rest.length > 0 ? ` and another ${rest.join(', ')} min ${reminderType} reminder` : ''}`;
+    };
+    
+    return {
+      text: formatReminders(),
+      volume
+    };
+  }, [prayerEnabled, reminders, reminderWithBell]);
 
   return (
     <Card className="bg-gradient-to-br from-amber-50/80 to-secondary/30 dark:from-amber-950/30 dark:to-secondary/10 border-amber-200/30 dark:border-amber-800/20 shadow-warm backdrop-blur-sm transition-all duration-300 hover:shadow-lg">
@@ -146,13 +150,8 @@ export const PrayerConfiguration = ({
           <div className="flex items-center justify-center gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200/50 dark:border-amber-800/30">
             <Clock className="w-4 h-4 text-primary" />
             <p className="text-sm font-cormorant font-semibold text-foreground">
-              {reminderText.prefix} <span className="text-primary font-bold">{reminderText.text}</span>
+              {reminderText.text}
             </p>
-            <span className={`text-xs px-2 py-0.5 rounded ${
-              reminderWithBell ? 'bg-primary/10 text-primary' : 'bg-gray-100 dark:bg-slate-700 text-muted-foreground'
-            }`}>
-              {reminderText.type}
-            </span>
             {reminderWithBell && (
               <span className="text-xs text-muted-foreground">
                 ({Math.round(reminderText.volume * 100)}% vol)

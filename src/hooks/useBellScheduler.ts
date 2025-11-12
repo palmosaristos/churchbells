@@ -320,7 +320,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                   title: `🔔 ${options.prayerName || 'Prayer'}`,
                   body: `in ${reminderMinutes} min${reminderMinutes === '1' ? '' : 's'}`,
                   schedule: { at: reminderOccurrence, allowWhileIdle: true },
-                  silent: !withBell,
+                  silent: false,
                   smallIcon: 'ic_launcher',
                   channelId: withBell ? 'prayer-reminder-bell' : 'prayer-reminder',
                   extra: {
