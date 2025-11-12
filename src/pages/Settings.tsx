@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { LocalNotifications } from '@capacitor/local-notifications';
+import { Capacitor } from '@capacitor/core';
 import { Navigation } from "@/components/Navigation";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { BellSoundSelection } from "@/components/BellSoundSelection";
@@ -41,6 +43,7 @@ const DiagnosticItem = ({ label, status, description }: { label: string; status:
     const [pauseEndTime, setPauseEndTime] = useState<string>(localStorage.getItem("pauseEndTime") || "14:00");
     const [selectedDays, setSelectedDays] = useState<string[]>(JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'));
     const [appEnabled, setAppEnabled] = useState<boolean>(appEnabledValue !== "false");
+    const [scheduledCount, setScheduledCount] = useState<number | null>(null);
     const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(savedBellVolumes ? JSON.parse(savedBellVolumes) : {
       'cathedral-bell': 0.7,
       'village-bell': 0.7,
@@ -103,6 +106,28 @@ const DiagnosticItem = ({ label, status, description }: { label: string; status:
         [bellId]: volume
       }));
     };
+
+    useEffect(() => {
+      const checkScheduledNotifications = async () => {
+        if (!Capacitor.isNativePlatform()) {
+          setScheduledCount(null);
+          return;
+        }
+        
+        try {
+          const pending = await LocalNotifications.getPending();
+          setScheduledCount(pending.notifications.length);
+        } catch (error) {
+          console.error('Error checking scheduled notifications:', error);
+          setScheduledCount(null);
+        }
+      };
+      
+      checkScheduledNotifications();
+      const interval = setInterval(checkScheduledNotifications, 5000);
+      
+      return () => clearInterval(interval);
+    }, []);
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
@@ -210,9 +235,14 @@ const DiagnosticItem = ({ label, status, description }: { label: string; status:
                       status={!!localStorage.getItem("timeZone")}
                       description={localStorage.getItem("timeZone") || "Not detected"}
                     />
+                    <DiagnosticItem 
+                      label="Notifications Scheduled" 
+                      status={scheduledCount !== null && scheduledCount > 0}
+                      description={scheduledCount === null ? "Checking..." : `${scheduledCount} notification${scheduledCount !== 1 ? 's' : ''} scheduled`}
+                    />
                     <div className="mt-4 pt-4 border-t border-amber-200 dark:border-amber-800">
                       <p className="text-sm font-cormorant text-muted-foreground">
-                        All indicators must be green for notifications to work properly.
+                        All indicators must be green for notifications to work properly. If notifications scheduled is 0, check all other conditions above.
                       </p>
                     </div>
                   </div>
