@@ -9,14 +9,14 @@ export interface BellTradition {
 export const bellTraditions: BellTradition[] = [
   {
     id: "cathedral-bell",
-    name: "Classic Bell (in C)",
+    name: "Cathedral Bell",
     description: "La majesté et la profondeur d'une grande cloche traditionnelle en note Do, évoquant la grandeur spirituelle.",
     tradition: "Cathédrale",
     audioSample: "/audio/CATHEDRAL_3.mp3"
   },
   {
     id: "village-bell",
-    name: "Village Bell (in E)",
+    name: "Village Bell",
     description: "Le son authentique et chaleureux d'une cloche de village, rappelant les traditions rurales et la simplicité de la vie communautaire.",
     tradition: "Village",
     audioSample: "/audio/VILLAGE_3.mp3"
