@@ -68,6 +68,19 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           });
         }
 
+        // Canaux Village (1-12 carillons)
+        for (let i = 1; i <= 12; i++) {
+          await LocalNotifications.createChannel({
+            id: `village-bells-${i}`,
+            name: `Village Bells (${i} chime${i > 1 ? 's' : ''})`,
+            description: `Village bells - ${i} chime${i > 1 ? 's' : ''}`,
+            ...lowPrio,
+            sound: `village_${i}.mp3`,
+            lightColor: '#d4a574',
+            vibration: false
+          });
+        }
+
         // Canaux de prière
         await LocalNotifications.createChannel({
           id: 'prayer-short',
@@ -190,6 +203,9 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               if (options.bellTradition === 'cathedral-bell') {
                 soundFile = `cathedral_${chimeCount}.mp3`;
                 channelId = `cathedral-bells-${chimeCount}`;
+              } else if (options.bellTradition === 'village-bell') {
+                soundFile = `village_${chimeCount}.mp3`;
+                channelId = `village-bells-${chimeCount}`;
               } else {
                 soundFile = 'freemium_carillon.mp3';
                 channelId = 'sacred-bells-channel';
@@ -248,6 +264,9 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 if (options.bellTradition === 'cathedral-bell') {
                   soundFile = 'cathedral_1.mp3';
                   channelId = 'cathedral-bells-1';
+                } else if (options.bellTradition === 'village-bell') {
+                  soundFile = 'village_1.mp3';
+                  channelId = 'village-bells-1';
                 } else {
                   soundFile = 'freemium_carillon.mp3';
                   channelId = 'sacred-bells-channel';
