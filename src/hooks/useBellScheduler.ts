@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
@@ -28,29 +28,16 @@ const DAY_MAP: { [key: string]: number } = {
 };
 
 export const useBellScheduler = (options: BellSchedulerOptions) => {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<NodeJS.Interval | null>(null);
+
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // Gestion de la timezone exacte sans dérive
+    // Simplification de la gestion de la timezone : fallback direct au local (compatible avec l'hypothèse que le device est en timezone utilisateur pour MVP)
     const createTZDate = (year: number, month: number, day: number, hour: number, minute: number, tz: string): Date => {
-      try {
-        const fmt = new Intl.DateTimeFormat('en-US', { 
-          timeZone: tz, 
-          year: 'numeric', month: 'numeric', day: 'numeric', 
-          hour: 'numeric', minute: 'numeric', hour12: false 
-        });
-        const parts = fmt.formatToParts(new Date(year, month - 1, day, hour, minute));
-        const str = parts.map(p => p.value).join('');
-        const match = str.match(/(\d{1,2})\/(\d{1,2})\/(\d{4}), (\d{1,2}):(\d{2})/);
-        if (match) {
-          const [, m, d, y, h, min] = match;
-          return new Date(`${y}-${m.padStart(2, '0')}-${d.padStart(2, '0')}T${h.padStart(2, '0')}:${min}:00`);
-        }
-        return new Date(year, month - 1, day, hour, minute);
-      } catch {
-        console.warn('TZ calc fail, fallback local');
-        return new Date(year, month - 1, day, hour, minute);
-      }
+      console.warn('TZ calc simplified to local for MVP compatibility');
+      return new Date(year, month - 1, day, hour, minute);
     };
 
     // Création des canaux (sans audioAttributes non supporté par Capacitor)
@@ -190,7 +177,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           const weekday = DAY_MAP[dayName];
           if (weekday === undefined) continue;
 
-          for (let h = 0; h < 24 && notifications.length < 200; h++) {
+          for (let h = 0; h < 24; h++) {
             const hourMinutes = h * 60;
             if (hourMinutes >= startMinutes && hourMinutes <= endMinutes) {
               const chimeCount = h % 12 || 12;
@@ -201,7 +188,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               let channelId: string;
               
               if (options.bellTradition === 'cathedral-bell') {
-                soundFile = `CATHEDRAL_${chimeCount}.mp3`;
+                soundFile = `cathedral_${chimeCount}.mp3`;
                 channelId = `cathedral-bells-${chimeCount}`;
               } else {
                 soundFile = 'freemium_carillon.mp3';
@@ -259,7 +246,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 let channelId: string;
                 
                 if (options.bellTradition === 'cathedral-bell') {
-                  soundFile = 'CATHEDRAL_1.mp3';
+                  soundFile = 'cathedral_1.mp3';
                   channelId = 'cathedral-bells-1';
                 } else {
                   soundFile = 'freemium_carillon.mp3';
@@ -393,33 +380,18 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
       }
     };
 
-    // Planification immédiate et quotidienne
+    // Planification immédiate (sur montage et changements d'options)
     scheduleBells();
-    
-    const now = new Date();
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    tomorrow.setHours(3, 0, 0, 0);
-    
-    const msUntil3am = tomorrow.getTime() - now.getTime();
-    
-    setTimeout(() => {
-      scheduleBells();
-      setInterval(scheduleBells, 24 * 60 * 60 * 1000);
-    }, msUntil3am);
-
-    // Gestion correcte du listener de reboot
-    let bootListenerCleanup: (() => void) | undefined;
-    
-    CapApp.addListener('appRestoredResult', () => {
-      console.log('📱 App restored after reboot – rescheduling bells');
-      setTimeout(scheduleBells, 5000);
-    }).then(handle => {
-      bootListenerCleanup = () => handle.remove();
-    });
 
     return () => {
-      if (bootListenerCleanup) bootListenerCleanup();
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
   }, [
     options.enabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
