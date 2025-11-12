@@ -2,9 +2,13 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 
 interface AudioOptions {
-  audioUrl: string;
-  traditionName?: string;
-  type?: 'bell' | 'prayer' | 'general';
+ {
+ {
+ {
+ {
+ {
+ {
+ type?: 'bell' | 'prayer' | 'general';
   volume?: number;
   isScheduled?: boolean;
 }
@@ -126,7 +130,7 @@ export const useAudioPlayer = () => {
     }
   }, [getVolume, isPlaying, currentAudioUrl]);
 
-  // AMÉLIORATION : Cleanup robuste même en cas d'erreur
+  // ✅ AMÉLIORATION : Cleanup robuste
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -141,6 +145,9 @@ export const useAudioPlayer = () => {
       }
       setIsPlaying(false);
       setCurrentAudioUrl("");
+
+      // Nettoyage du localStorage si nécessaire
+      localStorage.removeItem('currentAudioUrl');
     };
   }, []);
 
