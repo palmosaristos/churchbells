@@ -24,14 +24,14 @@ export const PrayerConfiguration = ({
   reminders = [],
   reminderWithBell = false,
 }: PrayerConfigurationProps) => {
-  // ✅ VALIDATION ROBUSTE (ma correction)
+  // ✅ VALIDATION ROBUSTE (inchangée)
   const isValidTime = useMemo(() => {
     return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(prayerTime);
   }, [prayerTime]);
 
   const isConfigured = prayerEnabled && !!prayerTime && isValidTime;
   
-  // ✅ DEBUG PERSISTANT (ma correction)
+  // ✅ DEBUG PERSISTANT (inchangé, non-bloquant)
   useEffect(() => {
     const configState = {
       enabled: prayerEnabled,
@@ -51,7 +51,7 @@ export const PrayerConfiguration = ({
 
   const current = useCurrentTime({ timeZone });
   
-  // ✅ FORMATAGE ROBUSTE (ma correction)
+  // ✅ FORMATAGE ROBUSTE (correction mineure : fallback si useCurrentTime échoue, pour éviter crash MVP)
   const displayTime = useMemo(() => {
     if (!prayerEnabled || !prayerTime || !isValidTime) {
       return { 
@@ -62,10 +62,11 @@ export const PrayerConfiguration = ({
     
     try {
       const [h, m] = prayerTime.split(':').map(Number);
-      const todayPrayer = new Date(current.raw);
+      const now = current.raw || new Date(); // Fallback si useCurrentTime échoue
+      const todayPrayer = new Date(now);
       todayPrayer.setHours(h, m, 0, 0);
       
-      const isPast = todayPrayer < current.raw;
+      const isPast = todayPrayer < now;
       const ampmTime = todayPrayer.toLocaleTimeString('en-US', { 
         hour: 'numeric', 
         minute: '2-digit', 
@@ -91,22 +92,20 @@ export const PrayerConfiguration = ({
       };
     } catch (error) {
       console.error('❌ Time formatting error:', error);
-      return { time: "Error", subtitle: "Invalid time format" };
+      return { time: `${prayerName} (time error)`, subtitle: "Invalid time format" };
     }
   }, [prayerEnabled, prayerTime, timeZone, current.isValidTZ, callType, prayerName, isValidTime, current.raw]);
 
-  // ✅ LOGIQUE LOVABLE : getReminderVolume défini avant utilisation
+  // ✅ CORRECTION : Volume cohérent avec useAudioPlayer/scheduler (utilise 'prayerBellVolume' direct pour reminders avec bell, car cathedral_1.mp3 est un bell sound ; fallback 0.5 si absent)
   const getReminderVolume = () => {
     try {
-      const prayerVol = parseFloat(localStorage.getItem('prayerBellVolume') || '0.7');
-      const reminderVol = parseFloat(localStorage.getItem('prayerReminderVolume') || '0.5');
-      return Math.min(prayerVol * reminderVol, 1);
+      return parseFloat(localStorage.getItem('prayerBellVolume') || '0.5');
     } catch {
       return 0.5;
     }
   };
 
-  // ✅ LOGIQUE LOVABLE : Formatage robuste des reminders avec tri
+  // ✅ LOGIQUE LOVABLE : Formatage robuste des reminders avec tri (inchangé, gère string[] bien)
   const reminderText = useMemo(() => {
     if (!prayerEnabled || reminders.length === 0) return null;
     
