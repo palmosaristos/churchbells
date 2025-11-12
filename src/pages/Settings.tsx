@@ -7,15 +7,30 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
-import { Volume2, Clock } from "lucide-react";
+import { Volume2, Clock, Activity, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
+const DiagnosticItem = ({ label, status, description }: { label: string; status: boolean; description: string }) => {
+  const Icon = status ? CheckCircle2 : XCircle;
+  const iconColor = status ? "text-green-600" : "text-red-600";
+  
+  return (
+    <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/20">
+      <Icon className={`w-5 h-5 mt-0.5 ${iconColor} flex-shrink-0`} />
+      <div className="flex-1">
+        <div className="font-cormorant font-semibold text-foreground">{label}</div>
+        <div className="text-sm text-muted-foreground font-cormorant">{description}</div>
+      </div>
+    </div>
+  );
+};
+
   const Settings = () => {
     const savedBellVolumes = localStorage.getItem("bellVolumes");
-    const bellsEnabledValue = localStorage.getItem("bellsEnabled");
+    const appEnabledValue = localStorage.getItem("appEnabled");
 
     const [selectedBellTradition, setSelectedBellTradition] = useState<string>(localStorage.getItem("bellTradition") || "cathedral-bell");
     const [startTime, setStartTime] = useState<string>(localStorage.getItem("startTime") || "08:00");
@@ -25,7 +40,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
     const [pauseStartTime, setPauseStartTime] = useState<string>(localStorage.getItem("pauseStartTime") || "12:00");
     const [pauseEndTime, setPauseEndTime] = useState<string>(localStorage.getItem("pauseEndTime") || "14:00");
     const [selectedDays, setSelectedDays] = useState<string[]>(JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'));
-    const [bellsEnabled, setBellsEnabled] = useState<boolean>(bellsEnabledValue === null ? true : bellsEnabledValue === "true");
+    const [appEnabled, setAppEnabled] = useState<boolean>(appEnabledValue !== "false");
     const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(savedBellVolumes ? JSON.parse(savedBellVolumes) : {
       'cathedral-bell': 0.7,
       'village-bell': 0.7,
@@ -71,15 +86,15 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
     }, [selectedDays]);
 
     useEffect(() => {
-      localStorage.setItem("bellsEnabled", String(bellsEnabled));
-    }, [bellsEnabled]);
+      localStorage.setItem("appEnabled", String(appEnabled));
+    }, [appEnabled]);
 
     useEffect(() => {
       localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
     }, [bellVolumes]);
 
-    const handleBellsEnabledChange = (enabled: boolean) => {
-      setBellsEnabled(enabled);
+    const handleAppEnabledChange = (enabled: boolean) => {
+      setAppEnabled(enabled);
     };
 
     const handleBellVolumeChange = (bellId: string, volume: number) => {
@@ -117,12 +132,12 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                 </Label>
                 <Switch 
                   id="bells-main-toggle" 
-                  checked={bellsEnabled} 
-                  onCheckedChange={handleBellsEnabledChange}
+                  checked={appEnabled} 
+                  onCheckedChange={handleAppEnabledChange}
                   className="data-[state=checked]:bg-primary"
                 />
                 <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
-                  {bellsEnabled ? 'ON' : 'OFF'}
+                  {appEnabled ? 'ON' : 'OFF'}
                 </span>
               </div>
             </div>
@@ -156,7 +171,51 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                  <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} halfHourChimes={halfHourChimes} onHalfHourChimesChange={setHalfHourChimes} pauseEnabled={pauseEnabled} onPauseEnabledChange={setPauseEnabled} pauseStartTime={pauseStartTime} pauseEndTime={pauseEndTime} onPauseStartTimeChange={setPauseStartTime} onPauseEndTimeChange={setPauseEndTime} selectedDays={selectedDays} onSelectedDaysChange={setSelectedDays} bellsEnabled={bellsEnabled} onBellsEnabledChange={handleBellsEnabledChange} />
+                  <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} halfHourChimes={halfHourChimes} onHalfHourChimesChange={setHalfHourChimes} pauseEnabled={pauseEnabled} onPauseEnabledChange={setPauseEnabled} pauseStartTime={pauseStartTime} pauseEndTime={pauseEndTime} onPauseStartTimeChange={setPauseStartTime} onPauseEndTimeChange={setPauseEndTime} selectedDays={selectedDays} onSelectedDaysChange={setSelectedDays} bellsEnabled={appEnabled} onBellsEnabledChange={handleAppEnabledChange} />
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* System Diagnostic Section */}
+              <AccordionItem value="diagnostic" className="border-none">
+                <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
+                  <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
+                    <Activity className="w-6 h-6 text-primary" />
+                    System Status
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
+                  <div className="space-y-3">
+                    <DiagnosticItem 
+                      label="App Enabled" 
+                      status={appEnabled}
+                      description="Main switch to enable/disable all bells"
+                    />
+                    <DiagnosticItem 
+                      label="Onboarding Complete" 
+                      status={localStorage.getItem("onboardingComplete") === "true"}
+                      description="Initial setup completed"
+                    />
+                    <DiagnosticItem 
+                      label="Audio Permission" 
+                      status={localStorage.getItem("audioPermission") === "granted"}
+                      description="Permission to play sounds"
+                    />
+                    <DiagnosticItem 
+                      label="Exact Alarm Permission" 
+                      status={localStorage.getItem("exactAlarmGranted") === "true"}
+                      description="Required for precise scheduling on Android 12+"
+                    />
+                    <DiagnosticItem 
+                      label="Time Zone" 
+                      status={!!localStorage.getItem("timeZone")}
+                      description={localStorage.getItem("timeZone") || "Not detected"}
+                    />
+                    <div className="mt-4 pt-4 border-t border-amber-200 dark:border-amber-800">
+                      <p className="text-sm font-cormorant text-muted-foreground">
+                        All indicators must be green for notifications to work properly.
+                      </p>
+                    </div>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
