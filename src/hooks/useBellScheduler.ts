@@ -194,7 +194,9 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           return target;
         };
 
-        let notificationId = Date.now();
+        // Générateur d'ID sûr pour Capacitor Android (int Java max: 2,147,483,647)
+        let currentId = 1;
+        const getNextId = () => currentId++;
 
         // CLOCHES PRINCIPALES
         let bellCount = 0;
@@ -233,7 +235,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 scheduledTime: nextOccurrence.toISOString()
               };
 
-              const originalId = notificationId++;
+              const originalId = getNextId();
               notifications.push({
                 id: originalId,
                 title: '🔔 Sacred Bells',
@@ -247,7 +249,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
               const backupTime = new Date(nextOccurrence.getTime() + 30000);
               notifications.push({
-                id: notificationId++,
+                id: getNextId(),
                 title: '🔔 Sacred Bells',
                 body: `${chimeCount} chime${chimeCount > 1 ? 's' : ''}`,
                 schedule: { at: backupTime, allowWhileIdle: true },
@@ -286,7 +288,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
                 const nextOccurrence = getNextOccurrence(weekday, h, 30);
 
-                const originalId = notificationId++;
+                const originalId = getNextId();
                 notifications.push({
                   id: originalId,
                   title: '🔔 Sacred Bells',
@@ -334,7 +336,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
                 const withBell = options.prayerReminderWithBell || false;
                 notifications.push({
-                  id: notificationId++,
+                  id: getNextId(),
                   title: `🔔 ${options.prayerName || 'Prayer'}`,
                   body: `in ${reminderMinutes} min${reminderMinutes === '1' ? '' : 's'}`,
                   schedule: { at: reminderOccurrence, allowWhileIdle: true },
@@ -363,7 +365,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 scheduledTime: nextOccurrence.toISOString()
               };
 
-              const originalId = notificationId++;
+              const originalId = getNextId();
               notifications.push({
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
                 body: ' ',
@@ -378,7 +380,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               // Backup
               const backupTime = new Date(nextOccurrence.getTime() + 30000);
               notifications.push({
-                id: notificationId++,
+                id: getNextId(),
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
                 body: ' ',
                 schedule: { at: backupTime, allowWhileIdle: true },

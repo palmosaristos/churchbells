@@ -1,0 +1,22 @@
+Point Clé : Erreur Principale
+
+L'erreur critique est répétée lors des appels au plugin pour programmer les notifications :
+
+    Message d'erreur : "The identifier should be a Java int" (dans l'erreur JSON : {"message":"The identifier should be a Java int"}).
+    Contexte : Cela se produit lors de l'appel à LocalNotifications.schedule({ notifications }) dans votre hook useBellScheduler (inféré du code via les logs).
+    Cause Racine : Les IDs des notifications générés sont trop grands pour le type Java int (plage valide : -2 147 483 648 à 2 147 483 647). Vos logs montrent des IDs comme 1762982346964 ou 1762982396964, qui sont des timestamps (Date.now() en millisecondes, autour de 1,76 × 10^12 en 2025). Ces valeurs dépassent largement la limite de int (2^31 - 1 ≈ 2,1 milliards), provoquant un échec de casting dans le plugin natif Android (qui utilise des int en Java pour les IDs de notifications via AlarmManager ou JobScheduler).
+
+Preuves dans les Logs
+
+    Génération ID : Dans les appels à schedule, les IDs sont des timestamps :
+
+    {"id":1762982346964,"title":"🔔 Sacred Bells","body":"8 chimes","schedule":{"at":"2025-11-17T07:00:00.000Z","allowWhileIdle":true},"..."}
+
+        Ces IDs sont générés par quelque chose comme let notificationId = Date.now(); dans votre code JS (typique pour une unicité temporelle).
+        Pour les backups, notificationId++ est utilisé, mais cela reste > limite (commence par un grand nombre).
+    Appel Initial au Plugin : Le premier schedule échoue immédiatement avec l'erreur Java int.
+    Appels Secondaires (e.g., channels comme "cathedral-bells-1") : Pas d'erreur, car ce sont des chaînes courtes (string), mais le vrai problème est sur les notifications réelles (IDs numériques).
+    Conséquence : Les notifications ne sont pas programmées (échouent au niveau natif). Pas de sons/cloches joués. L'app recharge les états via getPending, mais rien n'est stocké car le schedule échoue.
+    Autres Logs : Des avertissements non critiques (e.g., SELinux denials pour adb, audio routing, TZ simplifications pour MVP). L'audio joue brièvement (via AAudioStream), mais ce n'est pas lié au problème principal.
+
+Le problème est récurrent : Chaque tentative de scheduling échoue pour la même raison. C'est un bug de conception dans la génération d'IDs (trop grands pour le plugin).
