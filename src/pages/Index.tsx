@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { CurrentConfiguration } from "@/components/CurrentConfiguration";
@@ -14,6 +15,7 @@ import { useBellScheduler } from "@/hooks/useBellScheduler";
 import { useNotificationListener } from "@/hooks/useNotificationListener";
 
 const Index = () => {
+  const location = useLocation();
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
     return localStorage.getItem("bellTradition") || "cathedral-bell";
   });
@@ -96,35 +98,41 @@ const Index = () => {
     prayerReminderWithBell: reminderWithBell
   });
 
-  // Écoute des changements de settings depuis d'autres onglets
-  useEffect(() => {
-    const reloadSettings = () => {
-      setSelectedBellTradition(localStorage.getItem("bellTradition") || "cathedral-bell");
-      setStartTime(localStorage.getItem("startTime") || "08:00");
-      setEndTime(localStorage.getItem("endTime") || "20:00");
-      setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
-      setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
-      setPrayerName(localStorage.getItem("prayerName") || "Prayer");
-      setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
-      setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
-      setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
-      setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
-      setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
-      setCallType((localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short');
-      const savedDays = localStorage.getItem("selectedDays");
-      setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
-      const savedReminders = localStorage.getItem("prayerReminderNotifications");
-      setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
-      setReminderWithBell(localStorage.getItem("prayerReminderWithBell") === "true");
-      
-      // Paramètres critiques pour le scheduler
-      setSelectedTimeZone(localStorage.getItem("timeZone") || "");
-      setAudioPermissionGranted(localStorage.getItem("audioPermission") === "granted");
-      setOnboardingComplete(localStorage.getItem("onboardingComplete") === "true");
-      const appEnabledValue = localStorage.getItem("appEnabled");
-      setIsAppEnabled(appEnabledValue !== "false");
-    };
+  // Rechargement des paramètres depuis localStorage
+  const reloadSettings = () => {
+    setSelectedBellTradition(localStorage.getItem("bellTradition") || "cathedral-bell");
+    setStartTime(localStorage.getItem("startTime") || "08:00");
+    setEndTime(localStorage.getItem("endTime") || "20:00");
+    setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
+    setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
+    setPrayerName(localStorage.getItem("prayerName") || "Prayer");
+    setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
+    setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
+    setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
+    setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
+    setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
+    setCallType((localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short');
+    const savedDays = localStorage.getItem("selectedDays");
+    setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+    const savedReminders = localStorage.getItem("prayerReminderNotifications");
+    setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
+    setReminderWithBell(localStorage.getItem("prayerReminderWithBell") === "true");
+    
+    // Paramètres critiques pour le scheduler
+    setSelectedTimeZone(localStorage.getItem("timeZone") || "");
+    setAudioPermissionGranted(localStorage.getItem("audioPermission") === "granted");
+    setOnboardingComplete(localStorage.getItem("onboardingComplete") === "true");
+    const appEnabledValue = localStorage.getItem("appEnabled");
+    setIsAppEnabled(appEnabledValue !== "false");
+  };
 
+  // Recharger quand on navigue vers cette page
+  useEffect(() => {
+    reloadSettings();
+  }, [location.pathname]);
+
+  // Écoute des changements de settings (événements web)
+  useEffect(() => {
     window.addEventListener("storage", reloadSettings);
     window.addEventListener("visibilitychange", reloadSettings);
     window.addEventListener("focus", reloadSettings);
