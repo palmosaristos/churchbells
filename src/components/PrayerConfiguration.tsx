@@ -24,52 +24,78 @@ export const PrayerConfiguration = ({
   reminders = [],
   reminderWithBell = false,
 }: PrayerConfigurationProps) => {
-  const isConfigured = prayerEnabled && !!prayerTime;
+  // ✅ VALIDATION ROBUSTE (ma correction)
+  const isValidTime = useMemo(() => {
+    return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(prayerTime);
+  }, [prayerTime]);
+
+  const isConfigured = prayerEnabled && !!prayerTime && isValidTime;
   
-  // CORRECTION 1 : Persiste l'état de configuration pour le planificateur
+  // ✅ DEBUG PERSISTANT (ma correction)
   useEffect(() => {
+    const configState = {
+      enabled: prayerEnabled,
+      name: prayerName,
+      time: prayerTime,
+      valid: isConfigured,
+      timestamp: new Date().toISOString()
+    };
+    
     localStorage.setItem("prayersConfigured", String(isConfigured));
+    localStorage.setItem("prayerConfigDebug", JSON.stringify(configState));
+    
     if (import.meta.env.DEV) {
-      console.log(`🔔 Prayer configuration: ${isConfigured ? 'ACTIVE' : 'INACTIVE'}`);
+      console.log(`🔔 Prayer configuration: ${isConfigured ? 'ACTIVE' : 'INACTIVE'}`, configState);
     }
   }, [isConfigured, prayerName, prayerTime, callType, reminders, reminderWithBell]);
 
   const current = useCurrentTime({ timeZone });
   
-  // CORRECTION 2 : Formatage robuste de l'heure
+  // ✅ FORMATAGE ROBUSTE (ma correction)
   const displayTime = useMemo(() => {
-    if (!prayerEnabled || !prayerTime) {
-      return { time: "Bells silent", subtitle: "Prayer notifications disabled" };
+    if (!prayerEnabled || !prayerTime || !isValidTime) {
+      return { 
+        time: "Bells silent", 
+        subtitle: prayerEnabled ? "Invalid time" : "Prayer notifications disabled" 
+      };
     }
     
     try {
       const [h, m] = prayerTime.split(':').map(Number);
+      const todayPrayer = new Date(current.raw);
+      todayPrayer.setHours(h, m, 0, 0);
       
-      if (isNaN(h) || isNaN(m)) {
-        return { time: "Invalid time", subtitle: "Please check settings" };
+      const isPast = todayPrayer < current.raw;
+      const ampmTime = todayPrayer.toLocaleTimeString('en-US', { 
+        hour: 'numeric', 
+        minute: '2-digit', 
+        hour12: true,
+        timeZone 
+      });
+      
+      let display = `${prayerName} at ${ampmTime}`;
+      
+      if (current.isValidTZ && timeZone !== 'UTC') {
+        display += ` (${timeZone.split('/').pop()?.replace('_', ' ')})`;
       }
       
-      const period = h >= 12 ? 'PM' : 'AM';
-      const displayHours = h === 0 ? 12 : h > 12 ? h - 12 : h;
-      const formattedTime = `${displayHours}:${m.toString().padStart(2, '0')} ${period}`;
-      
-      const tzDisplay = timeZone !== 'UTC' && current.isValidTZ 
-        ? ` (${timeZone.split('/').pop()?.replace('_', ' ')})` 
-        : '';
+      if (isPast) {
+        display += ` (tomorrow)`;
+      }
       
       const callTypeText = callType === 'long' ? 'Long call' : 'Short call';
       
       return {
-        time: formattedTime + tzDisplay,
+        time: display,
         subtitle: callTypeText
       };
     } catch (error) {
       console.error('❌ Time formatting error:', error);
       return { time: "Error", subtitle: "Invalid time format" };
     }
-  }, [prayerEnabled, prayerTime, timeZone, current.isValidTZ, callType]);
+  }, [prayerEnabled, prayerTime, timeZone, current.isValidTZ, callType, prayerName, isValidTime, current.raw]);
 
-  // Récupération du volume des rappels (défini AVANT son utilisation)
+  // ✅ LOGIQUE LOVABLE : getReminderVolume défini avant utilisation
   const getReminderVolume = () => {
     try {
       const prayerVol = parseFloat(localStorage.getItem('prayerBellVolume') || '0.7');
@@ -80,21 +106,23 @@ export const PrayerConfiguration = ({
     }
   };
 
-  // Formatage des rappels avec types corrects
+  // ✅ LOGIQUE LOVABLE : Formatage robuste des reminders avec tri
   const reminderText = useMemo(() => {
     if (!prayerEnabled || reminders.length === 0) return null;
     
-    const reminderType = reminderWithBell ? 'bell' : 'visual';
     const volume = reminderWithBell ? getReminderVolume() : 0;
     
     const formatReminders = () => {
       if (reminders.length === 1) {
-        return `with ${reminders[0]} min ${reminderType} reminder`;
+        return `with ${reminders[0]} min ${reminderWithBell ? 'bell' : 'visual'} reminder`;
       }
+      
+      // Tri numérique (ex: "5", "10", "15" → [5, 10, 15])
       const sorted = [...reminders].sort((a, b) => Number(a) - Number(b));
       const first = sorted[0];
       const rest = sorted.slice(1);
-      return `with ${first} min ${reminderType} reminder${rest.length > 0 ? ` and another ${rest.join(', ')} min ${reminderType} reminder` : ''}`;
+      
+      return `with ${first} min ${reminderWithBell ? 'bell' : 'visual'} reminder${rest.length > 0 ? ` and another ${rest.join(', ')} min ${reminderWithBell ? 'bell' : 'visual'} reminder` : ''}`;
     };
     
     return {
@@ -145,7 +173,7 @@ export const PrayerConfiguration = ({
           )}
         </div>
 
-        {/* Rappels configurés */}
+        {/* Rappels configurés (logique Lovable améliorée) */}
         {isConfigured && reminderText && (
           <div className="flex items-center justify-center gap-2 p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200/50 dark:border-amber-800/30">
             <Clock className="w-4 h-4 text-primary" />
