@@ -88,19 +88,6 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
         [bellId]: volume
       }));
     };
-
-    const handleBellPlay = async (traditionId: string) => {
-      const tradition = bellTraditions.find(t => t.id === traditionId);
-      if (tradition?.audioSample) {
-        const volume = bellVolumes[traditionId] || 0.7;
-        await toggleAudio({ 
-          audioUrl: tradition.audioSample, 
-          traditionName: tradition.name, 
-          type: 'bell',
-          volume: volume
-        });
-      }
-    };
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
@@ -156,7 +143,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                  <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} onPlay={handleBellPlay} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
+                  <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} toggleAudio={toggleAudio} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
                 </AccordionContent>
               </AccordionItem>
 

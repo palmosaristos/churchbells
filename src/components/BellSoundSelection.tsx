@@ -7,7 +7,7 @@ import carillonBells from "@/assets/carillon-bells.png";
 interface BellSoundSelectionProps {
   selectedBellTradition: string;
   onSelect: (id: string) => void;
-  onPlay: (id: string) => void;
+  toggleAudio: (options: { audioUrl: string; traditionName?: string; type?: 'bell' | 'prayer' | 'general'; volume?: number; isScheduled?: boolean; }) => Promise<void>;
   bellVolumes: Record<string, number>;
   onVolumeChange: (bellId: string, volume: number) => void;
   isPlaying: boolean;
@@ -17,7 +17,7 @@ interface BellSoundSelectionProps {
 export const BellSoundSelection = ({ 
   selectedBellTradition, 
   onSelect, 
-  onPlay,
+  toggleAudio,
   bellVolumes,
   onVolumeChange,
   isPlaying,
@@ -39,7 +39,12 @@ export const BellSoundSelection = ({
             image={getBellImage(tradition.id)}
             isSelected={selectedBellTradition === tradition.id}
             onSelect={() => onSelect(tradition.id)}
-            onPlay={() => onPlay(tradition.id)}
+            onPlay={() => toggleAudio({ 
+              audioUrl: tradition.audioSample, 
+              traditionName: tradition.name, 
+              type: 'bell',
+              volume: bellVolumes[tradition.id] || 0.7
+            })}
             volume={bellVolumes[tradition.id] || 0.7}
             onVolumeChange={(volume) => onVolumeChange(tradition.id, volume)}
             isPlaying={isPlaying && currentAudioUrl === tradition.audioSample}
