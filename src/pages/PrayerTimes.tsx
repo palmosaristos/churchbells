@@ -32,9 +32,9 @@ const PrayerTimes = () => {
     const saved = localStorage.getItem("prayerReminderMinutes");
     return saved ? parseInt(saved) : 5;
   });
-  const [reminderNotifications, setReminderNotifications] = useState<number[]>(() => {
+  const [reminderNotifications, setReminderNotifications] = useState<string[]>(() => {
     const saved = localStorage.getItem("prayerReminderNotifications");
-    return saved ? JSON.parse(saved) : [5];
+    return saved ? JSON.parse(saved) : ["5"];
   });
   const [reminderWithBell, setReminderWithBell] = useState<boolean>(() => {
     return localStorage.getItem("prayerReminderWithBell") === "true";
@@ -49,7 +49,23 @@ const PrayerTimes = () => {
 
   const { toggleAudio, isPlaying, currentAudioUrl } = useAudioPlayer();
 
-  // ✅ CORRECTION : Sauvegarde complète des reminders + logique Lovable
+  // ✅ Correction : Mise à jour dynamique de reminderNotifications basée sur les sélections (sinon array figé, bloquant les rappels dans scheduler)
+  useEffect(() => {
+    if (!reminderEnabled) {
+      setReminderNotifications([]);
+      return;
+    }
+    const reminders: string[] = [];
+    if (reminderMinutes > 0) {
+      reminders.push(reminderMinutes.toString());
+    }
+    if (additionalNotification > 0) {
+      reminders.push(additionalNotification.toString());
+    }
+    setReminderNotifications(reminders);
+  }, [reminderEnabled, reminderMinutes, additionalNotification]);
+
+  // ✅ CORRECTION : Sauvegarde complète et cohérente (string[] pour compatibilité scheduler, suppression du duplicata inutile)
   useEffect(() => {
     localStorage.setItem("prayerName", prayerName);
     localStorage.setItem("prayerTime", prayerTime);
@@ -57,8 +73,6 @@ const PrayerTimes = () => {
     localStorage.setItem("prayerReminderEnabled", String(reminderEnabled));
     localStorage.setItem("prayerReminderMinutes", reminderMinutes.toString());
     localStorage.setItem("prayerReminderNotifications", JSON.stringify(reminderNotifications));
-    // ✅ NOUVEAU : Sauvegarde des reminders pour le scheduler
-    localStorage.setItem("prayerReminders", JSON.stringify(reminderNotifications));
     localStorage.setItem("prayerReminderWithBell", String(reminderWithBell));
     localStorage.setItem("prayerEnabled", String(prayerEnabled));
     localStorage.setItem("prayerCallType", callType);
@@ -162,7 +176,7 @@ const PrayerTimes = () => {
                     />
                   </div>
 
-                  {/* Bell Sound Preview - LOGIQUE LOVABLE AMÉLIORÉE */}
+                  {/* Bell Sound Preview - CORRECTION : URL cohérente avec scheduler (underscore, sans PREMIUM pour MVP) */}
                   <div className="flex items-center justify-between space-x-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border-2 border-[#d4a574]">
                     <Label className="font-cormorant text-xl font-semibold">
                       Bell sound ({callType} call)
@@ -172,8 +186,7 @@ const PrayerTimes = () => {
                       size="sm" 
                       className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
                       onClick={() => {
-                        // ✅ LOGIQUE LOVABLE : Dynamique selon callType
-                        const audioFile = callType === 'long' ? '/audio/long-call PREMIUM.mp3' : '/audio/short-call.mp3';
+                        const audioFile = callType === 'long' ? '/audio/long_call.mp3' : '/audio/short_call.mp3';
                         toggleAudio({ 
                           audioUrl: audioFile, 
                           traditionName: `${callType === 'long' ? 'Long' : 'Short'} Bell`, 
@@ -184,8 +197,7 @@ const PrayerTimes = () => {
                       aria-label="Preview bell sound"
                     >
                       <Volume2 className="w-4 h-4 mr-2" />
-                      {/* ✅ LOGIQUE LOVABLE : Vérifie les deux URLs possibles */}
-                      {isPlaying && (currentAudioUrl === "/audio/short-call.mp3" || currentAudioUrl === "/audio/long-call PREMIUM.mp3") ? "Stop" : "Listen"}
+                      {isPlaying && (currentAudioUrl === "/audio/short_call.mp3" || currentAudioUrl === "/audio/long_call.mp3") ? "Stop" : "Listen"}
                     </Button>
                   </div>
                 </div>
