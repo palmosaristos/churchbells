@@ -1,14 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 
+// ✅ INTERFACE CORRECTE (syntaxe TypeScript valide)
 interface AudioOptions {
- {
- {
- {
- {
- {
- {
- type?: 'bell' | 'prayer' | 'general';
+  audioUrl: string;
+  traditionName?: string;
+  type?: 'bell' | 'prayer' | 'general';
   volume?: number;
   isScheduled?: boolean;
 }
@@ -49,6 +46,7 @@ export const useAudioPlayer = () => {
   const toggleAudio = useCallback(async (options: AudioOptions) => {
     const { audioUrl, traditionName, type = 'general', volume: overrideVol, isScheduled = false } = options;
 
+    // Validation de l'URL
     if (!audioUrl || !audioUrl.startsWith('/audio/')) {
       console.error('Invalid audio URL:', audioUrl);
       if (!isScheduled) {
@@ -60,6 +58,7 @@ export const useAudioPlayer = () => {
     try {
       const effectiveVol = getVolume(type, overrideVol);
 
+      // Si même URL et en cours de lecture - stop
       if (audioRef.current && currentAudioUrl === audioUrl && isPlaying) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
@@ -68,6 +67,7 @@ export const useAudioPlayer = () => {
         return;
       }
 
+      // Stop complet de l'audio précédent
       if (audioRef.current) {
         try {
           audioRef.current.pause();
@@ -79,6 +79,7 @@ export const useAudioPlayer = () => {
         audioRef.current = null;
       }
 
+      // Nouvel élément audio avec préchargement
       const audio = new Audio(audioUrl);
       audio.preload = 'auto';
       audio.volume = effectiveVol;
@@ -109,6 +110,7 @@ export const useAudioPlayer = () => {
       await audio.play();
       setIsPlaying(true);
 
+      // Toast uniquement pour les prévisions manuelles
       if (traditionName && !isScheduled) {
         toast.success(`Listening to ${traditionName}`, {
           duration: 2000,
@@ -130,7 +132,7 @@ export const useAudioPlayer = () => {
     }
   }, [getVolume, isPlaying, currentAudioUrl]);
 
-  // ✅ AMÉLIORATION : Cleanup robuste
+  // Cleanup complet sans erreurs
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -145,9 +147,6 @@ export const useAudioPlayer = () => {
       }
       setIsPlaying(false);
       setCurrentAudioUrl("");
-
-      // Nettoyage du localStorage si nécessaire
-      localStorage.removeItem('currentAudioUrl');
     };
   }, []);
 
