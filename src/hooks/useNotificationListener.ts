@@ -12,37 +12,17 @@ export const useNotificationListener = () => {
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // Setup notification listeners
-    const setupListeners = async () => {
-      const receivedListener = await LocalNotifications.addListener(
-        'localNotificationReceived', 
-        handleNotificationReceived
-      );
-      
-      const actionListener = await LocalNotifications.addListener(
-        'localNotificationActionPerformed', 
-        handleNotificationAction
-      );
-
-      return () => {
-        receivedListener.remove();
-        actionListener.remove();
-      };
-    };
-
-    setupListeners();
-
-    // ✅ Gestionnaire de notification reçue (CORRIGÉ)
+    // ✅ Gestionnaire de notification reçue
     async function handleNotificationReceived(notification: any) {
       const { extra } = notification;
       if (!extra || !extra.type) return;
 
-      // ✅ Reminders de prière (toast seulement)
+      // ✅ Reminders de prière (toast seulement ou avec bell)
       if (extra.type === 'prayer-reminder') {
         const prayerName = extra.prayerName || 'Prayer';
         const minutesUntil = extra.minutesUntil || '5';
         
-        // ✅ CORRECTION : Jouer le son si "withBell" est activé
+        // ✅ Jouer le son si "withBell" est activé
         if (extra.withBell) {
           const options = {
             audioUrl: `/audio/cathedral_1.mp3`,
@@ -130,5 +110,32 @@ export const useNotificationListener = () => {
       toggleAudio(options);
       console.log(`🔄 Replay on tap: ${extra.type} ${extra.soundFile}`);
     }
-  }, [toggleAudio, isPlaying]);
+
+    // Setup notification listeners avec cleanup approprié
+    let receivedListener: any;
+    let actionListener: any;
+
+    const setupListeners = async () => {
+      receivedListener = await LocalNotifications.addListener(
+        'localNotificationReceived', 
+        handleNotificationReceived
+      );
+      
+      actionListener = await LocalNotifications.addListener(
+        'localNotificationActionPerformed', 
+        handleNotificationAction
+      );
+    };
+
+    setupListeners();
+
+    return () => {
+      if (receivedListener) {
+        receivedListener.remove();
+      }
+      if (actionListener) {
+        actionListener.remove();
+      }
+    };
+  }, [toggleAudio, isPlaying, toast]);
 };
