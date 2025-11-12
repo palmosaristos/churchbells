@@ -29,7 +29,7 @@ const DAY_MAP: { [key: string]: number } = {
 
 export const useBellScheduler = (options: BellSchedulerOptions) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const intervalRef = useRef<NodeJS.Interval | null>(null);
+  const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
