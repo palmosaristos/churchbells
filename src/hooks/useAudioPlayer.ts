@@ -69,13 +69,8 @@ export const useAudioPlayer = () => {
 
       // Stop complet de l'audio précédent
       if (audioRef.current) {
-        try {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-          audioRef.current.src = '';
-        } catch (e) {
-          console.warn('Error stopping previous audio:', e);
-        }
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
         audioRef.current = null;
       }
 
@@ -136,13 +131,8 @@ export const useAudioPlayer = () => {
   useEffect(() => {
     return () => {
       if (audioRef.current) {
-        try {
-          audioRef.current.pause();
-          audioRef.current.currentTime = 0;
-          audioRef.current.src = '';
-        } catch (e) {
-          console.log("Audio cleanup:", e);
-        }
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
         audioRef.current = null;
       }
       setIsPlaying(false);
