@@ -12,7 +12,7 @@ export const useNotificationListener = () => {
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // Gestion correcte des listeners Capacitor
+    // // // // // // // // // // // // // // // // 
     const setupListeners = async () => {
       const receivedListener = await LocalNotifications.addListener(
         'localNotificationReceived', 
@@ -32,34 +32,46 @@ export const useNotificationListener = () => {
 
     setupListeners();
 
-    // Gestionnaire de notification reçue
+    // ✅ Gestionnaire de notification reçue (CORRIGÉ)
     async function handleNotificationReceived(notification: any) {
       const { extra } = notification;
       if (!extra || !extra.type) return;
 
-      // Reminders de prière (toast seulement)
+      // ✅ Reminders de prière (toast seulement)
       if (extra.type === 'prayer-reminder') {
         const prayerName = extra.prayerName || 'Prayer';
         const minutesUntil = extra.minutesUntil || '5';
         
-        toast({
-          title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
-          variant: 'prayer-reminder',
-          duration: 8000,
-        });
-        
-        console.log(`🔔 Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
+        // ✅ CORRECTION : Jouer le son si "withBell" est activé
+        if (extra.withBell) {
+          const options = {
+            audioUrl: `/audio/cathedral_1.mp3`,
+            type: 'prayer' as const,
+            volume: 0.5,
+            isScheduled: true
+          };
+          toggleAudio(options);
+          console.log(`🔔 Prayer reminder WITH BELL: ${prayerName} in ${minutesUntil} minutes`);
+        } else {
+          // Sinon, juste afficher le toast
+          toast({
+            title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
+            variant: 'prayer-reminder',
+            duration: 8000,
+          });
+          console.log(`🔔 Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
+        }
         return;
       }
 
-      // Gestion des sons de cloche et prière
+      // ✅ Gestion des sons de cloche et prière
       if (!extra.soundFile) return;
 
       try {
         const scheduledTime = new Date(extra.scheduledTime || Date.now());
         const delay = (Date.now() - scheduledTime.getTime()) / 1000;
         
-        // Annuler les backups si le principal est trop en retard
+        // ✅ Annuler les backups si le principal est trop en retard
         if (extra.retryLevel === 0 && delay > 30) {
           console.warn(`Main notification delayed ${delay}s – cancelling backup`);
           if (extra.originalId) {
@@ -68,7 +80,7 @@ export const useNotificationListener = () => {
           return;
         }
 
-        // Récupérer le volume selon le type
+        // ✅ Récupérer le volume selon le type
         let volume: number | undefined;
         if (extra.type === 'bell' && extra.bellTradition) {
           const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
@@ -93,7 +105,7 @@ export const useNotificationListener = () => {
       }
     }
 
-    // Gestionnaire de tap sur notification
+    // ✅ Gestionnaire de tap sur notification
     async function handleNotificationAction(notification: any) {
       const { extra } = notification.notification;
       if (!extra || !extra.soundFile || !extra.type || isPlaying) return;
