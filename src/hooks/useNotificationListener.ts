@@ -12,7 +12,7 @@ export const useNotificationListener = () => {
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
 
-    // // // // // // // // // // // // // // // // 
+    // Setup notification listeners
     const setupListeners = async () => {
       const receivedListener = await LocalNotifications.addListener(
         'localNotificationReceived', 

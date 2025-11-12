@@ -112,8 +112,7 @@ const PrayerTimes = () => {
                       <Label htmlFor="prayer-name" className="text-base font-cormorant font-semibold text-muted-foreground">
                         Prayer name (optional)
                       </Label>
-> <Element>Element</Element> = "Element">
-                      <Input 
+                      <Input
                         id="prayer-name" 
                         type="text" 
                         value={prayerName} 
