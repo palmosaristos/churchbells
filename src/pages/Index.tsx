@@ -116,6 +116,13 @@ const Index = () => {
       const savedReminders = localStorage.getItem("prayerReminderNotifications");
       setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
       setReminderWithBell(localStorage.getItem("prayerReminderWithBell") === "true");
+      
+      // Paramètres critiques pour le scheduler
+      setSelectedTimeZone(localStorage.getItem("timeZone") || "");
+      setAudioPermissionGranted(localStorage.getItem("audioPermission") === "granted");
+      setOnboardingComplete(localStorage.getItem("onboardingComplete") === "true");
+      const appEnabledValue = localStorage.getItem("appEnabled");
+      setIsAppEnabled(appEnabledValue !== "false");
     };
 
     window.addEventListener("storage", reloadSettings);
