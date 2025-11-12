@@ -19,7 +19,6 @@ export const useAudioPlayer = () => {
     general: 0.7 
   });
 
-  // CORRECTION : Récupération robuste du volume
   const getVolume = useCallback((type: 'bell' | 'prayer' | 'general' = 'general', override?: number): number => {
     if (override !== undefined) return Math.max(0, Math.min(1, override));
     
@@ -31,7 +30,6 @@ export const useAudioPlayer = () => {
     return vol;
   }, []);
 
-  // CORRECTION : Sauvegarde du volume avec validation
   const setVolume = useCallback((volume: number, type: 'bell' | 'prayer' | 'general' = 'general') => {
     const clampedVol = Math.max(0, Math.min(1, volume));
     volumesRef.current[type] = clampedVol;
@@ -39,17 +37,14 @@ export const useAudioPlayer = () => {
     const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
     localStorage.setItem(key, clampedVol.toString());
     
-    // Mettre à jour le canal audio actif si en cours de lecture
     if (audioRef.current && isPlaying) {
       audioRef.current.volume = clampedVol;
     }
   }, [isPlaying]);
 
-  // CORRECTION : Toggle avec gestion d'erreurs complète
   const toggleAudio = useCallback(async (options: AudioOptions) => {
     const { audioUrl, traditionName, type = 'general', volume: overrideVol, isScheduled = false } = options;
 
-    // Validation de l'URL
     if (!audioUrl || !audioUrl.startsWith('/audio/')) {
       console.error('Invalid audio URL:', audioUrl);
       if (!isScheduled) {
@@ -61,7 +56,6 @@ export const useAudioPlayer = () => {
     try {
       const effectiveVol = getVolume(type, overrideVol);
 
-      // Si même URL et en cours de lecture - stop
       if (audioRef.current && currentAudioUrl === audioUrl && isPlaying) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
@@ -70,7 +64,6 @@ export const useAudioPlayer = () => {
         return;
       }
 
-      // Stop complet de l'audio précédent
       if (audioRef.current) {
         try {
           audioRef.current.pause();
@@ -82,7 +75,6 @@ export const useAudioPlayer = () => {
         audioRef.current = null;
       }
 
-      // Nouvel élément audio avec préchargement
       const audio = new Audio(audioUrl);
       audio.preload = 'auto';
       audio.volume = effectiveVol;
@@ -99,7 +91,6 @@ export const useAudioPlayer = () => {
         setIsPlaying(false);
         setCurrentAudioUrl("");
         
-        // Retry silencieux pour les sons programmés
         if (isScheduled) {
           setTimeout(() => {
             if (audioRef.current === audio) {
@@ -114,7 +105,6 @@ export const useAudioPlayer = () => {
       await audio.play();
       setIsPlaying(true);
 
-      // Toast uniquement pour les prévisions manuelles
       if (traditionName && !isScheduled) {
         toast.success(`Listening to ${traditionName}`, {
           duration: 2000,
@@ -136,7 +126,7 @@ export const useAudioPlayer = () => {
     }
   }, [getVolume, isPlaying, currentAudioUrl]);
 
-  // CORRECTION : Cleanup complet sans erreurs
+  // AMÉLIORATION : Cleanup robuste même en cas d'erreur
   useEffect(() => {
     return () => {
       if (audioRef.current) {
