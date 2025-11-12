@@ -23,7 +23,14 @@ export const useAudioPlayer = () => {
   const getVolume = useCallback((type: 'bell' | 'prayer' | 'general' = 'general', override?: number): number => {
     if (override !== undefined) return Math.max(0, Math.min(1, override));
     
-    const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
+    let key: string;
+    if (type === 'bell') {
+      key = 'bellVolume'; // Correction pour cohérence avec les appels depuis notifications (override fourni, mais fallback simple)
+    } else if (type === 'prayer') {
+      key = 'prayerBellVolume';
+    } else {
+      key = 'generalVolume';
+    }
     const saved = localStorage.getItem(key);
     const vol = saved ? parseFloat(saved) : 0.7;
     
@@ -35,7 +42,14 @@ export const useAudioPlayer = () => {
     const clampedVol = Math.max(0, Math.min(1, volume));
     volumesRef.current[type] = clampedVol;
     
-    const key = type === 'general' ? 'generalVolume' : `${type}BellVolume`;
+    let key: string;
+    if (type === 'bell') {
+      key = 'bellVolume';
+    } else if (type === 'prayer') {
+      key = 'prayerBellVolume';
+    } else {
+      key = 'generalVolume';
+    }
     localStorage.setItem(key, clampedVol.toString());
     
     if (audioRef.current && isPlaying) {
@@ -74,7 +88,7 @@ export const useAudioPlayer = () => {
         audioRef.current = null;
       }
 
-      // Nouvel élément audio avec préchargement
+      // Nouvel élément audio avec préchargement (simplifié pour MVP, compatible Capacitor)
       const audio = new Audio(audioUrl);
       audio.preload = 'auto';
       audio.volume = effectiveVol;
@@ -92,9 +106,10 @@ export const useAudioPlayer = () => {
         setCurrentAudioUrl("");
         
         if (isScheduled) {
+          // Retry simplifié pour notifications (évite boucle infinie)
           setTimeout(() => {
-            if (audioRef.current === audio) {
-              audio.play().catch(() => {});
+            if (audioRef.current && !isPlaying) {
+              audioRef.current.play().catch(() => {});
             }
           }, 1000);
         } else {
