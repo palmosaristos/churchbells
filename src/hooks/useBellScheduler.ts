@@ -141,10 +141,22 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           await LocalNotifications.cancel({ notifications: pending.notifications });
         }
 
-        if (!options.enabled || !options.timeZone) {
-          console.log('Bells disabled or no timezone, notifications cleared');
+        if (!options.enabled) {
+          console.log('🔕 SCHEDULER: Bells disabled (options.enabled = false), notifications cleared');
           return;
         }
+        
+        if (!options.timeZone) {
+          console.log('🔕 SCHEDULER: No timezone detected, notifications cleared');
+          return;
+        }
+        
+        console.log('✅ SCHEDULER: All conditions met, starting scheduling...');
+        console.log('   - enabled:', options.enabled);
+        console.log('   - timeZone:', options.timeZone);
+        console.log('   - bellTradition:', options.bellTradition);
+        console.log('   - startTime:', options.startTime);
+        console.log('   - endTime:', options.endTime);
 
         await setupChannels();
 
@@ -387,11 +399,19 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         }
 
         // Planification finale
-        if (notifications.length > 0 && notifications.length < 500) {
-          await LocalNotifications.schedule({ notifications });
-          console.log(`✅ Scheduled ${notifications.length} notifications (bells: ${bellCount}, prayers: ${prayerCount})`);
+        console.log(`📊 SCHEDULER: Total notifications to schedule: ${notifications.length} (bells: ${bellCount}, prayers: ${prayerCount})`);
+        
+        if (notifications.length === 0) {
+          console.warn('⚠️ SCHEDULER: No notifications to schedule! Check your time range and selected days.');
         } else if (notifications.length >= 500) {
-          console.warn('⚠️ Too many notifications – reduce time range');
+          console.warn(`⚠️ SCHEDULER: Too many notifications (${notifications.length}) – reduce time range`);
+        } else {
+          await LocalNotifications.schedule({ notifications });
+          console.log(`✅ SCHEDULER: Successfully scheduled ${notifications.length} notifications`);
+          
+          // Vérification
+          const pending = await LocalNotifications.getPending();
+          console.log(`✅ SCHEDULER: Verification - ${pending.notifications.length} notifications are now pending`);
         }
 
       } catch (error) {
