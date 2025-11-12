@@ -170,18 +170,18 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
                         size="sm" 
                         className="font-cinzel shadow-md hover:shadow-lg transition-all hover:scale-[1.02]" 
                         onClick={() => {
-                          const audioFile = callType === 'long' ? '/audio/long_call.mp3' : '/audio/short_call.mp3';
+                          const audioFile = callType === 'long' ? '/audio/long-call PREMIUM.mp3' : '/audio/short-call.mp3';
                           toggleAudio({ 
                             audioUrl: audioFile, 
                             traditionName: `${callType === 'long' ? 'Long' : 'Short'} Bell`, 
                             type: 'prayer', 
                             volume: bellVolume 
                           });
-                        }} 
+                        }}
                         aria-label="Preview bell sound"
                       >
                         <Volume2 className="w-4 h-4 mr-2" />
-                        {isPlaying && (currentAudioUrl === "/audio/short_call.mp3" || currentAudioUrl === "/audio/long_call.mp3") ? "Stop" : "Listen"}
+                        {isPlaying && (currentAudioUrl === "/audio/short-call.mp3" || currentAudioUrl === "/audio/long-call PREMIUM.mp3") ? "Stop" : "Listen"}
                       </Button>
                     </div>
                   </div>
