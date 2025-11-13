@@ -35,15 +35,13 @@ export const useNotificationListener = () => {
         return;
       }
 
-      // ✅ Gestion des sons de cloche uniquement
-      // Les sons de prayer (short_call, long_call) sont déjà joués par le channel Android
-      if (!extra.soundFile) return;
-      
-      // Ne jouer le son que pour les bells, pas pour les prayers (déjà gérés par le channel)
-      if (extra.type === 'prayer') {
+      // ✅ Les prayers sont déjà joués par le channel Android
+      if (extra.type === 'prayer' && extra.soundFile) {
         console.log(`🔔 Prayer notification received (${extra.soundFile} joué par channel Android)`);
         return;
       }
+
+      if (!extra.soundFile) return;
 
       try {
         const scheduledTime = new Date(extra.scheduledTime || Date.now());
@@ -58,7 +56,13 @@ export const useNotificationListener = () => {
           return;
         }
 
-        // ✅ Récupérer le volume pour les bells
+        // ✅ Pour les bells, le son est joué par le channel Android - on skip toggleAudio()
+        if (extra.type === 'bell') {
+          console.log(`🔔 Bell notification received (${extra.soundFile} joué par channel Android)`);
+          return;
+        }
+
+        // ✅ Récupérer le volume pour les bells (code mort maintenant, mais on garde pour cohérence)
         let volume: number | undefined;
         if (extra.type === 'bell' && extra.bellTradition) {
           const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
