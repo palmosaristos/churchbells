@@ -35,8 +35,15 @@ export const useNotificationListener = () => {
         return;
       }
 
-      // ✅ Gestion des sons de cloche et prière
+      // ✅ Gestion des sons de cloche uniquement
+      // Les sons de prayer (short_call, long_call) sont déjà joués par le channel Android
       if (!extra.soundFile) return;
+      
+      // Ne jouer le son que pour les bells, pas pour les prayers (déjà gérés par le channel)
+      if (extra.type === 'prayer') {
+        console.log(`🔔 Prayer notification received (${extra.soundFile} joué par channel Android)`);
+        return;
+      }
 
       try {
         const scheduledTime = new Date(extra.scheduledTime || Date.now());
@@ -51,14 +58,11 @@ export const useNotificationListener = () => {
           return;
         }
 
-        // ✅ Récupérer le volume selon le type
+        // ✅ Récupérer le volume pour les bells
         let volume: number | undefined;
         if (extra.type === 'bell' && extra.bellTradition) {
           const bellVolumes = JSON.parse(localStorage.getItem('bellVolumes') || '{}');
           volume = bellVolumes[extra.bellTradition];
-        } else if (extra.type === 'prayer') {
-          const saved = localStorage.getItem('prayerBellVolume');
-          volume = saved ? parseFloat(saved) : undefined;
         }
 
         const options = {
