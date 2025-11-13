@@ -88,7 +88,35 @@ export const useNotificationListener = () => {
     // ✅ Gestionnaire de tap sur notification
     async function handleNotificationAction(notification: any) {
       const { extra } = notification.notification;
-      if (!extra || !extra.soundFile || !extra.type || isPlaying) return;
+      if (!extra || !extra.type) return;
+
+      // ✅ Prayer reminder visuel (sans son) - afficher le toast au tap
+      if (extra.type === 'prayer-reminder' && !extra.withBell) {
+        const prayerName = extra.prayerName || 'Prayer';
+        const minutesUntil = extra.minutesUntil || '5';
+        toast({
+          title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
+          variant: 'prayer-reminder',
+          duration: 8000,
+        });
+        console.log(`📱 Tap on prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
+        return;
+      }
+
+      // ✅ Additional notification visuelle uniquement
+      if (extra.type === 'additional-notification') {
+        toast({
+          title: extra.title || 'Prayer Notification',
+          description: extra.message || '',
+          variant: 'prayer',
+          duration: 10000,
+        });
+        console.log(`📱 Tap on additional notification`);
+        return;
+      }
+
+      // Pour les sons, vérifier qu'on a un soundFile et qu'on ne joue pas déjà
+      if (!extra.soundFile || isPlaying) return;
 
       let volume: number | undefined;
       
