@@ -11,13 +11,13 @@ export const bellTraditions: BellTradition[] = [
     id: "cathedral-bell",
     name: "Cathedral Bell",
     tradition: "Cathédrale",
-    audioSample: "/audio/CATHEDRAL_3.mp3"
+    audioSample: "/audio/cathedral_3.mp3"
   },
   {
     id: "village-bell",
     name: "Village Bell",
     tradition: "Village",
-    audioSample: "/audio/VILLAGE_3.mp3"
+    audioSample: "/audio/village_3.mp3"
   },
   {
     id: "carillon-bell",
