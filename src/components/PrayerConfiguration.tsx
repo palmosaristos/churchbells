@@ -105,17 +105,17 @@ export const PrayerConfiguration = ({
     }
   };
 
-  // ✅ Formatage des reminders pour affichage simplifié
+  // ✅ Formatage des reminders : seul le premier peut être "bell", les autres sont toujours "visual"
   const formattedReminders = useMemo(() => {
     if (!prayerEnabled || reminders.length === 0) return [];
     
     const sorted = [...reminders].sort((a, b) => Number(a) - Number(b));
     const volume = reminderWithBell ? getReminderVolume() : 0;
     
-    return sorted.map(minutes => ({
+    return sorted.map((minutes, index) => ({
       minutes,
-      type: reminderWithBell ? 'bell' : 'visual',
-      volume: reminderWithBell ? volume : undefined
+      type: index === 0 && reminderWithBell ? 'bell' : 'visual',
+      volume: index === 0 && reminderWithBell ? volume : undefined
     }));
   }, [prayerEnabled, reminders, reminderWithBell]);
 
