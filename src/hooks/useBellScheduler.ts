@@ -109,7 +109,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           description: 'Visual reminders before prayer times',
           importance: 3 as const,
           visibility: 1,
-          vibration: true
+          vibration: false
         });
 
         await LocalNotifications.createChannel({
