@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-import { Volume2, Loader2, Clock } from "lucide-react";  // Add Clock for exact hint
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import realisticBellIcon from "@/assets/realistic-bell-icon.png";
+import churchClock from "@/assets/church-clock.png";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -66,9 +68,21 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
 
       setIsOpen(false);
       setHasRetried(false);
+      
+      // Jouer un son de cloche Cathedral
+      const bellAudio = new Audio('/audio/cathedral_3.mp3');
+      bellAudio.volume = 0.3;
+      bellAudio.play().catch(console.error);
+      
       toast({
-        title: "Audio & Scheduling Ready",
+        title: (
+          <div className="flex items-center gap-3 font-cormorant text-2xl">
+            <img src={realisticBellIcon} alt="" className="w-10 h-10" />
+            Audio & Scheduling Ready
+          </div>
+        ) as any,
         description: `Bell and prayer sounds will play at exact scheduled times${!exactGranted ? ' (exact alarm optional for best timing)' : ''}`,
+        variant: 'onboarding',
         duration: 4000
       });
     } catch (error) {
@@ -88,14 +102,14 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent className="max-w-md">
+      <AlertDialogContent className="max-w-md border-2 border-amber-700/50 dark:border-amber-600/30">
         <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center gap-2 justify-center">
-            <Volume2 className="w-5 h-5" />
+          <AlertDialogTitle className="flex items-center gap-3 justify-center font-cormorant text-3xl">
+            <img src={realisticBellIcon} alt="" className="w-12 h-12" />
             Audio Access Required
-            <Clock className="w-5 h-5 text-muted-foreground" />  {/* Hint exact timing */}
+            <img src={churchClock} alt="" className="w-12 h-12" />
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-center text-base">
+          <AlertDialogDescription className="text-center text-lg font-cormorant">
             Grant permission to play bell sounds at your scheduled times (e.g., hourly chimes or prayers). This unlocks audio and improves timing accuracy. No ads or spam.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -113,7 +127,7 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
               </>
             ) : (
               <>
-                <Volume2 className="h-4 w-4" />
+                <img src={realisticBellIcon} alt="" className="h-4 w-4" />
                 {hasRetried ? 'Retry Audio & Timing' : 'Allow Audio Playback'}
               </>
             )}
