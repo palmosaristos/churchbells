@@ -35,6 +35,7 @@ const toastVariants = cva(
         bell: "border bg-amber-50 dark:bg-amber-950 text-amber-900 dark:text-amber-100",
         prayer: "border bg-purple-50 dark:bg-purple-950 text-purple-900 dark:text-purple-100",
         "prayer-reminder": "border-2 border-amber-700 dark:border-amber-600 bg-[#FAF8F3] dark:bg-amber-950/30 text-amber-900 dark:text-amber-100 shadow-warm",
+        "onboarding": "border-2 border-amber-700 dark:border-amber-600 bg-[#FAF8F3] dark:bg-amber-950/30 text-amber-900 dark:text-amber-100 shadow-warm",
       },
     },
     defaultVariants: {
