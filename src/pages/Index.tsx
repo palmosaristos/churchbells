@@ -13,6 +13,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 import { useBellScheduler } from "@/hooks/useBellScheduler";
 import { useNotificationListener } from "@/hooks/useNotificationListener";
+import { useNightlyRescheduler } from "@/hooks/useNightlyRescheduler";
+import { useState as useReactState, useCallback } from "react";
 
 const Index = () => {
   const location = useLocation();
@@ -75,9 +77,21 @@ const Index = () => {
   const [reminderWithBell, setReminderWithBell] = useState<boolean>(() => {
     return localStorage.getItem("prayerReminderWithBell") === "true";
   });
+  
+  // State pour forcer la reprogrammation
+  const [scheduleKey, setScheduleKey] = useReactState(0);
+  
+  // Fonction pour forcer une reprogrammation
+  const triggerReschedule = useCallback(() => {
+    console.log('🔄 Triggering manual reschedule');
+    setScheduleKey(prev => prev + 1);
+  }, []);
 
   // Activation des hooks Capacitor
   useNotificationListener();
+  
+  // Hook pour la reprogrammation nocturne automatique
+  useNightlyRescheduler(triggerReschedule);
   
   useBellScheduler({
     enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
