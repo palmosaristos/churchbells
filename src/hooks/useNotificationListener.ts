@@ -35,24 +35,21 @@ export const useNotificationListener = () => {
         return;
       }
 
-      // ✅ Les prayers sont déjà joués par le channel Android
-      if (extra.type === 'prayer' && extra.soundFile) {
-        console.log(`🔔 Prayer notification received (${extra.soundFile} joué par channel Android)`);
-        return;
-      }
-
       if (!extra.soundFile) return;
 
       try {
         const scheduledTime = new Date(extra.scheduledTime || Date.now());
         const delay = (Date.now() - scheduledTime.getTime()) / 1000;
         
-        // ✅ Annuler les backups si le principal est trop en retard
-        if (extra.retryLevel === 0 && delay > 30) {
-          console.warn(`Main notification delayed ${delay}s – cancelling backup`);
-          if (extra.originalId) {
-            await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 1 }] });
-          }
+        // ✅ Annuler les backups dès que le principal arrive (bells ET prayers)
+        if (extra.retryLevel === 0 && extra.originalId) {
+          console.log(`Main notification fired (delay: ${delay}s) – cancelling backup notification`);
+          await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 1 }] });
+        }
+
+        // ✅ Les prayers sont déjà joués par le channel Android - on skip toggleAudio()
+        if (extra.type === 'prayer' && extra.soundFile) {
+          console.log(`🔔 Prayer notification received (${extra.soundFile} joué par channel Android)`);
           return;
         }
 
