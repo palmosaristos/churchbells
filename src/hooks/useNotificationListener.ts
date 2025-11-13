@@ -17,30 +17,21 @@ export const useNotificationListener = () => {
       const { extra } = notification;
       if (!extra || !extra.type) return;
 
-      // ✅ Reminders de prière (toast seulement ou avec bell)
+      // ✅ Reminders de prière (toast sans vibration par défaut, Cathedral_1 si withBell)
       if (extra.type === 'prayer-reminder') {
         const prayerName = extra.prayerName || 'Prayer';
         const minutesUntil = extra.minutesUntil || '5';
         
-        // ✅ Jouer le son si "withBell" est activé
-        if (extra.withBell) {
-          const options = {
-            audioUrl: `/audio/cathedral_1.mp3`,
-            type: 'prayer' as const,
-            volume: 0.5,
-            isScheduled: true
-          };
-          toggleAudio(options);
-          console.log(`🔔 Prayer reminder WITH BELL: ${prayerName} in ${minutesUntil} minutes`);
-        } else {
-          // Sinon, juste afficher le toast
+        // Le son Cathedral_1 est joué automatiquement par le channel Android si withBell=true
+        // On affiche juste le toast pour les notifications sans son
+        if (!extra.withBell) {
           toast({
             title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
             variant: 'prayer-reminder',
             duration: 8000,
           });
-          console.log(`🔔 Prayer reminder: ${prayerName} in ${minutesUntil} minutes`);
         }
+        console.log(`🔔 Prayer reminder${extra.withBell ? ' WITH BELL (Cathedral_1)' : ''}: ${prayerName} in ${minutesUntil} minutes`);
         return;
       }
 
