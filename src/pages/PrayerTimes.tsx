@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { TimeInputAmPm } from "@/components/TimeInputAmPm";
+import { useNightlyRescheduler } from "@/hooks/useNightlyRescheduler";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const PrayerTimes = () => {
@@ -48,6 +49,16 @@ const PrayerTimes = () => {
   });
 
   const { toggleAudio, isPlaying, currentAudioUrl } = useAudioPlayer();
+
+  // Fonction pour déclencher une reprogrammation complète
+  const triggerReschedule = useCallback(() => {
+    console.log('🔔 PrayerTimes: Triggering global reschedule');
+    localStorage.setItem('needsRescheduling', 'true');
+    localStorage.setItem('lastReschedule', new Date().toISOString());
+  }, []);
+
+  // Hook pour la reprogrammation nocturne automatique
+  useNightlyRescheduler(triggerReschedule);
 
   // ✅ Correction : Mise à jour dynamique de reminderNotifications basée sur les sélections (sinon array figé, bloquant les rappels dans scheduler)
   useEffect(() => {
