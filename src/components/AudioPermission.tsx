@@ -69,11 +69,6 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
       setIsOpen(false);
       setHasRetried(false);
       
-      // Jouer un son de cloche Cathedral
-      const bellAudio = new Audio('/audio/cathedral_3.mp3');
-      bellAudio.volume = 0.3;
-      bellAudio.play().catch(console.error);
-      
       toast({
         title: (
           <div className="flex items-center gap-3 font-cormorant text-2xl">
