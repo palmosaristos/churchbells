@@ -162,55 +162,6 @@ const Settings = () => {
                   <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} halfHourChimes={halfHourChimes} onHalfHourChimesChange={setHalfHourChimes} pauseEnabled={pauseEnabled} onPauseEnabledChange={setPauseEnabled} pauseStartTime={pauseStartTime} pauseEndTime={pauseEndTime} onPauseStartTimeChange={setPauseStartTime} onPauseEndTimeChange={setPauseEndTime} selectedDays={selectedDays} onSelectedDaysChange={setSelectedDays} bellsEnabled={appEnabled} onBellsEnabledChange={handleAppEnabledChange} />
                 </AccordionContent>
               </AccordionItem>
-
-              {/* System Diagnostic Section */}
-              <AccordionItem value="diagnostic" className="border-none">
-                <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
-                  <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
-                    <Activity className="w-6 h-6 text-primary" />
-                    System Status
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                  <div className="space-y-3">
-                    <DiagnosticItem 
-                      label="App Enabled" 
-                      status={appEnabled}
-                      description="Main switch to enable/disable all bells"
-                    />
-                    <DiagnosticItem 
-                      label="Onboarding Complete" 
-                      status={localStorage.getItem("onboardingComplete") === "true"}
-                      description="Initial setup completed"
-                    />
-                    <DiagnosticItem 
-                      label="Audio Permission" 
-                      status={localStorage.getItem("audioPermission") === "granted"}
-                      description="Permission to play sounds"
-                    />
-                    <DiagnosticItem 
-                      label="Exact Alarm Permission" 
-                      status={localStorage.getItem("exactAlarmGranted") === "true"}
-                      description="Required for precise scheduling on Android 12+"
-                    />
-                    <DiagnosticItem 
-                      label="Time Zone" 
-                      status={!!localStorage.getItem("timeZone")}
-                      description={localStorage.getItem("timeZone") || "Not detected"}
-                    />
-                    <DiagnosticItem 
-                      label="Notifications Scheduled" 
-                      status={scheduledCount !== null && scheduledCount > 0}
-                      description={scheduledCount === null ? "Checking..." : `${scheduledCount} notification${scheduledCount !== 1 ? 's' : ''} scheduled`}
-                    />
-                    <div className="mt-4 pt-4 border-t border-amber-200 dark:border-amber-800">
-                      <p className="text-sm font-cormorant text-muted-foreground">
-                        All indicators must be green for notifications to work properly. If notifications scheduled is 0, check all other conditions above.
-                      </p>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
             </Accordion>
           </div>
 

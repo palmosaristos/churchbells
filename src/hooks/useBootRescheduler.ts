@@ -17,13 +17,33 @@ export const useBootRescheduler = () => {
         // Check if app was launched by BootReceiver
         const urlOpen = await CapApp.getLaunchUrl();
         
-        // Set a flag in localStorage to trigger rescheduling
-        // This will be picked up by useBellScheduler
         if (urlOpen?.url?.includes('BOOT_COMPLETED')) {
-          console.log('App launched after boot, triggering notification rescheduling');
-          localStorage.setItem('needsRescheduling', 'true');
+          console.log('App launched after boot, checking if rescheduling needed');
           
-          // The useBellScheduler hook will detect this flag and reschedule
+          const lastReschedule = localStorage.getItem('lastReschedule');
+          const now = new Date();
+          
+          // Reprogrammer si pas de dernière programmation OU si > 12h
+          let needsReschedule = false;
+          if (!lastReschedule) {
+            needsReschedule = true;
+            console.log('No previous reschedule found, triggering reschedule');
+          } else {
+            const lastDate = new Date(lastReschedule);
+            const hoursSinceLastReschedule = (now.getTime() - lastDate.getTime()) / (1000 * 60 * 60);
+            if (hoursSinceLastReschedule > 12) {
+              needsReschedule = true;
+              console.log(`Last reschedule was ${hoursSinceLastReschedule.toFixed(1)}h ago, triggering reschedule`);
+            } else {
+              console.log(`Last reschedule was ${hoursSinceLastReschedule.toFixed(1)}h ago, no reschedule needed`);
+            }
+          }
+          
+          if (needsReschedule) {
+            localStorage.setItem('needsRescheduling', 'true');
+            localStorage.setItem('lastReschedule', now.toISOString());
+          }
+          
           // After 2 seconds, close the app if it was launched in background
           setTimeout(() => {
             if (document.hidden) {

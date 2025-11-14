@@ -26,7 +26,7 @@ export const useNotificationListener = () => {
         // On affiche juste le toast pour les notifications sans son
         if (!extra.withBell) {
           toast({
-            title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
+            title: `🔔 Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
             variant: 'prayer-reminder',
             duration: 8000,
           });
@@ -91,7 +91,7 @@ export const useNotificationListener = () => {
         const prayerName = extra.prayerName || 'Prayer';
         const minutesUntil = extra.minutesUntil || '5';
         toast({
-          title: `Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
+          title: `🔔 Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
           variant: 'prayer-reminder',
           duration: 8000,
         });
