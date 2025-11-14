@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -115,8 +114,6 @@ const PrayerTimes = () => {
           </div>
         </div>
       </div>
-
-      <Footer />
 
       <div className="container mx-auto px-4 py-6 space-y-10">
         <div className="max-w-4xl mx-auto space-y-6">
