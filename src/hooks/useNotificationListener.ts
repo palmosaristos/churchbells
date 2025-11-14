@@ -42,9 +42,9 @@ export const useNotificationListener = () => {
         const delay = (Date.now() - scheduledTime.getTime()) / 1000;
         
         // ✅ Annuler les backups dès que le principal arrive (bells ET prayers)
-        if (extra.retryLevel === 0 && extra.originalId) {
-          console.log(`Main notification fired (delay: ${delay}s) – cancelling backup notification`);
-          await LocalNotifications.cancel({ notifications: [{ id: extra.originalId + 1 }] });
+        if (extra.retryLevel === 0 && extra.backupId) {
+          console.log(`Main notification fired (delay: ${delay}s) – cancelling backup notification (ID: ${extra.backupId})`);
+          await LocalNotifications.cancel({ notifications: [{ id: extra.backupId }] });
         }
 
         // ✅ Les prayers sont déjà joués par le channel Android - on skip toggleAudio()
