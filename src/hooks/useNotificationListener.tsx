@@ -4,6 +4,8 @@ import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
 import { useAudioPlayer } from './useAudioPlayer';
 import { useToast } from '@/hooks/use-toast';
+import realisticBellIcon from '@/assets/realistic-bell-icon.png';
+import churchBellTransparent from '@/assets/church-bell-transparent.png';
 
 export const useNotificationListener = () => {
   const { toggleAudio, isPlaying } = useAudioPlayer();
@@ -23,14 +25,18 @@ export const useNotificationListener = () => {
         const minutesUntil = extra.minutesUntil || '5';
         
         // Le son Cathedral_1 est joué automatiquement par le channel Android si withBell=true
-        // On affiche juste le toast pour les notifications sans son
-        if (!extra.withBell) {
-          toast({
-            title: `🔔 Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
-            variant: 'prayer-reminder',
-            duration: 8000,
-          });
-        }
+        // On affiche le toast pour toutes les notifications (avec ou sans son)
+        toast({
+          title: (
+            <div className="flex items-center gap-3 font-cormorant text-2xl">
+              <img src={realisticBellIcon} alt="" className="w-12 h-12" />
+              Your {prayerName} starts in {minutesUntil} minute{minutesUntil === '1' ? '' : 's'}
+              <img src={churchBellTransparent} alt="" className="w-12 h-12" />
+            </div>
+          ) as any,
+          variant: 'prayer-reminder',
+          duration: 8000,
+        });
         console.log(`🔔 Prayer reminder${extra.withBell ? ' WITH BELL (Cathedral_1)' : ''}: ${prayerName} in ${minutesUntil} minutes`);
         return;
       }
@@ -86,12 +92,18 @@ export const useNotificationListener = () => {
       const { extra } = notification.notification;
       if (!extra || !extra.type) return;
 
-      // ✅ Prayer reminder visuel (sans son) - afficher le toast au tap
-      if (extra.type === 'prayer-reminder' && !extra.withBell) {
+      // ✅ Prayer reminder - afficher le toast au tap (avec ou sans bell)
+      if (extra.type === 'prayer-reminder') {
         const prayerName = extra.prayerName || 'Prayer';
         const minutesUntil = extra.minutesUntil || '5';
         toast({
-          title: `🔔 Your ${prayerName} starts in ${minutesUntil} minute${minutesUntil === '1' ? '' : 's'}`,
+          title: (
+            <div className="flex items-center gap-3 font-cormorant text-2xl">
+              <img src={realisticBellIcon} alt="" className="w-12 h-12" />
+              Your {prayerName} starts in {minutesUntil} minute{minutesUntil === '1' ? '' : 's'}
+              <img src={churchBellTransparent} alt="" className="w-12 h-12" />
+            </div>
+          ) as any,
           variant: 'prayer-reminder',
           duration: 8000,
         });

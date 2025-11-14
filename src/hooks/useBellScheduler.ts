@@ -89,8 +89,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         await LocalNotifications.createChannel({
           id: 'prayer-reminder',
           name: 'Prayer Reminders',
-          description: 'Visual reminders before prayer times',
-          importance: 3 as const,
+          description: 'Visual reminders before prayer times (silent)',
+          importance: 2 as const,
           visibility: 1,
           vibration: false
         });
