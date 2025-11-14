@@ -42,9 +42,12 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
     let exactGranted = false;
 
     try {
-      // Web/Silent test pour audio context unlock (inaudible, no perturb)
-      const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGm98OGeUhELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsI');
-      await audio.play();
+      // Web preview needs audio unlock (browser autoplay policy), mobile native doesn't
+      if (!Capacitor.isNativePlatform()) {
+        const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGm98OGeUhELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsIHGS57OihUxELTqXh8bllHgU2jdXu0H4pBSh+zPLaizsI');
+        audio.volume = 0;  // Complètement silencieux
+        await audio.play();
+      }
       audioGranted = true;
 
       // Set defaults volumes au grant (pour useAudioPlayer plays)
