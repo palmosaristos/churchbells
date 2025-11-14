@@ -195,7 +195,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
           const backupTime = new Date(notifTime.getTime() + 30000);
           notifications.push({
-            id: getNextId(),
+            id: originalId + 1,
             title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
             body: ' ',
             schedule: { at: backupTime, allowWhileIdle: true },
@@ -307,7 +307,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
               const backupTime = new Date(checkDate.getTime() + 30000);
               notifications.push({
-                id: getNextId(),
+                id: originalId + 1,
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
                 body: ' ',
                 schedule: { at: backupTime, allowWhileIdle: true },
