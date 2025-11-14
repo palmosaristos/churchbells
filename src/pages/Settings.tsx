@@ -9,28 +9,13 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { bellTraditions } from "@/data/bellTraditions";
-import { Volume2, Clock, Activity, CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import { Volume2, Clock } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
-const DiagnosticItem = ({ label, status, description }: { label: string; status: boolean; description: string }) => {
-  const Icon = status ? CheckCircle2 : XCircle;
-  const iconColor = status ? "text-green-600" : "text-red-600";
-  
-  return (
-    <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-50/50 dark:bg-amber-950/20">
-      <Icon className={`w-5 h-5 mt-0.5 ${iconColor} flex-shrink-0`} />
-      <div className="flex-1">
-        <div className="font-cormorant font-semibold text-foreground">{label}</div>
-        <div className="text-sm text-muted-foreground font-cormorant">{description}</div>
-      </div>
-    </div>
-  );
-};
-
-  const Settings = () => {
+const Settings = () => {
     const savedBellVolumes = localStorage.getItem("bellVolumes");
     const appEnabledValue = localStorage.getItem("appEnabled");
 
@@ -43,7 +28,6 @@ const DiagnosticItem = ({ label, status, description }: { label: string; status:
     const [pauseEndTime, setPauseEndTime] = useState<string>(localStorage.getItem("pauseEndTime") || "14:00");
     const [selectedDays, setSelectedDays] = useState<string[]>(JSON.parse(localStorage.getItem("selectedDays") || '["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]'));
     const [appEnabled, setAppEnabled] = useState<boolean>(appEnabledValue !== "false");
-    const [scheduledCount, setScheduledCount] = useState<number | null>(null);
     const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(savedBellVolumes ? JSON.parse(savedBellVolumes) : {
       'cathedral-bell': 0.7,
       'village-bell': 0.7,
@@ -107,27 +91,6 @@ const DiagnosticItem = ({ label, status, description }: { label: string; status:
       }));
     };
 
-    useEffect(() => {
-      const checkScheduledNotifications = async () => {
-        if (!Capacitor.isNativePlatform()) {
-          setScheduledCount(null);
-          return;
-        }
-        
-        try {
-          const pending = await LocalNotifications.getPending();
-          setScheduledCount(pending.notifications.length);
-        } catch (error) {
-          console.error('Error checking scheduled notifications:', error);
-          setScheduledCount(null);
-        }
-      };
-      
-      checkScheduledNotifications();
-      const interval = setInterval(checkScheduledNotifications, 5000);
-      
-      return () => clearInterval(interval);
-    }, []);
     return <div className="min-h-screen bg-gradient-subtle pb-24">
         <Navigation />
 
