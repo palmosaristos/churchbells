@@ -116,6 +116,18 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         const permission = await LocalNotifications.requestPermissions();
         if (permission.display !== 'granted') return;
 
+        // Vérifier la permission Exact Alarm pour diagnostic
+        try {
+          const exactAlarmStatus = await LocalNotifications.checkExactNotificationSetting();
+          if (exactAlarmStatus.exact_alarm === 'granted') {
+            console.log('✅ Exact Alarm permission granted - notifications will use precise timing (no Doze delays)');
+          } else {
+            console.warn('⚠️ Exact Alarm permission NOT granted - notifications may be delayed by Doze mode (up to 5-10 minutes)');
+          }
+        } catch (error) {
+          console.warn('Could not check Exact Alarm status:', error);
+        }
+
         const pending = await LocalNotifications.getPending();
         if (pending.notifications.length > 0) {
           await LocalNotifications.cancel({ notifications: pending.notifications });
@@ -150,10 +162,77 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         let currentId = 1;
         const getNextId = () => currentId++;
 
+<<<<<<< HEAD
+        let bellCount = 0;
+
+        // CLOCHES PRINCIPALES (24h window) - contrôlées par bellsEnabled
+        if (options.bellsEnabled) {
+          for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
+          const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
+          const h = checkTime.getHours();
+          const dayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][checkTime.getDay()];
+          
+          if (!options.selectedDays.includes(dayName)) continue;
+          
+          const hourMinutes = h * 60;
+          if (hourMinutes < startMinutes || hourMinutes > endMinutes) continue;
+          if (isInPausePeriod(hourMinutes)) continue;
+          
+          const chimeCount = h % 12 || 12;
+          let soundFile: string, channelId: string;
+          
+          if (options.bellTradition === 'cathedral-bell') {
+            soundFile = `cathedral_${chimeCount}.mp3`;
+            channelId = `cathedral-bells-${chimeCount}`;
+          } else if (options.bellTradition === 'village-bell') {
+            soundFile = `village_${chimeCount}.mp3`;
+            channelId = `village-bells-${chimeCount}`;
+          } else {
+            soundFile = 'freemium_carillon.mp3';
+            channelId = 'sacred-bells-channel';
+          }
+
+          const notifTime = new Date(checkTime);
+          notifTime.setMinutes(0, 0, 0);
+          
+          if (notifTime <= now || notifTime > windowEnd) continue;
+
+          const originalId = getNextId();
+          const backupId = getNextId();
+          notifications.push({
+            id: originalId,
+            title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
+            body: ' ',
+            schedule: { at: notifTime, allowWhileIdle: true },
+            silent: false,
+            smallIcon: 'ic_launcher',
+            channelId,
+            extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
+          });
+
+          const backupTime = new Date(notifTime.getTime() + 45000);
+          notifications.push({
+            id: backupId,
+            title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
+            body: ' ',
+            schedule: { at: backupTime, allowWhileIdle: true },
+            silent: false,
+            smallIcon: 'ic_launcher',
+            channelId,
+            extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString() }
+          });
+
+            bellCount += 2;
+          }
+
+          // DEMI-HEURES (24h window)
+          if (options.halfHourChimes) {
+=======
         let bellCount = 0; // Déclaré ici pour être accessible partout
 
         // CLOCHES PRINCIPALES (24h window) - contrôlées par bellsEnabled
         if (options.bellsEnabled) {
+>>>>>>> 2bee3f7565b429fab27432e42c0110068d6b8c41
           for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
             const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
             const h = checkTime.getHours();
@@ -211,6 +290,9 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
             bellCount += 2;
           }
+<<<<<<< HEAD
+          }
+=======
 
           // DEMI-HEURES (24h window)
           if (options.halfHourChimes) {
@@ -273,6 +355,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           }
 
           console.log(`📅 Scheduled ${bellCount} bell notifications in next 24h`);
+>>>>>>> 2bee3f7565b429fab27432e42c0110068d6b8c41
         }
 
         // PRIÈRES (24h window) - toujours actives si prayerEnabled
@@ -328,7 +411,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 extra: { type: 'prayer', callType: options.callType || 'short', soundFile, scheduledTime: checkDate.toISOString(), retryLevel: 0, originalId, backupId }
               });
 
-              const backupTime = new Date(checkDate.getTime() + 30000);
+              const backupTime = new Date(checkDate.getTime() + 45000);
               notifications.push({
                 id: backupId,
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
@@ -366,7 +449,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [
-    options.enabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
+    options.enabled, options.bellsEnabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
     options.pauseEnabled, options.pauseStartTime, options.pauseEndTime, options.selectedDays, options.timeZone,
     options.prayerEnabled, options.prayerTime, options.prayerName, options.callType, options.prayerReminders,
     options.prayerReminderWithBell
