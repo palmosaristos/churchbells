@@ -1,0 +1,22 @@
+2025-11-15 20:00:00.019 24623-24623 Capacitor/...ionsPlugin com.sacredbells.app                  V  Notifying listeners for event localNotificationReceived
+2025-11-15 20:00:00.019 24623-24623 Capacitor/...ionsPlugin com.sacredbells.app                  D  No listeners found for event localNotificationReceived
+2025-11-15 20:00:30.017 24623-24623 Capacitor/...ionsPlugin com.sacredbells.app                  V  Notifying listeners for event localNotificationReceived
+2025-11-15 20:00:30.018 24623-24623 Capacitor/...ionsPlugin com.sacredbells.app                  D  No listeners found for event localNotificationReceived
+2025-11-15 20:01:45.042 24623-24623 Capacitor/AppPlugin     com.sacredbells.app                  V  Notifying listeners for event pause
+2025-11-15 20:01:45.042 24623-24623 Capacitor/AppPlugin     com.sacredbells.app                  D  No listeners found for event pause
+2025-11-15 20:01:45.042 24623-24623 Capacitor               com.sacredbells.app                  D  App paused
+2025-11-15 20:01:45.043 24623-24623 Capacitor/LN            com.sacredbells.app                  D  LocalNotification received: null
+2025-11-15 20:01:45.046 24623-24623 Capacitor/...ionsPlugin com.sacredbells.app                  V  Notifying listeners for event localNotificationActionPerformed
+2025-11-15 20:01:45.046 24623-24623 Capacitor/...ionsPlugin com.sacredbells.app                  D  No listeners found for event localNotificationActionPerformed
+2025-11-15 20:01:45.047 24623-24623 Capacitor/AppPlugin     com.sacredbells.app                  D  Firing change: true
+2025-11-15 20:01:45.047 24623-24623 Capacitor/AppPlugin     com.sacredbells.app                  V  Notifying listeners for event appStateChange
+2025-11-15 20:01:45.048 24623-24623 Capacitor/AppPlugin     com.sacredbells.app                  V  Notifying listeners for event resume
+2025-11-15 20:01:45.048 24623-24623 Capacitor/AppPlugin     com.sacredbells.app                  D  No listeners found for event resume
+2025-11-15 20:01:45.049 24623-24623 Capacitor               com.sacredbells.app                  D  App resumed
+2025-11-15 20:01:45.055 24623-24623 VRI[MainActivity]       com.sacredbells.app                  D  update {(0,0)(fillxfill) sim={adjust=resize forwardNavigation} layoutInDisplayCutoutMode=shortEdges ty=BASE_APPLICATION wanim=0x10302fe
+                                                                                                      fl=LAYOUT_IN_SCREEN LAYOUT_INSET_DECOR SPLIT_TOUCH HARDWARE_ACCELERATED DRAWS_SYSTEM_BAR_BACKGROUNDS
+                                                                                                      pfl=NO_MOVE_ANIMATION FORCE_DRAW_STATUS_BAR_BACKGROUND USE_BLAST FIT_INSETS_CONTROLLED
+                                                                                                      bhv=DEFAULT
+                                                                                                      fitSides=} by setLayoutParams
+2025-11-15 20:01:45.554 24623-24623 Capacitor/Plugin        com.sacredbells.app                  V  To native (Capacitor plugin): callbackId: 129342213, pluginId: LocalNotifications, methodName: checkExactNotificationSetting
+2025-11-15 20:01:45.554 24623-24623 Capacitor               com.sacredbells.app                  V  callback: 129342213, pluginId: LocalNotifications, methodName: checkExactNotificationSetting, methodData: {}

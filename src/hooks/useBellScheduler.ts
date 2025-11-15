@@ -115,6 +115,18 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         const permission = await LocalNotifications.requestPermissions();
         if (permission.display !== 'granted') return;
 
+        // Vérifier la permission Exact Alarm pour diagnostic
+        try {
+          const exactAlarmStatus = await LocalNotifications.checkExactNotificationSetting();
+          if (exactAlarmStatus.exact_alarm === 'granted') {
+            console.log('✅ Exact Alarm permission granted - notifications will use precise timing (no Doze delays)');
+          } else {
+            console.warn('⚠️ Exact Alarm permission NOT granted - notifications may be delayed by Doze mode (up to 5-10 minutes)');
+          }
+        } catch (error) {
+          console.warn('Could not check Exact Alarm status:', error);
+        }
+
         const pending = await LocalNotifications.getPending();
         if (pending.notifications.length > 0) {
           await LocalNotifications.cancel({ notifications: pending.notifications });

@@ -1,0 +1,113 @@
+### Analyse de ces Logcats (20:00:00 - 20:01:45)
+
+Ces logs capturent un **événement clé** : le **déclenchement réel (trigger/firing) de deux notifications programmées** à 20:00:00 et 20:00:30, ce qui correspond exactement au pattern de vos schedules précédents (une notification principale "main" à l'heure pile, et un backup/retry à +30 secondes). C'est probablement lié à une alerte sonore pour les "bells" (cloches), comme les 9 chimes prévus à 20:00 dans les payloads JSON antérieurs (id:3 à 20:00:00 avec retryLevel:0, et id:4 à 20:00:30 avec retryLevel:1).
+
+Globalement, **tout semble fonctionner comme prévu au niveau système** (notifications déclenchées sans erreur, app gère le pause/resume), mais il y a un point d'attention : l'app (côté Capacitor/JS) n'a pas de **listeners actifs** pour gérer ces événements, ce qui pourrait expliquer pourquoi vous ne voyez pas de logs custom comme "Main notification fired (delay: Xs) – cancelling backup notification (ID: X)". Pas de crash ou d'erreur (niveaux V/ et D/ seulement, pas d'E/ ou W/), mais potentiellement un souci d'implémentation côté app pour annuler les backups après trigger.
+
+Je décompose les logs chronologiquement, en reliant au contexte précédent (scheduling, backups, audio/notifications pour Sacred Bells).
+
+#### 1. **Déclenchement des Notifications (20:00:00 et 20:00:30)**
+Ces deux entrées montrent que les notifications ont bien "fired" (se sont déclenchées via le système Android NotificationManager, probablement avec son via channel comme "cathedral_9.mp3" pour 9 chimes).
+
+- **20:00:00.019** :
+  ```
+  Capacitor/...ionsPlugin com.sacredbells.app V Notifying listeners for event localNotificationReceived
+  Capacitor/...ionsPlugin com.sacredbells.app D No listeners found for event localNotificationReceived
+  ```
+  - **Explication** : Le plugin LocalNotifications (Capacitor) détecte une notification déclenchée et essaie de notifier les listeners JS (côté web app). Mais "No listeners found" – aucun handler JS n'est enregistré pour `localNotificationReceived`. Cela signifie que l'app n'a pas de code pour réagir à ce trigger (ex. : jouer un son custom, annuler un backup, ou logger un "fired").
+  - **Lien aux backups** : Cela correspond à la "main notification" (originale, retryLevel:0, ex. id:3 pour 9 chimes à 20:00:00). Normalement, ici, l'app devrait vérifier si c'est un succès et annuler le backup associé (id:4). Mais sans listener, cela n'arrive pas – le backup se déclenchera quand même à 20:00:30.
+
+- **20:00:30.017** :
+  ```
+  Capacitor/...ionsPlugin com.sacredbells.app V Notifying listeners for event localNotificationReceived
+  Capacitor/...ionsPlugin com.sacredbells.app D No listeners found for event localNotificationReceived
+  ```
+  - **Explication** : Même chose, pour la seconde notification. C'est le **backup/retry** (retryLevel:1, ex. id:4 à +30s). Encore une fois, pas de listener, donc pas de réaction custom (ex. : pas de cancel automatique du backup, car il n'y en a pas d'autre).
+  - **Pourquoi +30s ?** : Pattern cohérent avec vos schedules précédents – pour rattraper si la main échoue (ex. : en mode Doze). Ici, les deux se déclenchent, ce qui indique que le système a bien joué les alertes (probablement avec son, vu les channels audio configurés).
+
+**Interprétation globale** : Les notifications ont réussi à se déclencher (heure exacte, y compris le backup), mais l'app JS n'écoute pas ces événements. Pas de log sur un "delay" ou "cancelling backup" parce que :
+- Aucun listener actif (ajoutez `LocalNotifications.addListener('localNotificationReceived', handler)` dans le JS pour capturer et logger cela).
+- Pas de code natif custom visible pour auto-annuler le backup post-trigger (le plugin Capacitor ne le fait pas automatiquement ; c'est à implémenter manuellement).
+
+#### 2. **Interaction Utilisateur et Cycle App (20:01:45)**
+Environ 1 minute après les triggers, l'utilisateur interagit avec l'app (ex. : ouvre l'app depuis la notification, ou la reprend depuis background). Cela déclenche un cycle pause/resume standard.
+
+- **20:01:45.042** :
+  ```
+  Capacitor/AppPlugin com.sacredbells.app V Notifying listeners for event pause
+  Capacitor/AppPlugin com.sacredbells.app D No listeners found for event pause
+  Capacitor com.sacredbells.app D App paused
+  ```
+  - **Explication** : L'app passe en pause (probablement mise en background temporairement, ou minimisée). Encore "No listeners" – pas de handler JS pour pause (ex. : pour sauvegarder état).
+
+- **20:01:45.043** :
+  ```
+  Capacitor/LN com.sacredbells.app D LocalNotification received: null
+  ```
+  - **Explication** : Le plugin LocalNotifications vérifie si une notification est attachée à ce resume (ex. : si l'utilisateur clique sur une notif pour ouvrir l'app). "null" signifie qu'aucune notification n'a déclenché ce resume – c'est juste un resume normal (pas via tap sur notif). Cela arrive souvent lors de switches d'app.
+
+- **20:01:45.046** :
+  ```
+  Capacitor/...ionsPlugin com.sacredbells.app V Notifying listeners for event localNotificationActionPerformed
+  Capacitor/...ionsPlugin com.sacredbells.app D No listeners found for event localNotificationActionPerformed
+  ```
+  - **Explication** : Essai de notifier une "action" sur une notif (ex. : tap/swipe). Mais null, et pas de listener – l'app n'a pas de code pour gérer les interactions avec les notifs (ex. : ouvrir une page spécifique).
+
+- **20:01:45.047-048** :
+  ```
+  Capacitor/AppPlugin com.sacredbells.app D Firing change: true
+  Capacitor/AppPlugin com.sacredbells.app V Notifying listeners for event appStateChange
+  Capacitor/AppPlugin com.sacredbells.app V Notifying listeners for event resume
+  Capacitor/AppPlugin com.sacredbells.app D No listeners found for event resume
+  Capacitor com.sacredbells.app D App resumed
+  ```
+  - **Explication** : Transition vers resume (app revenue au premier plan). État change (de paused à active). Pas de listeners, mais l'app reprend normalement.
+
+- **20:01:45.055** :
+  ```
+  VRI[MainActivity] com.sacredbells.app D update {...} by setLayoutParams
+  ```
+  - **Explication** : Mise à jour UI (ViewRootImpl pour MainActivity). L'écran se redessine (layout resize, avec support pour cutouts/notifications). Standard après resume – pas de souci.
+
+- **20:01:45.554** :
+  ```
+  Capacitor/Plugin com.sacredbells.app V To native (Capacitor plugin): callbackId: 129342213, pluginId: LocalNotifications, methodName: checkExactNotificationSetting
+  Capacitor com.sacredbells.app V callback: 129342213, pluginId: LocalNotifications, methodName: checkExactNotificationSetting, methodData: {}
+  ```
+  - **Explication** : Au resume, l'app vérifie les permissions pour les "notifications exactes" (ex. : `SCHEDULE_EXACT_ALARM` sur Android 12+). C'est une bonne pratique pour s'assurer que les schedules (comme vos bells à heure précise) fonctionnent. Pas de réponse dans les logs fournis, mais si c'est false, cela pourrait expliquer des delays futurs.
+
+#### 3. **Lien avec le Contexte Précédent (Backups et Alertes Sonores)**
+- **Succès des backups** : Les deux triggers (20:00:00 et 20:00:30) confirment que le mécanisme fonctionne. La main s'est fired, et le backup aussi (pas d'annulation visible, car pas de listener). Dans un code idéal :
+  - Au premier trigger, l'app devrait loguer "Main fired" et appeler `LocalNotifications.cancel({ notifications: [{ id: backupId }] })` pour éviter le doublon sonore.
+  - Ici, comme "No listeners", le backup se joue probablement aussi (double son à 30s d'intervalle ? – vérifiez si l'utilisateur entend deux fois la même bell).
+- **Pas de logs audio** : Pas de mentions AAudio ou AudioTrack ici (contrairement aux tests précédents). Si les notifs ont un son configuré (via channel, ex. "cathedral_9.mp3"), il devrait y avoir des logs audio autour de 20:00 – peut-être tronqués ? Ou le son est géré par le système sans plugin.
+- **Pas de "cancelling backup"** : Comme anticipé dans ma réponse précédente, rien de tel car :
+  - Pas de listener pour capter le trigger et exécuter un cancel.
+  - Le plugin ne l'annule pas auto (c'est custom).
+  - Si c'est un refresh scheduler (comme avant), les cancels sont batchés, pas individuels.
+
+#### 4. **Est-ce un Problème ? Recommandations**
+- **Points positifs** : Notifications déclenchées à l'heure (exact alarm OK), app gère bien le cycle vie (pause/resume sans crash). Les "No listeners" ne bloquent pas le système, mais manquent d'interactions.
+- **Problèmes potentiels** :
+  - **Listeners manquants** : L'app rate les opportunités de réagir (ex. : annuler backup, logger delay, updater UI). Ajoutez dans le JS (ex. : index-YVFRTMfd.js) :
+    ```javascript
+    import { LocalNotifications } from '@capacitor/local-notifications';
+    LocalNotifications.addListener('localNotificationReceived', (notification) => {
+      console.log(`Main notification fired (delay: ${Date.now() - notification.scheduledTime}s) – ID: ${notification.id}`);
+      if (notification.extra.retryLevel === 0) {  // Si main
+        LocalNotifications.cancel({ notifications: [{ id: notification.extra.backupId }] });
+        console.log(`Cancelling backup notification (ID: ${notification.extra.backupId})`);
+      }
+    });
+    ```
+    - Relancez l'app et testez – cela ajoutera vos logs custom.
+  - **Double trigger** : Le backup se joue inutilement. Vérifiez si l'utilisateur entend deux sons (pour 9 chimes ?).
+  - **Permissions** : Le checkExactNotificationSetting au resume suggère que l'app vérifie si les alerts précises sont autorisées (Android restreint cela). Si denied, les backups deviennent cruciaux.
+
+- **Pour approfondir** :
+  - **Reproduisez** : Schedulez une notif immédiate et ajoutez les listeners – regardez les logs live dans Android Studio Logcat (filtrez sur "localNotification").
+  - **Profiler** : Utilisez Android Studio Profiler (comme je l'ai décrit avant) autour de 20:00 pour voir si l'audio se joue (fréquence 44.1kHz, latence 109ms).
+  - **Vérifiez sur device** : Les notifs sont-elles visuelles/sonores ? Tapez sur l'une pour voir si actionPerformed se déclenche.
+  - **Versions futures** : Les dates 2025 indiquent un test – assurez-vous que le scheduler rolling gère bien les timezones/GMT+01.
+
+Si vous avez plus de logs (ex. : avant/après 20:00, ou audio), ou le code JS, je peux affiner ! 😊

@@ -44,24 +44,17 @@ export const useNotificationListener = () => {
       if (!extra.soundFile) return;
 
       try {
-        const scheduledTime = new Date(extra.scheduledTime || Date.now());
-        const delay = (Date.now() - scheduledTime.getTime()) / 1000;
+        // Note: Backup cancellation is now handled by the permanent system listener in main.tsx
         
-        // ✅ Annuler les backups dès que le principal arrive (bells ET prayers)
-        if (extra.retryLevel === 0 && extra.backupId) {
-          console.log(`Main notification fired (delay: ${delay}s) – cancelling backup notification (ID: ${extra.backupId})`);
-          await LocalNotifications.cancel({ notifications: [{ id: extra.backupId }] });
-        }
-
         // ✅ Les prayers sont déjà joués par le channel Android - on skip toggleAudio()
         if (extra.type === 'prayer' && extra.soundFile) {
-          console.log(`🔔 Prayer notification received (${extra.soundFile} joué par channel Android)`);
+          console.log(`🔔 [UI] Prayer notification received (${extra.soundFile} joué par channel Android)`);
           return;
         }
 
         // ✅ Pour les bells, le son est joué par le channel Android - on skip toggleAudio()
         if (extra.type === 'bell') {
-          console.log(`🔔 Bell notification received (${extra.soundFile} joué par channel Android)`);
+          console.log(`🔔 [UI] Bell notification received (${extra.soundFile} joué par channel Android)`);
           return;
         }
 
