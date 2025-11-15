@@ -197,7 +197,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
             });
 
-            const backupTime = new Date(notifTime.getTime() + 30000);
+            const backupTime = new Date(notifTime.getTime() + 45000);
             notifications.push({
               id: backupId,
               title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
@@ -242,18 +242,33 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               
               if (notifTime <= now || notifTime > windowEnd) continue;
 
+              const originalId = getNextId();
+              const backupId = getNextId();
+
               notifications.push({
-                id: getNextId(),
+                id: originalId,
                 title: '🔔 Half Hour',
                 body: ' ',
                 schedule: { at: notifTime, allowWhileIdle: true },
                 silent: false,
                 smallIcon: 'ic_launcher',
                 channelId,
-                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 0, originalId: getNextId(), scheduledTime: notifTime.toISOString(), isHalfHour: true }
+                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString(), isHalfHour: true }
               });
 
-              bellCount++;
+              const backupTime = new Date(notifTime.getTime() + 45000);
+              notifications.push({
+                id: backupId,
+                title: '🔔 Half Hour',
+                body: ' ',
+                schedule: { at: backupTime, allowWhileIdle: true },
+                silent: false,
+                smallIcon: 'ic_launcher',
+                channelId,
+                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString(), isHalfHour: true }
+              });
+
+              bellCount += 2;
             }
           }
 
