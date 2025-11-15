@@ -4,6 +4,7 @@ import { Capacitor } from '@capacitor/core';
 
 interface BellSchedulerOptions {
   enabled: boolean;
+  bellsEnabled: boolean;
   bellTradition: string;
   startTime: string;
   endTime: string;
@@ -149,68 +150,10 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         let currentId = 1;
         const getNextId = () => currentId++;
 
-        // CLOCHES PRINCIPALES (24h window)
-        let bellCount = 0;
-        for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
-          const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
-          const h = checkTime.getHours();
-          const dayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][checkTime.getDay()];
-          
-          if (!options.selectedDays.includes(dayName)) continue;
-          
-          const hourMinutes = h * 60;
-          if (hourMinutes < startMinutes || hourMinutes > endMinutes) continue;
-          if (isInPausePeriod(hourMinutes)) continue;
-          
-          const chimeCount = h % 12 || 12;
-          let soundFile: string, channelId: string;
-          
-          if (options.bellTradition === 'cathedral-bell') {
-            soundFile = `cathedral_${chimeCount}.mp3`;
-            channelId = `cathedral-bells-${chimeCount}`;
-          } else if (options.bellTradition === 'village-bell') {
-            soundFile = `village_${chimeCount}.mp3`;
-            channelId = `village-bells-${chimeCount}`;
-          } else {
-            soundFile = 'freemium_carillon.mp3';
-            channelId = 'sacred-bells-channel';
-          }
+        let bellCount = 0; // Déclaré ici pour être accessible partout
 
-          const notifTime = new Date(checkTime);
-          notifTime.setMinutes(0, 0, 0);
-          
-          if (notifTime <= now || notifTime > windowEnd) continue;
-
-          const originalId = getNextId();
-          const backupId = getNextId();
-          notifications.push({
-            id: originalId,
-            title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
-            body: ' ',
-            schedule: { at: notifTime, allowWhileIdle: true },
-            silent: false,
-            smallIcon: 'ic_launcher',
-            channelId,
-            extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
-          });
-
-          const backupTime = new Date(notifTime.getTime() + 30000);
-          notifications.push({
-            id: backupId,
-            title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
-            body: ' ',
-            schedule: { at: backupTime, allowWhileIdle: true },
-            silent: false,
-            smallIcon: 'ic_launcher',
-            channelId,
-            extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString() }
-          });
-
-          bellCount += 2;
-        }
-
-        // DEMI-HEURES (24h window)
-        if (options.halfHourChimes) {
+        // CLOCHES PRINCIPALES (24h window) - contrôlées par bellsEnabled
+        if (options.bellsEnabled) {
           for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
             const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
             const h = checkTime.getHours();
@@ -218,43 +161,106 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             
             if (!options.selectedDays.includes(dayName)) continue;
             
-            const halfHourMinutes = h * 60 + 30;
-            if (halfHourMinutes < startMinutes || halfHourMinutes > endMinutes) continue;
-            if (isInPausePeriod(halfHourMinutes)) continue;
-
+            const hourMinutes = h * 60;
+            if (hourMinutes < startMinutes || hourMinutes > endMinutes) continue;
+            if (isInPausePeriod(hourMinutes)) continue;
+            
+            const chimeCount = h % 12 || 12;
             let soundFile: string, channelId: string;
+            
             if (options.bellTradition === 'cathedral-bell') {
-              soundFile = 'cathedral_1.mp3';
-              channelId = 'cathedral-bells-1';
+              soundFile = `cathedral_${chimeCount}.mp3`;
+              channelId = `cathedral-bells-${chimeCount}`;
             } else if (options.bellTradition === 'village-bell') {
-              soundFile = 'village_1.mp3';
-              channelId = 'village-bells-1';
+              soundFile = `village_${chimeCount}.mp3`;
+              channelId = `village-bells-${chimeCount}`;
             } else {
               soundFile = 'freemium_carillon.mp3';
               channelId = 'sacred-bells-channel';
             }
 
             const notifTime = new Date(checkTime);
-            notifTime.setMinutes(30, 0, 0);
+            notifTime.setMinutes(0, 0, 0);
             
             if (notifTime <= now || notifTime > windowEnd) continue;
 
+            const originalId = getNextId();
+            const backupId = getNextId();
             notifications.push({
-              id: getNextId(),
-              title: '🔔 Half Hour',
+              id: originalId,
+              title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
               body: ' ',
               schedule: { at: notifTime, allowWhileIdle: true },
               silent: false,
               smallIcon: 'ic_launcher',
               channelId,
-              extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 0, originalId: getNextId(), scheduledTime: notifTime.toISOString(), isHalfHour: true }
+              extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
             });
 
-            bellCount++;
+            const backupTime = new Date(notifTime.getTime() + 30000);
+            notifications.push({
+              id: backupId,
+              title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
+              body: ' ',
+              schedule: { at: backupTime, allowWhileIdle: true },
+              silent: false,
+              smallIcon: 'ic_launcher',
+              channelId,
+              extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString() }
+            });
+
+            bellCount += 2;
           }
+
+          // DEMI-HEURES (24h window)
+          if (options.halfHourChimes) {
+            for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
+              const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
+              const h = checkTime.getHours();
+              const dayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][checkTime.getDay()];
+              
+              if (!options.selectedDays.includes(dayName)) continue;
+              
+              const halfHourMinutes = h * 60 + 30;
+              if (halfHourMinutes < startMinutes || halfHourMinutes > endMinutes) continue;
+              if (isInPausePeriod(halfHourMinutes)) continue;
+
+              let soundFile: string, channelId: string;
+              if (options.bellTradition === 'cathedral-bell') {
+                soundFile = 'cathedral_1.mp3';
+                channelId = 'cathedral-bells-1';
+              } else if (options.bellTradition === 'village-bell') {
+                soundFile = 'village_1.mp3';
+                channelId = 'village-bells-1';
+              } else {
+                soundFile = 'freemium_carillon.mp3';
+                channelId = 'sacred-bells-channel';
+              }
+
+              const notifTime = new Date(checkTime);
+              notifTime.setMinutes(30, 0, 0);
+              
+              if (notifTime <= now || notifTime > windowEnd) continue;
+
+              notifications.push({
+                id: getNextId(),
+                title: '🔔 Half Hour',
+                body: ' ',
+                schedule: { at: notifTime, allowWhileIdle: true },
+                silent: false,
+                smallIcon: 'ic_launcher',
+                channelId,
+                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 0, originalId: getNextId(), scheduledTime: notifTime.toISOString(), isHalfHour: true }
+              });
+
+              bellCount++;
+            }
+          }
+
+          console.log(`📅 Scheduled ${bellCount} bell notifications in next 24h`);
         }
 
-        // PRIÈRES (24h window)
+        // PRIÈRES (24h window) - toujours actives si prayerEnabled
         let prayerCount = 0;
         if (options.prayerEnabled && options.prayerTime) {
           const [pHour, pMinute] = options.prayerTime.split(':').map(Number);

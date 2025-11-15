@@ -94,7 +94,8 @@ const Index = () => {
   useNightlyRescheduler(triggerReschedule);
   
   useBellScheduler({
-    enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
+    enabled: onboardingComplete && audioPermissionGranted,
+    bellsEnabled: isAppEnabled,
     bellTradition: selectedBellTradition,
     startTime,
     endTime,
@@ -198,7 +199,7 @@ const Index = () => {
           <AudioPermission onAudioPermissionGranted={handleAudioPermissionGranted} />
         )}
 
-        {isAppEnabled && onboardingComplete && selectedTimeZone && audioPermissionGranted && (
+        {onboardingComplete && selectedTimeZone && audioPermissionGranted && (
           <>
             <Accordion type="single" collapsible defaultValue="bells-schedule" className="w-full">
               <AccordionItem value="bells-schedule">
