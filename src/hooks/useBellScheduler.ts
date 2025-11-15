@@ -4,6 +4,7 @@ import { Capacitor } from '@capacitor/core';
 
 interface BellSchedulerOptions {
   enabled: boolean;
+  bellsEnabled: boolean;
   bellTradition: string;
   startTime: string;
   endTime: string;
@@ -161,9 +162,11 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         let currentId = 1;
         const getNextId = () => currentId++;
 
-        // CLOCHES PRINCIPALES (24h window)
         let bellCount = 0;
-        for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
+
+        // CLOCHES PRINCIPALES (24h window) - contrôlées par bellsEnabled
+        if (options.bellsEnabled) {
+          for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
           const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
           const h = checkTime.getHours();
           const dayName = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][checkTime.getDay()];
@@ -206,7 +209,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
           });
 
-          const backupTime = new Date(notifTime.getTime() + 60000);
+          const backupTime = new Date(notifTime.getTime() + 45000);
           notifications.push({
             id: backupId,
             title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
@@ -218,11 +221,11 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString() }
           });
 
-          bellCount += 2;
-        }
+            bellCount += 2;
+          }
 
-        // DEMI-HEURES (24h window)
-        if (options.halfHourChimes) {
+          // DEMI-HEURES (24h window)
+          if (options.halfHourChimes) {
           for (let offsetHours = 0; offsetHours < 24; offsetHours++) {
             const checkTime = new Date(now.getTime() + offsetHours * 60 * 60 * 1000);
             const h = checkTime.getHours();
@@ -263,6 +266,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             });
 
             bellCount++;
+          }
           }
         }
 
@@ -319,7 +323,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 extra: { type: 'prayer', callType: options.callType || 'short', soundFile, scheduledTime: checkDate.toISOString(), retryLevel: 0, originalId, backupId }
               });
 
-              const backupTime = new Date(checkDate.getTime() + 60000);
+              const backupTime = new Date(checkDate.getTime() + 45000);
               notifications.push({
                 id: backupId,
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
@@ -357,7 +361,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [
-    options.enabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
+    options.enabled, options.bellsEnabled, options.bellTradition, options.startTime, options.endTime, options.halfHourChimes,
     options.pauseEnabled, options.pauseStartTime, options.pauseEndTime, options.selectedDays, options.timeZone,
     options.prayerEnabled, options.prayerTime, options.prayerName, options.callType, options.prayerReminders,
     options.prayerReminderWithBell

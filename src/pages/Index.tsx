@@ -30,6 +30,10 @@ const Index = () => {
   const [halfHourChimes, setHalfHourChimes] = useState<boolean>(() => {
     return localStorage.getItem("halfHourChimes") === "true";
   });
+  const [bellsEnabled, setBellsEnabled] = useState<boolean>(() => {
+    const saved = localStorage.getItem("bellsEnabled");
+    return saved !== null ? saved === "true" : true;
+  });
   const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => {
     return localStorage.getItem("timeZone") || "";
   });
@@ -95,6 +99,7 @@ const Index = () => {
   
   useBellScheduler({
     enabled: isAppEnabled && onboardingComplete && audioPermissionGranted,
+    bellsEnabled,
     bellTradition: selectedBellTradition,
     startTime,
     endTime,
@@ -118,6 +123,8 @@ const Index = () => {
     setStartTime(localStorage.getItem("startTime") || "08:00");
     setEndTime(localStorage.getItem("endTime") || "20:00");
     setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
+    const savedBellsEnabled = localStorage.getItem("bellsEnabled");
+    setBellsEnabled(savedBellsEnabled !== null ? savedBellsEnabled === "true" : true);
     setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
     setPrayerName(localStorage.getItem("prayerName") || "Prayer");
     setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
