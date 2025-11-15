@@ -206,7 +206,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
           });
 
-          const backupTime = new Date(notifTime.getTime() + 30000);
+          const backupTime = new Date(notifTime.getTime() + 60000);
           notifications.push({
             id: backupId,
             title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
@@ -319,7 +319,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 extra: { type: 'prayer', callType: options.callType || 'short', soundFile, scheduledTime: checkDate.toISOString(), retryLevel: 0, originalId, backupId }
               });
 
-              const backupTime = new Date(checkDate.getTime() + 30000);
+              const backupTime = new Date(checkDate.getTime() + 60000);
               notifications.push({
                 id: backupId,
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
