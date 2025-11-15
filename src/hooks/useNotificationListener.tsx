@@ -47,10 +47,24 @@ export const useNotificationListener = () => {
         const scheduledTime = new Date(extra.scheduledTime || Date.now());
         const delay = (Date.now() - scheduledTime.getTime()) / 1000;
         
+        // ✅ Si c'est un backup, vérifier qu'il est vraiment nécessaire
+        if (extra.retryLevel === 1) {
+          const lastPlayedKey = `last_played_${extra.originalId}`;
+          const lastPlayed = localStorage.getItem(lastPlayedKey);
+          
+          if (lastPlayed && (Date.now() - parseInt(lastPlayed)) < 60000) {
+            console.log(`🚫 Backup skipped - main notification (ID: ${extra.originalId}) already played`);
+            return;
+          }
+        }
+        
         // ✅ Annuler les backups dès que le principal arrive (bells ET prayers)
         if (extra.retryLevel === 0 && extra.backupId) {
           console.log(`Main notification fired (delay: ${delay}s) – cancelling backup notification (ID: ${extra.backupId})`);
           await LocalNotifications.cancel({ notifications: [{ id: extra.backupId }] });
+          
+          // Stocker le timestamp de lecture de la notification principale
+          localStorage.setItem(`last_played_${extra.originalId}`, Date.now().toString());
         }
 
         // ✅ Les prayers sont déjà joués par le channel Android - on skip toggleAudio()
