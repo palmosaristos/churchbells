@@ -205,7 +205,7 @@ const Index = () => {
           <AudioPermission onAudioPermissionGranted={handleAudioPermissionGranted} />
         )}
 
-        {isAppEnabled && onboardingComplete && selectedTimeZone && audioPermissionGranted && (
+        {onboardingComplete && selectedTimeZone && audioPermissionGranted && (
           <>
             <Accordion type="single" collapsible defaultValue="bells-schedule" className="w-full">
               <AccordionItem value="bells-schedule">
