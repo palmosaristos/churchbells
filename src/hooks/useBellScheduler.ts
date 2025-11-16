@@ -31,14 +31,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
     const setupChannels = async () => {
       try {
-        const bellPrio = { importance: 1, visibility: 0, vibration: false } as const;
-        const prayerPrio = { importance: 3, visibility: 1, vibration: false } as const;
+        const lowPrio = { importance: 3, visibility: 1, vibration: false } as const;
 
         await LocalNotifications.createChannel({
           id: 'sacred-bells-channel',
           name: 'Sacred Bells',
           description: 'Notifications for scheduled bell chimes',
-          ...bellPrio,
+          ...lowPrio,
           sound: 'freemium_carillon.mp3',
           lightColor: '#d4a574',
           vibration: false
@@ -49,7 +48,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             id: `cathedral-bells-${i}`,
             name: `Cathedral Bells (${i} chime${i > 1 ? 's' : ''})`,
             description: `Cathedral bells - ${i} chime${i > 1 ? 's' : ''}`,
-            ...bellPrio,
+            ...lowPrio,
             sound: `cathedral_${i}.mp3`,
             lightColor: '#d4a574',
             vibration: false
@@ -61,7 +60,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             id: `village-bells-${i}`,
             name: `Village Bells (${i} chime${i > 1 ? 's' : ''})`,
             description: `Village bells - ${i} chime${i > 1 ? 's' : ''}`,
-            ...bellPrio,
+            ...lowPrio,
             sound: `village_${i}.mp3`,
             lightColor: '#d4a574',
             vibration: false
@@ -72,7 +71,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           id: 'prayer-short',
           name: 'Prayer (Short Call)',
           description: 'Short bell call for prayer',
-          ...prayerPrio,
+          ...lowPrio,
           sound: 'short_call.mp3',
           lightColor: '#8b4513',
           vibration: false
@@ -82,7 +81,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           id: 'prayer-long',
           name: 'Prayer (Long Call)',
           description: 'Long bell call for prayer',
-          ...prayerPrio,
+          ...lowPrio,
           sound: 'long_call.mp3',
           lightColor: '#8b4513',
           vibration: false
@@ -306,13 +305,14 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               if (checkDate <= now || checkDate > windowEnd) continue;
 
               const prayerReminders = options.prayerReminders || [];
-              for (const reminderMinutes of prayerReminders) {
+              for (let i = 0; i < prayerReminders.length; i++) {
+                const reminderMinutes = prayerReminders[i];
                 const reminderTime = new Date(checkDate);
                 reminderTime.setMinutes(reminderTime.getMinutes() - parseInt(reminderMinutes));
                 
                 if (reminderTime <= now || reminderTime > windowEnd) continue;
 
-                const withBell = options.prayerReminderWithBell || false;
+                const withBell = i === 0 && (options.prayerReminderWithBell || false);
                 notifications.push({
                   id: getNextId(),
                   title: `🔔 ${options.prayerName || 'Prayer'}`,
