@@ -20,6 +20,7 @@ interface BellSchedulerOptions {
   callType?: string;
   prayerReminders?: string[];
   prayerReminderWithBell?: boolean;
+  scheduleKey?: number;
 }
 
 export const useBellScheduler = (options: BellSchedulerOptions) => {
@@ -395,6 +396,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
     options.prayerName,
     options.callType,
     options.prayerReminders,
-    options.prayerReminderWithBell
+    options.prayerReminderWithBell,
+    options.scheduleKey
   ]);
 };

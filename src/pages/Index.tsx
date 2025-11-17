@@ -114,7 +114,8 @@ const Index = () => {
     prayerName,
     callType,
     prayerReminders,
-    prayerReminderWithBell: reminderWithBell
+    prayerReminderWithBell: reminderWithBell,
+    scheduleKey
   });
 
   // Rechargement des paramètres depuis localStorage
