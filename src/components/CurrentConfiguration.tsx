@@ -13,13 +13,51 @@ interface CurrentConfigurationProps {
   startTime: string;
   endTime: string;
   halfHourChimes: boolean;
+  selectedDays?: string[];
+  pauseEnabled?: boolean;
+  pauseStartTime?: string;
+  pauseEndTime?: string;
+  bellsEnabled?: boolean;
 }
+
+// Generate all time options (every 30 minutes from 12:00 AM to 11:30 PM)
+const generateTimeOptions = () => {
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute of [0, 30]) {
+      const value = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+      const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const displayMinute = String(minute).padStart(2, '0');
+      const period = hour < 12 ? 'AM' : 'PM';
+      const label = `${displayHour}:${displayMinute} ${period}`;
+      options.push({ value, label });
+    }
+  }
+  return options;
+};
+
+const timeOptions = generateTimeOptions();
+
+const daysOfWeek = [
+  { id: 'monday', label: 'Mon' },
+  { id: 'tuesday', label: 'Tue' },
+  { id: 'wednesday', label: 'Wed' },
+  { id: 'thursday', label: 'Thu' },
+  { id: 'friday', label: 'Fri' },
+  { id: 'saturday', label: 'Sat' },
+  { id: 'sunday', label: 'Sun' }
+];
 
 export const CurrentConfiguration = ({
   selectedBellTradition,
   startTime,
   endTime,
   halfHourChimes,
+  selectedDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
+  pauseEnabled = false,
+  pauseStartTime = "12:00",
+  pauseEndTime = "14:00",
+  bellsEnabled = true,
 }: CurrentConfigurationProps) => {
   const getBellImage = (id: string) => {
     if (id === 'carillon-bell') return carillonBells;
@@ -70,9 +108,35 @@ export const CurrentConfiguration = ({
               </div>
             </div>
             
-            <div className="text-center mt-2 p-2 rounded-lg bg-gradient-dawn border">
+            <div className="text-center mt-2 p-4 rounded-lg bg-gradient-dawn border">
               <p className="text-xl text-foreground font-cormorant text-center">
-                Will ring every {halfHourChimes ? 'half hour' : 'hour'} from {startTime} to {endTime}
+                {bellsEnabled 
+                  ? `Bells will chime every ${halfHourChimes ? 'half hour' : 'hour'} from ${timeOptions.find(t => t.value === startTime)?.label || startTime} to ${timeOptions.find(t => t.value === endTime)?.label || endTime}`
+                  : 'Bells disabled (no sounds scheduled)'
+                }
+                {selectedDays.length > 0 && (
+                  <>
+                    {' '}on {selectedDays.length === 7 ? (
+                      <span className="font-cinzel font-semibold">EVERY DAY</span>
+                    ) : selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday') ? (
+                      <span className="font-cinzel font-semibold">WEEKENDS</span>
+                    ) : selectedDays.length === 5 && !selectedDays.includes('saturday') && !selectedDays.includes('sunday') ? (
+                      <span className="font-cinzel font-semibold">WEEKDAYS</span>
+                    ) : (
+                      <span className="font-cinzel font-semibold">
+                        {selectedDays.map(day => daysOfWeek.find(d => d.id === day)?.label).join(', ').toUpperCase()}
+                      </span>
+                    )}
+                  </>
+                )}
+                {pauseEnabled && (
+                  <>
+                    , with a pause from{' '}
+                    <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
+                    <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
+                    {pauseStartTime > pauseEndTime ? ' (overnight)' : ''}
+                  </>
+                )}
               </p>
             </div>
 
