@@ -126,11 +126,13 @@ export const TimeRangeSelector = ({
     const isTodayActive = todayDayName && selectedDays.includes(todayDayName);
     
     let nextText = '';
-    if (isTodayActive && nowMinutes >= sh * 60 + sm && nowMinutes < eh * 60 + em) {  // < pour end inclus next day si cross
-      const nextHour = Math.ceil(nowMinutes / 60) * 60;
-      if (halfHourChimes && nowMinutes % 60 >= 30) nextText = ` (next at ${String(nextHour + 30).padStart(2, '0')}:30)`;
-      else if (halfHourChimes) nextText = ` (next half-hour at ${String(nextHour).padStart(2, '0')}:30)`;
-      else nextText = ` (next at ${String(nextHour).padStart(2, '0')}:00)`;
+    if (isTodayActive && nowMinutes >= sh * 60 + sm && nowMinutes < eh * 60 + em) {
+      const interval = halfHourChimes ? 30 : 60;
+      const nextChimeMinutes = Math.ceil((nowMinutes + 1) / interval) * interval;
+      const nextHour = Math.floor(nextChimeMinutes / 60);
+      const nextMinute = nextChimeMinutes % 60;
+      
+      nextText = ` (next at ${String(nextHour).padStart(2, '0')}:${String(nextMinute).padStart(2, '0')})`;
     } else {
       nextText = ` (next on ${selectedDays[0] || 'active day'} at ${startTime})`;
     }
