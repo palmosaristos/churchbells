@@ -217,6 +217,11 @@ const Index = () => {
                     startTime={startTime}
                     endTime={endTime}
                     halfHourChimes={halfHourChimes}
+                    selectedDays={selectedDays}
+                    pauseEnabled={pauseEnabled}
+                    pauseStartTime={pauseStartTime}
+                    pauseEndTime={pauseEndTime}
+                    bellsEnabled={bellsEnabled}
                   />
                 </AccordionContent>
               </AccordionItem>
