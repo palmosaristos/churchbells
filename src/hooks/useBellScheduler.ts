@@ -197,32 +197,19 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             
             if (notifTime <= now || notifTime > windowEnd) continue;
 
-            const originalId = getNextId();
-            const backupId = getNextId();
+            const notifId = getNextId();
             notifications.push({
-              id: originalId,
+              id: notifId,
               title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
               body: ' ',
               schedule: { at: notifTime, allowWhileIdle: true },
               silent: false,
               smallIcon: 'ic_launcher',
               channelId,
-              extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString() }
+              extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, scheduledTime: notifTime.toISOString() }
             });
 
-            const backupTime = new Date(notifTime.getTime() + 45000);
-            notifications.push({
-              id: backupId,
-              title: `🔔 ${chimeCount} Chime${chimeCount > 1 ? 's' : ''}`,
-              body: ' ',
-              schedule: { at: backupTime, allowWhileIdle: true },
-              silent: false,
-              smallIcon: 'ic_launcher',
-              channelId,
-              extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString() }
-            });
-
-            bellCount += 2;
+            bellCount += 1;
           }
 
           // DEMI-HEURES (24h window)
@@ -255,33 +242,20 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               
               if (notifTime <= now || notifTime > windowEnd) continue;
 
-              const originalId = getNextId();
-              const backupId = getNextId();
+              const notifId = getNextId();
 
               notifications.push({
-                id: originalId,
+                id: notifId,
                 title: '🔔 Half Hour',
                 body: ' ',
                 schedule: { at: notifTime, allowWhileIdle: true },
                 silent: false,
                 smallIcon: 'ic_launcher',
                 channelId,
-                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 0, originalId, backupId, scheduledTime: notifTime.toISOString(), isHalfHour: true }
+                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, scheduledTime: notifTime.toISOString(), isHalfHour: true }
               });
 
-              const backupTime = new Date(notifTime.getTime() + 45000);
-              notifications.push({
-                id: backupId,
-                title: '🔔 Half Hour',
-                body: ' ',
-                schedule: { at: backupTime, allowWhileIdle: true },
-                silent: false,
-                smallIcon: 'ic_launcher',
-                channelId,
-                extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, retryLevel: 1, originalId, backupId, scheduledTime: backupTime.toISOString(), isHalfHour: true }
-              });
-
-              bellCount += 2;
+              bellCount += 1;
             }
           }
         }
@@ -328,33 +302,20 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
 
               const channelId = options.callType === 'long' ? 'prayer-long' : 'prayer-short';
               const soundFile = options.callType === 'long' ? 'long_call.mp3' : 'short_call.mp3';
-              const originalId = getNextId();
-              const backupId = getNextId();
+              const notifId = getNextId();
 
               notifications.push({
                 title: `🔔 ${options.prayerName || 'Prayer'}`,
                 body: ' ',
-                id: originalId,
+                id: notifId,
                 schedule: { at: checkDate, allowWhileIdle: true },
                 silent: false,
                 smallIcon: 'ic_launcher',
                 channelId,
-                extra: { type: 'prayer', callType: options.callType || 'short', soundFile, scheduledTime: checkDate.toISOString(), retryLevel: 0, originalId, backupId }
+                extra: { type: 'prayer', callType: options.callType || 'short', soundFile, scheduledTime: checkDate.toISOString() }
               });
 
-              const backupTime = new Date(checkDate.getTime() + 45000);
-              notifications.push({
-                id: backupId,
-                title: `🔔 ${options.prayerName || 'Prayer'}`,
-                body: ' ',
-                schedule: { at: backupTime, allowWhileIdle: true },
-                silent: false,
-                smallIcon: 'ic_launcher',
-                channelId,
-                extra: { type: 'prayer', callType: options.callType || 'short', soundFile, scheduledTime: backupTime.toISOString(), retryLevel: 1, originalId, backupId }
-              });
-
-              prayerCount += 2;
+              prayerCount += 1;
             }
           }
         }
