@@ -115,8 +115,23 @@ const PrayerTimes = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6 space-y-10">
+      <div className="container mx-auto px-4 py-6 space-y-[10px]">
         <div className="max-w-4xl mx-auto space-y-6">
+          {/* Prayer Toggle - Always Visible */}
+          <div className="flex items-center justify-end gap-3 px-4 mt-2">
+            <Label htmlFor="prayer-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
+              Prayer
+            </Label>
+            <Switch 
+              id="prayer-main-toggle" 
+              checked={prayerEnabled} 
+              onCheckedChange={setPrayerEnabled}
+              className="data-[state=checked]:bg-primary"
+            />
+            <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
+              {prayerEnabled ? 'ON' : 'OFF'}
+            </span>
+          </div>
           {/* Accordion Layout */}
           <Accordion type="multiple" defaultValue={["prayer-times", "bell-sound", "prayer-reminder"]} className="space-y-4">
             {/* Set Your Prayer Times Section */}
