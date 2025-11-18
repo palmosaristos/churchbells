@@ -7,6 +7,8 @@ import churchClockImage from "@/assets/church-clock.jpg";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import carillonBells from "@/assets/carillon-bells.png";
+import { useCurrentTime } from "@/hooks/useCurrentTime";
+import { useNextChimeCalculator } from "@/hooks/useNextChimeCalculator";
 
 interface CurrentConfigurationProps {
   selectedBellTradition: string;
@@ -59,6 +61,24 @@ export const CurrentConfiguration = ({
   pauseEndTime = "14:00",
   bellsEnabled = true,
 }: CurrentConfigurationProps) => {
+  // Get timezone from localStorage
+  const timeZone = localStorage.getItem("timeZone") || "UTC";
+  
+  // Get current time for next chime calculation
+  const current = useCurrentTime({ timeZone });
+  
+  // Calculate next chime display text
+  const nextChimeText = useNextChimeCalculator({
+    bellsEnabled,
+    startTime,
+    endTime,
+    halfHourChimes,
+    selectedDays,
+    currentDate: current.raw,
+    timeZone,
+    isValidTZ: current.isValidTZ
+  });
+
   const getBellImage = (id: string) => {
     if (id === 'carillon-bell') return carillonBells;
     if (id === 'village-bell') return churchBellTransparent;
@@ -129,6 +149,7 @@ export const CurrentConfiguration = ({
                     )}
                   </>
                 )}
+                {nextChimeText}
                 {pauseEnabled && (
                   <>
                     , with a pause from{' '}
