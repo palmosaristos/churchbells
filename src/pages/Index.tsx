@@ -15,6 +15,7 @@ import { useBellScheduler } from "@/hooks/useBellScheduler";
 import { useNotificationListener } from "@/hooks/useNotificationListener";
 import { useNightlyRescheduler } from "@/hooks/useNightlyRescheduler";
 import { useState as useReactState, useCallback } from "react";
+import { debugLog } from "@/utils/debugLog";
 
 const Index = () => {
   const location = useLocation();
@@ -87,7 +88,7 @@ const Index = () => {
   
   // Fonction pour forcer une reprogrammation
   const triggerReschedule = useCallback(() => {
-    console.log('🔄 Triggering manual reschedule - reloading all params from localStorage');
+    debugLog('🔄 Triggering manual reschedule - reloading all params from localStorage');
     
     // Recharger TOUS les paramètres depuis localStorage
     setSelectedBellTradition(localStorage.getItem("bellTradition") || "cathedral-bell");

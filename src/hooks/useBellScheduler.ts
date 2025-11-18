@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
+import { debugLog } from '@/utils/debugLog';
 
 interface BellSchedulerOptions {
   enabled: boolean;
@@ -31,7 +32,15 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
     if (!Capacitor.isNativePlatform()) return;
 
     const setupChannels = async () => {
+      // Optimisation : créer les channels une seule fois
+      const channelsCreated = localStorage.getItem('channelsCreated');
+      if (channelsCreated === 'true') {
+        debugLog('✅ Channels already created, skipping');
+        return;
+      }
+      
       try {
+        debugLog('📢 Creating notification channels...');
         const lowPrio = { importance: 3, visibility: 1, vibration: false } as const;
 
         await LocalNotifications.createChannel({
@@ -107,6 +116,10 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           lightColor: '#d4a574',
           vibration: false
         });
+        
+        // Marquer les channels comme créés
+        localStorage.setItem('channelsCreated', 'true');
+        debugLog('✅ All channels created successfully');
       } catch (chanErr) {
         console.warn('Channel create fail (OK if already exist):', chanErr);
       }
@@ -121,7 +134,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         try {
           const exactAlarmStatus = await LocalNotifications.checkExactNotificationSetting();
           if (exactAlarmStatus.exact_alarm === 'granted') {
-            console.log('✅ Exact Alarm permission granted - notifications will use precise timing (no Doze delays)');
+            debugLog('✅ Exact Alarm permission granted - notifications will use precise timing (no Doze delays)');
           } else {
             console.warn('⚠️ Exact Alarm permission NOT granted - notifications may be delayed by Doze mode (up to 5-10 minutes)');
           }
@@ -260,7 +273,7 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           }
         }
 
-        console.log(`📅 Scheduled ${bellCount} bell notifications in next 24h`);
+        debugLog(`📅 Scheduled ${bellCount} bell notifications in next 24h`);
 
         // PRIÈRES (24h window) - toujours actives si prayerEnabled
         let prayerCount = 0;
@@ -320,13 +333,13 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           }
         }
 
-        console.log(`📊 SCHEDULER: 24h Rolling Window - ${notifications.length} notifications (bells: ${bellCount}, prayers: ${prayerCount})`);
-        console.log(`   Window: ${now.toLocaleString()} → ${windowEnd.toLocaleString()}`);
+        debugLog(`📊 SCHEDULER: 24h Rolling Window - ${notifications.length} notifications (bells: ${bellCount}, prayers: ${prayerCount})`);
+        debugLog(`   Window: ${now.toLocaleString()} → ${windowEnd.toLocaleString()}`);
         
         if (notifications.length > 0 && notifications.length < 500) {
           await LocalNotifications.schedule({ notifications });
           const pending = await LocalNotifications.getPending();
-          console.log(`✅ Scheduled ${notifications.length}, ${pending.notifications.length} pending`);
+          debugLog(`✅ Scheduled ${notifications.length}, ${pending.notifications.length} pending`);
         }
 
       } catch (error) {
