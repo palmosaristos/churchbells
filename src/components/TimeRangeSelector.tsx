@@ -367,7 +367,7 @@ export const TimeRangeSelector = ({
                 ? `Bells will chime every ${halfHourChimes ? 'half hour' : 'hour'} from ${timeOptions.find(t => t.value === startTime)?.label || startTime} to ${timeOptions.find(t => t.value === endTime)?.label || endTime}${nextChimeText}`
                 : 'Bells disabled (no sounds scheduled)'
               }
-              {selectedDays.length > 0 && !nextChimeText.includes('next on') && (
+              {selectedDays.length > 0 && (
                 <>
                   {' '}on {selectedDays.length === 7 ? (
                     <span className="font-cinzel font-semibold">every day</span>
