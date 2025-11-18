@@ -124,8 +124,6 @@ const Index = () => {
     setStartTime(localStorage.getItem("startTime") || "08:00");
     setEndTime(localStorage.getItem("endTime") || "20:00");
     setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
-    const savedBellsEnabled = localStorage.getItem("bellsEnabled");
-    setBellsEnabled(savedBellsEnabled !== null ? savedBellsEnabled === "true" : true);
     setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
     setPrayerName(localStorage.getItem("prayerName") || "Prayer");
     setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
@@ -145,7 +143,9 @@ const Index = () => {
     setAudioPermissionGranted(localStorage.getItem("audioPermission") === "granted");
     setOnboardingComplete(localStorage.getItem("onboardingComplete") === "true");
     const appEnabledValue = localStorage.getItem("appEnabled");
-    setIsAppEnabled(appEnabledValue !== "false");
+    const bellsEnabledValue = appEnabledValue !== "false";
+    setIsAppEnabled(bellsEnabledValue);
+    setBellsEnabled(bellsEnabledValue); // Synchronize with appEnabled
   };
 
   // Recharger quand on navigue vers cette page
@@ -221,7 +221,7 @@ const Index = () => {
                     pauseEnabled={pauseEnabled}
                     pauseStartTime={pauseStartTime}
                     pauseEndTime={pauseEndTime}
-                    bellsEnabled={bellsEnabled}
+                    bellsEnabled={isAppEnabled}
                   />
                 </AccordionContent>
               </AccordionItem>
