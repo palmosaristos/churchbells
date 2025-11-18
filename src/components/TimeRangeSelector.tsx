@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Clock, Volume2, Check } from "lucide-react";
 import { useCurrentTime } from "@/hooks/useCurrentTime";  // Intègre pour validation TZ/next occurrence
 import { useEffect } from "react";  // Pour persistence localStorage
+import { useNextChimeCalculator } from "@/hooks/useNextChimeCalculator";
 import sunImage from "@/assets/sun-prayer-realistic.png";  // Imports originaux
 import moonImage from "@/assets/moon-prayer-full.png";
 import bellStartImage from "@/assets/bell-start.png";
@@ -114,37 +115,17 @@ export const TimeRangeSelector = ({
   // Current time pour validation next chime
   const current = useCurrentTime({ timeZone });
 
-  // Helper: Get next chime display (in text, vs current.raw)
-  const getNextChimeDisplay = (): string => {
-    if (!bellsEnabled) return '';
-    
-    const [sh, sm] = startTime.split(':').map(Number);
-    const [eh, em] = endTime.split(':').map(Number);
-    const nowMinutes = current.raw.getHours() * 60 + current.raw.getMinutes();
-    const todayDayNum = current.raw.getDay();  // 0=Sun
-    const todayDayName = Object.keys(DAY_MAP).find(key => DAY_MAP[key] === todayDayNum);
-    const isTodayActive = todayDayName && selectedDays.includes(todayDayName);
-    
-    let nextText = '';
-    if (isTodayActive && nowMinutes >= sh * 60 + sm && nowMinutes < eh * 60 + em) {
-      const interval = halfHourChimes ? 30 : 60;
-      const nextChimeMinutes = Math.ceil((nowMinutes + 1) / interval) * interval;
-      const nextHour = Math.floor(nextChimeMinutes / 60);
-      const nextMinute = nextChimeMinutes % 60;
-      
-      nextText = ` (next at ${String(nextHour).padStart(2, '0')}:${String(nextMinute).padStart(2, '0')})`;
-    } else {
-      nextText = ` (next on ${selectedDays[0] || 'active day'} at ${startTime})`;
-    }
-    
-    if (current.isValidTZ && timeZone !== 'UTC') {
-      nextText += ` (${timeZone.replace('/', ' ')})`;
-    }
-
-    return nextText;
-  };
-
-  const nextChimeText = getNextChimeDisplay();
+  // Use the reusable next chime calculator hook
+  const nextChimeText = useNextChimeCalculator({
+    bellsEnabled,
+    startTime,
+    endTime,
+    halfHourChimes,
+    selectedDays,
+    currentDate: current.raw,
+    timeZone,
+    isValidTZ: current.isValidTZ
+  });
 
   const handleDayToggle = (dayId: string) => {
     if (!onSelectedDaysChange) return;
