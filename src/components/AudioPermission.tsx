@@ -166,10 +166,10 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
           title: (
             <div className="flex items-center gap-3 font-cormorant text-2xl">
               <img src={realisticBellIcon} alt="" className="w-10 h-10" />
-              Prêt !
+              Ready!
             </div>
           ) as any,
-          description: 'Les cloches sonneront aux heures programmées.',
+          description: 'The bells will chime at the scheduled times.',
           variant: 'onboarding',
           duration: 4000
         });
@@ -199,20 +199,19 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-3 justify-center font-cormorant text-3xl">
             <img src={realisticBellIcon} alt="" className="w-12 h-12" />
-            Permissions requises
+            Required Permissions
             <img src={churchClock} alt="" className="w-12 h-12" />
           </AlertDialogTitle>
           <AlertDialogDescription className="text-center text-lg font-cormorant space-y-3">
             <p>
-              Pour que les cloches sonnent à l'heure exacte, même quand l'application est fermée, 
-              deux permissions sont nécessaires :
+              To make the bells chime at the exact time, two permissions are required:
             </p>
             <div className="text-left bg-amber-50 dark:bg-amber-950/30 p-3 rounded-lg space-y-2 text-base">
-              <p>🔔 <strong>Audio</strong> : Pour jouer les sons de cloches</p>
-              <p>⏰ <strong>Alarmes et rappels</strong> : Pour sonner à l'heure précise (sinon retards de plusieurs minutes)</p>
+              <p>🔔 <strong>Audio</strong>: To play the bell sounds</p>
+              <p>⏰ <strong>Alarms and Reminders</strong>: To ring at the precise time (otherwise, delays of several minutes)</p>
             </div>
             <p className="text-sm text-muted-foreground">
-              Sans ces permissions, l'application ne peut pas fonctionner correctement.
+              Without these permissions, the application cannot function properly.
             </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -236,7 +235,7 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
             ) : (
               <>
                 <img src={realisticBellIcon} alt="" className="h-4 w-4" />
-                {hasRetried ? 'Réessayer' : 'Accorder les permissions'}
+                {hasRetried ? 'Retry' : 'Grant Permissions'}
               </>
             )}
           </Button>
