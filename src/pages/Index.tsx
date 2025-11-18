@@ -87,7 +87,35 @@ const Index = () => {
   
   // Fonction pour forcer une reprogrammation
   const triggerReschedule = useCallback(() => {
-    console.log('🔄 Triggering manual reschedule');
+    console.log('🔄 Triggering manual reschedule - reloading all params from localStorage');
+    
+    // Recharger TOUS les paramètres depuis localStorage
+    setSelectedBellTradition(localStorage.getItem("bellTradition") || "cathedral-bell");
+    setStartTime(localStorage.getItem("startTime") || "08:00");
+    setEndTime(localStorage.getItem("endTime") || "20:00");
+    setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
+    setBellsEnabled((() => {
+      const saved = localStorage.getItem("bellsEnabled");
+      return saved !== null ? saved === "true" : true;
+    })());
+    setSelectedTimeZone(localStorage.getItem("timeZone") || "");
+    setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
+    setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
+    setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
+    
+    const savedDays = localStorage.getItem("selectedDays");
+    setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
+    
+    setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
+    setPrayerName(localStorage.getItem("prayerName") || "Prayer");
+    setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
+    setCallType((localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short');
+    
+    const savedReminders = localStorage.getItem("prayerReminderNotifications");
+    setPrayerReminders(savedReminders ? JSON.parse(savedReminders) : ["5"]);
+    setReminderWithBell(localStorage.getItem("prayerReminderWithBell") === "true");
+    
+    // Maintenant on déclenche la reprogrammation avec les paramètres à jour
     setScheduleKey(prev => prev + 1);
   }, []);
 
