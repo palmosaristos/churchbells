@@ -169,7 +169,7 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
               Ready!
             </div>
           ) as any,
-          description: 'The bells will chime at the scheduled times.',
+          description: 'The bells will chime at the scheduled times',
           variant: 'onboarding',
           duration: 4000
         });
@@ -210,9 +210,6 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
               <p>🔔 <strong>Audio</strong>: To play the bell sounds</p>
               <p>⏰ <strong>Alarms and Reminders</strong>: To ring at the precise time (otherwise, delays of several minutes)</p>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Without these permissions, the application cannot function properly.
-            </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col gap-2">
