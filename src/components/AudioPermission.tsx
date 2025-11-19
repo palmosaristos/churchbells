@@ -83,10 +83,10 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
           title: (
             <div className="flex items-center gap-3 font-cormorant text-2xl">
               <img src={realisticBellIcon} alt="" className="w-10 h-10" />
-              Permissions accordées
+              Permissions Granted
             </div>
           ) as any,
-          description: 'Les cloches sonneront à l\'heure exacte, même application fermée !',
+          description: 'The bells will ring at the exact time, even with the app closed!',
           variant: 'onboarding',
           duration: 4000
         });
