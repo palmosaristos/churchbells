@@ -19,7 +19,7 @@ const PrayerTimes = () => {
     return localStorage.getItem("prayerName") || "Prayer";
   });
   const [prayerTime, setPrayerTime] = useState<string>(() => {
-    return localStorage.getItem("prayerTime") || "06:00";
+    return localStorage.getItem("prayerTime") || "";
   });
   const [bellVolume, setBellVolume] = useState<number>(() => {
     const saved = localStorage.getItem("prayerBellVolume");
