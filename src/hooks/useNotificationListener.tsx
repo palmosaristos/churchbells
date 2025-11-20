@@ -116,6 +116,12 @@ export const useNotificationListener = () => {
         return;
       }
 
+      // Les bells et prayers ont déjà été joués par le channel Android
+      if (extra.type === 'bell' || extra.type === 'prayer') {
+        console.log(`📱 Tap on ${extra.type} notification (no replay - already played by channel)`);
+        return;
+      }
+
       // Pour les sons, vérifier qu'on a un soundFile et qu'on ne joue pas déjà
       if (!extra.soundFile || isPlaying) return;
 
