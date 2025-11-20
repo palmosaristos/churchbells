@@ -8,6 +8,11 @@ interface TimeInputAmPmProps {
 
 export const TimeInputAmPm = ({ value, onChange, className }: TimeInputAmPmProps) => {
   const parse24Hour = (time24: string): { hour: number; minute: number; period: 'AM' | 'PM' } => {
+    // Gérer le cas où aucune heure n'est sélectionnée (valeur par défaut)
+    if (!time24 || time24 === "") {
+      return { hour: 12, minute: 0, period: 'AM' };
+    }
+    
     const [hourStr, minuteStr] = time24.split(':');
     const hour24 = parseInt(hourStr);
     const minute = parseInt(minuteStr);
@@ -48,10 +53,12 @@ export const TimeInputAmPm = ({ value, onChange, className }: TimeInputAmPmProps
   const hours = Array.from({ length: 12 }, (_, i) => i + 1);
   const minutes = Array.from({ length: 60 }, (_, i) => i);
 
+  const isEmptyTime = !value || value === "";
+
   return (
     <div className={`flex gap-2 items-center ${className || ''}`}>
       <Select value={hour.toString()} onValueChange={handleHourChange}>
-        <SelectTrigger className="w-20 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors">
+        <SelectTrigger className={`w-20 text-xl font-cormorant border-2 focus:border-primary transition-colors ${isEmptyTime ? 'text-muted-foreground' : 'text-foreground'}`}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -63,10 +70,10 @@ export const TimeInputAmPm = ({ value, onChange, className }: TimeInputAmPmProps
         </SelectContent>
       </Select>
 
-      <span className="text-2xl font-cormorant text-foreground">:</span>
+      <span className={`text-2xl font-cormorant ${isEmptyTime ? 'text-muted-foreground' : 'text-foreground'}`}>:</span>
 
       <Select value={minute.toString().padStart(2, '0')} onValueChange={handleMinuteChange}>
-        <SelectTrigger className="w-20 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors">
+        <SelectTrigger className={`w-20 text-xl font-cormorant border-2 focus:border-primary transition-colors ${isEmptyTime ? 'text-muted-foreground' : 'text-foreground'}`}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent className="max-h-[300px]">
@@ -79,7 +86,7 @@ export const TimeInputAmPm = ({ value, onChange, className }: TimeInputAmPmProps
       </Select>
 
       <Select value={period} onValueChange={handlePeriodChange}>
-        <SelectTrigger className="w-24 text-xl font-cormorant text-foreground border-2 focus:border-primary transition-colors">
+        <SelectTrigger className={`w-24 text-xl font-cormorant border-2 focus:border-primary transition-colors ${isEmptyTime ? 'text-muted-foreground' : 'text-foreground'}`}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
