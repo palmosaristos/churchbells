@@ -1,69 +1,220 @@
-{
-  "app": {
-    "title": "Sacred Bells",
-    "tagline": "Laissez le rythme sacré des cloches guider votre journée"
-  },
-  "welcome": {
-    "title": "Bienvenue sur Sacred Bells",
-    "description": "Laissez le son sacré des cloches vous guider tout au long de la journée",
-    "continue": "Continuer"
-  },
-  "hero": {
-    "title": "Sacred Bells",
-    "subtitle": "Laissez le rythme sacré des cloches guider votre journée"
-  },
-  "permissions": {
-    "title": "🔔 Permission requise",
-    "description": "Pour que les cloches sonnent à l'heure exacte, même lorsque l'application est fermée, vous devez activer les alarmes et rappels.",
-    "subtitle": "Sans cette permission, les notifications pourraient être retardées de plusieurs minutes.",
-    "audio": "Audio",
-    "alarms": "Alarmes et rappels"
-  },
-  "settings": {
-    "title": "Paramètres",
-    "setYourBells": "Configurez vos cloches",
-    "customizeYourBells": "Personnalisez vos cloches",
-    "dailySchedule": "Programme quotidien",
-    "bellsWillChimeEvery": "Les cloches sonneront toutes les {{interval}} de {{start}} à {{end}}",
-    "bellsDisabled": "Cloches désactivées (aucun son programmé)",
-    "onEveryDay": "tous les jours",
-    "onWeekends": "les week-ends",
-    "onWeekdays": "en semaine",
-    "withPauseFrom": "avec une pause de {{start}} à {{end}}",
-    "overnight": "(pendant la nuit)"
-  },
-  "prayers": {
-    "title": "Heures de prière",
-    "setYourPrayerTimes": "Configurez vos heures de prière",
-    "prayerName": "Nom de la prière",
-    "prayerTime": "Heure de prière",
-    "tradition": "Tradition",
-    "time": "Heure",
-    "reminder": "Rappel",
-    "sound": "Son"
-  },
-  "bells": {
-    "cathedral": "Cloche de cathédrale",
-    "village": "Cloche de village",
-    "carillon": "Carillon"
-  },
-  "navigation": {
-    "home": "Accueil",
-    "settings": "Paramètres",
-    "prayers": "Prières",
-    "premium": "Premium",
-    "about": "À propos",
-    "prayerTimes": "Heures de prière"
-  },
-  "configuration": {
-    "yourSacredBellsSchedule": "Votre programme Sacred Bells"
-  },
-  "common": {
-    "enable": "Activer",
-    "disable": "Désactiver",
-    "save": "Sauvegarder",
-    "cancel": "Annuler",
-    "close": "Fermer",
-    "back": "Retour"
-  }
-}
+    {
+      "app": {
+        "title": "Sacred Bells",
+        "tagline": "Laissez le rythme sacré des cloches d'église guider votre journée"
+      },
+      "navigation": {
+        "home": "Accueil",
+        "settings": "Paramètres",
+        "prayers": "Prières",
+        "prayerTimes": "Heures de prière",
+        "premium": "Premium",
+        "more": "Plus"
+      },
+      "welcome": {
+        "title": "Bienvenue dans Sacred Bells",
+        "description": "Laissez le son sacré des cloches d'église vous guider tout au long de la journée",
+        "continue": "Continuer"
+      },
+      "hero": {
+        "title": "Sacred Bells",
+        "subtitle": "Laissez le rythme sacré des cloches d'église guider votre journée"
+      },
+      "index": {
+        "yourBellsSchedule": "Votre emploi du temps Sacred Bells",
+        "yourPrayer": "Votre prière",
+        "yourPremiumStatus": "Votre statut Premium"
+      },
+      "settings": {
+        "title": "Définissez vos heures de cloche",
+        "bells": "Cloches",
+        "on": "ACTIF",
+        "off": "INACTIF",
+        "chooseBellSound": "Choisissez votre son de cloche",
+        "dailyBellSchedule": "Emploi du temps quotidien des cloches",
+        "shareBells": "Partagez les cloches",
+        "shareBellsDescription": "Les cloches ont uni les communautés pendant des siècles, apportez le son sacré des cloches d'église à vos proches",
+        "shareVia": "partagez notre application via",
+        "whatsapp": "WhatsApp",
+        "email": "E-mail",
+        "sms": "SMS",
+        "shareMessage": "🔔 Découvrez Sacred Bells ! C'est comme avoir un clocher d'église dans votre poche. Un beau moyen de marquer l'heure tout au long de la journée : {{url}}",
+        "shareEmailSubject": "Une belle application que je pensais que tu aimerais",
+        "shareEmailBody": "Bonjour,\n\nJe voulais partager quelque chose de spécial avec vous. J'utilise Sacred Bells, une application qui recréée le rythme traditionnel des cloches d'église tout au long de la journée.\n\nCela a été un merveilleux moyen de rester connecté au rythme sacré que les églises ont maintenu pendant des siècles.\n\nJe pense que vous aimeriez aussi !\n\nTélécharger : {{url}}\n\nBénédictions"
+      },
+      "timeRange": {
+        "quickConfigurations": "Configurations rapides",
+        "allDay": "24h/24, 7j/7",
+        "from7to10": "De 7h à 22h",
+        "onlyWeekend": "Uniquement le week-end",
+        "customSchedule": "Emploi du temps personnalisé",
+        "scheduleHours": "Heures de programmation",
+        "start": "Début :",
+        "end": "Fin :",
+        "selectStartTime": "Sélectionnez l'heure de début",
+        "selectEndTime": "Sélectionnez l'heure de fin",
+        "activeDays": "Jours actifs",
+        "quietHours": "🔕 Heures silencieuses (optionnel)",
+        "pauseBellsFrom": "Mettre les cloches en pause de :",
+        "resumeBellsAt": "Reprendre les cloches à :",
+        "bellsSilentFrom": "Les cloches seront silencieuses de {{start}} à {{end}}",
+        "halfHourChimes": "Carillons toutes les demi-heures",
+        "halfHourChimesOn": "Sonnez les cloches toutes les demi-heures",
+        "halfHourChimesOff": "Sonnez les cloches uniquement à l'heure",
+        "nextChimeAt": "Prochain carillon à {{time}}"
+      },
+      "currentConfig": {
+        "setYourBells": "Configurez vos cloches",
+        "dailySchedule": "Emploi du temps quotidien",
+        "bellsWillChimeEvery": "Les cloches sonneront toutes les {{interval}} de {{start}} à {{end}}",
+        "halfHour": "demi-heure",
+        "hour": "heure",
+        "bellsDisabled": "Cloches désactivées (aucun son programmé)",
+        "on": "le",
+        "everyDay": "TOUS LES JOURS",
+        "weekends": "LES FINS DE SEMAINE",
+        "weekdays": "LES JOURS DE SEMAINE",
+        "withPauseFrom": "avec une pause de {{start}} à {{end}}",
+        "overnight": "(pendant la nuit)",
+        "customizeYourBells": "Personnalisez vos cloches"
+      },
+      "prayerTimes": {
+        "title": "Définissez vos cloches de prière",
+        "prayer": "Prière",
+        "on": "ACTIF",
+        "off": "INACTIF",
+        "setYourPrayerTimes": "Définissez vos heures de prière",
+        "prayerNameOptional": "Nom de la prière (optionnel)",
+        "prayerPlaceholder": "Prière",
+        "namePrayer": "Nommez votre prière",
+        "bellCallSound": "Son de l'appel à la prière",
+        "volume": "Volume",
+        "bellSound": "Son de cloche (appel {{type}})",
+        "shortCall": "court",
+        "longCall": "long",
+        "listen": "Écouter",
+        "stop": "Arrêter",
+        "prayerReminder": "Rappel de prière",
+        "enableReminder": "Activer le rappel",
+        "reminderTiming": "Minutage du rappel",
+        "minutes": "{{count}} min",
+        "withBellSound": "Avec son de cloche",
+        "silentNotification": "Notification silencieuse uniquement"
+      },
+      "prayerTraditions": {
+        "romanCatholic": "Catholicisme romain",
+        "orthodox": "Orthodoxe",
+        "anglican": "Anglicane",
+        "selectTradition": "Sélectionnez la tradition et les heures des appels à la prière",
+        "selectTimes": "Sélectionnez les heures",
+        "matins": "Matines",
+        "matinsDesc": "Office des lectures pendant la nuit",
+        "lauds": "Laudes",
+        "laudsDesc": "Prière du matin à l'aube",
+        "prime": "Prime",
+        "primeDesc": "Première heure",
+        "terce": "Tierce",
+        "terceDesc": "Troisième heure",
+        "sext": "Sexte",
+        "sextDesc": "Sixième heure (midi)",
+        "none": "None",
+        "noneDesc": "Neuvième heure",
+        "vespers": "Vêpres",
+        "vespersDesc": "Prière du soir",
+        "compline": "Complies",
+        "complineDesc": "Prière de la nuit",
+        "midnightOffice": "Office de minuit",
+        "midnightOfficeDesc": "Prière de veille",
+        "orthros": "Orthros",
+        "orthrosDesc": "Office du matin",
+        "firstHour": "Première heure",
+        "firstHourDesc": "Tôt le matin",
+        "thirdHour": "Troisième heure",
+        "thirdHourDesc": "Milieu de matinée",
+        "sixthHour": "Sixième heure",
+        "sixthHourDesc": "Midi",
+        "ninthHour": "Neuvième heure",
+        "ninthHourDesc": "Après-midi",
+        "eveningService": "Office du soir",
+        "apodeipnon": "Apodeipnon",
+        "morningPrayer": "Prière du matin",
+        "morningPrayerDesc": "Culte de l'aube",
+        "middayPrayer": "Prière de midi",
+        "middayPrayerDesc": "Dévotion de midi",
+        "eveningPrayer": "Prière du soir",
+        "eveningPrayerDesc": "Vêpres chantées"
+      },
+      "more": {
+        "title": "Plus",
+        "about": "À propos",
+        "version": "Version : {{version}}",
+        "build": "Build : {{build}}",
+        "developedWith": "Développé avec 🙏",
+        "helpAndFaq": "Aide et FAQ",
+        "contact": "💬 CONTACT",
+        "contactUs": "Nous contacter",
+        "supportUs": "Nous soutenir",
+        "supportDescription": "Les fonctionnalités principales de Sacred Bells sont gratuites et sans publicités. Si elles vous aident dans votre vie spirituelle :",
+        "leaveReview": "⭐ Laissez un avis sur l'App Store/Play Store",
+        "shareWithCommunity": "💝 Partagez-la avec votre communauté",
+        "makeDonation": "☕ Faire un don (paypal : sacredchurchbells@gmail.com)",
+        "legalAndPrivacy": "LEGAL ET CONFIDENTIALITÉ",
+        "privacyPolicy": "Politique de confidentialité",
+        "termsOfService": "Conditions d'utilisation",
+        "gdprCompliance": "Conformité RGPD",
+        "resetAllData": "Réinitialiser toutes mes données",
+        "resetConfirm": "Êtes-vous sûr de vouloir réinitialiser toutes vos données ? Cette action ne peut pas être annulée.",
+        "dataReset": "Toutes les données ont été réinitialisées"
+      },
+      "permissions": {
+        "title": "Permissions requises",
+        "description": "Pour que les cloches sonnent à l'heure exacte, deux permissions sont requises :",
+        "audio": "🔔 Audio",
+        "audioDesc": "Pour jouer les sons de cloche",
+        "alarms": "⏰ Alarmes et rappels",
+        "alarmsDesc": "Pour sonner à l'heure précise (sinon, délais de plusieurs minutes)",
+        "grantPermissions": "Accorder les permissions",
+        "retry": "Réessayer",
+        "skip": "Passer (les cloches risquent d'être retardées)",
+        "waitingForPermission": "En attente de la permission...",
+        "openingSettings": "Ouverture des paramètres...",
+        "activatePermission": "⏰ Activez la permission",
+        "activateInstructions": "Dans les paramètres qui viennent de s'ouvrir, activez 'Alarmes et rappels', puis revenez à l'application.",
+        "ready": "Prêt !",
+        "readyDesc": "Les cloches sonneront aux heures programmées",
+        "reducedPrecision": "⚠️ Précision réduite",
+        "reducedPrecisionDesc": "Les cloches pourront être retardées de plusieurs minutes. Vous pouvez activer la permission plus tard dans les paramètres Android.",
+        "error": "Erreur",
+        "errorDesc": "Impossible d'ouvrir les paramètres. Veuillez réessayer."
+      },
+      "appToggle": {
+        "activated": "Application activée",
+        "deactivated": "Application désactivée",
+        "activatedDesc": "Sacred Bells sonnera maintenant aux heures programmées",
+        "deactivatedDesc": "Toutes les notifications de cloche sont en pause",
+        "activate": "Activer l'application",
+        "deactivate": "Désactiver l'application"
+      },
+      "bells": {
+        "cathedral": "Cloche de cathédrale",
+        "village": "Cloche de village",
+        "carillon": "Carillon"
+      },
+      "days": {
+        "monday": "Lun",
+        "tuesday": "Mar",
+        "wednesday": "Mer",
+        "thursday": "Jeu",
+        "friday": "Ven",
+        "saturday": "Sam",
+        "sunday": "Dim"
+      },
+      "common": {
+        "enable": "Activer",
+        "disable": "Désactiver",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "close": "Fermer",
+        "back": "Retour"
+      }
+    }
