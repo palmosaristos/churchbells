@@ -51,7 +51,7 @@ const Index = () => {
     return localStorage.getItem("prayerName") || "Prayer";
   });
   const [prayerTime, setPrayerTime] = useState<string>(() => {
-    return localStorage.getItem("prayerTime") || "06:00";
+    return localStorage.getItem("prayerTime") || "";
   });
   const [isPremiumMember, setIsPremiumMember] = useState<boolean>(() => {
     return localStorage.getItem("isPremiumMember") === "true";
@@ -109,7 +109,7 @@ const Index = () => {
     
     setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
     setPrayerName(localStorage.getItem("prayerName") || "Prayer");
-    setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
+    setPrayerTime(localStorage.getItem("prayerTime") || "");
     setCallType((localStorage.getItem("prayerCallType") as 'short' | 'long') || 'short');
     
     const savedReminders = localStorage.getItem("prayerReminderNotifications");
