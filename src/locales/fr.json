@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "title": "🔔 Permission requise",
+    "description": "Pour que les cloches sonnent à l'heure exacte, même lorsque l'application est fermée, vous devez activer les alarmes et rappels.",
+    "subtitle": "Sans cette permission, les notifications pourraient être retardées de plusieurs minutes."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "bells": "Cloches",
+    "prayers": "Prières",
+    "audio": "Audio",
+    "startTime": "Heure de début",
+    "endTime": "Heure de fin",
+    "halfHourChimes": "Demi-heures",
+    "tradition": "Tradition",
+    "volume": "Volume",
+    "save": "Enregistrer",
+    "nextChime": "Prochaine cloche à"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "settings": "Paramètres",
+    "prayers": "Prières",
+    "premium": "Premium",
+    "about": "À propos"
+  },
+  "bells": {
+    "cathedral": "Cloche de Cathédrale",
+    "village": "Cloche de Village",
+    "carillon": "Carillon"
+  },
+  "prayers": {
+    "title": "Prières",
+    "configure": "Configurer les prières",
+    "tradition": "Tradition",
+    "time": "Heure",
+    "reminder": "Rappel",
+    "sound": "Son"
+  },
+  "common": {
+    "enable": "Activer",
+    "disable": "Désactiver",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "back": "Retour"
+  }
+}

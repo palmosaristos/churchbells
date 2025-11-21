@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "title": "🔔 Permission Required",
+    "description": "To make the bells chime at the exact time, even when the application is closed, you must enable alarms and reminders.",
+    "subtitle": "Without this permission, notifications could be delayed by several minutes."
+  },
+  "settings": {
+    "title": "Settings",
+    "bells": "Bells",
+    "prayers": "Prayers",
+    "audio": "Audio",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "halfHourChimes": "Half-hour",
+    "tradition": "Tradition",
+    "volume": "Volume",
+    "save": "Save",
+    "nextChime": "Next bell at"
+  },
+  "navigation": {
+    "home": "Home",
+    "settings": "Settings",
+    "prayers": "Prayers",
+    "premium": "Premium",
+    "about": "About"
+  },
+  "bells": {
+    "cathedral": "Cathedral Bell",
+    "village": "Village Bell",
+    "carillon": "Carillon"
+  },
+  "prayers": {
+    "title": "Prayers",
+    "configure": "Configure Prayers",
+    "tradition": "Tradition",
+    "time": "Time",
+    "reminder": "Reminder",
+    "sound": "Sound"
+  },
+  "common": {
+    "enable": "Enable",
+    "disable": "Disable",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back"
+  }
+}

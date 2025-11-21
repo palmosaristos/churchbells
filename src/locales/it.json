@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "title": "🔔 Permesso richiesto",
+    "description": "Affinché le campane suonino all'ora esatta, anche quando l'applicazione è chiusa, è necessario attivare gli allarmi e i promemoria.",
+    "subtitle": "Senza questa autorizzazione, le notifiche potrebbero essere ritardate di diversi minuti."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "bells": "Campane",
+    "prayers": "Preghiere",
+    "audio": "Audio",
+    "startTime": "Ora di inizio",
+    "endTime": "Ora di fine",
+    "halfHourChimes": "Mezzore",
+    "tradition": "Tradizione",
+    "volume": "Volume",
+    "save": "Salva",
+    "nextChime": "Prossima campana a"
+  },
+  "navigation": {
+    "home": "Home",
+    "settings": "Impostazioni",
+    "prayers": "Preghiere",
+    "premium": "Premium",
+    "about": "Chi siamo"
+  },
+  "bells": {
+    "cathedral": "Campana di Cattedrale",
+    "village": "Campana di Villaggio",
+    "carillon": "Carillon"
+  },
+  "prayers": {
+    "title": "Preghiere",
+    "configure": "Configura preghiere",
+    "tradition": "Tradizione",
+    "time": "Ora",
+    "reminder": "Promemoria",
+    "sound": "Suono"
+  },
+  "common": {
+    "enable": "Attiva",
+    "disable": "Disattiva",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "back": "Indietro"
+  }
+}
