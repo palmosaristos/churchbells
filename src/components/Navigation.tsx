@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { AppToggle } from "@/components/AppToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
@@ -25,7 +26,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
   return (
     <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
       <div className="container mx-auto px-2 sm:px-4">
-        {/* First Row: Toggle ON/OFF, Logo, Theme Toggle */}
+        {/* First Row: Toggle ON/OFF, Logo, Theme Toggle + Language */}
         <div className="relative flex items-center justify-between h-12 sm:h-14 border-b border-border/30">
           {/* Left: App Toggle */}
           <div className="flex-shrink-0 z-10">
@@ -48,8 +49,9 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             {!isMobile && "Sacred Bells"}
           </button>
 
-          {/* Right: Theme Toggle */}
-          <div className="flex-shrink-0 z-10">
+          {/* Right: Theme Toggle + Language Switcher */}
+          <div className="flex-shrink-0 z-10 flex items-center gap-2">
+            <LanguageSwitcher compact={isMobile} />
             <ThemeToggle />
           </div>
         </div>
