@@ -1,11 +1,15 @@
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
+import { useTranslation } from 'react-i18next';
+
 interface HeroSectionProps {
   heroImage: string;
 }
 export const HeroSection = ({
   heroImage
 }: HeroSectionProps) => {
+  const { t } = useTranslation();
+  
   return <>
       {/* Hero Image */}
       <div className="relative overflow-hidden pt-2">
@@ -24,11 +28,11 @@ export const HeroSection = ({
               <div className="flex items-center justify-center gap-4 md:gap-8">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
                 <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground">
-                  Sacred Bells
+                  {t('hero.title')}
                 </h1>
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
               </div>
-              <p className="font-cormorant text-2xl md:text-3xl text-foreground text-center leading-relaxed max-w-4xl mx-auto font-bold italic">Let the sacred rhythm of church bells guide your day</p>
+              <p className="font-cormorant text-2xl md:text-3xl text-foreground text-center leading-relaxed max-w-4xl mx-auto font-bold italic">{t('hero.subtitle')}</p>
             </div>
           </div>
         </div>

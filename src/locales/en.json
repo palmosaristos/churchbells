@@ -1,41 +1,62 @@
 {
+  "app": {
+    "title": "Sacred Bells",
+    "tagline": "Let the sacred rhythm of church bells guide your day"
+  },
+  "welcome": {
+    "title": "Welcome to Sacred Bells",
+    "description": "Let the sacred sound of church bells guide you through the day",
+    "continue": "Continue"
+  },
+  "hero": {
+    "title": "Sacred Bells",
+    "subtitle": "Let the sacred rhythm of church bells guide your day"
+  },
   "permissions": {
     "title": "🔔 Permission Required",
     "description": "To make the bells chime at the exact time, even when the application is closed, you must enable alarms and reminders.",
-    "subtitle": "Without this permission, notifications could be delayed by several minutes."
+    "subtitle": "Without this permission, notifications could be delayed by several minutes.",
+    "audio": "Audio",
+    "alarms": "Alarms and reminders"
   },
   "settings": {
     "title": "Settings",
-    "bells": "Bells",
-    "prayers": "Prayers",
-    "audio": "Audio",
-    "startTime": "Start Time",
-    "endTime": "End Time",
-    "halfHourChimes": "Half-hour",
-    "tradition": "Tradition",
-    "volume": "Volume",
-    "save": "Save",
-    "nextChime": "Next bell at"
+    "setYourBells": "Set your Bells",
+    "customizeYourBells": "Customize your bells",
+    "dailySchedule": "Daily schedule",
+    "bellsWillChimeEvery": "Bells will chime every {{interval}} from {{start}} to {{end}}",
+    "bellsDisabled": "Bells disabled (no sounds scheduled)",
+    "onEveryDay": "on EVERY DAY",
+    "onWeekends": "on WEEKENDS",
+    "onWeekdays": "on WEEKDAYS",
+    "withPauseFrom": "with a pause from {{start}} to {{end}}",
+    "overnight": "(overnight)"
   },
-  "navigation": {
-    "home": "Home",
-    "settings": "Settings",
-    "prayers": "Prayers",
-    "premium": "Premium",
-    "about": "About"
+  "prayers": {
+    "title": "Prayer Times",
+    "setYourPrayerTimes": "Set Your Prayer Times",
+    "prayerName": "Prayer name",
+    "prayerTime": "Prayer time",
+    "tradition": "Tradition",
+    "time": "Time",
+    "reminder": "Reminder",
+    "sound": "Sound"
   },
   "bells": {
     "cathedral": "Cathedral Bell",
     "village": "Village Bell",
     "carillon": "Carillon"
   },
-  "prayers": {
-    "title": "Prayers",
-    "configure": "Configure Prayers",
-    "tradition": "Tradition",
-    "time": "Time",
-    "reminder": "Reminder",
-    "sound": "Sound"
+  "navigation": {
+    "home": "Home",
+    "settings": "Settings",
+    "prayers": "Prayers",
+    "premium": "Premium",
+    "about": "About",
+    "prayerTimes": "Prayer Times"
+  },
+  "configuration": {
+    "yourSacredBellsSchedule": "Your Sacred Bells schedule"
   },
   "common": {
     "enable": "Enable",

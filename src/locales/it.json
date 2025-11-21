@@ -1,41 +1,62 @@
 {
+  "app": {
+    "title": "Sacred Bells",
+    "tagline": "Lascia che il sacro ritmo delle campane della chiesa guidi la tua giornata"
+  },
+  "welcome": {
+    "title": "Benvenuto in Sacred Bells",
+    "description": "Lascia che il suono sacro delle campane della chiesa ti guidi durante il giorno",
+    "continue": "Continua"
+  },
+  "hero": {
+    "title": "Sacred Bells",
+    "subtitle": "Lascia che il sacro ritmo delle campane della chiesa guidi la tua giornata"
+  },
   "permissions": {
     "title": "🔔 Permesso richiesto",
     "description": "Affinché le campane suonino all'ora esatta, anche quando l'applicazione è chiusa, è necessario attivare gli allarmi e i promemoria.",
-    "subtitle": "Senza questa autorizzazione, le notifiche potrebbero essere ritardate di diversi minuti."
+    "subtitle": "Senza questa autorizzazione, le notifiche potrebbero essere ritardate di diversi minuti.",
+    "audio": "Audio",
+    "alarms": "Allarmi e promemoria"
   },
   "settings": {
     "title": "Impostazioni",
-    "bells": "Campane",
-    "prayers": "Preghiere",
-    "audio": "Audio",
-    "startTime": "Ora di inizio",
-    "endTime": "Ora di fine",
-    "halfHourChimes": "Mezzore",
-    "tradition": "Tradizione",
-    "volume": "Volume",
-    "save": "Salva",
-    "nextChime": "Prossima campana a"
+    "setYourBells": "Configura le tue campane",
+    "customizeYourBells": "Personalizza le tue campane",
+    "dailySchedule": "Programma giornaliero",
+    "bellsWillChimeEvery": "Le campane suoneranno ogni {{interval}} dalle {{start}} alle {{end}}",
+    "bellsDisabled": "Campane disabilitate (nessun suono programmato)",
+    "onEveryDay": "ogni GIORNO",
+    "onWeekends": "nei FINE SETTIMANA",
+    "onWeekdays": "nei GIORNI FERIALI",
+    "withPauseFrom": "con una pausa dalle {{start}} alle {{end}}",
+    "overnight": "(durante la notte)"
   },
-  "navigation": {
-    "home": "Home",
-    "settings": "Impostazioni",
-    "prayers": "Preghiere",
-    "premium": "Premium",
-    "about": "Chi siamo"
+  "prayers": {
+    "title": "Orari di preghiera",
+    "setYourPrayerTimes": "Imposta i tuoi orari di preghiera",
+    "prayerName": "Nome della preghiera",
+    "prayerTime": "Orario della preghiera",
+    "tradition": "Tradizione",
+    "time": "Orario",
+    "reminder": "Promemoria",
+    "sound": "Suono"
   },
   "bells": {
     "cathedral": "Campana di Cattedrale",
     "village": "Campana di Villaggio",
     "carillon": "Carillon"
   },
-  "prayers": {
-    "title": "Preghiere",
-    "configure": "Configura preghiere",
-    "tradition": "Tradizione",
-    "time": "Ora",
-    "reminder": "Promemoria",
-    "sound": "Suono"
+  "navigation": {
+    "home": "Home",
+    "settings": "Impostazioni",
+    "prayers": "Preghiere",
+    "premium": "Premium",
+    "about": "Chi siamo",
+    "prayerTimes": "Orari di preghiera"
+  },
+  "configuration": {
+    "yourSacredBellsSchedule": "Il tuo programma Sacred Bells"
   },
   "common": {
     "enable": "Attiva",

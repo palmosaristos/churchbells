@@ -1,48 +1,69 @@
 {
+  "app": {
+    "title": "Sacred Bells",
+    "tagline": "Let the sacred rhythm of church bells guide your day"
+  },
+  "welcome": {
+    "title": "Welcome to Sacred Bells",
+    "description": "Let the sacred sound of church bells guide you through the day",
+    "continue": "Continue"
+  },
+  "hero": {
+    "title": "Sacred Bells",
+    "subtitle": "Let the sacred rhythm of church bells guide your day"
+  },
   "permissions": {
     "title": "🔔 Permission requise",
     "description": "Pour que les cloches sonnent à l'heure exacte, même lorsque l'application est fermée, vous devez activer les alarmes et rappels.",
-    "subtitle": "Sans cette permission, les notifications pourraient être retardées de plusieurs minutes."
+    "subtitle": "Sans cette permission, les notifications pourraient être retardées de plusieurs minutes.",
+    "audio": "Audio",
+    "alarms": "Alarmes et rappels"
   },
   "settings": {
-    "title": "Paramètres",
-    "bells": "Cloches",
-    "prayers": "Prières",
-    "audio": "Audio",
-    "startTime": "Heure de début",
-    "endTime": "Heure de fin",
-    "halfHourChimes": "Demi-heures",
-    "tradition": "Tradition",
-    "volume": "Volume",
-    "save": "Enregistrer",
-    "nextChime": "Prochaine cloche à"
-  },
-  "navigation": {
-    "home": "Accueil",
-    "settings": "Paramètres",
-    "prayers": "Prières",
-    "premium": "Premium",
-    "about": "À propos"
-  },
-  "bells": {
-    "cathedral": "Cloche de Cathédrale",
-    "village": "Cloche de Village",
-    "carillon": "Carillon"
+    "title": "Settings",
+    "setYourBells": "Set your Bells",
+    "customizeYourBells": "Customize your bells",
+    "dailySchedule": "Daily schedule",
+    "bellsWillChimeEvery": "Bells will chime every {{interval}} from {{start}} to {{end}}",
+    "bellsDisabled": "Bells disabled (no sounds scheduled)",
+    "onEveryDay": "on EVERY DAY",
+    "onWeekends": "on WEEKENDS",
+    "onWeekdays": "on WEEKDAYS",
+    "withPauseFrom": "with a pause from {{start}} to {{end}}",
+    "overnight": "(overnight)"
   },
   "prayers": {
-    "title": "Prières",
-    "configure": "Configurer les prières",
+    "title": "Prayer Times",
+    "setYourPrayerTimes": "Set Your Prayer Times",
+    "prayerName": "Prayer name",
+    "prayerTime": "Prayer time",
     "tradition": "Tradition",
-    "time": "Heure",
-    "reminder": "Rappel",
-    "sound": "Son"
+    "time": "Time",
+    "reminder": "Reminder",
+    "sound": "Sound"
+  },
+  "bells": {
+    "cathedral": "Cathedral Bell",
+    "village": "Village Bell",
+    "carillon": "Carillon"
+  },
+  "navigation": {
+    "home": "Home",
+    "settings": "Settings",
+    "prayers": "Prayers",
+    "premium": "Premium",
+    "about": "About",
+    "prayerTimes": "Prayer Times"
+  },
+  "configuration": {
+    "yourSacredBellsSchedule": "Your Sacred Bells schedule"
   },
   "common": {
-    "enable": "Activer",
-    "disable": "Désactiver",
-    "save": "Enregistrer",
-    "cancel": "Annuler",
-    "close": "Fermer",
-    "back": "Retour"
+    "enable": "Enable",
+    "disable": "Disable",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "back": "Back"
   }
 }

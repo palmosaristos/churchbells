@@ -8,6 +8,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
+import { useTranslation } from 'react-i18next';
 
 interface WelcomeScreenProps {
   isOpen: boolean;
@@ -15,6 +16,8 @@ interface WelcomeScreenProps {
 }
 
 export const WelcomeScreen = ({ isOpen, onComplete }: WelcomeScreenProps) => {
+  const { t } = useTranslation();
+  
   return (
     <AlertDialog open={isOpen}>
       <AlertDialogContent className="max-w-2xl p-0 overflow-hidden border-amber-200/50 dark:border-amber-800/30">
@@ -28,10 +31,10 @@ export const WelcomeScreen = ({ isOpen, onComplete }: WelcomeScreenProps) => {
           <div className="relative -mt-20 px-8 pb-8">
             <AlertDialogHeader className="space-y-6">
               <AlertDialogTitle className="text-5xl md:text-6xl font-cinzel font-bold text-center text-foreground">
-                Welcome to Sacred Bells
+                {t('welcome.title')}
               </AlertDialogTitle>
               <AlertDialogDescription className="text-2xl md:text-3xl text-center font-cormorant text-amber-900 dark:text-amber-100 leading-relaxed italic">
-                Let the sacred sound of church bells guide you through the day
+                {t('welcome.description')}
               </AlertDialogDescription>
             </AlertDialogHeader>
             
@@ -41,7 +44,7 @@ export const WelcomeScreen = ({ isOpen, onComplete }: WelcomeScreenProps) => {
                 className="w-full text-lg py-6"
                 size="lg"
               >
-                Continue
+                {t('welcome.continue')}
               </Button>
             </AlertDialogFooter>
           </div>
