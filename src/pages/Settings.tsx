@@ -16,6 +16,7 @@ import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 const Settings = () => {
     const savedBellVolumes = localStorage.getItem("bellVolumes");
     const appEnabledValue = localStorage.getItem("appEnabled");
+    const savedTimeZone = localStorage.getItem("timeZone") || "UTC";
 
     const [selectedBellTradition, setSelectedBellTradition] = useState<string>(localStorage.getItem("bellTradition") || "cathedral-bell");
     const [startTime, setStartTime] = useState<string>(localStorage.getItem("startTime") || "08:00");
@@ -157,7 +158,7 @@ const Settings = () => {
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                  <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} halfHourChimes={halfHourChimes} onHalfHourChimesChange={setHalfHourChimes} pauseEnabled={pauseEnabled} onPauseEnabledChange={setPauseEnabled} pauseStartTime={pauseStartTime} pauseEndTime={pauseEndTime} onPauseStartTimeChange={setPauseStartTime} onPauseEndTimeChange={setPauseEndTime} selectedDays={selectedDays} onSelectedDaysChange={setSelectedDays} bellsEnabled={appEnabled} onBellsEnabledChange={handleAppEnabledChange} />
+                  <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} halfHourChimes={halfHourChimes} onHalfHourChimesChange={setHalfHourChimes} pauseEnabled={pauseEnabled} onPauseEnabledChange={setPauseEnabled} pauseStartTime={pauseStartTime} pauseEndTime={pauseEndTime} onPauseStartTimeChange={setPauseStartTime} onPauseEndTimeChange={setPauseEndTime} selectedDays={selectedDays} onSelectedDaysChange={setSelectedDays} bellsEnabled={appEnabled} onBellsEnabledChange={handleAppEnabledChange} timeZone={savedTimeZone} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
