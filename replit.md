@@ -11,9 +11,20 @@ Sacred Bells is a web-based application that allows users to schedule and play c
 - Configured Vite development server to run on port 5000 (Replit requirement)
 - Application now runs entirely locally without external dependencies
 
+**Multilingual Infrastructure (November 2025)**
+- Implemented complete i18n support using react-i18next
+- Created 3 comprehensive translation files (EN, FR, IT) with 300+ keys organized by section
+- Converted 15+ components to use translations (Navigation, Settings, Index, More, PrayerTimes, etc.)
+- Added language switcher in Navigation bar (mobile-friendly)
+- Translated all UI text: settings labels, bell names, prayer traditions, day names, buttons
+- Updated bellTraditions.ts data structure to support translation keys (nameKey field)
+
 ## User Preferences
 
-Preferred communication style: Simple, everyday language.
+- Preferred communication style: Simple, everyday language
+- Preferred language: French (français)
+- DO NOT modify UI/aesthetics unless explicitly asked
+- Complete multilingual support required
 
 ## System Architecture
 
@@ -68,7 +79,11 @@ Preferred communication style: Simple, everyday language.
 **Audio Assets**
 - Bell sound files stored in `/public/audio/` directory
 - MP3 format for cross-browser compatibility
-- Multiple bell traditions: campanology-bell.mp3, village-bell.mp3, byzantine-bells.mp3
+- Three bell traditions with multiple audio variations:
+  - Cathedral Bell: cathedral_1.mp3, cathedral_3.mp3
+  - Village Bell: village_3.mp3
+  - Carillon Bells: 12 variations (CARILLON_1.mp3 through CARILLON_12.mp3) - CARILLON_3.mp3 as default
+- Prayer call sounds: short_call.mp3, long_call.mp3
 
 **Development Tools**
 - **ESLint** with TypeScript support for code quality
