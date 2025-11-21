@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import realisticBellIcon from "@/assets/realistic-bell-icon.png";
@@ -20,6 +21,7 @@ interface AudioPermissionProps {
 }
 
 export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionProps) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasRetried, setHasRetried] = useState(false);
@@ -83,10 +85,10 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
           title: (
             <div className="flex items-center gap-3 font-cormorant text-2xl">
               <img src={realisticBellIcon} alt="" className="w-10 h-10" />
-              Permissions Granted
+              {t('permissions.title')}
             </div>
           ) as any,
-          description: 'The bells will ring at the exact time, even with the app closed!',
+          description: t('permissions.readyDesc'),
           variant: 'onboarding',
           duration: 4000
         });
@@ -166,10 +168,10 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
           title: (
             <div className="flex items-center gap-3 font-cormorant text-2xl">
               <img src={realisticBellIcon} alt="" className="w-10 h-10" />
-              Ready!
+              {t('permissions.ready')}
             </div>
           ) as any,
-          description: 'The bells will chime at the scheduled times',
+          description: t('permissions.readyDesc'),
           variant: 'onboarding',
           duration: 4000
         });
@@ -199,16 +201,16 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-3 justify-center font-cormorant text-3xl">
             <img src={realisticBellIcon} alt="" className="w-12 h-12" />
-            Required Permissions
+            {t('permissions.title')}
             <img src={churchClock} alt="" className="w-12 h-12" />
           </AlertDialogTitle>
           <AlertDialogDescription className="text-center text-lg font-cormorant space-y-3">
             <p>
-              To make the bells chime at the exact time, two permissions are required:
+              {t('permissions.description')}
             </p>
             <div className="text-left bg-amber-50 dark:bg-amber-950/30 p-3 rounded-lg space-y-2 text-base">
-              <p>🔔 <strong>Audio</strong>: To play the bell sounds</p>
-              <p>⏰ <strong>Alarms and Reminders</strong>: To ring at the precise time (otherwise, delays of several minutes)</p>
+              <p>{t('permissions.audio')}: {t('permissions.audioDesc')}</p>
+              <p>{t('permissions.alarms')}: {t('permissions.alarmsDesc')}</p>
             </div>
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -222,17 +224,17 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
             {waitingForPermission ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                En attente de la permission...
+                {t('permissions.waitingForPermission')}
               </>
             ) : isLoading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Ouverture des paramètres...
+                {t('permissions.openingSettings')}
               </>
             ) : (
               <>
                 <img src={realisticBellIcon} alt="" className="h-4 w-4" />
-                {hasRetried ? 'Retry' : 'Grant Permissions'}
+                {hasRetried ? t('permissions.retry') : t('permissions.grantPermissions')}
               </>
             )}
           </Button>
@@ -254,15 +256,15 @@ export const AudioPermission = ({ onAudioPermissionGranted }: AudioPermissionPro
                 setIsLoading(false);
                 
                 toast({
-                  title: "⚠️ Précision réduite",
-                  description: "Les cloches pourront être retardées de plusieurs minutes. Vous pouvez activer la permission plus tard dans les paramètres Android.",
+                  title: t('permissions.reducedPrecision'),
+                  description: t('permissions.reducedPrecisionDesc'),
                   variant: "destructive",
                   duration: 8000
                 });
               }} 
               className="w-full"
             >
-              Passer (les cloches risquent d'être retardées)
+              {t('permissions.skip')}
             </Button>
           )}
         </AlertDialogFooter>

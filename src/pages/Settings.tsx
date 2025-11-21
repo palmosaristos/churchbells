@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigation } from "@/components/Navigation";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { BellSoundSelection } from "@/components/BellSoundSelection";
@@ -14,6 +15,7 @@ import churchBellNew from "@/assets/church-bell-new.png";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 
 const Settings = () => {
+    const { t } = useTranslation();
     const savedBellVolumes = localStorage.getItem("bellVolumes");
     const appEnabledValue = localStorage.getItem("appEnabled");
     const savedTimeZone = localStorage.getItem("timeZone") || "UTC";
@@ -107,15 +109,15 @@ const Settings = () => {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto animate-fade-in-up">
               <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 px-8 md:px-12 py-1 md:py-2 relative">
-                <img src={churchBellTransparent} alt="Church bell" className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
-                <img src={churchBellNew} alt="Church bell" className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
-                <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">Set your Bell Times</h1>
+                <img src={churchBellTransparent} alt={t('app.title')} className="absolute top-4 left-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
+                <img src={churchBellNew} alt={t('app.title')} className="absolute top-4 right-4 w-12 h-12 md:w-16 md:h-16 drop-shadow-lg" />
+                <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">{t('settings.title')}</h1>
               </div>
 
               {/* Bell Toggle - Always Visible */}
               <div className="flex items-center justify-end gap-3 px-4 mt-2">
                 <Label htmlFor="bells-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
-                  Bells
+                  {t('settings.bells')}
                 </Label>
                 <Switch 
                   id="bells-main-toggle" 
@@ -124,7 +126,7 @@ const Settings = () => {
                   className="data-[state=checked]:bg-primary"
                 />
                 <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
-                  {appEnabled ? 'ON' : 'OFF'}
+                  {appEnabled ? t('settings.on') : t('settings.off')}
                 </span>
               </div>
             </div>
@@ -141,7 +143,7 @@ const Settings = () => {
                 <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                   <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
                     <Volume2 className="w-6 h-6 text-primary" />
-                    Choose Your Bell Sound
+                    {t('settings.chooseBellSound')}
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
@@ -154,7 +156,7 @@ const Settings = () => {
                 <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
                   <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
                     <Clock className="w-6 h-6 text-primary" />
-                    Daily Bell Schedule
+                    {t('settings.dailyBellSchedule')}
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
@@ -169,44 +171,34 @@ const Settings = () => {
             <div className="bg-gradient-vespers border-burgundy/20 rounded-[2rem] shadow-2xl border-2 p-8 md:p-10 flex items-center justify-center max-w-2xl mx-auto">
               <div className="text-center space-y-4">
                 <h3 className="text-3xl md:text-4xl font-cinzel font-bold text-burgundy-foreground">
-                  Share the Bells
+                  {t('settings.shareBells')}
                 </h3>
                 <p className="text-xl md:text-2xl font-cormorant text-burgundy-foreground/90 leading-relaxed max-w-2xl mx-auto">
-                  Bells have united communities for centuries, bring the sacred sound of church bells to your loved ones
+                  {t('settings.shareBellsDescription')}
                 </p>
                 <div className="mt-4 space-y-3">
                   <p className="text-lg font-cormorant text-burgundy-foreground/80">
-                    share our app via
+                    {t('settings.shareVia')}
                   </p>
                   <div className="flex flex-wrap gap-3 justify-center">
                     <Button onClick={() => {
-                    const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
+                    const text = encodeURIComponent(t('settings.shareMessage', { url: window.location.origin }));
                     window.open(`https://wa.me/?text=${text}`, '_blank');
                   }} className="text-lg font-cormorant px-6 py-5 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" size="lg">
-                      WhatsApp
+                      {t('settings.whatsapp')}
                     </Button>
                     <Button onClick={() => {
-                    const subject = encodeURIComponent('A beautiful app I thought you\'d appreciate');
-                    const body = encodeURIComponent(`Hi,
-
-  I wanted to share something special with you. I've been using Sacred Bells, an app that recreates the traditional rhythm of church bells throughout the day.
-
-  It's been a wonderful way to stay connected to the sacred rhythm that churches have maintained for centuries.
-
-  I think you might enjoy it too!
-
-  Download: ${window.location.origin}
-
-  Blessings`);
+                    const subject = encodeURIComponent(t('settings.shareEmailSubject'));
+                    const body = encodeURIComponent(t('settings.shareEmailBody', { url: window.location.origin }));
                     window.location.href = `mailto:?subject=${subject}&body=${body}`;
                   }} className="text-lg font-cormorant px-6 py-5 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" size="lg">
-                      Email
+                      {t('settings.email')}
                     </Button>
                     <Button onClick={() => {
-                    const text = encodeURIComponent(`🔔 Check out Sacred Bells! It's like having a church bell tower in your pocket. Beautiful way to mark the time throughout the day: ${window.location.origin}`);
+                    const text = encodeURIComponent(t('settings.shareMessage', { url: window.location.origin }));
                     window.location.href = `sms:?body=${text}`;
                   }} className="text-lg font-cormorant px-6 py-5 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" size="lg">
-                      SMS
+                      {t('settings.sms')}
                     </Button>
                   </div>
                 </div>

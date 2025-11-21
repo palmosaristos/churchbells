@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -72,49 +73,6 @@ interface PrayerTradition {
   times: PrayerTime[];
 }
 
-const prayerTraditions: PrayerTradition[] = [
-  {
-    name: "Roman Catholic",
-    icon: <Cross className="h-5 w-5" />,
-    color: "burgundy",
-    times: [
-      { name: "Matins", time: "00:00", description: "Office of Readings during the night" },
-      { name: "Lauds", time: "06:00", description: "Morning prayer at dawn" },
-      { name: "Prime", time: "07:00", description: "First hour" },
-      { name: "Terce", time: "09:00", description: "Third hour" },
-      { name: "Sext", time: "12:00", description: "Sixth hour (midday)" },
-      { name: "None", time: "15:00", description: "Ninth hour" },
-      { name: "Vespers", time: "18:00", description: "Evening prayer" },
-      { name: "Compline", time: "21:00", description: "Night prayer" },
-    ]
-  },
-  {
-    name: "Orthodox",
-    icon: <Church className="h-5 w-5" />,
-    color: "gold",
-    times: [
-      { name: "Midnight Office", time: "00:00", description: "Vigil prayer" },
-      { name: "Orthros", time: "06:00", description: "Morning office" },
-      { name: "First Hour", time: "07:00", description: "Early morning" },
-      { name: "Third Hour", time: "09:00", description: "Mid-morning" },
-      { name: "Sixth Hour", time: "12:00", description: "Midday" },
-      { name: "Ninth Hour", time: "15:00", description: "Afternoon" },
-      { name: "Vespers", time: "18:00", description: "Evening service" },
-      { name: "Apodeipnon", time: "21:00", description: "Compline" },
-    ]
-  },
-  {
-    name: "Anglican",
-    icon: <Bell className="h-5 w-5" />,
-    color: "blue",
-    times: [
-      { name: "Morning Prayer", time: "06:00", description: "Dawn worship" },
-      { name: "Midday Prayer", time: "12:00", description: "Noon devotion" },
-      { name: "Evening Prayer", time: "18:00", description: "Evensong" },
-      { name: "Compline", time: "21:00", description: "Night prayer" },
-    ]
-  },
-];
 
 interface PrayerTimesSelectorProps {
   selectedTradition?: string;
@@ -136,6 +94,52 @@ export const PrayerTimesSelector = ({
   onTimesSelect,
   timeZone = 'UTC',
 }: PrayerTimesSelectorProps) => {
+  const { t } = useTranslation();
+  
+  const prayerTraditions: PrayerTradition[] = [
+    {
+      name: t('prayerTraditions.romanCatholic'),
+      icon: <Cross className="h-5 w-5" />,
+      color: "burgundy",
+      times: [
+        { name: t('prayerTraditions.matins'), time: "00:00", description: t('prayerTraditions.matinsDesc') },
+        { name: t('prayerTraditions.lauds'), time: "06:00", description: t('prayerTraditions.laudsDesc') },
+        { name: t('prayerTraditions.prime'), time: "07:00", description: t('prayerTraditions.primeDesc') },
+        { name: t('prayerTraditions.terce'), time: "09:00", description: t('prayerTraditions.terceDesc') },
+        { name: t('prayerTraditions.sext'), time: "12:00", description: t('prayerTraditions.sextDesc') },
+        { name: t('prayerTraditions.none'), time: "15:00", description: t('prayerTraditions.noneDesc') },
+        { name: t('prayerTraditions.vespers'), time: "18:00", description: t('prayerTraditions.vespersDesc') },
+        { name: t('prayerTraditions.compline'), time: "21:00", description: t('prayerTraditions.complineDesc') },
+      ]
+    },
+    {
+      name: t('prayerTraditions.orthodox'),
+      icon: <Church className="h-5 w-5" />,
+      color: "gold",
+      times: [
+        { name: t('prayerTraditions.midnightOffice'), time: "00:00", description: t('prayerTraditions.midnightOfficeDesc') },
+        { name: t('prayerTraditions.orthros'), time: "06:00", description: t('prayerTraditions.orthrosDesc') },
+        { name: t('prayerTraditions.firstHour'), time: "07:00", description: t('prayerTraditions.firstHourDesc') },
+        { name: t('prayerTraditions.thirdHour'), time: "09:00", description: t('prayerTraditions.thirdHourDesc') },
+        { name: t('prayerTraditions.sixthHour'), time: "12:00", description: t('prayerTraditions.sixthHourDesc') },
+        { name: t('prayerTraditions.ninthHour'), time: "15:00", description: t('prayerTraditions.ninthHourDesc') },
+        { name: t('prayerTraditions.vespers'), time: "18:00", description: t('prayerTraditions.eveningService') },
+        { name: t('prayerTraditions.apodeipnon'), time: "21:00", description: t('prayerTraditions.compline') },
+      ]
+    },
+    {
+      name: t('prayerTraditions.anglican'),
+      icon: <Bell className="h-5 w-5" />,
+      color: "blue",
+      times: [
+        { name: t('prayerTraditions.morningPrayer'), time: "06:00", description: t('prayerTraditions.morningPrayerDesc') },
+        { name: t('prayerTraditions.middayPrayer'), time: "12:00", description: t('prayerTraditions.middayPrayerDesc') },
+        { name: t('prayerTraditions.eveningPrayer'), time: "18:00", description: t('prayerTraditions.eveningPrayerDesc') },
+        { name: t('prayerTraditions.compline'), time: "21:00", description: t('prayerTraditions.complineDesc') },
+      ]
+    },
+  ];
+  
   const tradition = prayerTraditions.find(t => t.name === selectedTradition) || prayerTraditions[0];
   const [localTimes, setLocalTimes] = useState<PrayerTime[]>(
     tradition.times.map(t => ({ ...t, selected: false }))
@@ -195,8 +199,8 @@ export const PrayerTimesSelector = ({
   return (
     <Card className="relative overflow-hidden bg-gradient-to-br from-amber-50/50 to-secondary/30 dark:from-amber-950/20 dark:to-secondary/10 border-2 border-amber-200/30 dark:border-amber-800/20 shadow-lg backdrop-blur-sm transition-all hover:shadow-xl hover:border-amber-300/40">
       <CardHeader>
-        <CardTitle className="text-2xl font-cormorant text-center">Prayer Times</CardTitle>
-        <CardDescription className="text-center">Select tradition and times for bell calls</CardDescription>
+        <CardTitle className="text-2xl font-cormorant text-center">{t('prayerTimes.title')}</CardTitle>
+        <CardDescription className="text-center">{t('prayerTraditions.selectTradition')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Tabs value={selectedTradition} onValueChange={onTraditionSelect}>
@@ -212,7 +216,7 @@ export const PrayerTimesSelector = ({
           {prayerTraditions.map(trad => (
             <TabsContent key={trad.name} value={trad.name} className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-lg font-semibold">Select Times</Label>
+                <Label className="text-lg font-semibold">{t('prayerTraditions.selectTimes')}</Label>
                 {trad.times.map((time, idx) => (
                   <div key={time.name} className="flex items-center space-x-2 p-3 rounded-md bg-background/50 border border-border/50">
                     <Checkbox 

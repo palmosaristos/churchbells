@@ -5,6 +5,7 @@ import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { AppToggle } from "@/components/AppToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
+import { useTranslation } from "react-i18next";
 import { Settings, Clock, MoreHorizontal } from "lucide-react";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
@@ -14,13 +15,14 @@ interface NavigationProps {
 }
 
 export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps) {
+  const { t } = useTranslation();
   const location = useLocation();
   const currentPath = location.pathname;
   const isMobile = useIsMobile();
   const { toggleAudio } = useAudioPlayer();
 
   const handleBellClick = () => {
-    toggleAudio({ audioUrl: "/audio/cathedral_1.mp3", traditionName: "Sacred Bells", type: 'bell' });
+    toggleAudio({ audioUrl: "/audio/cathedral_1.mp3", traditionName: t('app.title'), type: 'bell' });
   };
 
   return (
@@ -39,14 +41,14 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           <button 
             onClick={handleBellClick}
             className={`absolute left-1/2 -translate-x-1/2 flex items-center gap-2 ${isMobile ? 'text-xl' : 'text-3xl'} font-bold text-foreground font-cinzel hover:opacity-80 transition-opacity cursor-pointer`}
-            aria-label="Jouer le son de la cloche sacrée"
+            aria-label={t('app.title')}
           >
             <img 
               src={churchBellImage} 
-              alt="Sacred Bell" 
+              alt={t('app.title')} 
               className={`${isMobile ? 'w-7 h-7' : 'w-10 h-10'} object-contain filter drop-shadow-sm`}
             />
-            {!isMobile && "Sacred Bells"}
+            {!isMobile && t('app.title')}
           </button>
 
           {/* Right: Theme Toggle + Language Switcher */}
@@ -62,10 +64,10 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
-            aria-label="Aller à la page d'accueil"
+            aria-label={t('navigation.home')}
           >
             <Link to="/" className="flex items-center gap-1">
-              <span>Home</span>
+              <span>{t('navigation.home')}</span>
             </Link>
           </Button>
 
@@ -73,11 +75,11 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/settings" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
-            aria-label="Aller à la page des paramètres"
+            aria-label={t('navigation.settings')}
           >
             <Link to="/settings" className="flex items-center gap-1">
               <Settings className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              <span>Settings</span>
+              <span>{t('navigation.settings')}</span>
             </Link>
           </Button>
 
@@ -85,11 +87,11 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/prayer-times" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
-            aria-label="Aller à la page des heures de prière"
+            aria-label={t('navigation.prayerTimes')}
           >
             <Link to="/prayer-times" className="flex items-center gap-1">
               <Clock className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              <span>Prayer Times</span>
+              <span>{t('navigation.prayerTimes')}</span>
             </Link>
           </Button>
 
@@ -97,10 +99,10 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
             variant={currentPath === "/more" ? "default" : "ghost"}
             asChild
             className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
-            aria-label="Aller à la page More"
+            aria-label={t('navigation.more')}
           >
             <Link to="/more" className="flex items-center gap-1">
-              <span>More</span>
+              <span>{t('navigation.more')}</span>
             </Link>
           </Button>
           

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { CurrentConfiguration } from "@/components/CurrentConfiguration";
@@ -18,6 +19,7 @@ import { useState as useReactState, useCallback } from "react";
 import { debugLog } from "@/utils/debugLog";
 
 const Index = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => {
     return localStorage.getItem("bellTradition") || "cathedral-bell";
@@ -239,7 +241,7 @@ const Index = () => {
           <>
             <Accordion type="single" collapsible defaultValue="bells-schedule" className="w-full">
               <AccordionItem value="bells-schedule">
-                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Sacred Bells schedule</AccordionTrigger>
+                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">{t('index.yourBellsSchedule')}</AccordionTrigger>
                 <AccordionContent>
                   <CurrentConfiguration
                     selectedBellTradition={selectedBellTradition}
@@ -256,7 +258,7 @@ const Index = () => {
               </AccordionItem>
 
               <AccordionItem value="prayers">
-                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Prayer</AccordionTrigger>
+                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">{t('index.yourPrayer')}</AccordionTrigger>
                 <AccordionContent>
                   <PrayerConfiguration
                     prayerEnabled={prayerEnabled}
@@ -271,7 +273,7 @@ const Index = () => {
               </AccordionItem>
 
               <AccordionItem value="premium">
-                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">Your Premium Status</AccordionTrigger>
+                <AccordionTrigger className="font-cormorant text-3xl font-bold text-foreground">{t('index.yourPremiumStatus')}</AccordionTrigger>
                 <AccordionContent>
                   <PremiumConfiguration isPremiumMember={isPremiumMember} />
                 </AccordionContent>

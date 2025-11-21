@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -40,16 +41,6 @@ const generateTimeOptions = () => {
 
 const timeOptions = generateTimeOptions();
 
-const daysOfWeek = [
-  { id: 'monday', label: 'Mon' },
-  { id: 'tuesday', label: 'Tue' },
-  { id: 'wednesday', label: 'Wed' },
-  { id: 'thursday', label: 'Thu' },
-  { id: 'friday', label: 'Fri' },
-  { id: 'saturday', label: 'Sat' },
-  { id: 'sunday', label: 'Sun' }
-];
-
 export const CurrentConfiguration = ({
   selectedBellTradition,
   startTime,
@@ -61,6 +52,17 @@ export const CurrentConfiguration = ({
   pauseEndTime = "14:00",
   bellsEnabled = true,
 }: CurrentConfigurationProps) => {
+  const { t } = useTranslation();
+  
+  const daysOfWeek = [
+    { id: 'monday', label: t('days.monday') },
+    { id: 'tuesday', label: t('days.tuesday') },
+    { id: 'wednesday', label: t('days.wednesday') },
+    { id: 'thursday', label: t('days.thursday') },
+    { id: 'friday', label: t('days.friday') },
+    { id: 'saturday', label: t('days.saturday') },
+    { id: 'sunday', label: t('days.sunday') }
+  ];
   // Get timezone from localStorage
   const timeZone = localStorage.getItem("timeZone") || "UTC";
   
@@ -84,8 +86,13 @@ export const CurrentConfiguration = ({
     if (id === 'village-bell') return churchBellTransparent;
     return churchBellNew;
   };
+  
+  const getBellName = (id: string) => {
+    const bell = bellTraditions.find(b => b.id === id);
+    return bell ? t(bell.nameKey) : id;
+  };
 
-  const selectedBell = bellTraditions.find(t => t.id === selectedBellTradition);
+  const selectedBell = bellTraditions.find(bell => bell.id === selectedBellTradition);
   const settingsConfigured = localStorage.getItem("settingsConfigured") === "true";
 
   return (
@@ -96,7 +103,7 @@ export const CurrentConfiguration = ({
             <Link to="/settings">
               <Button variant="amber" size="lg" className="text-xl px-12 py-8 h-auto rounded-2xl gap-4">
                 <Bell className="w-6 h-6" />
-                Set your Bells
+                {t('currentConfig.setYourBells')}
                 <Bell className="w-6 h-6" />
               </Button>
             </Link>
@@ -111,7 +118,7 @@ export const CurrentConfiguration = ({
                   className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
                 />
                 <p className="font-cormorant text-xl text-foreground">
-                  {selectedBell?.name}
+                  {getBellName(selectedBellTradition)}
                 </p>
               </div>
               
@@ -122,7 +129,7 @@ export const CurrentConfiguration = ({
                   className="w-8 h-8 object-contain filter drop-shadow-sm flex-shrink-0"
                 />
                 <div className="flex flex-col items-start">
-                  <p className="text-lg font-cormorant text-foreground">Daily schedule</p>
+                  <p className="text-lg font-cormorant text-foreground">{t('currentConfig.dailySchedule')}</p>
                   <p className="font-cormorant text-xl text-foreground">{startTime} - {endTime}</p>
                 </div>
               </div>
@@ -131,17 +138,21 @@ export const CurrentConfiguration = ({
             <div className="text-center mt-2 p-4 rounded-lg bg-gradient-dawn border">
               <p className="text-xl text-foreground font-cormorant text-center">
                 {bellsEnabled 
-                  ? `Bells will chime every ${halfHourChimes ? 'half hour' : 'hour'} from ${timeOptions.find(t => t.value === startTime)?.label || startTime} to ${timeOptions.find(t => t.value === endTime)?.label || endTime}`
-                  : 'Bells disabled (no sounds scheduled)'
+                  ? t('currentConfig.bellsWillChimeEvery', { 
+                      interval: halfHourChimes ? t('currentConfig.halfHour') : t('currentConfig.hour'), 
+                      start: timeOptions.find(t => t.value === startTime)?.label || startTime,
+                      end: timeOptions.find(t => t.value === endTime)?.label || endTime
+                    })
+                  : t('currentConfig.bellsDisabled')
                 }
                 {selectedDays.length > 0 && (
                   <>
-                    {' '}on {selectedDays.length === 7 ? (
-                      <span className="font-cinzel font-semibold">EVERY DAY</span>
+                    {' '}{t('currentConfig.on')}{' '}{selectedDays.length === 7 ? (
+                      <span className="font-cinzel font-semibold">{t('currentConfig.everyDay')}</span>
                     ) : selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday') ? (
-                      <span className="font-cinzel font-semibold">WEEKENDS</span>
+                      <span className="font-cinzel font-semibold">{t('currentConfig.weekends')}</span>
                     ) : selectedDays.length === 5 && !selectedDays.includes('saturday') && !selectedDays.includes('sunday') ? (
-                      <span className="font-cinzel font-semibold">WEEKDAYS</span>
+                      <span className="font-cinzel font-semibold">{t('currentConfig.weekdays')}</span>
                     ) : (
                       <span className="font-cinzel font-semibold">
                         {selectedDays.map(day => daysOfWeek.find(d => d.id === day)?.label).join(', ').toUpperCase()}
@@ -152,10 +163,11 @@ export const CurrentConfiguration = ({
                 {nextChimeText}
                 {pauseEnabled && (
                   <>
-                    , with a pause from{' '}
-                    <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
-                    <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
-                    {pauseStartTime > pauseEndTime ? ' (overnight)' : ''}
+                    , {t('currentConfig.withPauseFrom', {
+                      start: timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime,
+                      end: timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime
+                    })}
+                    {pauseStartTime > pauseEndTime ? ` ${t('currentConfig.overnight')}` : ''}
                   </>
                 )}
               </p>
@@ -165,7 +177,7 @@ export const CurrentConfiguration = ({
               <Link to="/settings">
                 <Button variant="outline" className="gap-2">
                   <Settings className="w-4 h-4" />
-                  Customize your bells
+                  {t('currentConfig.customizeYourBells')}
                 </Button>
               </Link>
             </div>

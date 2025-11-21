@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Bell, BellOff } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
@@ -8,15 +9,16 @@ interface AppToggleProps {
 }
 
 export function AppToggle({ isEnabled, onToggle }: AppToggleProps) {
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   const handleToggle = (enabled: boolean) => {
     onToggle(enabled);
     toast({
-      title: enabled ? "App Activated" : "App Deactivated",
+      title: enabled ? t('appToggle.activated') : t('appToggle.deactivated'),
       description: enabled 
-        ? "Sacred Bells will now ring at scheduled times" 
-        : "All bell notifications are paused",
+        ? t('appToggle.activatedDesc')
+        : t('appToggle.deactivatedDesc'),
     });
   };
 
@@ -31,7 +33,7 @@ export function AppToggle({ isEnabled, onToggle }: AppToggleProps) {
         checked={isEnabled}
         onCheckedChange={handleToggle}
         className="data-[state=checked]:bg-primary"
-        aria-label={isEnabled ? "Deactivate app" : "Activate app"}
+        aria-label={isEnabled ? t('appToggle.deactivate') : t('appToggle.activate')}
       />
     </div>
   );

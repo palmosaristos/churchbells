@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -24,6 +25,8 @@ export const PrayerConfiguration = ({
   reminders = [],
   reminderWithBell = false,
 }: PrayerConfigurationProps) => {
+  const { t } = useTranslation();
+  
   // ✅ VALIDATION ROBUSTE (inchangée)
   const isValidTime = useMemo(() => {
     return /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(prayerTime);
@@ -55,8 +58,8 @@ export const PrayerConfiguration = ({
   const displayTime = useMemo(() => {
     if (!prayerEnabled || !prayerTime || !isValidTime) {
       return { 
-        time: "Bells silent", 
-        subtitle: prayerEnabled ? "Invalid time" : "Prayer notifications disabled" 
+        time: t('currentConfig.bellsDisabled'), 
+        subtitle: prayerEnabled ? "Invalid time" : t('prayerTimes.off')
       };
     }
     
@@ -145,7 +148,7 @@ export const PrayerConfiguration = ({
               </>
             ) : (
               <p className="font-cormorant text-lg text-muted-foreground">
-                Prayer not configured
+                {t('prayerTimes.prayerPlaceholder')} not configured
               </p>
             )}
           </div>
@@ -159,10 +162,10 @@ export const PrayerConfiguration = ({
               variant="amber" 
               size="lg" 
               className="gap-3 font-cormorant text-lg font-semibold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
-              aria-label="Configure prayer time"
+              aria-label={t('prayerTimes.setYourPrayerTimes')}
             >
               <Clock className="w-5 h-5" />
-              {isConfigured ? 'Modify prayer time' : 'Set prayer time'}
+              {isConfigured ? t('prayerTimes.setYourPrayerTimes') : t('prayerTimes.setYourPrayerTimes')}
             </Button>
           </Link>
         </div>

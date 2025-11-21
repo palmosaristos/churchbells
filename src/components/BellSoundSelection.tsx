@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { BellTraditionCard } from "@/components/BellTraditionCard";
 import { bellTraditions } from "@/data/bellTraditions";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
@@ -23,10 +24,19 @@ export const BellSoundSelection = ({
   isPlaying,
   currentAudioUrl
 }: BellSoundSelectionProps) => {
+  const { t } = useTranslation();
+  
   const getBellImage = (id: string) => {
     if (id === 'carillon-bell') return carillonBells;
     if (id === 'village-bell') return churchBellTransparent;
     return churchBellNew;
+  };
+  
+  const getBellName = (id: string) => {
+    if (id === 'cathedral-bell') return t('bells.cathedral');
+    if (id === 'village-bell') return t('bells.village');
+    if (id === 'carillon-bell') return t('bells.carillon');
+    return id;
   };
 
   return (
@@ -35,13 +45,13 @@ export const BellSoundSelection = ({
         {bellTraditions.map(tradition => (
           <BellTraditionCard
             key={tradition.id}
-            title={tradition.name}
+            title={getBellName(tradition.id)}
             image={getBellImage(tradition.id)}
             isSelected={selectedBellTradition === tradition.id}
             onSelect={() => onSelect(tradition.id)}
             onPlay={() => toggleAudio({ 
               audioUrl: tradition.audioSample, 
-              traditionName: tradition.name, 
+              traditionName: getBellName(tradition.id), 
               type: 'bell',
               volume: bellVolumes[tradition.id] || 0.7
             })}

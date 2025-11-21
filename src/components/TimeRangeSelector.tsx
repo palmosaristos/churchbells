@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -68,16 +69,6 @@ const generateEndTimeOptions = (startTime: string) => {
   });
 };
 
-const daysOfWeek = [  // Original
-  { id: 'monday', label: 'Mon' },
-  { id: 'tuesday', label: 'Tue' },
-  { id: 'wednesday', label: 'Wed' },
-  { id: 'thursday', label: 'Thu' },
-  { id: 'friday', label: 'Fri' },
-  { id: 'saturday', label: 'Sat' },
-  { id: 'sunday', label: 'Sun' }
-];
-
 const DAY_MAP = {  // Pour scheduler align (current.raw.getDay() vs selected)
   'sunday': 0, 'monday': 1, 'tuesday': 2, 'wednesday': 3, 'thursday': 4,
   'friday': 5, 'saturday': 6
@@ -104,6 +95,18 @@ export const TimeRangeSelector = ({
   bellTradition = 'sacred-bells',  // Default
   onBellTraditionChange
 }: TimeRangeSelectorProps) => {
+  const { t } = useTranslation();
+  
+  const daysOfWeek = [
+    { id: 'monday', label: t('days.monday') },
+    { id: 'tuesday', label: t('days.tuesday') },
+    { id: 'wednesday', label: t('days.wednesday') },
+    { id: 'thursday', label: t('days.thursday') },
+    { id: 'friday', label: t('days.friday') },
+    { id: 'saturday', label: t('days.saturday') },
+    { id: 'sunday', label: t('days.sunday') }
+  ];
+  
   // Persistence localStorage (pour scheduler options reload)
   useEffect(() => {
     if (bellsEnabled) {
@@ -147,7 +150,7 @@ export const TimeRangeSelector = ({
         <CardContent className="space-y-6 pt-6">
           {/* Quick Configurations – Full original */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground text-center italic block">Quick Configurations</Label>
+            <Label className="text-3xl font-cormorant text-foreground text-center italic block">{t('timeRange.quickConfigurations')}</Label>
             <div className="flex flex-wrap gap-3 justify-center">
               <button
                 type="button"
@@ -163,9 +166,9 @@ export const TimeRangeSelector = ({
                     ? 'border-4 border-amber-500' 
                     : 'border border-amber-300/50 dark:border-amber-700/50'
                 }`}
-                aria-label="Configuration 24/7"
+                aria-label={t('timeRange.allDay')}
               >
-                24/7
+                {t('timeRange.allDay')}
               </button>
               <button
                 type="button"
@@ -181,9 +184,9 @@ export const TimeRangeSelector = ({
                     ? 'border-4 border-amber-500' 
                     : 'border border-amber-300/50 dark:border-amber-700/50'
                 }`}
-                aria-label="Configuration de 7h à 22h"
+                aria-label={t('timeRange.from7to10')}
               >
-                From 7 AM to 10 PM
+                {t('timeRange.from7to10')}
               </button>
               <button
                 type="button"
@@ -199,30 +202,30 @@ export const TimeRangeSelector = ({
                     ? 'border-4 border-amber-500' 
                     : 'border border-amber-300/50 dark:border-amber-700/50'
                 }`}
-                aria-label="Configuration week-end uniquement"
+                aria-label={t('timeRange.onlyWeekend')}
               >
-                Only the weekend
+                {t('timeRange.onlyWeekend')}
               </button>
             </div>
           </div>
 
           {/* Custom Schedule Section */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground text-center italic block">Custom Schedule</Label>
+            <Label className="text-3xl font-cormorant text-foreground text-center italic block">{t('timeRange.customSchedule')}</Label>
           </div>
 
           {/* Schedule Hours Sub-section */}
           <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
-            <Label className="text-2xl font-semibold font-cormorant text-foreground block">Schedule Hours</Label>
+            <Label className="text-2xl font-semibold font-cormorant text-foreground block">{t('timeRange.scheduleHours')}</Label>
             
             <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4">
               <div className="flex items-end gap-2 flex-1">
                 <Label htmlFor="start-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
-                  Start:
+                  {t('timeRange.start')}
                 </Label>
                 <Select value={startTime} onValueChange={onStartTimeChange}>
-                  <SelectTrigger id="start-time" aria-label="Sélectionner l'heure de début" className="w-[140px]">
-                    <SelectValue placeholder="Select start time" />
+                  <SelectTrigger id="start-time" aria-label={t('timeRange.selectStartTime')} className="w-[140px]">
+                    <SelectValue placeholder={t('timeRange.selectStartTime')} />
                   </SelectTrigger>
                   <SelectContent>
                     {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
@@ -234,11 +237,11 @@ export const TimeRangeSelector = ({
               
               <div className="flex items-end gap-2 flex-1">
                 <Label htmlFor="end-time" className="text-2xl font-cormorant text-foreground whitespace-nowrap">
-                  End:
+                  {t('timeRange.end')}
                 </Label>
                 <Select value={endTime} onValueChange={onEndTimeChange}>
-                  <SelectTrigger id="end-time" aria-label="Sélectionner l'heure de fin" className="w-[140px]">
-                    <SelectValue placeholder="Select end time" />
+                  <SelectTrigger id="end-time" aria-label={t('timeRange.selectEndTime')} className="w-[140px]">
+                    <SelectValue placeholder={t('timeRange.selectEndTime')} />
                   </SelectTrigger>
                   <SelectContent>
                     {generateEndTimeOptions(startTime).map(time => <SelectItem key={time.value} value={time.value}>
@@ -254,7 +257,7 @@ export const TimeRangeSelector = ({
 
           {/* Active Days Sub-section */}
           <div className="space-y-4 p-4 rounded-lg bg-white/30 dark:bg-slate-800/20 border border-amber-200/30 dark:border-amber-800/20">
-            <Label className="text-2xl font-semibold font-cormorant text-foreground block">Active Days</Label>
+            <Label className="text-2xl font-semibold font-cormorant text-foreground block">{t('timeRange.activeDays')}</Label>
             <div className="flex flex-wrap gap-3 justify-center">
               {daysOfWeek.map(day => <button key={day.id} type="button" onClick={() => handleDayToggle(day.id)} className={`w-16 h-16 rounded-full font-cormorant text-lg transition-all flex items-center justify-center gap-0.5 ${selectedDays.includes(day.id) ? 'bg-amber-100 dark:bg-amber-900/40 border-4 border-amber-500 text-amber-900 dark:text-amber-100 shadow-md' : 'bg-white/50 dark:bg-slate-800/50 border-2 border-amber-300/50 dark:border-amber-700/30 text-muted-foreground hover:border-amber-400'}`}>
                   <span>{day.label}</span>
@@ -271,7 +274,7 @@ export const TimeRangeSelector = ({
           <div className={`space-y-4 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 ${pauseEnabled ? 'border-4 border-amber-500' : 'border border-amber-300/50 dark:border-amber-700/50'}`}>
             <div className="flex items-center justify-between">
               <Label htmlFor="pause-switch" className="text-xl font-cormorant text-foreground">
-                🔕 Quiet Hours (optional)
+                {t('timeRange.quietHours')}
               </Label>
               <Switch id="pause-switch" checked={pauseEnabled} onCheckedChange={onPauseEnabledChange} disabled={!onPauseEnabledChange} />
             </div>
@@ -279,11 +282,11 @@ export const TimeRangeSelector = ({
             {pauseEnabled && <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <div className="flex items-center gap-2">
                   <Label htmlFor="pause-start-time" className="text-lg font-cormorant text-foreground whitespace-nowrap">
-                    Pause Bells from:
+                    {t('timeRange.pauseBellsFrom')}
                   </Label>
                   <Select value={pauseStartTime} onValueChange={onPauseStartTimeChange}>
                     <SelectTrigger id="pause-start-time" className="w-[130px]">
-                      <SelectValue placeholder="Select time" />
+                      <SelectValue placeholder={t('timeRange.selectStartTime')} />
                     </SelectTrigger>
                     <SelectContent>
                       {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
@@ -295,11 +298,11 @@ export const TimeRangeSelector = ({
                 
                 <div className="flex items-center gap-2">
                   <Label htmlFor="pause-end-time" className="text-lg font-cormorant text-foreground whitespace-nowrap">
-                    Resume Bells at:
+                    {t('timeRange.resumeBellsAt')}
                   </Label>
                   <Select value={pauseEndTime} onValueChange={onPauseEndTimeChange}>
                     <SelectTrigger id="pause-end-time" className="w-[130px]">
-                      <SelectValue placeholder="Select time" />
+                      <SelectValue placeholder={t('timeRange.selectEndTime')} />
                     </SelectTrigger>
                     <SelectContent>
                       {timeOptions.map(time => <SelectItem key={time.value} value={time.value}>
@@ -312,9 +315,10 @@ export const TimeRangeSelector = ({
             
             {pauseEnabled && <div className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50">
                 <p className="text-lg text-foreground font-cormorant text-center">
-                  Bells will be silent from{' '}
-                  <span className="font-cinzel font-semibold text-red-600">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
-                  <span className="font-cinzel font-semibold text-green-600">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
+                  {t('timeRange.bellsSilentFrom', {
+                    start: timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime,
+                    end: timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime
+                  })}
                 </p>
               </div>}
           </div>
@@ -324,7 +328,7 @@ export const TimeRangeSelector = ({
           {/* Bell frequency – Full original */}
           <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-300/50 dark:border-amber-700/50">
             <Label className="text-xl font-cormorant text-foreground">
-              Bell frequency
+              {t('timeRange.halfHourChimes')}
             </Label>
             <div className="flex gap-4">
               <button
@@ -340,7 +344,7 @@ export const TimeRangeSelector = ({
                 }`}>
                   {!halfHourChimes && <div className="w-2.5 h-2.5 rounded-full bg-background" />}
                 </div>
-                Every hour
+                {t('timeRange.halfHourChimesOff')}
               </button>
               <button
                 type="button"
@@ -355,7 +359,7 @@ export const TimeRangeSelector = ({
                 }`}>
                   {halfHourChimes && <div className="w-2.5 h-2.5 rounded-full bg-background" />}
                 </div>
-                Every half hour
+                {t('timeRange.halfHourChimesOn')}
               </button>
             </div>
           </div>
@@ -364,17 +368,21 @@ export const TimeRangeSelector = ({
           <div className="p-4 rounded-lg bg-gradient-dawn border">
             <p className="text-xl text-foreground font-cormorant text-center">
               {bellsEnabled 
-                ? `Bells will chime every ${halfHourChimes ? 'half hour' : 'hour'} from ${timeOptions.find(t => t.value === startTime)?.label || startTime} to ${timeOptions.find(t => t.value === endTime)?.label || endTime}${nextChimeText}`
-                : 'Bells disabled (no sounds scheduled)'
+                ? `${t('currentConfig.bellsWillChimeEvery', {
+                    interval: halfHourChimes ? t('currentConfig.halfHour') : t('currentConfig.hour'),
+                    start: timeOptions.find(t => t.value === startTime)?.label || startTime,
+                    end: timeOptions.find(t => t.value === endTime)?.label || endTime
+                  })}${nextChimeText}`
+                : t('currentConfig.bellsDisabled')
               }
               {selectedDays.length > 0 && (
                 <>
-                  {' '}on {selectedDays.length === 7 ? (
-                    <span className="font-cinzel font-semibold">every day</span>
+                  {' '}{t('currentConfig.on')}{' '}{selectedDays.length === 7 ? (
+                    <span className="font-cinzel font-semibold">{t('currentConfig.everyDay').toLowerCase()}</span>
                   ) : selectedDays.length === 2 && selectedDays.includes('saturday') && selectedDays.includes('sunday') ? (
-                    <span className="font-cinzel font-semibold">weekends</span>
+                    <span className="font-cinzel font-semibold">{t('currentConfig.weekends').toLowerCase()}</span>
                   ) : selectedDays.length === 5 && !selectedDays.includes('saturday') && !selectedDays.includes('sunday') ? (
-                    <span className="font-cinzel font-semibold">weekdays</span>
+                    <span className="font-cinzel font-semibold">{t('currentConfig.weekdays').toLowerCase()}</span>
                   ) : (
                     <span className="font-cinzel font-semibold">
                       {selectedDays.map(day => daysOfWeek.find(d => d.id === day)?.label).join(', ')}
@@ -384,10 +392,11 @@ export const TimeRangeSelector = ({
               )}
               {pauseEnabled && (
                 <>
-                  , with a pause from{' '}
-                  <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime}</span> to{' '}
-                  <span className="font-cinzel font-semibold text-primary">{timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime}</span>
-                  {pauseStartTime > pauseEndTime ? ' (overnight)' : ''}
+                  , {t('currentConfig.withPauseFrom', {
+                    start: timeOptions.find(t => t.value === pauseStartTime)?.label || pauseStartTime,
+                    end: timeOptions.find(t => t.value === pauseEndTime)?.label || pauseEndTime
+                  })}
+                  {pauseStartTime > pauseEndTime ? ` ${t('currentConfig.overnight')}` : ''}
                 </>
               )}
             </p>
