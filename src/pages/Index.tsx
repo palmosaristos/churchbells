@@ -155,7 +155,7 @@ const Index = () => {
     setHalfHourChimes(localStorage.getItem("halfHourChimes") === "true");
     setPrayerEnabled(localStorage.getItem("prayerEnabled") !== "false");
     setPrayerName(localStorage.getItem("prayerName") || "Prayer");
-    setPrayerTime(localStorage.getItem("prayerTime") || "06:00");
+    setPrayerTime(localStorage.getItem("prayerTime") || "");
     setIsPremiumMember(localStorage.getItem("isPremiumMember") === "true");
     setPauseEnabled(localStorage.getItem("pauseEnabled") === "true");
     setPauseStartTime(localStorage.getItem("pauseStartTime") || "12:00");
