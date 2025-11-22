@@ -26,7 +26,7 @@
     "yourPremiumStatus": "Il tuo stato Premium"
   },
   "settings": {
-    "title": "Scegli gli orari delle campane",
+    "title": "Gli orari delle campane",
     "bells": "Campane",
     "on": "ON",
     "off": "OFF",
@@ -70,7 +70,7 @@
     "halfHour": "mezz'ore",
     "hour": "ore",
     "bellsDisabled": "Campane disattivate (nessun suono programmato)",
-    "on": "il",
+    "on": "",
     "everyDay": "TUTTI I GIORNI",
     "weekends": "I FINE SETTIMANA",
     "weekdays": "DAL LUNEDÌ AL VENERDÌ",
@@ -79,7 +79,7 @@
     "customizeYourBells": "Personalizza le tue campane"
   },
   "prayerTimes": {
-    "title": "Definisci le tue campane di preghiera",
+    "title": "Le tue campane di preghiera",
     "prayer": "Preghiera",
     "on": "ATTIVO",
     "off": "INATTIVO",
