@@ -77,6 +77,18 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
           });
         }
 
+        for (let i = 1; i <= 12; i++) {
+          await LocalNotifications.createChannel({
+            id: `carillon-bells-${i}`,
+            name: `Carillon Bells (${i} chime${i > 1 ? 's' : ''})`,
+            description: `Carillon bells - ${i} chime${i > 1 ? 's' : ''}`,
+            ...lowPrio,
+            sound: `carillon_${i}.mp3`,
+            lightColor: '#d4a574',
+            vibration: false
+          });
+        }
+
         await LocalNotifications.createChannel({
           id: 'prayer-short',
           name: 'Prayer (Short Call)',
@@ -200,6 +212,9 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
             } else if (options.bellTradition === 'village-bell') {
               soundFile = `village_${chimeCount}.mp3`;
               channelId = `village-bells-${chimeCount}`;
+            } else if (options.bellTradition === 'carillon-bell') {
+              soundFile = `carillon_${chimeCount}.mp3`;
+              channelId = `carillon-bells-${chimeCount}`;
             } else {
               soundFile = 'freemium_carillon.mp3';
               channelId = 'sacred-bells-channel';
@@ -245,6 +260,9 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               } else if (options.bellTradition === 'village-bell') {
                 soundFile = 'village_1.mp3';
                 channelId = 'village-bells-1';
+              } else if (options.bellTradition === 'carillon-bell') {
+                soundFile = 'carillon_1.mp3';
+                channelId = 'carillon-bells-1';
               } else {
                 soundFile = 'freemium_carillon.mp3';
                 channelId = 'sacred-bells-channel';
