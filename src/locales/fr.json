@@ -26,11 +26,11 @@
     "yourPremiumStatus": "Votre statut Premium"
   },
   "settings": {
-    "title": "Choisissez les horaires des cloches",
+    "title": "Les horaires des cloches",
     "bells": "Cloches",
     "on": "ON",
     "off": "OFF",
-    "chooseBellSound": "Choisissez votre son de cloche",
+    "chooseBellSound": "Votre son de cloche",
     "dailyBellSchedule": "Rythme quotidien des cloches",
     "shareBells": "Partagez les cloches",
     "shareBellsDescription": "Les cloches ont uni les communautés pendant des siècles, apportez le son sacré des cloches d'église à vos proches",
@@ -79,11 +79,11 @@
     "customizeYourBells": "Modifiez vos cloches"
   },
   "prayerTimes": {
-    "title": "Choisissez vos cloches de prière",
+    "title": "Vos cloches de prière",
     "prayer": "Prière",
     "on": "ON",
     "off": "OFF",
-    "setYourPrayerTimes": "Choisissez votre heures de prière",
+    "setYourPrayerTimes": "Votre heure de prière",
     "prayerNameOptional": "Nom de la prière (optionnel)",
     "prayerPlaceholder": "Prière",
     "namePrayer": "Nommez votre prière",
