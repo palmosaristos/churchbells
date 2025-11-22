@@ -101,10 +101,10 @@ export const CurrentConfiguration = ({
         {!settingsConfigured ? (
           <div className="text-center py-3">
             <Link to="/settings">
-              <Button variant="amber" size="lg" className="text-xl px-12 py-8 h-auto rounded-2xl gap-4">
-                <Bell className="w-6 h-6" />
-                {t('currentConfig.setYourBells')}
-                <Bell className="w-6 h-6" />
+              <Button variant="amber" size="lg" className="text-xl px-8 py-8 h-auto rounded-2xl gap-4 flex-wrap justify-center">
+                <Bell className="w-6 h-6 flex-shrink-0" />
+                <span className="text-center">{t('currentConfig.setYourBells')}</span>
+                <Bell className="w-6 h-6 flex-shrink-0" />
               </Button>
             </Link>
           </div>
