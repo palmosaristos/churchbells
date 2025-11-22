@@ -1,7 +1,7 @@
     {
       "app": {
-        "title": "Sacred Bells",
-        "tagline": "Laissez le rythme sacré des cloches d'église guider votre journée"
+        "title": "Cloches Sacrées",
+        "tagline": "Pour que le son sacré des cloches d'église vous accompagne"
       },
       "navigation": {
         "home": "Accueil",
@@ -12,42 +12,42 @@
         "more": "Plus"
       },
       "welcome": {
-        "title": "Bienvenue dans Sacred Bells",
-        "description": "Laissez le son sacré des cloches d'église vous guider tout au long de la journée",
+        "title": "Bienvenue dans Cloches sacrées",
+        "description": "Pour que le son sacré des cloches d'église vous accompagne",
         "continue": "Continuer"
       },
       "hero": {
         "title": "Sacred Bells",
-        "subtitle": "Laissez le rythme sacré des cloches d'église guider votre journée"
+        "subtitle": "Pour que le son sacré des cloches d'église vous accompagne"
       },
       "index": {
-        "yourBellsSchedule": "Votre emploi du temps Sacred Bells",
+        "yourBellsSchedule": "Le rythme de vos cloches",
         "yourPrayer": "Votre prière",
         "yourPremiumStatus": "Votre statut Premium"
       },
       "settings": {
-        "title": "Définissez vos heures de cloche",
+        "title": "Choisissez les horaires des cloches",
         "bells": "Cloches",
-        "on": "ACTIF",
-        "off": "INACTIF",
+        "on": "ON",
+        "off": "OFF",
         "chooseBellSound": "Choisissez votre son de cloche",
-        "dailyBellSchedule": "Emploi du temps quotidien des cloches",
+        "dailyBellSchedule": "Rythme quotidien des cloches",
         "shareBells": "Partagez les cloches",
         "shareBellsDescription": "Les cloches ont uni les communautés pendant des siècles, apportez le son sacré des cloches d'église à vos proches",
-        "shareVia": "partagez notre application via",
+        "shareVia": "Partagez notre application via",
         "whatsapp": "WhatsApp",
         "email": "E-mail",
         "sms": "SMS",
-        "shareMessage": "🔔 Découvrez Sacred Bells ! C'est comme avoir un clocher d'église dans votre poche. Un beau moyen de marquer l'heure tout au long de la journée : {{url}}",
-        "shareEmailSubject": "Une belle application que je pensais que tu aimerais",
-        "shareEmailBody": "Bonjour,\n\nJe voulais partager quelque chose de spécial avec vous. J'utilise Sacred Bells, une application qui recréée le rythme traditionnel des cloches d'église tout au long de la journée.\n\nCela a été un merveilleux moyen de rester connecté au rythme sacré que les églises ont maintenu pendant des siècles.\n\nJe pense que vous aimeriez aussi !\n\nTélécharger : {{url}}\n\nBénédictions"
+        "shareMessage": "🔔 Découvrez Cloches Sacrées ! C'est comme avoir un clocher d'église dans votre poche. Un beau moyen de marquer le temps tout au long de la journée : {{url}}",
+        "shareEmailSubject": "Une belle application qui pourrait te plaire",
+        "shareEmailBody": "Bonjour,\n\nJe voulais partager quelque chose de spécial avec vous. J'utilise Sacred Bells, une application qui recréée le rythme traditionnel des cloches d'église au long de la journée.\n\nCela a été un merveilleux moyen de rester connecté au rythme sacré que les églises ont maintenu pendant des siècles.\n\nJe pense que vous aimerez aussi !\n\nTélécharger : {{url}}\n\nBénédictions"
       },
       "timeRange": {
         "quickConfigurations": "Configurations rapides",
         "allDay": "24h/24, 7j/7",
         "from7to10": "De 7h à 22h",
         "onlyWeekend": "Uniquement le week-end",
-        "customSchedule": "Emploi du temps personnalisé",
+        "customSchedule": "Horaires personnalisées",
         "scheduleHours": "Heures de programmation",
         "start": "Début :",
         "end": "Fin :",
@@ -58,14 +58,14 @@
         "pauseBellsFrom": "Mettre les cloches en pause de :",
         "resumeBellsAt": "Reprendre les cloches à :",
         "bellsSilentFrom": "Les cloches seront silencieuses de {{start}} à {{end}}",
-        "halfHourChimes": "Carillons toutes les demi-heures",
-        "halfHourChimesOn": "Sonnez les cloches toutes les demi-heures",
-        "halfHourChimesOff": "Sonnez les cloches uniquement à l'heure",
-        "nextChimeAt": "Prochain carillon à {{time}}"
+        "halfHourChimes": "Cloches toutes les demi-heures ?",
+        "halfHourChimesOn": "OUI",
+        "halfHourChimesOff": "NON",
+        "nextChimeAt": "Prochaine cloche à {{time}}"
       },
       "currentConfig": {
-        "setYourBells": "Configurez vos cloches",
-        "dailySchedule": "Emploi du temps quotidien",
+        "setYourBells": "Choisissez vos cloches et leur ryhtme",
+        "dailySchedule": "Rythme quotidien",
         "bellsWillChimeEvery": "Les cloches sonneront toutes les {{interval}} de {{start}} à {{end}}",
         "halfHour": "demi-heure",
         "hour": "heure",
