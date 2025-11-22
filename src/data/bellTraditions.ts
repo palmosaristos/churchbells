@@ -23,6 +23,6 @@ export const bellTraditions: BellTradition[] = [
     id: "carillon-bell",
     nameKey: "bells.carillon",
     tradition: "Carillon",
-    audioSample: "/audio/CARILLON_3.mp3"
+    audioSample: "/audio/CARILLON_3_1763739187183.mp3"
   }
 ];
