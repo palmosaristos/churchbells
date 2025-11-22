@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Campane Sacre",
-    "tagline": "Per far sì che il suono sacro delle campane della chiesa ti accompagni"
+    "tagline": "Il suono sacro delle campane ti accompagni"
   },
   "navigation": {
     "home": "Home",
@@ -13,12 +13,12 @@
   },
   "welcome": {
     "title": "Benvenuto in Campane Sacre",
-    "description": "Per far sì che il suono sacro delle campane della chiesa ti accompagni",
+    "description": "Il suono sacro delle campane ti accompagni",
     "continue": "Continua"
   },
   "hero": {
     "title": "Campane Sacre",
-    "subtitle": "Per far sì che il suono sacro delle campane della chiesa ti accompagni"
+    "subtitle": "Il suono sacro delle campane ti accompagni"
   },
   "index": {
     "yourBellsSchedule": "Il ritmo delle tue campane",
@@ -46,7 +46,7 @@
     "quickConfigurations": "Configurazioni rapide",
     "allDay": "24h/24, 7gg/7",
     "from7to10": "Dalle 7 alle 22",
-    "onlyWeekend": "Solo nei fine settimana",
+    "onlyWeekend": "Solo il weekend",
     "customSchedule": "Orari personalizzati",
     "scheduleHours": "Ore di programmazione",
     "start": "Inizio:",
@@ -67,9 +67,9 @@
     "setYourBells": "Scegli le tue campane e il loro ritmo",
     "dailySchedule": "Ritmo giornaliero",
     "bellsWillChimeEvery": "Le campane suoneranno ogni {{interval}} dalle {{start}} alle {{end}}",
-    "halfHour": "mezz'ora",
-    "hour": "ora",
-    "bellsDisabled": "Campane disattivate",
+    "halfHour": "mezz'ore",
+    "hour": "ore",
+    "bellsDisabled": "Campane disattivate (nessun suono programmato)",
     "on": "il",
     "everyDay": "TUTTI I GIORNI",
     "weekends": "I FINE SETTIMANA",
@@ -81,8 +81,8 @@
   "prayerTimes": {
     "title": "Definisci le tue campane di preghiera",
     "prayer": "Preghiera",
-    "on": "ON",
-    "off": "OFF",
+    "on": "ATTIVO",
+    "off": "INATTIVO",
     "setYourPrayerTimes": "Scegli le tue ore di preghiera",
     "prayerNameOptional": "Nome della preghiera (opzionale)",
     "prayerPlaceholder": "Preghiera",

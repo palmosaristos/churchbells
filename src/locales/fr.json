@@ -76,10 +76,10 @@
     "weekdays": "DU LUNDI AU VENDREDI",
     "withPauseFrom": "avec une pause de {{start}} à {{end}}",
     "overnight": "(pendant la nuit)",
-    "customizeYourBells": "Personnalisez vos cloches"
+    "customizeYourBells": "Modifiez vos cloches"
   },
   "prayerTimes": {
-    "title": "Définissez vos cloches de prière",
+    "title": "Choisissez vos cloches de prière",
     "prayer": "Prière",
     "on": "ON",
     "off": "OFF",
