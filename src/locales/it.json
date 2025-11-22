@@ -26,12 +26,12 @@
     "yourPremiumStatus": "Il tuo stato Premium"
   },
   "settings": {
-    "title": "Gli orari delle campane",
+    "title": "Gli orari delle vostre campane",
     "bells": "Campane",
     "on": "ON",
     "off": "OFF",
     "chooseBellSound": "Scegli il tuo suono di campana",
-    "dailyBellSchedule": "Ritmo giornaliero delle campane",
+    "dailyBellSchedule": "Ritmo delle campane",
     "shareBells": "Condividi le campane",
     "shareBellsDescription": "Le campane hanno unito le comunità per secoli, porta il suono sacro delle campane della chiesa ai tuoi cari",
     "shareVia": "Condividi la nostra app via",
