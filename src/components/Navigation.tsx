@@ -6,7 +6,6 @@ import { AppToggle } from "@/components/AppToggle";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { useTranslation } from "react-i18next";
-import { Settings, Clock, MoreHorizontal } from "lucide-react";
 import churchBellImage from "@/assets/church-bell-transparent.png";
 
 interface NavigationProps {
@@ -68,30 +67,6 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
           >
             <Link to="/" className="flex items-center gap-1">
               <span>{t('navigation.home')}</span>
-            </Link>
-          </Button>
-
-          <Button
-            variant={currentPath === "/settings" ? "default" : "ghost"}
-            asChild
-            className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
-            aria-label={t('navigation.settings')}
-          >
-            <Link to="/settings" className="flex items-center gap-1">
-              <Settings className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              <span>{t('navigation.settings')}</span>
-            </Link>
-          </Button>
-
-          <Button
-            variant={currentPath === "/prayer-times" ? "default" : "ghost"}
-            asChild
-            className={`font-medium ${isMobile ? 'text-sm px-3 py-1.5 h-9' : ''}`}
-            aria-label={t('navigation.prayerTimes')}
-          >
-            <Link to="/prayer-times" className="flex items-center gap-1">
-              <Clock className={`${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
-              <span>{t('navigation.prayerTimes')}</span>
             </Link>
           </Button>
 

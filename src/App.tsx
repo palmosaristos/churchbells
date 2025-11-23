@@ -18,10 +18,8 @@ import {
 import { useExactAlarmPermission } from "@/hooks/useExactAlarmPermission";
 import { useBootRescheduler } from "@/hooks/useBootRescheduler";
 import Index from "./pages/Index";
-import Settings from "./pages/Settings";
-import PrayerTimes from "./pages/PrayerTimes";
-import Premium from "./pages/Premium";
 import More from "./pages/More";
+import Premium from "./pages/Premium";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import RGPDCompliance from "./pages/RGPDCompliance";
@@ -63,8 +61,6 @@ const AppContent = () => {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/prayer-times" element={<PrayerTimes />} />
           <Route path="/more" element={<More />} />
           <Route path="/premium" element={<Premium />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
