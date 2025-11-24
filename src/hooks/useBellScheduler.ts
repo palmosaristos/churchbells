@@ -227,10 +227,10 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               soundFile = `village_${chimeCount}.mp3`;
               channelId = `village-bells-${chimeCount}`;
             } else if (options.bellTradition === 'carillon-bell') {
-              soundFile = `carillon_${chimeCount}.mp3`;
+              soundFile = `CARILLON_${chimeCount}.mp3`;
               channelId = `carillon-bells-${chimeCount}`;
             } else {
-              soundFile = 'freemium_carillon.mp3';
+              soundFile = 'CARILLON_3.mp3';
               channelId = 'sacred-bells-channel';
             }
 
@@ -275,10 +275,10 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 soundFile = 'village_1.mp3';
                 channelId = 'village-bells-1';
               } else if (options.bellTradition === 'carillon-bell') {
-                soundFile = 'carillon_1.mp3';
+                soundFile = 'CARILLON_1.mp3';
                 channelId = 'carillon-bells-1';
               } else {
-                soundFile = 'freemium_carillon.mp3';
+                soundFile = 'CARILLON_3.mp3';
                 channelId = 'sacred-bells-channel';
               }
 
