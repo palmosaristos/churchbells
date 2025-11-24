@@ -74,6 +74,7 @@ const Index = () => {
   const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => 
     localStorage.getItem("onboardingComplete") === "true"
   );
+  const [isSaved, setIsSaved] = useState(false);
 
   const {
     toggleAudio,
@@ -349,15 +350,18 @@ const Index = () => {
             {/* Validation Button */}
             <div className="max-w-4xl mx-auto flex justify-center">
               <Button 
-                variant="sacred"
                 size="lg"
-                className="text-xl font-cormorant px-12 py-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                className={`text-xl font-cormorant px-16 py-6 shadow-xl transition-all duration-500 ${
+                  isSaved 
+                    ? 'bg-transparent border-2 border-primary/30 text-primary/50 hover:bg-transparent' 
+                    : 'bg-[hsl(0,70%,65%)] hover:bg-[hsl(0,70%,60%)] text-white hover:shadow-2xl hover:scale-105'
+                }`}
                 onClick={() => {
-                  // This button validates the current configuration
-                  // All settings are already auto-saved to localStorage
+                  setIsSaved(true);
+                  setTimeout(() => setIsSaved(false), 3000);
                 }}
               >
-                {t('common.save')}
+                {t('common.saveBells')}
               </Button>
             </div>
 
