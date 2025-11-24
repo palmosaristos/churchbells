@@ -76,6 +76,13 @@ const Index = () => {
   );
   const [isSaved, setIsSaved] = useState(false);
 
+  // Reset isSaved when any setting changes
+  useEffect(() => {
+    if (isSaved) {
+      setIsSaved(false);
+    }
+  }, [selectedBellTradition, startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, bellVolumes]);
+
   const {
     toggleAudio,
     isPlaying,
@@ -354,7 +361,7 @@ const Index = () => {
                 className={`text-xl font-cormorant px-16 py-6 shadow-xl transition-all duration-500 ${
                   isSaved 
                     ? 'bg-transparent border-2 border-primary/30 text-primary/50 hover:bg-transparent' 
-                    : 'bg-[hsl(0,70%,65%)] hover:bg-[hsl(0,70%,60%)] text-white hover:shadow-2xl hover:scale-105'
+                    : 'bg-[hsl(33,92%,49%)] hover:bg-[hsl(33,92%,44%)] text-white hover:shadow-2xl hover:scale-105'
                 }`}
                 onClick={() => {
                   setIsSaved(true);
