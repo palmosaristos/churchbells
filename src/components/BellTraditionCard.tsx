@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Volume2 } from "lucide-react";
+import { Volume2, Check } from "lucide-react";
 
 interface BellTraditionCardProps {
   title: string;
@@ -79,6 +79,14 @@ export const BellTraditionCard = ({
               <span className="text-sm font-cormorant text-muted-foreground w-10 text-right">{Math.round(volume * 100)}%</span>
             </div>
           </div>
+
+          {isSelected && (
+            <div className="flex-shrink-0 ml-2">
+              <div className="w-12 h-12 rounded-full bg-[hsl(33,92%,49%)] flex items-center justify-center">
+                <Check className="w-7 h-7 text-white" strokeWidth={3} />
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
