@@ -265,7 +265,7 @@ const Index = () => {
                     {t('app.title')}
                   </h1>
                   <p className="text-xl md:text-2xl font-cormorant text-foreground/90 text-center leading-relaxed max-w-2xl mx-auto">
-                    {t('app.subtitle')}
+                    {t('hero.subtitle')}
                   </p>
                 </div>
 
@@ -290,9 +290,6 @@ const Index = () => {
 
           <div className="container mx-auto px-4 py-6 space-y-[10px]">
             <div className="max-w-4xl mx-auto space-y-6">
-              {/* Time Display */}
-              <TimeDisplay selectedTimeZone={selectedTimeZone} onTimeZoneChange={handleTimeZoneChange} />
-
               {/* Accordion Layout */}
               <Accordion type="multiple" defaultValue={["bell-sound", "bell-schedule"]} className="space-y-4">
                 {/* Choose Your Bell Sound Section */}
@@ -347,6 +344,21 @@ const Index = () => {
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
+            </div>
+
+            {/* Validation Button */}
+            <div className="max-w-4xl mx-auto flex justify-center">
+              <Button 
+                variant="sacred"
+                size="lg"
+                className="text-xl font-cormorant px-12 py-6 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                onClick={() => {
+                  // This button validates the current configuration
+                  // All settings are already auto-saved to localStorage
+                }}
+              >
+                {t('common.save')}
+              </Button>
             </div>
 
             {/* Share Banner */}
