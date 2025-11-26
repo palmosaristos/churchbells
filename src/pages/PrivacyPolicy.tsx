@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
             <h1 className="font-cinzel text-4xl md:text-5xl font-bold mb-4">
               Privacy Policy – Sacred Bells
             </h1>
-            <p className="text-muted-foreground">Last updated: October 29, 2025</p>
+            <p className="text-muted-foreground">Last updated: November 7, 2024</p>
           </div>
 
           <section className="mb-8">
@@ -52,11 +52,11 @@ const PrivacyPolicy = () => {
 
             <h3 className="font-cinzel text-xl font-semibold mb-3 mt-6">2.2 Data collected by payment platforms</h3>
             <p className="text-foreground/90 leading-relaxed mb-3">
-              When you subscribe to the Premium version:
+              When you subscribe to the Premium version via <strong>Google Play In-App Payments (Android)</strong> or Apple (via the App Store):
             </p>
             <ul className="space-y-2 text-foreground/90">
-              <li>Apple (via the App Store) or Google (via Google Play) handles the payment</li>
-              <li>These platforms collect: name, email, payment information</li>
+              <li>These platforms handle the payment</li>
+              <li>They collect: name, email, payment information</li>
               <li>We do NOT have access to this information</li>
               <li>We only receive a subscription confirmation (anonymous identifier)</li>
             </ul>
@@ -108,11 +108,11 @@ const PrivacyPolicy = () => {
           <section className="mb-8">
             <h2 className="font-cinzel text-2xl font-semibold mb-4">6. Third-Party Services</h2>
             <p className="text-foreground/90 leading-relaxed mb-3">
-              The application may use:
+              The application uses:
             </p>
             <ul className="space-y-2 text-foreground/90">
               <li><strong>Push notifications (Apple/Google)</strong>: For prayer reminders</li>
-              <li><strong>Analytics (if applicable)</strong>: Anonymized data only</li>
+              <li><strong>No third-party analytics or trackers</strong>: 100% local app</li>
             </ul>
           </section>
 
