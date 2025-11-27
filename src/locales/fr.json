@@ -32,6 +32,15 @@
     "off": "OFF",
     "chooseBellSound": "Votre son de cloche",
     "dailyBellSchedule": "Rythme quotidien des cloches",
+    "advancedSettings": "Paramètres Avancés",
+    "cinemaMode": "Mode Cinéma",
+    "cinemaModeDescription": "Désactive temporairement toutes les cloches",
+    "cinemaModeActive": "Mode actif",
+    "deactivateNow": "Désactiver maintenant",
+    "duration": "Durée",
+    "respectDND": "Respecter \"Ne pas déranger\"",
+    "respectDNDDescription": "Les cloches ne sonneront pas si le mode \"Ne pas déranger\" est activé",
+    "dndWarning": "Attention : si vous utilisez DND pour dormir, les cloches matinales ne sonneront pas.",
     "shareBells": "Partagez les cloches",
     "shareBellsDescription": "Les cloches ont uni les communautés pendant des siècles, apportez le son sacré des cloches d'église à vos proches",
     "shareVia": "Partagez notre application via",
@@ -216,6 +225,10 @@
     "saveBells": "Valider vos cloches",
     "cancel": "Annuler",
     "close": "Fermer",
-    "back": "Retour"
+    "back": "Retour",
+    "hour": "heure",
+    "hours": "heures",
+    "minutes": "min",
+    "remaining": "restantes"
   }
 }
