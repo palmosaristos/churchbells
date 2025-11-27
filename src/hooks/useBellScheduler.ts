@@ -22,6 +22,8 @@ interface BellSchedulerOptions {
   prayerReminders?: string[];
   prayerReminderWithBell?: boolean;
   scheduleKey?: number;
+  cinemaModeActive?: boolean;
+  respectDND?: boolean;
 }
 
 export const useBellScheduler = (options: BellSchedulerOptions) => {
@@ -157,6 +159,18 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         const pending = await LocalNotifications.getPending();
         if (pending.notifications.length > 0) {
           await LocalNotifications.cancel({ notifications: pending.notifications });
+        }
+
+        // Vérifier si le mode cinéma est actif
+        if (options.cinemaModeActive) {
+          debugLog('🎬 Cinema mode active - skipping all bell scheduling');
+          return;
+        }
+
+        // TODO: Vérifier le mode DND si respectDND est activé
+        // Cette fonctionnalité nécessite un plugin natif Android personnalisé
+        if (options.respectDND) {
+          debugLog('📵 Respect DND enabled (native implementation pending)');
         }
 
         if (!options.enabled || !options.timeZone) return;
@@ -389,6 +403,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
     options.callType,
     options.prayerReminders,
     options.prayerReminderWithBell,
-    options.scheduleKey
+    options.scheduleKey,
+    options.cinemaModeActive,
+    options.respectDND
   ]);
 };

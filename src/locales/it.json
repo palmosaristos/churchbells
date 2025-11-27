@@ -32,6 +32,15 @@
     "off": "OFF",
     "chooseBellSound": "Scegli il tuo suono di campana",
     "dailyBellSchedule": "Ritmo delle campane",
+    "advancedSettings": "Impostazioni Avanzate",
+    "cinemaMode": "Modalità Cinema",
+    "cinemaModeDescription": "Disattiva temporaneamente tutte le campane",
+    "cinemaModeActive": "Modalità attiva",
+    "deactivateNow": "Disattiva ora",
+    "duration": "Durata",
+    "respectDND": "Rispetta \"Non disturbare\"",
+    "respectDNDDescription": "Le campane non suoneranno se la modalità \"Non disturbare\" è attivata",
+    "dndWarning": "Attenzione: se usi DND per dormire, le campane mattutine non suoneranno.",
     "shareBells": "Condividi le campane",
     "shareBellsDescription": "Le campane hanno unito le comunità per secoli, porta il suono sacro delle campane della chiesa ai tuoi cari",
     "shareVia": "Condividi la nostra app via",
@@ -216,6 +225,10 @@
     "saveBells": "Salva le campane",
     "cancel": "Annulla",
     "close": "Chiudi",
-    "back": "Indietro"
+    "back": "Indietro",
+    "hour": "ora",
+    "hours": "ore",
+    "minutes": "min",
+    "remaining": "rimanenti"
   }
 }

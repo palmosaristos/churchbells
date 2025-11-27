@@ -32,6 +32,15 @@
     "off": "OFF",
     "chooseBellSound": "Choose Your Bell Sound",
     "dailyBellSchedule": "Daily Bell Schedule",
+    "advancedSettings": "Advanced Settings",
+    "cinemaMode": "Cinema Mode",
+    "cinemaModeDescription": "Temporarily disable all bells",
+    "cinemaModeActive": "Mode active",
+    "deactivateNow": "Deactivate now",
+    "duration": "Duration",
+    "respectDND": "Respect \"Do Not Disturb\"",
+    "respectDNDDescription": "Bells will not ring if \"Do Not Disturb\" mode is enabled",
+    "dndWarning": "Warning: if you use DND for sleep, morning bells will not ring.",
     "shareBells": "Share the Bells",
     "shareBellsDescription": "Bells have united communities for centuries, bring the sacred sound of church bells to your loved ones",
     "shareVia": "share our app via",
@@ -216,6 +225,10 @@
     "saveBells": "Save the Bells",
     "cancel": "Cancel",
     "close": "Close",
-    "back": "Back"
+    "back": "Back",
+    "hour": "hour",
+    "hours": "hours",
+    "minutes": "min",
+    "remaining": "remaining"
   }
 }
