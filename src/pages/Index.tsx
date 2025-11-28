@@ -7,8 +7,6 @@ import { LocationPermission } from "@/components/LocationPermission";
 import { AudioPermission } from "@/components/AudioPermission";
 import { TimeRangeSelector } from "@/components/TimeRangeSelector";
 import { BellSoundSelection } from "@/components/BellSoundSelection";
-import { CinemaModeControl } from "@/components/CinemaModeControl";
-import { DNDRespectControl } from "@/components/DNDRespectControl";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -19,7 +17,7 @@ import { useBellScheduler } from "@/hooks/useBellScheduler";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { useCinemaMode } from "@/hooks/useCinemaMode";
 import { TimeDisplay } from "@/components/TimeDisplay";
-import { Volume2, Clock, Settings } from "lucide-react";
+import { Volume2, Clock } from "lucide-react";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
@@ -316,22 +314,6 @@ const Index = () => {
               {/* Accordion Layout */}
               <Accordion type="multiple" defaultValue={["bell-sound", "bell-schedule"]} className="space-y-4">
                 
-                {/* Advanced Settings Section */}
-                <AccordionItem value="advanced-settings" className="border-none">
-                  <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
-                    <div className="flex items-center gap-3 font-cormorant text-3xl font-bold text-foreground">
-                      <Settings className="w-6 h-6 text-primary" />
-                      {t('settings.advancedSettings', 'Paramètres Avancés')}
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down space-y-4">
-                    <CinemaModeControl />
-                    <DNDRespectControl 
-                      respectDND={respectDND} 
-                      onRespectDNDChange={setRespectDND} 
-                    />
-                  </AccordionContent>
-                </AccordionItem>
                 {/* Choose Your Bell Sound Section */}
                 <AccordionItem value="bell-sound" className="border-none">
                   <AccordionTrigger className="bg-[#FAF8F3] dark:bg-amber-950/30 hover:bg-[#F5F1E8] dark:hover:bg-amber-900/40 border-2 border-[#d4a574] dark:border-amber-700 rounded-lg px-5 py-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-md data-[state=open]:bg-white dark:data-[state=open]:bg-background data-[state=open]:rounded-b-none data-[state=open]:border-b-0 [&[data-state=open]>svg]:rotate-180">
@@ -379,7 +361,9 @@ const Index = () => {
                       onSelectedDaysChange={setSelectedDays} 
                       bellsEnabled={appEnabled} 
                       onBellsEnabledChange={handleAppToggle} 
-                      timeZone={selectedTimeZone} 
+                      timeZone={selectedTimeZone}
+                      respectDND={respectDND}
+                      onRespectDNDChange={setRespectDND}
                     />
                   </AccordionContent>
                 </AccordionItem>
