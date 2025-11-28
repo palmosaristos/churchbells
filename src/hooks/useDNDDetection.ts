@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
+import { registerPlugin } from '@capacitor/core';
+
+interface DNDDetectorPlugin {
+  isDNDActive(): Promise<{ isDNDActive: boolean; interruptionFilter: number }>;
+}
+
+const DNDDetector = registerPlugin<DNDDetectorPlugin>('DNDDetector');
 
 /**
  * Hook to detect Do Not Disturb (DND) mode on Android
@@ -15,13 +22,14 @@ export const useDNDDetection = (respectDND: boolean) => {
     }
 
     const checkDNDStatus = async () => {
-      // This requires a custom native plugin to access Android's NotificationManager
-      // For now, this is a placeholder that always returns false
-      // Actual implementation would need native Android code to check:
-      // NotificationManager.getCurrentInterruptionFilter()
-      
-      console.log('📵 DND detection: Not yet implemented (requires native plugin)');
-      setIsDNDActive(false);
+      try {
+        const result = await DNDDetector.isDNDActive();
+        setIsDNDActive(result.isDNDActive);
+        console.log('📵 DND Status:', result.isDNDActive, '| Filter:', result.interruptionFilter);
+      } catch (error) {
+        console.error('📵 Error checking DND status:', error);
+        setIsDNDActive(false);
+      }
     };
 
     checkDNDStatus();
