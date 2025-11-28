@@ -36,6 +36,8 @@ interface TimeRangeSelectorProps {
   timeZone?: string;  // TZ pour display/validation (e.g., "Europe/Paris")
   bellTradition?: string;  // Link à sounds (indirect extras.soundFile)
   onBellTraditionChange?: (tradition: string) => void;  // Optional persist
+  respectDND?: boolean;
+  onRespectDNDChange?: (enabled: boolean) => void;
 }
 
 // Generate all time options (every 30 minutes from 12:00 AM to 11:30 PM)
@@ -93,7 +95,9 @@ export const TimeRangeSelector = ({
   onBellsEnabledChange,
   timeZone = 'UTC',  // Fallback
   bellTradition = 'sacred-bells',  // Default
-  onBellTraditionChange
+  onBellTraditionChange,
+  respectDND = false,
+  onRespectDNDChange
 }: TimeRangeSelectorProps) => {
   const { t } = useTranslation();
   
@@ -362,6 +366,31 @@ export const TimeRangeSelector = ({
                 {t('timeRange.halfHourChimesOn')}
               </button>
             </div>
+          </div>
+
+          <Separator className="my-1.5" />
+
+          {/* Respect Do Not Disturb */}
+          <div className="space-y-3 p-4 rounded-lg bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/40 border border-amber-300/50 dark:border-amber-700/50">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="respect-dnd" className="text-xl font-cormorant text-foreground">
+                {t('settings.respectDND', 'Respecter "Ne pas déranger"')}
+              </Label>
+              <Switch 
+                id="respect-dnd" 
+                checked={respectDND} 
+                onCheckedChange={onRespectDNDChange} 
+                disabled={!onRespectDNDChange}
+              />
+            </div>
+            
+            {respectDND && (
+              <div className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50">
+                <p className="text-sm text-foreground/80 font-cormorant">
+                  💡 {t('settings.dndWarning', 'Attention : si vous utilisez DND pour dormir, les cloches matinales ne sonneront pas.')}
+                </p>
+              </div>
+            )}
           </div>
           
           {/* Summary amélioré avec validation – Full JSX */}
