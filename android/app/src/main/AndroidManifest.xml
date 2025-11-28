@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" tools:remove="android:maxSdkVersion"/> <!-- ✅ AJOUTÉ : API 33+ -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- ✅ AJOUTÉ : si vibration -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" /> <!-- ✅ AJOUTÉ : Détection DND -->
     
     <!-- Réseau -->
     <uses-permission android:name="android.permission.INTERNET" />
