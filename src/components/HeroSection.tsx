@@ -27,8 +27,13 @@ export const HeroSection = ({
             <div className="text-center space-y-3 md:space-y-6">
               <div className="flex items-center justify-center gap-4 md:gap-8">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
-                <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground">
-                  {t('hero.title')}
+                <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center leading-tight">
+                  {t('hero.title').split(' ').map((word, index, array) => (
+                    <span key={index}>
+                      {word}
+                      {index < array.length - 1 && <br />}
+                    </span>
+                  ))}
                 </h1>
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
               </div>
