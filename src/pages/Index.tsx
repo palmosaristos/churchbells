@@ -235,7 +235,7 @@ const Index = () => {
                   <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">
                     {t('app.title')}
                   </h1>
-                  <p className="italic text-xl md:text-2xl font-cormorant text-foreground/90 text-center leading-relaxed max-w-2xl mx-auto">
+                  <p className="italic font-bold text-xl md:text-2xl font-cormorant text-foreground/90 text-center leading-relaxed max-w-2xl mx-auto">
                     {t('hero.subtitle')}
                   </p>
                 </div>
