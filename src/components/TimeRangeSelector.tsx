@@ -154,7 +154,7 @@ export const TimeRangeSelector = ({
         <CardContent className="space-y-6 pt-6">
           {/* Quick Configurations – Full original */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground text-center italic block">{t('timeRange.quickConfigurations')}</Label>
+            <Label className="text-3xl font-cormorant text-foreground text-center block">{t('timeRange.quickConfigurations')}</Label>
             <div className="flex flex-wrap gap-3 justify-center">
               <button
                 type="button"
@@ -215,7 +215,7 @@ export const TimeRangeSelector = ({
 
           {/* Custom Schedule Section */}
           <div className="space-y-3">
-            <Label className="text-3xl font-cormorant text-foreground text-center italic block">{t('timeRange.customSchedule')}</Label>
+            <Label className="text-3xl font-cormorant text-foreground text-center block">{t('timeRange.customSchedule')}</Label>
           </div>
 
           {/* Schedule Hours Sub-section */}
