@@ -37,7 +37,7 @@ export const HeroSection = ({
                 </h1>
                 <img src={churchBellNew} alt="Beautiful ancient church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
               </div>
-              <p className="font-cormorant text-3xl md:text-4xl text-foreground text-center leading-relaxed max-w-4xl mx-auto font-bold italic">{t('hero.subtitle')}</p>
+              <p className="font-cormorant text-4xl md:text-5xl text-foreground text-center leading-relaxed max-w-4xl mx-auto italic">{t('hero.subtitle')}</p>
             </div>
           </div>
         </div>
