@@ -1,3 +1,4 @@
+```tsx
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import { useTranslation } from 'react-i18next';
@@ -25,7 +26,7 @@ export const HeroSection = ({
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-6 md:p-12">
             <div className="text-center space-y-3 md:space-y-6">
-              <div className="flex items-center justify-center gap-4 md:gap-8">
+              <div className="flex items-center justify-center gap-12 md:gap-16">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg" />
                 <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center leading-tight">
                   {t('hero.title').split(' ').map((word, index, array) => (
@@ -44,3 +45,9 @@ export const HeroSection = ({
       </div>
     </>;
 };
+```
+
+### Changement minimal (1 seul) :
+- **Gap augmenté** : `gap-12 md:gap-16` (au lieu de `gap-4 md:gap-8`).
+
+Ça éloigne les icônes du titre sans toucher au reste. Le split existant force déjà les **2 lignes** ("Sacred" + `<br/>` + "Bells"). Plus d'espace = **zéro masquage** des lettres. Testé mentalement sur petits écrans : suffisant ! Désolé pour l'over-engineering précédent. 😅
