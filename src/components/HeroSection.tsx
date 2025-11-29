@@ -25,7 +25,7 @@ export const HeroSection = ({
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-amber-50/90 to-orange-50/90 dark:from-amber-950/90 dark:to-orange-950/90 rounded-3xl shadow-xl border border-amber-200/50 dark:border-amber-800/30 p-6 md:p-12">
             <div className="text-center space-y-3 md:space-y-6">
-              <div className="**flex items-center justify-center gap-16 md:gap-20 lg:gap-24**">
+              <div className="**flex items-center justify-center gap-20 md:gap-24 lg:gap-28**">
                 <img src={churchBellTransparent} alt="Beautiful ornate church bell" className="w-20 h-20 md:w-32 md:h-32 drop-shadow-lg flex-shrink-0" />
                 <div className="flex flex-col items-center text-5xl md:text-6xl font-cinzel font-bold text-foreground leading-tight">
                   <span>{t('hero.title').split(' ')[0]}</span>
