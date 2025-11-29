@@ -381,7 +381,6 @@ const Index = () => {
                 }`}
                 onClick={() => {
                   setIsSaved(true);
-                  setTimeout(() => setIsSaved(false), 3000);
                 }}
               >
                 {t('common.saveBells')}
