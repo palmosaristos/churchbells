@@ -21,67 +21,46 @@ import { Volume2, Clock } from "lucide-react";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
-
 const Index = () => {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   const location = useLocation();
   const savedBellVolumes = localStorage.getItem("bellVolumes");
-  
+
   // Configuration states
-  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => 
-    localStorage.getItem("bellTradition") || "cathedral-bell"
-  );
-  const [startTime, setStartTime] = useState<string>(() => 
-    localStorage.getItem("startTime") || "08:00"
-  );
-  const [endTime, setEndTime] = useState<string>(() => 
-    localStorage.getItem("endTime") || "20:00"
-  );
-  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(() => 
-    localStorage.getItem("halfHourChimes") === "true"
-  );
-  const [pauseEnabled, setPauseEnabled] = useState<boolean>(() => 
-    localStorage.getItem("pauseEnabled") === "true"
-  );
-  const [pauseStartTime, setPauseStartTime] = useState<string>(() => 
-    localStorage.getItem("pauseStartTime") || "12:00"
-  );
-  const [pauseEndTime, setPauseEndTime] = useState<string>(() => 
-    localStorage.getItem("pauseEndTime") || "14:00"
-  );
+  const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => localStorage.getItem("bellTradition") || "cathedral-bell");
+  const [startTime, setStartTime] = useState<string>(() => localStorage.getItem("startTime") || "08:00");
+  const [endTime, setEndTime] = useState<string>(() => localStorage.getItem("endTime") || "20:00");
+  const [halfHourChimes, setHalfHourChimes] = useState<boolean>(() => localStorage.getItem("halfHourChimes") === "true");
+  const [pauseEnabled, setPauseEnabled] = useState<boolean>(() => localStorage.getItem("pauseEnabled") === "true");
+  const [pauseStartTime, setPauseStartTime] = useState<string>(() => localStorage.getItem("pauseStartTime") || "12:00");
+  const [pauseEndTime, setPauseEndTime] = useState<string>(() => localStorage.getItem("pauseEndTime") || "14:00");
   const [selectedDays, setSelectedDays] = useState<string[]>(() => {
     const saved = localStorage.getItem("selectedDays");
     return saved ? JSON.parse(saved) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
   });
-  
+
   // App state
   const [appEnabled, setAppEnabled] = useState<boolean>(() => {
     const saved = localStorage.getItem("appEnabled");
     return saved !== "false";
   });
-
   const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(savedBellVolumes ? JSON.parse(savedBellVolumes) : {
     'cathedral-bell': 0.7,
     'village-bell': 0.7,
     'carillon-bell': 0.7
   });
-
-  const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => 
-    localStorage.getItem("timeZone") || ""
-  );
-  const [audioPermissionGranted, setAudioPermissionGranted] = useState<boolean>(() => 
-    localStorage.getItem("audioPermission") === "granted"
-  );
-  const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => 
-    localStorage.getItem("onboardingComplete") === "true"
-  );
-  const [respectDND, setRespectDND] = useState<boolean>(() => 
-    localStorage.getItem("respectDND") === "true"
-  );
+  const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => localStorage.getItem("timeZone") || "");
+  const [audioPermissionGranted, setAudioPermissionGranted] = useState<boolean>(() => localStorage.getItem("audioPermission") === "granted");
+  const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => localStorage.getItem("onboardingComplete") === "true");
+  const [respectDND, setRespectDND] = useState<boolean>(() => localStorage.getItem("respectDND") === "true");
   const [isSaved, setIsSaved] = useState(false);
 
   // Cinema mode hook
-  const { isActive: cinemaModeActive } = useCinemaMode();
+  const {
+    isActive: cinemaModeActive
+  } = useCinemaMode();
 
   // Reset isSaved when any setting changes
   useEffect(() => {
@@ -89,7 +68,6 @@ const Index = () => {
       setIsSaved(false);
     }
   }, [selectedBellTradition, startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, bellVolumes]);
-
   const {
     toggleAudio,
     isPlaying,
@@ -98,13 +76,12 @@ const Index = () => {
 
   // Activation des hooks Capacitor
   useNotificationListener();
-  
+
   // Hook pour la reprogrammation nocturne automatique
   useNightlyRescheduler(() => {
     // Trigger reload when needed
     reloadSettings();
   });
-  
   useBellScheduler({
     enabled: appEnabled && onboardingComplete && audioPermissionGranted,
     bellsEnabled: appEnabled,
@@ -132,44 +109,34 @@ const Index = () => {
   useEffect(() => {
     localStorage.setItem("appEnabled", String(appEnabled));
   }, [appEnabled]);
-
   useEffect(() => {
     localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
   }, [bellVolumes]);
-
   useEffect(() => {
     localStorage.setItem("bellTradition", selectedBellTradition);
     localStorage.setItem("settingsConfigured", "true");
   }, [selectedBellTradition]);
-
   useEffect(() => {
     localStorage.setItem("startTime", startTime);
   }, [startTime]);
-
   useEffect(() => {
     localStorage.setItem("endTime", endTime);
   }, [endTime]);
-
   useEffect(() => {
     localStorage.setItem("halfHourChimes", String(halfHourChimes));
   }, [halfHourChimes]);
-
   useEffect(() => {
     localStorage.setItem("pauseEnabled", String(pauseEnabled));
   }, [pauseEnabled]);
-
   useEffect(() => {
     localStorage.setItem("pauseStartTime", pauseStartTime);
   }, [pauseStartTime]);
-
   useEffect(() => {
     localStorage.setItem("pauseEndTime", pauseEndTime);
   }, [pauseEndTime]);
-
   useEffect(() => {
     localStorage.setItem("selectedDays", JSON.stringify(selectedDays));
   }, [selectedDays]);
-
   useEffect(() => {
     localStorage.setItem("respectDND", String(respectDND));
   }, [respectDND]);
@@ -185,7 +152,7 @@ const Index = () => {
     setPauseEndTime(localStorage.getItem("pauseEndTime") || "14:00");
     const savedDays = localStorage.getItem("selectedDays");
     setSelectedDays(savedDays ? JSON.parse(savedDays) : ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']);
-    
+
     // Paramètres critiques pour le scheduler
     setSelectedTimeZone(localStorage.getItem("timeZone") || "");
     setAudioPermissionGranted(localStorage.getItem("audioPermission") === "granted");
@@ -204,73 +171,56 @@ const Index = () => {
     window.addEventListener("storage", reloadSettings);
     window.addEventListener("visibilitychange", reloadSettings);
     window.addEventListener("focus", reloadSettings);
-
     return () => {
       window.removeEventListener("storage", reloadSettings);
       window.removeEventListener("visibilitychange", reloadSettings);
       window.removeEventListener("focus", reloadSettings);
     };
   }, []);
-
   const handleTimeZoneDetected = (timeZone: string) => {
     setSelectedTimeZone(timeZone);
     localStorage.setItem("timeZone", timeZone);
   };
-
   const handleAudioPermissionGranted = () => {
     setAudioPermissionGranted(true);
     localStorage.setItem("audioPermission", "granted");
   };
-
   const handleAppToggle = (enabled: boolean) => {
     setAppEnabled(enabled);
   };
-
   const handleBellVolumeChange = (bellId: string, volume: number) => {
     setBellVolumes(prev => ({
       ...prev,
       [bellId]: volume
     }));
   };
-
   const handleWelcomeComplete = () => {
     setOnboardingComplete(true);
     localStorage.setItem("onboardingComplete", "true");
   };
-
   const handleTimeZoneChange = (timeZone: string) => {
     setSelectedTimeZone(timeZone);
     localStorage.setItem("timeZone", timeZone);
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-subtle pb-24">
+  return <div className="min-h-screen bg-gradient-subtle pb-24">
       <Navigation isAppEnabled={appEnabled} onAppToggle={handleAppToggle} />
       
       {/* Welcome Screen */}
-      {appEnabled && !onboardingComplete && (
-        <WelcomeScreen isOpen={true} onComplete={handleWelcomeComplete} />
-      )}
+      {appEnabled && !onboardingComplete && <WelcomeScreen isOpen={true} onComplete={handleWelcomeComplete} />}
 
       {/* Location Permission */}
-      {appEnabled && onboardingComplete && !selectedTimeZone && (
-        <LocationPermission onTimeZoneDetected={handleTimeZoneDetected} />
-      )}
+      {appEnabled && onboardingComplete && !selectedTimeZone && <LocationPermission onTimeZoneDetected={handleTimeZoneDetected} />}
 
       {/* Audio Permission */}
-      {appEnabled && onboardingComplete && selectedTimeZone && !audioPermissionGranted && (
-        <AudioPermission onAudioPermissionGranted={handleAudioPermissionGranted} />
-      )}
+      {appEnabled && onboardingComplete && selectedTimeZone && !audioPermissionGranted && <AudioPermission onAudioPermissionGranted={handleAudioPermissionGranted} />}
 
       {/* Main Content - Only show when all permissions are granted */}
-      {onboardingComplete && selectedTimeZone && audioPermissionGranted && (
-        <>
+      {onboardingComplete && selectedTimeZone && audioPermissionGranted && <>
           {/* Hero Image */}
           <div className="relative overflow-hidden pt-2">
-            <div 
-              className="h-48 md:h-96 bg-cover bg-top md:bg-bottom bg-no-repeat relative"
-              style={{ backgroundImage: `url(${heroImage})` }}
-            >
+            <div className="h-48 md:h-96 bg-cover bg-top md:bg-bottom bg-no-repeat relative" style={{
+          backgroundImage: `url(${heroImage})`
+        }}>
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-background/20 to-transparent" />
             </div>
           </div>
@@ -285,7 +235,7 @@ const Index = () => {
                   <h1 className="text-5xl md:text-6xl font-cinzel font-bold text-foreground text-center py-2 md:py-3">
                     {t('app.title')}
                   </h1>
-                  <p className="text-xl md:text-2xl font-cormorant text-foreground/90 text-center leading-relaxed max-w-2xl mx-auto">
+                  <p className="italic text-xl md:text-2xl font-cormorant text-foreground/90 text-center leading-relaxed max-w-2xl mx-auto">
                     {t('hero.subtitle')}
                   </p>
                 </div>
@@ -295,12 +245,7 @@ const Index = () => {
                   <Label htmlFor="bells-main-toggle" className="text-xl font-cormorant font-semibold text-foreground">
                     {t('settings.bells')}
                   </Label>
-                  <Switch 
-                    id="bells-main-toggle" 
-                    checked={appEnabled} 
-                    onCheckedChange={handleAppToggle}
-                    className="data-[state=checked]:bg-primary"
-                  />
+                  <Switch id="bells-main-toggle" checked={appEnabled} onCheckedChange={handleAppToggle} className="data-[state=checked]:bg-primary" />
                   <span className="text-lg font-cormorant font-semibold text-foreground min-w-[40px]">
                     {appEnabled ? t('settings.on') : t('settings.off')}
                   </span>
@@ -323,15 +268,7 @@ const Index = () => {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                    <BellSoundSelection 
-                      selectedBellTradition={selectedBellTradition} 
-                      onSelect={setSelectedBellTradition} 
-                      toggleAudio={toggleAudio} 
-                      bellVolumes={bellVolumes} 
-                      onVolumeChange={handleBellVolumeChange} 
-                      isPlaying={isPlaying} 
-                      currentAudioUrl={currentAudioUrl} 
-                    />
+                    <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} toggleAudio={toggleAudio} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
                   </AccordionContent>
                 </AccordionItem>
 
@@ -344,27 +281,7 @@ const Index = () => {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                    <TimeRangeSelector 
-                      startTime={startTime} 
-                      endTime={endTime} 
-                      onStartTimeChange={setStartTime} 
-                      onEndTimeChange={setEndTime} 
-                      halfHourChimes={halfHourChimes} 
-                      onHalfHourChimesChange={setHalfHourChimes} 
-                      pauseEnabled={pauseEnabled} 
-                      onPauseEnabledChange={setPauseEnabled} 
-                      pauseStartTime={pauseStartTime} 
-                      pauseEndTime={pauseEndTime} 
-                      onPauseStartTimeChange={setPauseStartTime} 
-                      onPauseEndTimeChange={setPauseEndTime} 
-                      selectedDays={selectedDays} 
-                      onSelectedDaysChange={setSelectedDays} 
-                      bellsEnabled={appEnabled} 
-                      onBellsEnabledChange={handleAppToggle} 
-                      timeZone={selectedTimeZone}
-                      respectDND={respectDND}
-                      onRespectDNDChange={setRespectDND}
-                    />
+                    <TimeRangeSelector startTime={startTime} endTime={endTime} onStartTimeChange={setStartTime} onEndTimeChange={setEndTime} halfHourChimes={halfHourChimes} onHalfHourChimesChange={setHalfHourChimes} pauseEnabled={pauseEnabled} onPauseEnabledChange={setPauseEnabled} pauseStartTime={pauseStartTime} pauseEndTime={pauseEndTime} onPauseStartTimeChange={setPauseStartTime} onPauseEndTimeChange={setPauseEndTime} selectedDays={selectedDays} onSelectedDaysChange={setSelectedDays} bellsEnabled={appEnabled} onBellsEnabledChange={handleAppToggle} timeZone={selectedTimeZone} respectDND={respectDND} onRespectDNDChange={setRespectDND} />
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -372,17 +289,9 @@ const Index = () => {
 
             {/* Validation Button */}
             <div className="max-w-4xl mx-auto flex justify-center">
-              <Button 
-                size="lg"
-                className={`text-xl font-cormorant px-16 py-6 shadow-xl transition-all duration-500 ${
-                  isSaved 
-                    ? 'bg-transparent border-2 border-primary/30 text-primary/50 hover:bg-transparent' 
-                    : 'bg-[hsl(33,92%,49%)] hover:bg-[hsl(33,92%,44%)] text-white hover:shadow-2xl hover:scale-105'
-                }`}
-                onClick={() => {
-                  setIsSaved(true);
-                }}
-              >
+              <Button size="lg" className={`text-xl font-cormorant px-16 py-6 shadow-xl transition-all duration-500 ${isSaved ? 'bg-transparent border-2 border-primary/30 text-primary/50 hover:bg-transparent' : 'bg-[hsl(33,92%,49%)] hover:bg-[hsl(33,92%,44%)] text-white hover:shadow-2xl hover:scale-105'}`} onClick={() => {
+            setIsSaved(true);
+          }}>
                 {t('common.saveBells')}
               </Button>
             </div>
@@ -402,35 +311,29 @@ const Index = () => {
                       {t('settings.shareVia')}
                     </p>
                     <div className="flex flex-wrap gap-3 justify-center">
-                      <Button 
-                        onClick={() => {
-                          const text = encodeURIComponent(t('settings.shareMessage', { url: window.location.origin }));
-                          window.open(`https://wa.me/?text=${text}`, '_blank');
-                        }} 
-                        className="text-lg font-cormorant px-6 py-5 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" 
-                        size="lg"
-                      >
+                      <Button onClick={() => {
+                    const text = encodeURIComponent(t('settings.shareMessage', {
+                      url: window.location.origin
+                    }));
+                    window.open(`https://wa.me/?text=${text}`, '_blank');
+                  }} className="text-lg font-cormorant px-6 py-5 bg-emerald-700 hover:bg-emerald-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" size="lg">
                         {t('settings.whatsapp')}
                       </Button>
-                      <Button 
-                        onClick={() => {
-                          const subject = encodeURIComponent(t('settings.shareEmailSubject'));
-                          const body = encodeURIComponent(t('settings.shareEmailBody', { url: window.location.origin }));
-                          window.location.href = `mailto:?subject=${subject}&body=${body}`;
-                        }} 
-                        className="text-lg font-cormorant px-6 py-5 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" 
-                        size="lg"
-                      >
+                      <Button onClick={() => {
+                    const subject = encodeURIComponent(t('settings.shareEmailSubject'));
+                    const body = encodeURIComponent(t('settings.shareEmailBody', {
+                      url: window.location.origin
+                    }));
+                    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                  }} className="text-lg font-cormorant px-6 py-5 bg-slate-700 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" size="lg">
                         {t('settings.email')}
                       </Button>
-                      <Button 
-                        onClick={() => {
-                          const text = encodeURIComponent(t('settings.shareMessage', { url: window.location.origin }));
-                          window.location.href = `sms:?body=${text}`;
-                        }} 
-                        className="text-lg font-cormorant px-6 py-5 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" 
-                        size="lg"
-                      >
+                      <Button onClick={() => {
+                    const text = encodeURIComponent(t('settings.shareMessage', {
+                      url: window.location.origin
+                    }));
+                    window.location.href = `sms:?body=${text}`;
+                  }} className="text-lg font-cormorant px-6 py-5 bg-blue-700 hover:bg-blue-800 text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300" size="lg">
                         {t('settings.sms')}
                       </Button>
                     </div>
@@ -439,10 +342,7 @@ const Index = () => {
               </div>
             </div>
           </div>
-        </>
-      )}
-    </div>
-  );
+        </>}
+    </div>;
 };
-
 export default Index;
