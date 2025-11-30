@@ -9,8 +9,6 @@ interface BellSoundSelectionProps {
   selectedBellTradition: string;
   onSelect: (id: string) => void;
   toggleAudio: (options: { audioUrl: string; traditionName?: string; type?: 'bell' | 'prayer' | 'general'; volume?: number; isScheduled?: boolean; }) => Promise<void>;
-  bellVolumes: Record<string, number>;
-  onVolumeChange: (bellId: string, volume: number) => void;
   isPlaying: boolean;
   currentAudioUrl: string;
 }
@@ -19,8 +17,6 @@ export const BellSoundSelection = ({
   selectedBellTradition, 
   onSelect, 
   toggleAudio,
-  bellVolumes,
-  onVolumeChange,
   isPlaying,
   currentAudioUrl
 }: BellSoundSelectionProps) => {
@@ -52,11 +48,8 @@ export const BellSoundSelection = ({
             onPlay={() => toggleAudio({ 
               audioUrl: tradition.audioSample, 
               traditionName: getBellName(tradition.id), 
-              type: 'bell',
-              volume: bellVolumes[tradition.id] || 0.7
+              type: 'bell'
             })}
-            volume={bellVolumes[tradition.id] || 0.7}
-            onVolumeChange={(volume) => onVolumeChange(tradition.id, volume)}
             isPlaying={isPlaying && currentAudioUrl === tradition.audioSample}
           />
         ))}

@@ -22,11 +22,8 @@ import churchBellTransparent from "@/assets/church-bell-transparent.png";
 import churchBellNew from "@/assets/church-bell-new.png";
 import heroImage from "/lovable-uploads/church-bells-hero-hq.jpg";
 const Index = () => {
-  const {
-    t
-  } = useTranslation();
+  const { t } = useTranslation();
   const location = useLocation();
-  const savedBellVolumes = localStorage.getItem("bellVolumes");
 
   // Configuration states
   const [selectedBellTradition, setSelectedBellTradition] = useState<string>(() => localStorage.getItem("bellTradition") || "cathedral-bell");
@@ -46,11 +43,6 @@ const Index = () => {
     const saved = localStorage.getItem("appEnabled");
     return saved !== "false";
   });
-  const [bellVolumes, setBellVolumes] = useState<Record<string, number>>(savedBellVolumes ? JSON.parse(savedBellVolumes) : {
-    'cathedral-bell': 0.7,
-    'village-bell': 0.7,
-    'carillon-bell': 0.7
-  });
   const [selectedTimeZone, setSelectedTimeZone] = useState<string>(() => localStorage.getItem("timeZone") || "");
   const [audioPermissionGranted, setAudioPermissionGranted] = useState<boolean>(() => localStorage.getItem("audioPermission") === "granted");
   const [onboardingComplete, setOnboardingComplete] = useState<boolean>(() => localStorage.getItem("onboardingComplete") === "true");
@@ -67,7 +59,7 @@ const Index = () => {
     if (isSaved) {
       setIsSaved(false);
     }
-  }, [selectedBellTradition, startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays, bellVolumes]);
+  }, [selectedBellTradition, startTime, endTime, halfHourChimes, pauseEnabled, pauseStartTime, pauseEndTime, selectedDays]);
   const {
     toggleAudio,
     isPlaying,
@@ -109,9 +101,6 @@ const Index = () => {
   useEffect(() => {
     localStorage.setItem("appEnabled", String(appEnabled));
   }, [appEnabled]);
-  useEffect(() => {
-    localStorage.setItem("bellVolumes", JSON.stringify(bellVolumes));
-  }, [bellVolumes]);
   useEffect(() => {
     localStorage.setItem("bellTradition", selectedBellTradition);
     localStorage.setItem("settingsConfigured", "true");
@@ -188,12 +177,6 @@ const Index = () => {
   const handleAppToggle = (enabled: boolean) => {
     setAppEnabled(enabled);
   };
-  const handleBellVolumeChange = (bellId: string, volume: number) => {
-    setBellVolumes(prev => ({
-      ...prev,
-      [bellId]: volume
-    }));
-  };
   const handleWelcomeComplete = () => {
     setOnboardingComplete(true);
     localStorage.setItem("onboardingComplete", "true");
@@ -268,7 +251,7 @@ const Index = () => {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="bg-white dark:bg-background border-2 border-t-0 border-[#d4a574] dark:border-amber-700 rounded-b-lg p-5 animate-accordion-down">
-                    <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} toggleAudio={toggleAudio} bellVolumes={bellVolumes} onVolumeChange={handleBellVolumeChange} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
+                    <BellSoundSelection selectedBellTradition={selectedBellTradition} onSelect={setSelectedBellTradition} toggleAudio={toggleAudio} isPlaying={isPlaying} currentAudioUrl={currentAudioUrl} />
                   </AccordionContent>
                 </AccordionItem>
 
