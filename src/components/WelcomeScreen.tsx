@@ -33,7 +33,7 @@ export const WelcomeScreen = ({ isOpen, onComplete }: WelcomeScreenProps) => {
               <AlertDialogTitle className="text-5xl md:text-6xl font-cinzel font-bold text-center text-foreground">
                 {t('welcome.title')}
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-2xl md:text-3xl text-center font-cormorant text-amber-900 dark:text-amber-100 leading-relaxed italic">
+              <AlertDialogDescription className="text-3xl md:text-4xl text-center font-cormorant font-bold text-amber-900 dark:text-amber-100 leading-relaxed italic">
                 {t('welcome.description')}
               </AlertDialogDescription>
             </AlertDialogHeader>
