@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Volume2, Check } from "lucide-react";
 
 interface BellTraditionCardProps {
@@ -9,8 +8,6 @@ interface BellTraditionCardProps {
   isSelected: boolean;
   onSelect: () => void;
   onPlay: () => void;
-  volume: number;
-  onVolumeChange: (volume: number) => void;
   isPlaying: boolean;
 }
 
@@ -20,8 +17,6 @@ export const BellTraditionCard = ({
   isSelected, 
   onSelect, 
   onPlay,
-  volume,
-  onVolumeChange,
   isPlaying
 }: BellTraditionCardProps) => {
   return (
@@ -61,23 +56,6 @@ export const BellTraditionCard = ({
               <Volume2 className="w-4 h-4" />
               {isPlaying ? "Stop" : "Listen"}
             </Button>
-            
-            <div 
-              className="flex items-center gap-2"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Volume2 className="w-4 h-4 text-muted-foreground flex-shrink-0" />
-              <Slider
-                min={0}
-                max={1}
-                step={0.01}
-                value={[volume]}
-                onValueChange={(value) => onVolumeChange(value[0])}
-                className="flex-1"
-                aria-label={`Adjust volume for ${title}`}
-              />
-              <span className="text-sm font-cormorant text-muted-foreground w-10 text-right">{Math.round(volume * 100)}%</span>
-            </div>
           </div>
 
           {isSelected && (
