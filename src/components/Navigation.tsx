@@ -25,7 +25,7 @@ export function Navigation({ isAppEnabled = true, onAppToggle }: NavigationProps
   };
 
   return (
-    <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
+    <nav className="bg-background/95 backdrop-blur-md border-b border-border/50 sticky top-0 z-50 pt-[env(safe-area-inset-top)]">
       <div className="container mx-auto px-2 sm:px-4">
         {/* First Row: Toggle ON/OFF, Logo, Theme Toggle + Language */}
         <div className="relative flex items-center justify-between h-12 sm:h-14 border-b border-border/30">
