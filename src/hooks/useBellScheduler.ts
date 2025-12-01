@@ -248,6 +248,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
               silent: false,
               smallIcon: 'ic_launcher',
               channelId,
+              autoCancel: true,
+              timeoutAfter: 5000,
               extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount, scheduledTime: notifTime.toISOString() }
             });
 
@@ -297,6 +299,8 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
                 silent: false,
                 smallIcon: 'ic_launcher',
                 channelId,
+                autoCancel: true,
+                timeoutAfter: 5000,
                 extra: { type: 'bell', soundFile, bellTradition: options.bellTradition, chimeCount: 1, scheduledTime: notifTime.toISOString(), isHalfHour: true }
               });
 
