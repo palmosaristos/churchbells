@@ -20,7 +20,8 @@ export function LanguageSwitcher({ compact = false }: LanguageSwitcherProps) {
   const languages = [
     { code: 'fr', label: 'Français', nativeLabel: 'FR' },
     { code: 'it', label: 'Italiano', nativeLabel: 'IT' },
-    { code: 'en', label: 'English', nativeLabel: 'EN' }
+    { code: 'en', label: 'English', nativeLabel: 'EN' },
+    { code: 'es', label: 'Español', nativeLabel: 'ES' }
   ];
 
   const currentLang = languages.find(lang => lang.code === i18n.language);
