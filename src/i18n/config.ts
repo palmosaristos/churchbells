@@ -5,8 +5,16 @@ import it from '../locales/it.json';
 import en from '../locales/en.json';
 import es from '../locales/es.json';
 
-// Récupérer la langue sauvegardée ou par défaut (FR)
-const savedLanguage = localStorage.getItem('appLanguage') || 'fr';
+// Fonction pour détecter et mapper la langue du navigateur
+const detectBrowserLanguage = (): string => {
+  const browserLang = navigator.language || navigator.languages?.[0] || 'fr';
+  const langCode = browserLang.split('-')[0].toLowerCase(); // 'en-US' -> 'en'
+  const supportedLanguages = ['fr', 'en', 'it', 'es'];
+  return supportedLanguages.includes(langCode) ? langCode : 'fr';
+};
+
+// Récupérer la langue sauvegardée ou détecter celle du navigateur
+const savedLanguage = localStorage.getItem('appLanguage') || detectBrowserLanguage();
 
 const initI18n = async () => {
   await i18n
