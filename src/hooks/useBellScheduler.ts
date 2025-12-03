@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
 import { debugLog } from '@/utils/debugLog';
+import { getSyncedTime } from '@/hooks/useTimeSync';
 
 interface BellSchedulerOptions {
   enabled: boolean;
@@ -178,8 +179,12 @@ export const useBellScheduler = (options: BellSchedulerOptions) => {
         await setupChannels();
 
         const notifications: any[] = [];
-        const now = new Date();
-        const windowEnd = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+        // Utiliser l'heure synchronisée pour réduire les décalages entre appareils
+        const syncedNow = getSyncedTime();
+        const now = new Date(syncedNow);
+        const windowEnd = new Date(syncedNow + 24 * 60 * 60 * 1000);
+        
+        debugLog('🕐 Using synced time:', now.toISOString());
 
         const [startHour, startMinute] = options.startTime.split(':').map(Number);
         const [endHour, endMinute] = options.endTime.split(':').map(Number);
