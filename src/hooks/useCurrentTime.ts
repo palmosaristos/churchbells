@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { getSyncedTime } from "@/hooks/useTimeSync";
 
 export interface UseCurrentTimeOptions {
   timeZone: string;  // IANA TZ (e.g., "Europe/Paris")
@@ -34,7 +35,9 @@ export const useCurrentTime = (options: string | UseCurrentTimeOptions): Current
   }, [timeZone]);
 
   const updateTime = useCallback(() => {
-    const now = new Date();
+    // Utiliser l'heure synchronisée pour cohérence entre appareils
+    const syncedTimestamp = getSyncedTime();
+    const now = new Date(syncedTimestamp);
     const effectiveTZ = isValidTZ ? timeZone : 'UTC';  // Fallback pour no drifts
 
     // Time string précis (HH:MM 24h)

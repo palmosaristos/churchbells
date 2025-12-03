@@ -16,6 +16,7 @@ import { useNightlyRescheduler } from "@/hooks/useNightlyRescheduler";
 import { useBellScheduler } from "@/hooks/useBellScheduler";
 import { useAudioPlayer } from "@/hooks/useAudioPlayer";
 import { useCinemaMode } from "@/hooks/useCinemaMode";
+import { useTimeSync } from "@/hooks/useTimeSync";
 import { TimeDisplay } from "@/components/TimeDisplay";
 import { Volume2, Clock } from "lucide-react";
 import churchBellTransparent from "@/assets/church-bell-transparent.png";
@@ -53,6 +54,9 @@ const Index = () => {
   const {
     isActive: cinemaModeActive
   } = useCinemaMode();
+
+  // Time sync pour synchroniser les cloches entre appareils
+  useTimeSync();
 
   // Reset isSaved when any setting changes
   useEffect(() => {
